@@ -28,12 +28,208 @@
 
   <body>
 
-  
+
     <div id="content">
+
+
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" data-toggle="tab">RefGPEC</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="#profils">Profils</a>
+              </li>
+              <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="#skills">Compétences</a>
+              </li>
+              <li class="nav-item active">
+                <a data-toggle="tab" class="nav-link" href="#levels">Niveaux de compétence</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+
+      <div class="gpec-content tab-content">
+        <div id="profils" class="tab-pane fade">
+
+<div class="input-group">
+  <span class="input-group-addon" id="basic-addon1">@</span>
+  <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+</div>
+
+<div class="input-group">
+  <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
+  <span class="input-group-addon" id="basic-addon2">@example.com</span>
+</div>
+
+<div class="input-group">
+  <span class="input-group-addon">$</span>
+  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+  <span class="input-group-addon">.00</span>
+</div>
+
+<label for="basic-url">Your vanity URL</label>
+<div class="input-group">
+  <span class="input-group-addon" id="basic-addon3">https://example.com/users/</span>
+  <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+</div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="...">
+      </span>
+      <input type="text" class="form-control" aria-label="...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="radio" aria-label="...">
+      </span>
+      <input type="text" class="form-control" aria-label="...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+
+
+
+        </div>
+        <div id="skills" class="tab-pane fade">
+
+
+
+
+Référentiel des compétences
+TODO
+
+
+
+
+        </div>
+
+        <!-- NIVEAUX DE COMPETENCE -->
+        <div id="levels" class="tab-pane fade in active">
+
+          <div class="row">
+            <div class="col-md-8">
+
+              <div class="panel panel-default">
+                <div class="panel-heading">Niveaux de compétence</div>
+                <div class="panel-body">
+                  <p>Depuis cet onglet il est possible d'administrer les différents niveaux que l'on peut associer à chaque compétences.</p>
+                </div>
+              </div>
+
+
+              <table id="levels-list" class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th class="levels-col-shortname">Nom court</th>
+                    <th class="levels-col-commentary">Commentaire</th>
+                    <th class="levels-col-value">Valeur numérique</th>
+                    <th class="levels-col-action">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input class="form-control" type="text" placeholder="Nom court du niveau de compétence" value="Expertise" /></td>
+                    <td><textarea class="form-control" rows="2">Fait d'avoir acquis une très grande maîtrise grâce à une longue expérience et d'être reconnu par ses pairs et sollicité</textarea></td>
+                    <td><input class="form-control" type="number" placeholder="" value="1" /></td>
+                    <td>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                          <li><a href="#"><span class="glyphicon glyphicon-remove"></span> Supprimer la ligne</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><input class="form-control" type="text" placeholder="Nom court du niveau de compétence" value="Maîtrise" /></td>
+                    <td><textarea class="form-control" rows="2">Capacité d'user à son gré d'une compétence, d'un savoir, d'une technique</textarea></td>
+                    <td><input class="form-control" type="number" placeholder="" value="2" /></td>
+                    <td>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                          <li><a href="#"><span class="glyphicon glyphicon-remove"></span> Supprimer la ligne</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><input class="form-control" type="text" placeholder="Nom court du niveau de compétence" value="Application" /></td>
+                    <td><textarea class="form-control" rows="2">Capacité à mettre en œuvre et/ou en pratique, une compétence, un savoir, une technique</textarea></td>
+                    <td><input class="form-control" type="number" placeholder="" value="3" /></td>
+                    <td>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                          <li><a href="#"><span class="glyphicon glyphicon-remove"></span> Supprimer la ligne</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><input class="form-control" type="text" placeholder="Nom court du niveau de compétence" value="Notions" /></td>
+                    <td><textarea class="form-control" rows="2">Connaissances élémentaires et/ou incomplètes</textarea></td>
+                    <td><input class="form-control" type="number" placeholder="" value="4" /></td>
+                    <td>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                          <li><a href="#"><span class="glyphicon glyphicon-remove"></span> Supprimer la ligne</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><input class="form-control" type="text" placeholder="Nom court du niveau de compétence" value="" /></td>
+                    <td><textarea class="form-control" placeholder="Expliquez en quelque mots la signification de ce niveau de compétence" rows="2"></textarea></td>
+                    <td><input class="form-control" type="number" placeholder="" value="" /></td>
+                    <td>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input class="btn btn-primary btn-lg" type="submit" value="Enregistrer" />
+
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
 
 
-    <footer class="gpecfooter">
+    <footer class="gpec-footer">
       <hr>
       <div class="col-lg-12">
         <p class="muted pull-left">
