@@ -1,19 +1,26 @@
 {
   "name": "refgpec",
   "version": "1.0.0",
-  "description": "Gestion d'un référentiel de profils/compétences pour une démarche GPEC",
+  "description": "Application de gestion d'un référentiel de profils/compétences pour une démarche GPEC",
   "main": "index.js",
   "scripts": {
+    "#watch-js": "watchify -vd -p [ browserify-hmr -h 0.0.0.0 ] -e www/src/main.jsx -o www/dist/bundle.js",
+    "watch-less": "watch 'lessc public/less/*.less > public/dist/bundle.css && echo \"-> bundle.css written\"' ./public/less/",
+    "serve": "http-server -p 8080 -s -c 1 public/",
+    "help": "sleep 1 && echo '' && echo '\\033[107;33;7m --> Open \\033[1mhttp://127.0.0.1:8080\\033[0m\\033[107;33;7m in your browser for debugging RefGPEC. \\033[0m' && echo ''",
+    "dev": "npm-run-all --parallel watch-less serve help",
     "build": "npm run build-css",
     "build-css": "lessc --clean-css='--compatibility=ie8 --advanced' public/less/*.less > public/dist/bundle.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Stéphane Gully",
   "license": "MIT",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "less": "^2.7.1",
-    "less-plugin-clean-css": "^1.5.1"
+    "less-plugin-clean-css": "^1.5.1",
+    "npm-run-all": "^3.1.2",
+    "watch": "^1.0.1",
+    "watchify": "^3.8.0"
   }
 }
