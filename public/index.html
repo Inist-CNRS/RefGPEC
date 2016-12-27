@@ -45,10 +45,13 @@
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="#profils">Profils &amp; Compétences</a>
-              </li>
               <li class="nav-item active">
+                <a data-toggle="tab" class="nav-link" href="#profils-skills">Profils &amp; Compétences</a>
+              </li>
+              <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="#profils">Profils de poste</a>
+              </li>
+              <li class="nav-item">
                 <a data-toggle="tab" class="nav-link" href="#skills">Référentiel des compétences</a>
               </li>
               <li class="nav-item">
@@ -64,55 +67,64 @@
 
 
         <!-- PROFILS ET COMPETENCES -->
+        <div id="profils-skills" class="tab-pane fade in active">
+
+          <div class="row">
+            <div class="col-md-8">
+
+              <div class="panel panel-default">
+                <div class="panel-heading">Profils &amp; Compétences</div>
+                <div class="panel-body">
+                  <p>
+                  Depuis cet onglet il est possible d'associer à chaque profils,
+                  des <a data-toggle="tab" class="nav-link" href="#skills">compétences issues du référentiel</a> puis
+                  d'associer un <a data-toggle="tab" href="#levels">niveau</a> à chacunes de ces compétences.
+                  </p>
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+
+        </div> <!-- PROFILS ET COMPETENCES -->
+
+
+
+
+
+
+        <!-- PROFILS DE POSTE -->
         <div id="profils" class="tab-pane fade">
 
-              <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">@</span>
-                <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+          <div class="row">
+            <div class="col-md-8">
+
+              <div class="panel panel-default">
+                <div class="panel-heading">Profils de poste</div>
+                <div class="panel-body">
+                  <p>
+                  Depuis cet onglet il est possible d'ajouter et de supprimer des profils de poste. Ces mêmes profils seront ensuite disponibles dans l'onglet <a data-toggle="tab" href="#profils-skills">Profils &amp; Compétences</a> pour pouvoir leur associer des <a data-toggle="tab" href="#skills">compétences<a> <a data-toggle="tab" href="#levels">modulées</a>.
+                  </p>
+                </div>
               </div>
 
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
-                <span class="input-group-addon" id="basic-addon2">@example.com</span>
-              </div>
-
-              <div class="input-group">
-                <span class="input-group-addon">$</span>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                <span class="input-group-addon">.00</span>
-              </div>
-
-              <label for="basic-url">Your vanity URL</label>
-              <div class="input-group">
-                <span class="input-group-addon" id="basic-addon3">https://example.com/users/</span>
-                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-              </div>
-
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="input-group">
-                    <span class="input-group-addon">
-                      <input type="checkbox" aria-label="...">
-                    </span>
-                    <input type="text" class="form-control" aria-label="...">
-                  </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-                <div class="col-lg-6">
-                  <div class="input-group">
-                    <span class="input-group-addon">
-                      <input type="radio" aria-label="...">
-                    </span>
-                    <input type="text" class="form-control" aria-label="...">
-                  </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-              </div><!-- /.row -->
 
 
 
-        </div>
+            </div>
+          </div>
+
+        </div> <!-- PROFILS DE POSTE -->
+
+
+
+
+
 
         <!-- REFERENTIEL DES COMPETENCES -->
-        <div id="skills" class="tab-pane fade in active">
+        <div id="skills" class="tab-pane fade">
 
 
 
@@ -125,8 +137,8 @@
                 <div class="panel-body">
                   <p>
                   Depuis cet onglet il est possible d'administrer le référentiel des compétences.<br/>
-                  Ces compétences pourront être associées aux différents <a data-toggle="tab" class="nav-link" href="#profils">profils</a>
-                  en leur associant un <a data-toggle="tab" href="#levels">niveau</a>
+                  Ces compétences pourront être <a data-toggle="tab" class="nav-link" href="#profils-skills">associées</a> aux différents <a data-toggle="tab" class="nav-link" href="#profils">profils</a>
+                  en leur associant un <a data-toggle="tab" href="#levels">niveau</a>.
                   </p>
                 </div>
               </div>
@@ -139,7 +151,7 @@
                     <th class="skills-col-type">Type</th>
                     <th class="skills-col-domain">Domaine</th>
                     <th class="skills-col-shortname">Nom de la compétence</th>
-                    <th class="skills-col-commentary">Commentaire libre</th>
+                    <th class="skills-col-commentary">Commentaires libres</th>
                     <th class="skills-col-code">Code informatique</th>
                   </tr>
                 </thead>
@@ -411,7 +423,7 @@
                   <tr>
                     <th class="levels-col-action"></th>
                     <th class="levels-col-shortname">Nom court</th>
-                    <th class="levels-col-commentary">Commentaire</th>
+                    <th class="levels-col-commentary">Commentaires</th>
                     <th class="levels-col-value">Valeur numérique</th>
                   </tr>
                 </thead>
