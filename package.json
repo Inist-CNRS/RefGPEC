@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "#watch-js": "watchify -vd -p [ browserify-hmr -h 0.0.0.0 ] -e www/src/main.jsx -o www/dist/bundle.js",
-    "watch-less": "watch 'lessc public/less/*.less > public/dist/bundle.css && echo \"-> bundle.css written\"' ./public/less/",
+    "watch-less": "watch 'lessc public/less/*.less > public/dist/bundle.css && echo \"-> bundle.css written [$(date +%T)]\"' ./public/less/",
     "serve": "http-server -p 8080 -s -c 1 public/",
     "help": "sleep 1 && echo '' && echo '\\033[107;33;7m --> Open \\033[1mhttp://127.0.0.1:8080\\033[0m\\033[107;33;7m in your browser for debugging RefGPEC. \\033[0m' && echo ''",
     "dev": "npm-run-all --parallel watch-less serve help",
