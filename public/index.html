@@ -32,6 +32,7 @@
     <div id="content">
 
 
+      <!-- ONGLETS POUR LA NAVIGATION -->
       <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
           <div class="navbar-header">
@@ -80,6 +81,20 @@
                   des <a data-toggle="tab" class="nav-link" href="#skills">compétences issues du référentiel</a> puis
                   d'associer une <a data-toggle="tab" href="#levels">modulation</a> à chacunes de ces compétences.
                   </p>
+
+                  <!-- FORMULAIRE DE BASCULE D'UN PROFIL A L'AUTRE -->
+                  <p>
+                    Vous êtes en train de modifier les associations de compétences sur le profil suivant :
+                    <select class="form-control" id="profils-datalist-switcher">
+                      <optgroup label="DPI/SPPROJ">
+                        <option value="dpi-spproj-1" selected>Responsable du Service « Pilotage des projets »</option>
+                      </optgroup>
+                      <optgroup label="DOS/SPUB/EQVALOBBD">
+                        <option value="dos-spub-eqvalobbd-1">Chargé de valorisation des bases documentaires</option>
+                      </optgroup>                    
+                    </select>
+                  </p>
+
                 </div>
               </div>
 
