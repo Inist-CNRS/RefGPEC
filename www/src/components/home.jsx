@@ -5,6 +5,10 @@ import RefGpecLevels from './refgpec-levels.jsx';
 module.exports = React.createClass({
   displayName: 'Home',
 
+  propTypes: {
+    model:   React.PropTypes.object,
+  },
+
   render: function () {
 
     return (
@@ -45,7 +49,7 @@ module.exports = React.createClass({
 
       <div className="gpec-content tab-content">
 
-        <RefGpecLevels />
+        <RefGpecLevels model={this.props.model} />
         {/* TODO 4 components: one for each tab */}
 
       </div>
@@ -67,8 +71,10 @@ module.exports = React.createClass({
     // to have tooltips cf http://getbootstrap.com/javascript/#tooltips-examples
     $(function () {
       $().modal();
-      //$('[data-toggle="tooltip"]').tooltip()
-      //$('.container').popover()
+      
+      // init the popover stuff
+      // see http://getbootstrap.com/javascript/#popovers
+      $('[data-toggle="popover"]').popover();
     });
   },
 

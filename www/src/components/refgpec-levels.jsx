@@ -1,10 +1,37 @@
 import React from 'react';
-import RefGpecLevelsItem from './refgpec-levels-item.jsx';
+import RefGpecLevel from './refgpec-level.jsx';
 
 module.exports = React.createClass({
   displayName: 'RefGpecLevels',
 
+  // propTypes: {
+  //   model:   React.PropTypes.object,
+  // },
+
+  getInitialState: function () {
+    return {};
+  },
+
+
   render: function () {
+    var self = this;
+
+    let rgLevels = [];
+    Object.keys(self.props.model.levels).forEach(function (key) {
+      rgLevels.push(<RefGpecLevel
+        key={key} levelId={key}
+        levelData={self.props.model.levels[key]}
+        onSave={self.props.model.save.bind(self.props.model)}
+        onDestroy={self.props.model.destroy.bind(self.props.model)}
+        onAskLevelIdExists={self.props.model.doesLevelExists.bind(self.props.model)}
+      />);
+    });
+    rgLevels.push(<RefGpecLevel
+      key=""
+      onSave={self.props.model.save.bind(self.props.model)}
+      onDestroy={self.props.model.destroy.bind(self.props.model)}
+      onAskLevelIdExists={self.props.model.doesLevelExists.bind(self.props.model)}
+    />);
 
     return (
  
@@ -12,7 +39,7 @@ module.exports = React.createClass({
         <div id="levels" className="tab-pane fade">
 
           <div className="row">
-            <div className="col-md-8">
+            <div className="col-md-12">
 
               <div className="panel panel-default">
                 <div className="panel-heading">Modulations des compétences</div>
@@ -28,37 +55,12 @@ module.exports = React.createClass({
                     <th className="levels-col-action"></th>
                     <th className="levels-col-shortname">Nom court</th>
                     <th className="levels-col-commentary">Commentaires</th>
-                    <th className="levels-col-code">Valeur numérique</th>
+                    <th className="levels-col-code">Code</th>
                   </tr>
                 </thead>
                 <tbody>
                   
-                  <RefGpecLevelsItem
-                    code="4"
-                    shortName="Expertise"
-                    freeComment="Fait d'avoir acquis une très grande maîtrise grâce à une longue expérience et d'être reconnu par ses pairs et sollicité"
-                  />
-                  <RefGpecLevelsItem
-                    code="3"
-                    shortName="Maîtrise"
-                    freeComment="Capacité d'user à son gré d'une compétence, d'un savoir, d'une technique"
-                  />
-                  <RefGpecLevelsItem
-                    code="2"
-                    shortName="Application"
-                    freeComment="Capacité à mettre en œuvre et/ou en pratique, une compétence, un savoir, une technique"
-                  />
-                  <RefGpecLevelsItem
-                    code="1"
-                    shortName="Notions"
-                    freeComment="Connaissances élémentaires et/ou incomplètes"
-                  />
-
-                  <RefGpecLevelsItem
-                    code=""
-                    shortName=""
-                    freeComment=""
-                  />
+                  {rgLevels}
 
                 </tbody>
               </table>
