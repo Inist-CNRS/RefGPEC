@@ -4,14 +4,9 @@ import RefGpecLevel from './refgpec-level.jsx';
 module.exports = React.createClass({
   displayName: 'RefGpecLevels',
 
-  // propTypes: {
-  //   model:   React.PropTypes.object,
-  // },
-
   getInitialState: function () {
     return {};
   },
-
 
   render: function () {
     var self = this;
@@ -44,7 +39,7 @@ module.exports = React.createClass({
               <div className="panel panel-default">
                 <div className="panel-heading">Modulations des compétences</div>
                 <div className="panel-body">
-                  <p>Depuis cet onglet il est possible d'administrer les différentes modulations que l'on pourra ensuite <a data-toggle="tab" className="nav-link" href="#profils-skills">associer à chaques compétences</a>.</p>
+                  <p>Depuis cet onglet il est possible d'administrer les différentes modulations que l'on pourra ensuite <a onClick={this.handleNavigateTab} data-toggle="tab" className="nav-link" href="#profils-skills">associer à chaques compétences</a>.</p>
                 </div>
               </div>
 
@@ -74,6 +69,10 @@ module.exports = React.createClass({
 
 
     );
+  },
+
+  handleNavigateTab: function (event) {
+    this.props.onTabChange(event.target.getAttribute('href'));
   },
 
   componentDidMount () {
