@@ -11,7 +11,7 @@ module.exports = React.createClass({
  
     <div id="content">
 
-      // ONGLETS POUR LA NAVIGATION
+      {/* ONGLETS POUR LA NAVIGATION */}
       <nav className="navbar navbar-default navbar-fixed-top">
         <div className="container-fluid">
           <div className="navbar-header">
@@ -46,7 +46,7 @@ module.exports = React.createClass({
       <div className="gpec-content tab-content">
 
         <RefGpecLevels />
-// TODO 4 components: one for each tab
+        {/* TODO 4 components: one for each tab */}
 
       </div>
 

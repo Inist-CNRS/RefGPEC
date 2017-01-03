@@ -1,4 +1,5 @@
 import React from 'react';
+import RefGpecLevelsItem from './refgpec-levels-item.jsx';
 
 module.exports = React.createClass({
   displayName: 'RefGpecLevels',
@@ -31,71 +32,34 @@ module.exports = React.createClass({
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td><input className="form-control" type="text" placeholder="Nom court de la modulation" value="Expertise" /></td>
-                    <td><textarea className="form-control" rows="1">Fait d'avoir acquis une très grande maîtrise grâce à une longue expérience et d'être reconnu par ses pairs et sollicité</textarea></td>
-                    <td><input className="form-control" type="number" placeholder="" value="4" /></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td><input className="form-control" type="text" placeholder="Nom court de la modulation" value="Maîtrise" /></td>
-                    <td><textarea className="form-control" rows="1">Capacité d'user à son gré d'une compétence, d'un savoir, d'une technique</textarea></td>
-                    <td><input className="form-control" type="number" placeholder="" value="3" /></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td><input className="form-control" type="text" placeholder="Nom court de la modulation" value="Application" /></td>
-                    <td><textarea className="form-control" rows="1">Capacité à mettre en œuvre et/ou en pratique, une compétence, un savoir, une technique</textarea></td>
-                    <td><input className="form-control" type="number" placeholder="" value="2" /></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td><input className="form-control" type="text" placeholder="Nom court de la modulation" value="Notions" /></td>
-                    <td><textarea className="form-control" rows="1">Connaissances élémentaires et/ou incomplètes</textarea></td>
-                    <td><input className="form-control" type="number" placeholder="" value="1" /></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {/*<div className="btn-group">
-                        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-                        </ul>
-                      </div>*/}
-                    </td>
-                    <td><input className="form-control" type="text" placeholder="Nom court de la modulation" value="" /></td>
-                    <td><textarea className="form-control" placeholder="Expliquez en quelque mots la signification de cette modulation de compétence" rows="1"></textarea></td>
-                    <td><input className="form-control" type="number" placeholder="" value="" /></td>
-                  </tr>
+                  
+                  <RefGpecLevelsItem
+                    code="4"
+                    shortName="Expertise"
+                    freeComment="Fait d'avoir acquis une très grande maîtrise grâce à une longue expérience et d'être reconnu par ses pairs et sollicité"
+                  />
+                  <RefGpecLevelsItem
+                    code="3"
+                    shortName="Maîtrise"
+                    freeComment="Capacité d'user à son gré d'une compétence, d'un savoir, d'une technique"
+                  />
+                  <RefGpecLevelsItem
+                    code="2"
+                    shortName="Application"
+                    freeComment="Capacité à mettre en œuvre et/ou en pratique, une compétence, un savoir, une technique"
+                  />
+                  <RefGpecLevelsItem
+                    code="1"
+                    shortName="Notions"
+                    freeComment="Connaissances élémentaires et/ou incomplètes"
+                  />
+
+                  <RefGpecLevelsItem
+                    code=""
+                    shortName=""
+                    freeComment=""
+                  />
+
                 </tbody>
               </table>
               <input className="btn btn-primary btn-lg" type="submit" value="Enregistrer" />
