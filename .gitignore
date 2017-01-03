@@ -1,6 +1,10 @@
-public/dist/*
-public/libs/*
+.DS_Store
 node_modules
+www/dist/*.js
+www/dist/*.css
+www/src/config.local.js
+www/libs/*
+token.txt
 tmp/
 
 lib-cov
@@ -21,20 +25,5 @@ npm-debug.log
 *.swo
 .~lock
 *.swn
-
-# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
-
-# node-waf configuration
-.lock-wscript
-
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
-.node_repl_history
 
 yarn.lock
