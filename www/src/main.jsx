@@ -6,8 +6,8 @@
 
 import    React from 'react';
 import ReactDOM from 'react-dom';
-import Home     from './components/home.jsx';
 
+import RefGpecHome        from './components/refgpec-home.jsx';
 import RefGpecLevelsModel from './models/refgpec-levels-model.js';
 
 import { Router, Route, Link, browserHistory } from 'react-router';
@@ -16,7 +16,7 @@ var model = new RefGpecLevelsModel();
 
 function render() {
   ReactDOM.render((
-    <Home model={model} />
+    <RefGpecHome model={model} />
   ), document.getElementById('refgpec'));
 }
 

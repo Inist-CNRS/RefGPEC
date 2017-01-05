@@ -1,10 +1,12 @@
 import React         from 'react';
-import RefGpecSkills from './refgpec-skills.jsx';
-import RefGpecLevels from './refgpec-levels.jsx';
+
+import RefGpecProfils from './refgpec-profils.jsx';
+import RefGpecSkills  from './refgpec-skills.jsx';
+import RefGpecLevels  from './refgpec-levels.jsx';
 
 
 module.exports = React.createClass({
-  displayName: 'Home',
+  displayName: 'RefGpecHome',
 
   // propTypes: {
   //   model:   React.PropTypes.object,
@@ -12,20 +14,25 @@ module.exports = React.createClass({
 
   doTabChange: function (tabId) {
     tabId = tabId.replace('#', '');
-
-    // cleanup
+    if (!tabId) return;
+    
+    // cleanup hidden tabs
     [ 'profils-skills', 'profils', 'skills', 'levels' ].forEach(function (tabName) {
       document.getElementById('tab-' + tabName).parentNode.classList.remove('active');
       document.getElementById('tab-' + tabName).parentNode.classList.remove('in');
-      document.getElementById('tab-' + tabName).parentNode.classList.remove('active');
+      if (document.getElementById(tabName) && tabName != tabId) {
+        document.getElementById(tabName).style.display = 'none';
+      }
     });
 
+    // show the selected tab
     var tab        = document.getElementById('tab-' + tabId);
     tab.parentNode.classList.add('active');
 
     var tabContent = document.getElementById(tabId);
     tabContent.classList.add('active');
     tabContent.classList.add('in');
+    document.getElementById(tabId).style.display = 'block';
   },
 
   handleTabChange: function (event) {
@@ -92,6 +99,9 @@ module.exports = React.createClass({
 
       <div className="gpec-content tab-content">
 
+        <RefGpecProfils
+          model={this.props.model}
+          onTabChange={this.doTabChange} />
 
         <RefGpecSkills
           model={this.props.model}
@@ -131,6 +141,9 @@ module.exports = React.createClass({
 
       // activate the selected tab
       self.doTabChange(document.location.hash);
+      $(window).on('hashchange', function() {
+        self.doTabChange(document.location.hash);
+      });
 
     });
   },
