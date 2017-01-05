@@ -38,7 +38,12 @@ module.exports = React.createClass({
       actions = <div className="btn-group">
           <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
           <ul className="dropdown-menu">
-            <li><a href="#" onClick={this.handleDestroy}><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
+            <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
+              <a href=""
+                 onClick={this.handleDestroy}>
+                <span className="glyphicon glyphicon-remove"></span> Supprimer la compétence
+              </a>
+            </li>
           </ul>
         </div>
     }
@@ -55,18 +60,20 @@ module.exports = React.createClass({
             data-fieldname="shortName"
             value={this.state.item.shortName}
             onChange={this.handleChange}
-            onKeyDown={this.handleKeyDown}
+            onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
+            readOnly={this.props.ajaxLoading}
            />
         </td>
         <td>
-          <textarea className="form-control" rows="1"
+          <textarea className="form-control" rows="2"
             placeholder="Expliquez en quelque mots la signification de cette modulation de compétence"
             data-fieldname="freeComment"
             value={this.state.item.freeComment}
             onChange={this.handleChange}
-            onKeyDown={this.handleKeyDown}
+            onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
+            readOnly={this.props.ajaxLoading}
           />
         </td>
         <td>
@@ -76,9 +83,6 @@ module.exports = React.createClass({
             readOnly
             title={this.state.levelId}
             value={this.state.levelId}
-            onChange={this.handleLevelIdChange}
-            onKeyDown={this.handleKeyDown}
-            onBlur={this.handleSubmit}
           />
         </td>
       </tr>
@@ -87,7 +91,6 @@ module.exports = React.createClass({
   },
 
   handleSubmit: function (event) {
-    console.log('level.handleSubmit')
     if (this.state.mustBeSaved) {
       this.props.onSave(this.state.levelId, this.state.item);
       this.setState({ mustBeSaved: false });
@@ -121,15 +124,19 @@ module.exports = React.createClass({
     this.setState(newState);
   },
 
-  handleKeyDown: function (event) {
-    console.log('level.handleKeyDown')
+  handleKeyUp: function (event) {
+    console.log('level.handleKeyUp')
 
     this.setState({ mustBeSaved: true });
     console.log('must be saved');
   },
 
   handleDestroy: function (event) {
-    console.log('level.handleDestroy')
+    event.preventDefault(); // Let's stop this event.
+    event.stopPropagation(); // Really this time.
+
+    if (this.props.ajaxLoading) return;
+
     this.props.onDestroy(this.state.levelId);
   },
 

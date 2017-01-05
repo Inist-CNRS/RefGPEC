@@ -18,6 +18,7 @@ var RefGpecLevelsModel = function () {
       freeComment: "Fait d'avoir acquis une très grande maîtrise grâce à une longue expérience et d'être reconnu par ses pairs et sollicité"
     },
   };
+  this.ajaxLoading = false;
   this.onChanges = [];
 };
 
@@ -33,25 +34,49 @@ RefGpecLevelsModel.prototype.doesLevelExists = function (levelId) {
   return this.levels[levelId] ? true : false;
 };
 
-RefGpecLevelsModel.prototype.addLevel = function (shortName, freeComment) {
-  var codes    = Object.keys(this.levels);
+RefGpecLevelsModel.prototype.addLevel = function (shortName, freeComment, cb) {
+  var self = this;
+  self.ajaxLoading = true;
+
+  var codes    = Object.keys(self.levels);
   var lastCode = codes[codes.length - 1];
   var newCode  = 'm-' + (parseInt(lastCode.split('-')[1], 10) + 1);
-  this.levels[newCode] = { shortName, freeComment };
+  self.levels[newCode] = { shortName, freeComment };
+  self.inform();
 
-  this.inform();
+  setTimeout(function () { // simulate AJAX request
+    self.ajaxLoading = false;
+    self.inform();
+    return cb && cb(null);
+  }, 14000);
 };
 
-RefGpecLevelsModel.prototype.destroy = function (levelId) {
-  delete this.levels[levelId];
+RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
+  var self = this;
+  self.ajaxLoading = true;
 
-  this.inform();
+  delete self.levels[levelId];
+  self.inform();
+
+  setTimeout(function () { // simulate AJAX request
+    self.ajaxLoading = false;
+    self.inform();
+    return cb && cb(null);
+  }, 1000);  
 };
 
-RefGpecLevelsModel.prototype.save = function (levelId, level) {
-  console.log('SAVED!', this.levels, levelId, level);
-  this.levels[levelId] = level;
-  this.inform();
+RefGpecLevelsModel.prototype.save = function (levelId, level, cb) {
+  var self = this;
+  self.ajaxLoading = true;
+
+  self.levels[levelId] = level;
+  self.inform();
+
+  setTimeout(function () { // simulate AJAX request
+    self.ajaxLoading = false;
+    self.inform();
+    return cb && cb(null);
+  }, 1000);  
 };
 
 module.exports = RefGpecLevelsModel;

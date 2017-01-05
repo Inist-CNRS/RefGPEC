@@ -16,13 +16,15 @@ module.exports = React.createClass({
 
     let rgLevels = [];
     Object.keys(self.props.model.levels).forEach(function (key) {
-      rgLevels.push(<RefGpecLevel
-        key={key} levelId={key}
-        levelData={self.props.model.levels[key]}
-        onSave={self.props.model.save.bind(self.props.model)}
-        onDestroy={self.props.model.destroy.bind(self.props.model)}
-        onAskLevelIdExists={self.props.model.doesLevelExists.bind(self.props.model)}
-      />);
+      rgLevels.push(
+        <RefGpecLevel
+          key={key} levelId={key}
+          levelData={self.props.model.levels[key]}
+          onSave={self.props.model.save.bind(self.props.model)}
+          onDestroy={self.props.model.destroy.bind(self.props.model)}
+          onAskLevelIdExists={self.props.model.doesLevelExists.bind(self.props.model)}
+          ajaxLoading={self.props.model.ajaxLoading}
+        />);
     });
 
     return (
@@ -39,8 +41,7 @@ module.exports = React.createClass({
                   <p>Depuis cet onglet il est possible d'administrer les différentes modulations que l'on pourra ensuite <a onClick={this.handleNavigateTab} data-toggle="tab" className="nav-link" href="#profils-skills">associer à chaques compétences</a>.</p>
                 </div>
               </div>
-
-
+              
               <table id="levels-list" className="table table-striped table-bordered">
                 <thead>
                   <tr>
@@ -63,26 +64,36 @@ module.exports = React.createClass({
                         data-fieldname="newShortName"
                         value={this.state.newShortName}
                         onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
+                        disabled={self.props.model.ajaxLoading}
                        />
                     </td>
                     <td>
-                      <textarea className="form-control" rows="1"
+                      <textarea className="form-control" rows="2"
                         placeholder="Expliquez en quelque mots la signification de cette modulation de compétence"
                         data-fieldname="newFreeComment"
                         value={this.state.newFreeComment}
                         onChange={this.handleChange}
+                        disabled={self.props.model.ajaxLoading}
                       />
                     </td>
                     <td>
-                      <a href="#" onClick={this.handleSubmit}>
-                        <span className="fa fa-plus-square fa-2x" title="Associer la compétence au profil"></span>
-                      </a>
+                      <a href="" className="btn fa fa-plus-square fa-2x" role="button"
+                         onClick={this.handleSubmit}
+                         disabled={self.props.model.ajaxLoading}
+                         title="Associer la compétence au profil" />
                     </td>
                   </tr>
 
                 </tbody>
               </table>
-              <input className="btn btn-primary btn-lg" type="submit" value="Enregistrer" />
+
+              <div className="progress"
+                   style={{display: self.props.model.ajaxLoading ? 'block' : 'none'}}>
+                <div className="progress-bar progress-bar-striped active" role="progressbar"
+                     style={{width: '100%'}}>
+                </div>
+              </div>
 
             </div>
           </div>
@@ -94,6 +105,12 @@ module.exports = React.createClass({
     );
   },
 
+  handleKeyPress: function (event) {
+    if (event.charCode == 13) {
+      this.handleSubmit(event);
+    }
+  },
+
   handleChange: function (event) {
     var newState = {};
     newState[event.target.getAttribute('data-fieldname')] = event.target.value;
@@ -102,10 +119,13 @@ module.exports = React.createClass({
 
 
   handleSubmit: function (event) {
+    if (this.props.model.ajaxLoading) return;
     if (this.state.newShortName) {
       this.props.model.addLevel(this.state.newShortName, this.state.newFreeComment);
       this.setState({ newShortName: '', newFreeComment: '' });
     }
+    event.preventDefault(); // Let's stop this event.
+    event.stopPropagation(); // Really this time.
   },
 
   handleNavigateTab: function (event) {
