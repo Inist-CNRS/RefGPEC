@@ -12,7 +12,7 @@ module.exports = React.createClass({
 
     return (
  
-         <div id="profils" className="tab-pane fade">
+         <div id="profils">
 
           <div className="row">
             <div className="col-md-12">
@@ -21,7 +21,7 @@ module.exports = React.createClass({
                 <div className="panel-heading">Profils de poste</div>
                 <div className="panel-body">
                   <p>
-                  Depuis cet onglet il est possible d'ajouter et de supprimer des profils de poste. Ces mêmes profils seront ensuite disponibles dans l'onglet <a data-toggle="tab" href="#profils-skills" onClick={this.handleNavigateTab}>Profils &amp; Compétences</a> pour pouvoir leur associer des <a data-toggle="tab" href="#skills" onClick={this.handleNavigateTab}>compétences</a> <a data-toggle="tab" href="#levels">modulées</a>.
+                  Depuis cet onglet il est possible d'ajouter et de supprimer des profils de poste. Ces mêmes profils seront ensuite disponibles dans l'onglet <a data-toggle="tab" href="#profils-skills" onClick={this.handleNavigateTab}>Profils &amp; Compétences</a> pour pouvoir leur associer des <a data-toggle="tab" href="#skills" onClick={this.handleNavigateTab}>compétences</a> <a data-toggle="tab" href="#levels" onClick={this.handleNavigateTab}>modulées</a>.
                   </p>
                 </div>
               </div>
@@ -101,7 +101,7 @@ module.exports = React.createClass({
                       </p>
                     </td>
                     <td><textarea className="form-control" rows="1" placeholder="Commentaires libres"></textarea></td>
-                    <td><input className="form-control" type="text" readonly title="p-dpi_spproj-1" value="p-dpi_spproj-1" /></td>
+                    <td><input className="form-control" type="text" readOnly title="p-dpi_spproj-1" value="p-dpi_spproj-1" /></td>
                   </tr>
 
 
@@ -166,7 +166,7 @@ module.exports = React.createClass({
                       </p>
                     </td>
                     <td><textarea className="form-control" rows="1" placeholder="Commentaires libres"></textarea></td>
-                    <td><input className="form-control" type="text" readonly title="p-dos_spub_eqvalobbd-1" value="p-dos_spub_eqvalobbd-1" /></td>
+                    <td><input className="form-control" type="text" readOnly title="p-dos_spub_eqvalobbd-1" value="p-dos_spub_eqvalobbd-1" /></td>
                   </tr>
 
 
@@ -183,7 +183,7 @@ module.exports = React.createClass({
                       </a>
 
                       {/* Modal d'upload du fichier PDF du profil de poste */}
-                      <div className="modal fade" id="profils-file-modal" tabindex="-1" role="dialog">
+                      <div className="modal fade" id="profils-file-modal" tabIndex="-1" role="dialog">
                         <div className="modal-dialog" role="document">
                           <div className="modal-content">
                             <div className="modal-header">
@@ -248,7 +248,7 @@ module.exports = React.createClass({
                       </p>
                     </td>
                     <td><textarea className="form-control" rows="1" placeholder="Commentaires libres"></textarea></td>
-                    <td><input className="form-control" type="text" readonly title="" value="" /></td>
+                    <td><input className="form-control" type="text" readOnly title="" value="" /></td>
                   </tr>
 
 

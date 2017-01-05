@@ -30,7 +30,7 @@ module.exports = React.createClass({
     return (
  
         // MODULATIONS DES COMPETENCES
-        <div id="levels" className="tab-pane fade">
+        <div id="levels">
 
           <div className="row">
             <div className="col-md-12">

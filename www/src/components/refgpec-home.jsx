@@ -1,8 +1,9 @@
 import React         from 'react';
 
-import RefGpecProfils from './refgpec-profils.jsx';
-import RefGpecSkills  from './refgpec-skills.jsx';
-import RefGpecLevels  from './refgpec-levels.jsx';
+import RefGpecProfilsSkills from './refgpec-profils-skills.jsx';
+import RefGpecProfils       from './refgpec-profils.jsx';
+import RefGpecSkills        from './refgpec-skills.jsx';
+import RefGpecLevels        from './refgpec-levels.jsx';
 
 
 module.exports = React.createClass({
@@ -15,23 +16,19 @@ module.exports = React.createClass({
   doTabChange: function (tabId) {
     tabId = tabId.replace('#', '');
     if (!tabId) return;
-    
+
     // cleanup hidden tabs
     [ 'profils-skills', 'profils', 'skills', 'levels' ].forEach(function (tabName) {
-      document.getElementById('tab-' + tabName).parentNode.classList.remove('active');
-      document.getElementById('tab-' + tabName).parentNode.classList.remove('in');
       if (document.getElementById(tabName) && tabName != tabId) {
         document.getElementById(tabName).style.display = 'none';
+        document.getElementById('tab-' + tabName).parentNode.classList.remove('active');
+        document.getElementById('tab-' + tabName).parentNode.classList.remove('in');
       }
     });
 
     // show the selected tab
-    var tab        = document.getElementById('tab-' + tabId);
-    tab.parentNode.classList.add('active');
-
-    var tabContent = document.getElementById(tabId);
-    tabContent.classList.add('active');
-    tabContent.classList.add('in');
+    document.getElementById('tab-' + tabId).parentNode.classList.add('active');
+    document.getElementById('tab-' + tabId).parentNode.classList.add('in');
     document.getElementById(tabId).style.display = 'block';
   },
 
@@ -99,6 +96,10 @@ module.exports = React.createClass({
 
       <div className="gpec-content tab-content">
 
+        <RefGpecProfilsSkills
+          model={this.props.model}
+          onTabChange={this.doTabChange} />
+
         <RefGpecProfils
           model={this.props.model}
           onTabChange={this.doTabChange} />
@@ -110,8 +111,6 @@ module.exports = React.createClass({
         <RefGpecLevels
           model={this.props.model}
           onTabChange={this.doTabChange} />
-
-        {/* TODO 4 components: one for each tab */}
 
       </div>
 

@@ -12,7 +12,7 @@ module.exports = React.createClass({
 
     return (
  
-        <div id="skills" className="tab-pane fade">
+        <div id="skills">
 
 
 
