@@ -1,5 +1,6 @@
 import React         from 'react';
 
+import RefGpecIndex         from './refgpec-index.jsx';
 import RefGpecProfilsSkills from './refgpec-profils-skills.jsx';
 import RefGpecProfils       from './refgpec-profils.jsx';
 import RefGpecSkills        from './refgpec-skills.jsx';
@@ -15,10 +16,14 @@ module.exports = React.createClass({
 
   doTabChange: function (tabId) {
     tabId = tabId.replace('#', '');
-    if (!tabId) return;
+    if (!tabId) tabId = 'index';
+
+    // this is not optimal but it fix the bug when 
+    // nav from the panels hypertexte links
+    document.location.hash = tabId;
 
     // cleanup hidden tabs
-    [ 'profils-skills', 'profils', 'skills', 'levels' ].forEach(function (tabName) {
+    [ 'index', 'profils-skills', 'profils', 'skills', 'levels' ].forEach(function (tabName) {
       if (document.getElementById(tabName) && tabName != tabId) {
         document.getElementById(tabName).style.display = 'none';
         document.getElementById('tab-' + tabName).parentNode.classList.remove('active');
@@ -53,7 +58,7 @@ module.exports = React.createClass({
               <span className="icon-bar"></span>
             </button>*/}
             <img className="gpec-logo" src="/img/gpec_40x40.png" alt="" />
-            <a className="gpec-title navbar-brand" href="#" data-toggle="tab" title="Application de gestion d'un référentiel de profils/compétences pour une démarche GPEC">RefGPEC</a>
+            <a className="gpec-title navbar-brand" id="tab-index" onClick={this.handleTabChange} href="#index" data-toggle="tab" title="Application de gestion d'un référentiel de profils/compétences pour une démarche GPEC">RefGPEC</a>
           </div>
           <div className="navbar-collapse collapse">
             <ul className="nav navbar-nav">
@@ -95,6 +100,9 @@ module.exports = React.createClass({
       </nav>
 
       <div className="gpec-content tab-content">
+
+        <RefGpecIndex
+          onTabChange={this.doTabChange} />
 
         <RefGpecProfilsSkills
           model={this.props.model}
@@ -141,6 +149,7 @@ module.exports = React.createClass({
       // activate the selected tab
       self.doTabChange(document.location.hash);
       $(window).on('hashchange', function() {
+        //console.log('hashchange', document.location.hash);
         self.doTabChange(document.location.hash);
       });
 
