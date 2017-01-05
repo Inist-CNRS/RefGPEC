@@ -22,7 +22,8 @@ module.exports = React.createClass({
                 <div className="container">
                   <h1>Une démarche GPEC avec RefGPEC</h1>
                   <p>
-                                  L'outil RefGPEC permet la mise en place d'un <a data-toggle="tab" className="nav-link" href="#skills" onClick={this.handleNavigateTab}>référentiel de compétences</a> et d'un <a data-toggle="tab" className="nav-link" href="#profils" onClick={this.handleNavigateTab}>référentiel des profils de poste</a> de votre organisation.
+                  <img className="gpec-big-logo img-responsive pull-left" src="/img/gpec_256x256.png" alt="" />
+                                  L'outil RefGPEC permet la mise en place d'un <a data-toggle="tab" className="nav-link" href="#skills" onClick={this.handleNavigateTab}>référentiel des compétences</a> et d'un <a data-toggle="tab" className="nav-link" href="#profils" onClick={this.handleNavigateTab}>référentiel des profils de poste</a> de votre organisation.
                   </p>
                   <p>
                                   Ces <a data-toggle="tab" className="nav-link" href="#profils-skills" onClick={this.handleNavigateTab}>compétences peuvent ensuite être associées à chacuns des profils référencés</a> en précisant une <a data-toggle="tab" className="nav-link" href="#levels" onClick={this.handleNavigateTab}>modulation</a> afin d'obtenir un état des lieux précis des compétences nécessaires pour exercer les différents postes de manière optimale.
