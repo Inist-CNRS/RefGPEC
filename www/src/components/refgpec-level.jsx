@@ -73,6 +73,8 @@ module.exports = React.createClass({
           <input className="form-control" type="string"
             placeholder="Code unique identifiant la modulation"
             data-fieldname="levelId"
+            readOnly
+            title={this.state.levelId}
             value={this.state.levelId}
             onChange={this.handleLevelIdChange}
             onKeyDown={this.handleKeyDown}
@@ -85,7 +87,7 @@ module.exports = React.createClass({
   },
 
   handleSubmit: function (event) {
-    console.log('submit');
+    console.log('level.handleSubmit')
     if (this.state.mustBeSaved) {
       this.props.onSave(this.state.levelId, this.state.item);
       this.setState({ mustBeSaved: false });
@@ -93,6 +95,7 @@ module.exports = React.createClass({
   },
 
   handleLevelIdChange: function (event) {
+    console.log('level.handleLevelIdChange')
     var self = this;
 
     if (this.props.onAskLevelIdExists(event.target.value)) {
@@ -111,17 +114,22 @@ module.exports = React.createClass({
   },
 
   handleChange: function (event) {
+    console.log('level.handleChange')
+
     var newState = { item: {} };
     newState.item[event.target.getAttribute('data-fieldname')] = event.target.value;
     this.setState(newState);
   },
 
   handleKeyDown: function (event) {
+    console.log('level.handleKeyDown')
+
     this.setState({ mustBeSaved: true });
     console.log('must be saved');
   },
 
   handleDestroy: function (event) {
+    console.log('level.handleDestroy')
     this.props.onDestroy(this.state.levelId);
   },
 
