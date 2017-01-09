@@ -77,25 +77,6 @@ module.exports = React.createClass({
     }
   },
 
-  handleLevelIdChange: function (event) {
-    console.log('level.handleLevelIdChange')
-    var self = this;
-
-    if (this.props.onAskLevelIdExists(event.target.value)) {
-      this.setState({ error: 'Le code ' + event.target.value + ' existe déja' });
-      event.preventDefault();
-      event.stopPropagation();  
-    } else {
-      console.log('TODO call renameLevelId', this.state.levelId, event.target.value);
-      this.setState({ levelId: event.target.value, error: '' });
-    }
-
-    // display or hide a nice popover to show the error
-    setTimeout(function () {
-      $('#' + self.state.levelId).popover(self.state.error ? 'show' : 'hide');
-    }, 100);
-  },
-
   handleChange: function (event) {
     var newState = {};
     newState[event.target.getAttribute('data-fieldname')] = event.target.value;

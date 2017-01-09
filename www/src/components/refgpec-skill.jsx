@@ -117,6 +117,13 @@ module.exports = React.createClass({
     if (this.state.mustBeSaved || event.target.tagName == 'SELECT') {
       this.props.onSave(this.state.skillId, this.state.item);
       this.setState({ mustBeSaved: false });
+    
+      // // display or hide a nice popover to show the error
+      // const self = this;
+      // self.setState({ error: 'saving... demo error msg' });
+      // setTimeout(function () {
+      //   $('#' + self.state.skillId).popover(self.state.error ? 'show' : 'hide');
+      // }, 100);
     }
   },
 
