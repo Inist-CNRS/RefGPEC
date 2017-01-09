@@ -5,8 +5,11 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     return {
-      skillId: this.props.skillId,
-      item: this.props.skillData,
+      skillId:           this.props.skillId,
+      skillType:         this.props.skillData.skillType,
+      skillDomain:       this.props.skillData.skillDomain,
+      skillShortName:    this.props.skillData.skillShortName,
+      skillFreeComments: this.props.skillData.skillFreeComments,
       mustBeSaved: false,
       error: ''
     };
@@ -43,7 +46,7 @@ module.exports = React.createClass({
       {/* INPUT FORMS */}
         <td>
           <select className="form-control"
-            value={this.state.item.skillType}
+            value={this.state.skillType}
             data-fieldname="skillType"
             onChange={this.handleChange}
             onKeyUp={this.handleKeyUp}
@@ -58,7 +61,7 @@ module.exports = React.createClass({
         </td>
         <td>
           <select className="form-control"
-            value={this.state.item.skillDomain}
+            value={this.state.skillDomain}
             data-fieldname="skillDomain"
             onChange={this.handleChange}
             onKeyUp={this.handleKeyUp}
@@ -80,7 +83,7 @@ module.exports = React.createClass({
         <td>
           <input className="form-control" type="text"
             placeholder="Nom de la compétence"
-            value={this.state.item.skillShortName}
+            value={this.state.skillShortName}
             data-fieldname="skillShortName"
             onChange={this.handleChange}
             onKeyUp={this.handleKeyUp}
@@ -91,7 +94,7 @@ module.exports = React.createClass({
         <td>
           <textarea className="form-control" rows="1"
             placeholder="Commentaires libres"
-            value={this.state.item.skillFreeComments}
+            value={this.state.skillFreeComments}
             data-fieldname="skillFreeComments"
             onChange={this.handleChange}
             onKeyUp={this.handleKeyUp}
@@ -120,8 +123,8 @@ module.exports = React.createClass({
   handleChange: function (event) {
     console.log('skill.handleChange')
 
-    var newState = { item: {} };
-    newState.item[event.target.getAttribute('data-fieldname')] = event.target.value;
+    var newState = {};
+    newState[event.target.getAttribute('data-fieldname')] = event.target.value;
     this.setState(newState);
   },
 
