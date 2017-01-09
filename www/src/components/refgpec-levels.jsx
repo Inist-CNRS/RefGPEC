@@ -22,7 +22,6 @@ module.exports = React.createClass({
           levelData={self.props.model.levels[key]}
           onSave={self.props.model.save.bind(self.props.model)}
           onDestroy={self.props.model.destroy.bind(self.props.model)}
-          onAskLevelIdExists={self.props.model.doesLevelExists.bind(self.props.model)}
           ajaxLoading={self.props.model.ajaxLoading}
         />);
     });

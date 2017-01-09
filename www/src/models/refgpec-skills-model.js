@@ -38,9 +38,6 @@ RefGpecSkillsModel.prototype.inform = function () {
   this.onChanges.forEach(function (cb) { cb(); });
 };
 
-RefGpecSkillsModel.prototype.doesSkillExists = function (skillId) {
-  return this.skills[skillId] ? true : false;
-};
 
 RefGpecSkillsModel.prototype.addSkill = function (skillType, skillDomain, skillShortName, cb) {
   var self = this;

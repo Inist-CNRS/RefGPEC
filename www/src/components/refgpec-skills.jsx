@@ -19,7 +19,6 @@ module.exports = React.createClass({
           skillData={self.props.skillsModel.skills[key]}
           onSave={self.props.skillsModel.save.bind(self.props.skillsModel)}
           onDestroy={self.props.skillsModel.destroy.bind(self.props.skillsModel)}
-          onAskSkillIdExists={self.props.skillsModel.doesSkillExists.bind(self.props.skillsModel)}
           ajaxLoading={self.props.skillsModel.ajaxLoading}
         />);
     });

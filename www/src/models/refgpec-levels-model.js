@@ -30,10 +30,6 @@ RefGpecLevelsModel.prototype.inform = function () {
   this.onChanges.forEach(function (cb) { cb(); });
 };
 
-RefGpecLevelsModel.prototype.doesLevelExists = function (levelId) {
-  return this.levels[levelId] ? true : false;
-};
-
 RefGpecLevelsModel.prototype.addLevel = function (levelShortName, levelFreeComments, cb) {
   var self = this;
   self.ajaxLoading = true;
