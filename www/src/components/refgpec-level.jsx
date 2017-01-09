@@ -36,8 +36,8 @@ module.exports = React.createClass({
         <td>
           <input className="form-control" type="text"
             placeholder="Nom court de la modulation"
-            data-fieldname="shortName"
-            value={this.state.item.shortName}
+            data-fieldname="levelShortName"
+            value={this.state.item.levelShortName}
             onChange={this.handleChange}
             onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
@@ -47,8 +47,8 @@ module.exports = React.createClass({
         <td>
           <textarea className="form-control" rows="2"
             placeholder="Expliquez en quelque mots la signification de cette modulation de compétence"
-            data-fieldname="freeComment"
-            value={this.state.item.freeComment}
+            data-fieldname="levelFreeComments"
+            value={this.state.item.levelFreeComments}
             onChange={this.handleChange}
             onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
