@@ -53,7 +53,6 @@ module.exports = React.createClass({
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           >
-            <option></option>
             <option value="sf">Savoir-faire</option>
             <option value="se">Savoir-être</option>
             <option value="s">Savoir</option>
@@ -68,7 +67,6 @@ module.exports = React.createClass({
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           >
-            <option></option>
             <option value="gen">Général</option>
             <option value="comm">Communication</option>
             <option value="geadmin">Gestion administrative</option>
@@ -114,7 +112,7 @@ module.exports = React.createClass({
   },
 
   handleSubmit: function (event) {
-    if (this.state.mustBeSaved || event.target.tagName == 'SELECT') {
+    if (this.state.mustBeSaved) {
       this.props.onSave(this.state.skillId, this.state.item);
       this.setState({ mustBeSaved: false });
     
@@ -129,6 +127,12 @@ module.exports = React.createClass({
 
   handleChange: function (event) {
     console.log('skill.handleChange')
+
+    // if it's a change in a select box,
+    // tells the component to save data soon
+    if (event.target.tagName == 'SELECT') {
+      this.setState({ mustBeSaved: true });
+    }
 
     var newState = {};
     newState[event.target.getAttribute('data-fieldname')] = event.target.value;
