@@ -4,24 +4,12 @@ module.exports = React.createClass({
   displayName: 'RefGpecSkill',
 
   getInitialState: function () {
-    console.log(this.props.skillId, this.props.skillData)
-    if (this.props.skillId && this.props.skillData) {
-      return {
-        skillId: this.props.skillId,
-        item: this.props.skillData,
-        mustBeSaved: false,
-        error: ''
-      };
-    } else {
-      return {
-        skillId: '',
-        item: {
-          skillType: '',
-        },
-        mustBeSaved: false,
-        error: ''
-      };
-    }
+    return {
+      skillId: this.props.skillId,
+      item: this.props.skillData,
+      mustBeSaved: false,
+      error: ''
+    };
   },
 
   render: function () {

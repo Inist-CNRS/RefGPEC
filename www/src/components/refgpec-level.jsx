@@ -3,57 +3,36 @@ import React from 'react';
 module.exports = React.createClass({
   displayName: 'RefGpecLevel',
 
-  // propTypes: {
-  //   levelId:     React.PropTypes.string,
-  //   levelData:   React.PropTypes.object,
-  //   onSave:      React.PropTypes.object,
-  // },
-
   getInitialState: function () {
-//    console.log(this.props.levelData, this.props.levelId)
-    if (this.props.levelId && this.props.levelData) {
-      return {
-        levelId: this.props.levelId,
-        item: this.props.levelData,
-        mustBeSaved: false,
-        error: ''
-      };
-    } else {
-      return {
-        levelId: '',
-        item: {
-          shortName:   '',
-          freeComment: '',          
-        },
-        mustBeSaved: false,
-        error: ''
-      };
-    }
+    return {
+      levelId: this.props.levelId,
+      item: this.props.levelData,
+      mustBeSaved: false,
+      error: ''
+    };
   },
 
   render: function () {
 
-    let actions = null;
-    if (this.state.levelId) {
-      actions = <div className="btn-group">
-          <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-          <ul className="dropdown-menu">
-            <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
-              <a href=""
-                 onClick={this.handleDestroy}>
-                <span className="glyphicon glyphicon-remove"></span> Supprimer la compétence
-              </a>
-            </li>
-          </ul>
-        </div>
-    }
-
     return (
  
       <tr data-placement="top" data-toggle="popover" data-trigger="manual" title="Erreur de saisie" data-content={this.state.error} id={this.state.levelId}>
+
+        {/* ACTION MENU */}
         <td>
-          {actions}
+          <div className="btn-group">
+            <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
+            <ul className="dropdown-menu">
+              <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
+                <a href=""
+                   onClick={this.handleDestroy}>
+                  <span className="glyphicon glyphicon-remove"></span> Supprimer la compétence
+                </a>
+              </li>
+            </ul>
+          </div>
         </td>
+
         <td>
           <input className="form-control" type="text"
             placeholder="Nom court de la modulation"
