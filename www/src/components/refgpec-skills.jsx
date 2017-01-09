@@ -1,4 +1,5 @@
 import React from 'react';
+import RefGpecSkill from './refgpec-skill.jsx';
 
 module.exports = React.createClass({
   displayName: 'RefGpecSkills',
@@ -9,6 +10,19 @@ module.exports = React.createClass({
 
   render: function () {
     var self = this;
+
+    let rgSkills = [];
+    Object.keys(self.props.skillsModel.skills).forEach(function (key) {
+      rgSkills.push(
+        <RefGpecSkill
+          key={key} skillId={key}
+          skillData={self.props.skillsModel.skills[key]}
+          onSave={self.props.skillsModel.save.bind(self.props.skillsModel)}
+          onDestroy={self.props.skillsModel.destroy.bind(self.props.skillsModel)}
+          onAskSkillIdExists={self.props.skillsModel.doesSkillExists.bind(self.props.skillsModel)}
+          ajaxLoading={self.props.skillsModel.ajaxLoading}
+        />);
+    });
 
     return (
  
@@ -44,243 +58,17 @@ module.exports = React.createClass({
                 </thead>
                 <tbody>
                   
-
-                  <tr>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-                          <li><a href="#"><span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="tsf">Savoir-faire</option>
-                        <option value="tse">Savoir-être</option>
-                        <option value="ts" selected>Savoir</option>
-                      </select>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="gen">Général</option>
-                        <option value="comm">Communication</option>
-                        <option value="geadmin">Gestion administrative</option>
-                        <option value="info">Informatique</option>
-                        <option value="inist">Inist-CNRS</option>
-                        <option value="ist">IST</option>
-                        <option value="lang" selected>Langues</option>
-                        <option value="manag">Management</option>
-                        <option value="outils">Outils</option>
-                      </select>
-                    </td>
-                    <td><input className="form-control" type="text" placeholder="Nom de la compétence" value="Anglais" /></td>
-                    <td><textarea className="form-control" rows="1" placeholder="Commentaires libres">Anglais, écrit, oral, tout confondu</textarea></td>
-                    <td><input className="form-control" type="text" readOnly title="Code de la compétence" value="ts-lang-1" /></td>
-                  </tr>
-
-
-                  <tr>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-                          <li><a href="#"><span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="tsf">Savoir-faire</option>
-                        <option value="tse" selected>Savoir-être</option>
-                        <option value="ts">Savoir</option>
-                      </select>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="gen" selected>Général</option>
-                        <option value="comm">Communication</option>
-                        <option value="geadmin">Gestion administrative</option>
-                        <option value="info">Informatique</option>
-                        <option value="inist">Inist-CNRS</option>
-                        <option value="ist">IST</option>
-                        <option value="lang">Langues</option>
-                        <option value="manag">Management</option>
-                        <option value="outils">Outils</option>
-                      </select>
-                    </td>
-                    <td><input className="form-control" type="text" placeholder="Nom de la compétence" value="Participation à des instances/groupes de travail" /></td>
-                    <td><textarea className="form-control" rows="1" placeholder="Commentaires libres"></textarea></td>
-                    <td><input className="form-control" type="text" readOnly title="Code de la compétence" value="tse-gen-1" /></td>
-                  </tr>
-
-
-                  <tr>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-                          <li><a href="#"><span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="tsf" selected>Savoir-faire</option>
-                        <option value="tse">Savoir-être</option>
-                        <option value="ts">Savoir</option>
-                      </select>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="gen">Général</option>
-                        <option value="comm">Communication</option>
-                        <option value="geadmin">Gestion administrative</option>
-                        <option value="info" selected>Informatique</option>
-                        <option value="inist">Inist-CNRS</option>
-                        <option value="ist">IST</option>
-                        <option value="lang">Langues</option>
-                        <option value="manag">Management</option>
-                        <option value="outils">Outils</option>
-                      </select>
-                    </td>
-                    <td><input className="form-control" type="text" placeholder="Nom de la compétence" value="Langage de programmation" /></td>
-                    <td><textarea className="form-control" rows="1" placeholder="Commentaires libres"></textarea></td>
-                    <td><input className="form-control" type="text" readOnly title="Code de la compétence" value="tsf-info-1" /></td>
-                  </tr>
-
-
-
-                  <tr>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-                          <li><a href="#"><span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="tsf" selected>Savoir-faire</option>
-                        <option value="tse">Savoir-être</option>
-                        <option value="ts">Savoir</option>
-                      </select>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="gen">Général</option>
-                        <option value="comm">Communication</option>
-                        <option value="geadmin">Gestion administrative</option>
-                        <option value="info" selected>Informatique</option>
-                        <option value="inist">Inist-CNRS</option>
-                        <option value="ist">IST</option>
-                        <option value="lang">Langues</option>
-                        <option value="manag">Management</option>
-                        <option value="outils">Outils</option>
-                      </select>
-                    </td>
-                    <td><input className="form-control" type="text" placeholder="Nom de la compétence" value="Elasticsearch" /></td>
-                    <td><textarea className="form-control" rows="1" placeholder="Commentaires libres"></textarea></td>
-                    <td><input className="form-control" type="text" readOnly title="Code de la compétence" value="tsf-info-2" /></td>
-                  </tr>
-
-                  
-
-
-                  <tr>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-                          <li><a href="#"><span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="tsf" selected>Savoir-faire</option>
-                        <option value="tse">Savoir-être</option>
-                        <option value="ts">Savoir</option>
-                      </select>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="gen">Général</option>
-                        <option value="comm">Communication</option>
-                        <option value="gadm" selected>Gestion administrative</option>
-                        <option value="info">Informatique</option>
-                        <option value="inist">Inist-CNRS</option>
-                        <option value="ist">IST</option>
-                        <option value="lang">Langues</option>
-                        <option value="manag">Management</option>
-                        <option value="outils">Outils</option>
-                      </select>
-                    </td>
-                    <td><input className="form-control" type="text" placeholder="Nom de la compétence" value="Elaboration et suivi budgétaire" /></td>
-                    <td><textarea className="form-control" rows="1" placeholder="Commentaires libres"></textarea></td>
-                    <td><input className="form-control" type="text" readOnly title="Code de la compétence" value="tsf-gadm-1" /></td>
-                  </tr>
-
-
-
-
-                  <tr>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-                          <li><a href="#"><span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="tsf">Savoir-faire</option>
-                        <option value="tse">Savoir-être</option>
-                        <option value="ts">Savoir</option>
-                      </select>
-                    </td>
-                    <td>
-                      <select className="form-control">
-                        <option></option>
-                        <option value="gen">Général</option>
-                        <option value="comm">Communication</option>
-                        <option value="geadmin">Gestion administrative</option>
-                        <option value="info">Informatique</option>
-                        <option value="inist">Inist-CNRS</option>
-                        <option value="ist">IST</option>
-                        <option value="lang">Langues</option>
-                        <option value="manag">Management</option>
-                        <option value="outils">Outils</option>
-                      </select>
-                    </td>
-                    <td><input className="form-control" type="text" placeholder="Nom de la compétence" value="" /></td>
-                    <td><textarea className="form-control" rows="1" placeholder="Commentaires libres"></textarea></td>
-                    <td><input className="form-control" type="text" readOnly title="Code de la compétence" value="" /></td>
-                  </tr>
-
+                  {rgSkills}
 
                 </tbody>
               </table>
-              <input className="btn btn-primary btn-lg" type="submit" value="Enregistrer" />
+
+              <div className="progress"
+                   style={{display: self.props.skillsModel.ajaxLoading ? 'block' : 'none'}}>
+                <div className="progress-bar progress-bar-striped active" role="progressbar"
+                     style={{width: '100%'}}>
+                </div>
+              </div>
 
             </div>
           </div>

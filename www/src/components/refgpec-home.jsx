@@ -100,7 +100,7 @@ module.exports = React.createClass({
       </nav>
 
       <div className="gpec-content tab-content">
-
+{/*
         <RefGpecIndex
           onTabChange={this.doTabChange} />
 
@@ -111,9 +111,9 @@ module.exports = React.createClass({
         <RefGpecProfils
           model={this.props.model}
           onTabChange={this.doTabChange} />
-
+*/}
         <RefGpecSkills
-          model={this.props.model}
+          skillsModel={this.props.skillsModel}
           onTabChange={this.doTabChange} />
 
         <RefGpecLevels
