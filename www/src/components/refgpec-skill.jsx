@@ -25,19 +25,34 @@ module.exports = React.createClass({
   },
 
   render: function () {
-console.log('MY STATE', this.state)
+
     return (
  
       <tr data-placement="top" data-toggle="popover" data-trigger="manual" title="Erreur de saisie" data-content={this.state.error} id={this.state.skillId}>
+
+        {/* ACTION MENU */}
         <td>
           <div className="btn-group">
             <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
             <ul className="dropdown-menu">
-              <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Supprimer la compétence</a></li>
-              <li><a href="#"><span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence</a></li>
+              <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
+                <a href=""
+                   onClick={this.handleDestroy}>
+                  <span className="glyphicon glyphicon-remove"></span> Supprimer la compétence
+                </a>
+              </li>
+              <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
+                <a href=""
+                   onClick={this.handleViewAssociatedProfils}>
+                  <span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence
+                </a>
+              </li>
             </ul>
           </div>
         </td>
+
+
+      {/* INPUT FORMS */}
         <td>
           <select className="form-control"
             value={this.state.item.skillType}
@@ -136,6 +151,12 @@ console.log('MY STATE', this.state)
     if (this.props.ajaxLoading) return;
 
     this.props.onDestroy(this.state.skillId);
+  },
+
+  handleViewAssociatedProfils: function (event) {
+    console.log('TODO: handleViewAssociatedProfils');
+    event.preventDefault(); // Let's stop this event.
+    event.stopPropagation(); // Really this time.
   },
 
   componentDidMount () {
