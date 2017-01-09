@@ -10,10 +10,6 @@ import RefGpecLevels        from './refgpec-levels.jsx';
 module.exports = React.createClass({
   displayName: 'RefGpecHome',
 
-  // propTypes: {
-  //   model:   React.PropTypes.object,
-  // },
-
   doTabChange: function (tabId) {
     tabId = tabId.replace('#', '');
     if (!tabId) tabId = 'index';
@@ -100,7 +96,7 @@ module.exports = React.createClass({
       </nav>
 
       <div className="gpec-content tab-content">
-{/*
+
         <RefGpecIndex
           onTabChange={this.doTabChange} />
 
@@ -111,7 +107,7 @@ module.exports = React.createClass({
         <RefGpecProfils
           model={this.props.model}
           onTabChange={this.doTabChange} />
-*/}
+
         <RefGpecSkills
           skillsModel={this.props.skillsModel}
           onTabChange={this.doTabChange} />
