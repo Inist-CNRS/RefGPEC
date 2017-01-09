@@ -5,8 +5,9 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     return {
-      levelId: this.props.levelId,
-      item: this.props.levelData,
+      levelId:           this.props.levelId,
+      levelShortName:    this.props.levelData.levelShortName,
+      levelFreeComments: this.props.levelData.levelFreeComments,
       mustBeSaved: false,
       error: ''
     };
@@ -37,7 +38,7 @@ module.exports = React.createClass({
           <input className="form-control" type="text"
             placeholder="Nom court de la modulation"
             data-fieldname="levelShortName"
-            value={this.state.item.levelShortName}
+            value={this.state.levelShortName}
             onChange={this.handleChange}
             onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
@@ -48,7 +49,7 @@ module.exports = React.createClass({
           <textarea className="form-control" rows="2"
             placeholder="Expliquez en quelque mots la signification de cette modulation de compétence"
             data-fieldname="levelFreeComments"
-            value={this.state.item.levelFreeComments}
+            value={this.state.levelFreeComments}
             onChange={this.handleChange}
             onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
@@ -96,10 +97,8 @@ module.exports = React.createClass({
   },
 
   handleChange: function (event) {
-    console.log('level.handleChange')
-
-    var newState = { item: {} };
-    newState.item[event.target.getAttribute('data-fieldname')] = event.target.value;
+    var newState = {};
+    newState[event.target.getAttribute('data-fieldname')] = event.target.value;
     this.setState(newState);
   },
 
