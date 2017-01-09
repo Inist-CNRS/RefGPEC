@@ -114,7 +114,7 @@ module.exports = React.createClass({
   },
 
   handleSubmit: function (event) {
-    if (this.state.mustBeSaved) {
+    if (this.state.mustBeSaved || event.target.tagName == 'SELECT') {
       this.props.onSave(this.state.skillId, this.state.item);
       this.setState({ mustBeSaved: false });
     }
