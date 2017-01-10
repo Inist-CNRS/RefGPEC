@@ -15,14 +15,14 @@ module.exports = React.createClass({
     var self = this;
 
     let rgLevels = [];
-    Object.keys(self.props.model.levels).forEach(function (key) {
+    Object.keys(self.props.levelsModel.levels).forEach(function (key) {
       rgLevels.push(
         <RefGpecLevel
           key={key} levelId={key}
-          levelData={self.props.model.levels[key]}
-          onSave={self.props.model.save.bind(self.props.model)}
-          onDestroy={self.props.model.destroy.bind(self.props.model)}
-          ajaxLoading={self.props.model.ajaxLoading}
+          levelData={self.props.levelsModel.levels[key]}
+          onSave={self.props.levelsModel.save.bind(self.props.levelsModel)}
+          onDestroy={self.props.levelsModel.destroy.bind(self.props.levelsModel)}
+          ajaxLoading={self.props.levelsModel.ajaxLoading}
         />);
     });
 
@@ -64,7 +64,7 @@ module.exports = React.createClass({
                         value={this.state.newShortName}
                         onChange={this.handleChange}
                         onKeyPress={this.handleKeyPress}
-                        disabled={self.props.model.ajaxLoading}
+                        disabled={self.props.levelsModel.ajaxLoading}
                        />
                     </td>
                     <td>
@@ -73,13 +73,13 @@ module.exports = React.createClass({
                         data-fieldname="newFreeComment"
                         value={this.state.newFreeComment}
                         onChange={this.handleChange}
-                        disabled={self.props.model.ajaxLoading}
+                        disabled={self.props.levelsModel.ajaxLoading}
                       />
                     </td>
                     <td>
                       <a href="" className="btn fa fa-plus-square fa-2x" role="button"
                          onClick={this.handleSubmit}
-                         disabled={self.props.model.ajaxLoading}
+                         disabled={self.props.levelsModel.ajaxLoading}
                          title="Associer la compétence au profil" />
                     </td>
                   </tr>
@@ -88,7 +88,7 @@ module.exports = React.createClass({
               </table>
 
               <div className="progress"
-                   style={{display: self.props.model.ajaxLoading ? 'block' : 'none'}}>
+                   style={{display: self.props.levelsModel.ajaxLoading ? 'block' : 'none'}}>
                 <div className="progress-bar progress-bar-striped active" role="progressbar"
                      style={{width: '100%'}}>
                 </div>
@@ -118,9 +118,9 @@ module.exports = React.createClass({
 
 
   handleSubmit: function (event) {
-    if (this.props.model.ajaxLoading) return;
+    if (this.props.levelsModel.ajaxLoading) return;
     if (this.state.newShortName) {
-      this.props.model.addLevel(this.state.newShortName, this.state.newFreeComment);
+      this.props.levelsModel.addLevel(this.state.newShortName, this.state.newFreeComment);
       this.setState({ newShortName: '', newFreeComment: '' });
     }
     event.preventDefault(); // Let's stop this event.

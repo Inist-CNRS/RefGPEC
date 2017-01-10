@@ -13,15 +13,18 @@ import RefGpecLevelsModel  from './models/refgpec-levels-model.js';
 
 import { Router, Route, Link, browserHistory } from 'react-router';
 
-var model       = new RefGpecLevelsModel();
+var levelsModel = new RefGpecLevelsModel();
 var skillsModel = new RefGpecSkillsModel();
 
 function render() {
   ReactDOM.render((
-    <RefGpecHome model={model} skillsModel={skillsModel} />
+    <RefGpecHome
+      levelsModel={levelsModel}
+      skillsModel={skillsModel}
+    />
   ), document.getElementById('refgpec'));
 }
 
 skillsModel.subscribe(render);
-model.subscribe(render);
+levelsModel.subscribe(render);
 render();

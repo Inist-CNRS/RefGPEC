@@ -101,11 +101,11 @@ module.exports = React.createClass({
           onTabChange={this.doTabChange} />
 
         <RefGpecProfilsSkills
-          model={this.props.model}
+          skillsModel={this.props.skillsModel}
+          levelsModel={this.props.levelsModel}
           onTabChange={this.doTabChange} />
 
         <RefGpecProfils
-          model={this.props.model}
           onTabChange={this.doTabChange} />
 
         <RefGpecSkills
@@ -113,7 +113,7 @@ module.exports = React.createClass({
           onTabChange={this.doTabChange} />
 
         <RefGpecLevels
-          model={this.props.model}
+          levelsModel={this.props.levelsModel}
           onTabChange={this.doTabChange} />
 
       </div>
