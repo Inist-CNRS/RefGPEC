@@ -5,7 +5,12 @@ module.exports = React.createClass({
   displayName: 'RefGpecSkills',
 
   getInitialState: function () {
-    return {};
+    return {
+      newSkillType: '',
+      newSkillDomain: '',
+      newSkillShortName: '',
+      newSkillFreeComments: '',
+    };
   },
 
   render: function () {
@@ -59,6 +64,69 @@ module.exports = React.createClass({
                   
                   {rgSkills}
 
+
+
+                  {/* FORM USED TO CREATE A NEW SKILL */}
+                  <tr className="form-new-skill">
+                    <td></td>
+                    <td>
+                      <select className="form-control"
+                        value={this.state.newSkillType}
+                        data-fieldname="newSkillType"
+                        onChange={this.handleChange}
+                        disabled={this.props.skillsModel.ajaxLoading}
+                      >
+                        <option value=""></option>
+                        <option value="sf">Savoir-faire</option>
+                        <option value="se">Savoir-être</option>
+                        <option value="s">Savoir</option>
+                      </select>
+                    </td>
+                    <td>
+                      <select className="form-control"
+                        value={this.state.newSkillDomain}
+                        data-fieldname="newSkillDomain"
+                        onChange={this.handleChange}
+                        disabled={this.props.skillsModel.ajaxLoading}
+                      >
+                        <option value=""></option>
+                        <option value="gen">Général</option>
+                        <option value="comm">Communication</option>
+                        <option value="geadmin">Gestion administrative</option>
+                        <option value="info">Informatique</option>
+                        <option value="inist">Inist-CNRS</option>
+                        <option value="ist">IST</option>
+                        <option value="lang">Langues</option>
+                        <option value="manag">Management</option>
+                        <option value="outils">Outils</option>
+                      </select>
+                    </td>
+                    <td>
+                      <input className="form-control" type="text"
+                        placeholder="Nom de la compétence"
+                        value={this.state.newSkillShortName}
+                        data-fieldname="newSkillShortName"
+                        onChange={this.handleChange}
+                        disabled={this.props.skillsModel.ajaxLoading}
+                      />
+                    </td>
+                    <td>
+                      <textarea className="form-control" rows="1"
+                        placeholder="Commentaires libres"
+                        value={this.state.newSkillFreeComments}
+                        data-fieldname="newSkillFreeComments"
+                        onChange={this.handleChange}
+                        disabled={this.props.skillsModel.ajaxLoading}
+                      />
+                    </td>
+                    <td>
+                      <a href="" className="btn fa fa-plus-square fa-2x" role="button"
+                         onClick={this.handleSubmit}
+                         disabled={self.props.skillsModel.ajaxLoading}
+                         title="Ajouter cette compétence au référentiel" />
+                    </td>
+                  </tr>
+
                 </tbody>
               </table>
 
@@ -77,6 +145,35 @@ module.exports = React.createClass({
 
 
     );
+  },
+
+
+  handleKeyPress: function (event) {
+    if (event.charCode == 13) {
+      this.handleSubmit(event);
+    }
+  },
+
+  handleChange: function (event) {
+    var newState = {};
+    newState[event.target.getAttribute('data-fieldname')] = event.target.value;
+    this.setState(newState);
+  },
+
+
+  handleSubmit: function (event) {
+    if (this.props.skillsModel.ajaxLoading) return;
+    if (this.state.newSkillShortName && this.state.newSkillDomain && this.state.newSkillType) {
+      this.props.skillsModel.addSkill(this.state.newSkillType, this.state.newSkillDomain, this.state.newSkillShortName, this.state.newSkillFreeComments);
+      this.setState({
+        newSkillType: '',
+        newSkillDomain: '',
+        newSkillShortName: '',
+        newSkillFreeComments: '',
+      });
+    }
+    event.preventDefault(); // Let's stop this event.
+    event.stopPropagation(); // Really this time.
   },
 
   handleNavigateTab: function (event) {

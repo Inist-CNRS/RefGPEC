@@ -39,6 +39,41 @@ module.exports = React.createClass({
 
   render: function () {
 
+    const refgpecTabs = [];
+    refgpecTabs.push(
+      <RefGpecIndex
+        key="1"
+        onTabChange={this.doTabChange} />
+    );
+
+    refgpecTabs.push(
+      <RefGpecProfilsSkills
+        key="2"
+        skillsModel={this.props.skillsModel}
+        levelsModel={this.props.levelsModel}
+        onTabChange={this.doTabChange} />
+    );
+
+    refgpecTabs.push(
+      <RefGpecProfils
+        key="3"
+        onTabChange={this.doTabChange} />
+    );
+
+    refgpecTabs.push(
+      <RefGpecSkills
+        key="4"
+        skillsModel={this.props.skillsModel}
+        onTabChange={this.doTabChange} />
+    );
+
+    refgpecTabs.push(
+      <RefGpecLevels
+        key="5"
+        levelsModel={this.props.levelsModel}
+        onTabChange={this.doTabChange} />
+    );
+
     return (
  
     <div id="content">
@@ -97,24 +132,7 @@ module.exports = React.createClass({
 
       <div className="gpec-content tab-content">
 
-        <RefGpecIndex
-          onTabChange={this.doTabChange} />
-
-        <RefGpecProfilsSkills
-          skillsModel={this.props.skillsModel}
-          levelsModel={this.props.levelsModel}
-          onTabChange={this.doTabChange} />
-
-        <RefGpecProfils
-          onTabChange={this.doTabChange} />
-
-        <RefGpecSkills
-          skillsModel={this.props.skillsModel}
-          onTabChange={this.doTabChange} />
-
-        <RefGpecLevels
-          levelsModel={this.props.levelsModel}
-          onTabChange={this.doTabChange} />
+        {refgpecTabs}
 
       </div>
 

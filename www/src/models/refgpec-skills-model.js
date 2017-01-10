@@ -39,14 +39,17 @@ RefGpecSkillsModel.prototype.inform = function () {
 };
 
 
-RefGpecSkillsModel.prototype.addSkill = function (skillType, skillDomain, skillShortName, cb) {
+RefGpecSkillsModel.prototype.addSkill = function (skillType, skillDomain, skillShortName, skillFreeComments, cb) {
   var self = this;
   self.ajaxLoading = true;
 
+  // TODO: sort the list by codes and get the right one for the
+  //       wanted prefix ex: 'c-<skillType>-<skillDomain>'
   var codes    = Object.keys(self.skills);
   var lastCode = codes[codes.length - 1];
-  var newCode  = 'c-' + skillType + '-' + skillDomain + '-' + (parseInt(lastCode.split('-')[1], 10) + 1);
-  self.skills[newCode] = { skillType, skillDomain, skillShortName };
+  var lastCodeSplitted = lastCode.split('-');
+  var newCode  = 'c-' + skillType + '-' + skillDomain + '-' + (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
+  self.skills[newCode] = { skillType, skillDomain, skillShortName, skillFreeComments };
   self.inform();
 
   setTimeout(function () { // simulate AJAX request

@@ -80,7 +80,7 @@ module.exports = React.createClass({
                       <a href="" className="btn fa fa-plus-square fa-2x" role="button"
                          onClick={this.handleSubmit}
                          disabled={self.props.levelsModel.ajaxLoading}
-                         title="Associer la compétence au profil" />
+                         title="Ajouter cette modulation" />
                     </td>
                   </tr>
 
