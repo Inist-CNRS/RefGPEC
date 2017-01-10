@@ -43,9 +43,10 @@ RefGpecSkillsModel.prototype.addSkill = function (skillType, skillDomain, skillS
   var self = this;
   self.ajaxLoading = true;
 
-  // TODO: sort the list by codes and get the right one for the
-  //       wanted prefix ex: 'c-<skillType>-<skillDomain>'
-  var codes    = Object.keys(self.skills);
+  // filter other skills family to have a correct numeric id
+  var codes = Object.keys(self.skills).filter(function (elt) {
+    return (elt.indexOf('c-' + skillType + '-' + skillDomain) === 0)
+  });
   var lastCode = codes[codes.length - 1];
   var lastCodeSplitted = lastCode.split('-');
   var newCode  = 'c-' + skillType + '-' + skillDomain + '-' + (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
