@@ -148,14 +148,9 @@ module.exports = React.createClass({
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h4 className="modal-title">Initialisation de RefGPEC</h4>
+                <h2 className="modal-title text-center">Initialisation de RefGPEC</h2>
               </div>
               <div className="modal-body">
-                <p>
-                  Chargement des données en cours. Veuillez patienter.
-                  <br/><br/>
-                </p>
-
                 <ul className="list-group">
                   <li className="list-group-item">
                     <span className={this.getDataLoadedClassName('profilsSkillsModel')}></span>
@@ -178,8 +173,13 @@ module.exports = React.createClass({
                     Organigramme
                   </li> 
                 </ul>
-                
               </div>
+              <div className="modal-footer">
+                <p className="text-center">
+                  Chargement des données en cours.<br/>
+                  Veuillez patienter.
+                </p>
+              </div>                
             </div>
           </div>
         </div>
@@ -204,22 +204,22 @@ module.exports = React.createClass({
 
     if (modelType == 'skillsModel') {
       return self.props.skillsModel.initializing ?
-        'pull-right fa fa-2x fa-square-o' :
-        'pull-right fa fa-2x fa-check-square-o'
+        'pull-right fa fa-2x fa-square' :
+        'pull-right fa fa-2x fa-check-square'
     } else if (modelType == 'profilsModel') {
       return self.props.profilsModel.initializing ?
-        'pull-right fa fa-2x fa-square-o' :
-        'pull-right fa fa-2x fa-check-square-o'
+        'pull-right fa fa-2x fa-square' :
+        'pull-right fa fa-2x fa-check-square'
     } else if (modelType == 'levelsModel') {
       return self.props.levelsModel.initializing ?
-        'pull-right fa fa-2x fa-square-o' :
-        'pull-right fa fa-2x fa-check-square-o'
+        'pull-right fa fa-2x fa-square' :
+        'pull-right fa fa-2x fa-check-square'
     } else if (modelType == 'orgaModel') {
       return self.props.orgaModel.initializing ?
-        'pull-right fa fa-2x fa-square-o' :
-        'pull-right fa fa-2x fa-check-square-o'
+        'pull-right fa fa-2x fa-square' :
+        'pull-right fa fa-2x fa-check-square'
     } else {
-      return 'pull-right fa fa-2x fa-check-square-o';
+      return 'pull-right fa fa-2x fa-check-square';
     }
   },
 
