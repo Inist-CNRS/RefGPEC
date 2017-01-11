@@ -57,6 +57,7 @@ module.exports = React.createClass({
     refgpecTabs.push(
       <RefGpecProfils
         key="3"
+        orgaModel={this.props.orgaModel}
         profilsModel={this.props.profilsModel}
         onTabChange={this.doTabChange} />
     );

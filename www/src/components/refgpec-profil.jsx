@@ -34,6 +34,11 @@ module.exports = React.createClass({
       }
     })
 
+    let rgOrgaList = [];
+    Object.keys(self.props.orgaModel.orga).forEach(function (key) {
+      rgOrgaList.push(<option value={key} key={key}>{self.props.orgaModel.orga[key].orgaShortName}</option>);
+    }); 
+
     return (
  
       <tr data-placement="top" data-toggle="popover" data-trigger="manual" title="Erreur de saisie" data-content={this.state.error} id={this.state.profilId}>
@@ -79,43 +84,7 @@ module.exports = React.createClass({
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           >
-
-            <option value="inist">INIST</option>
-
-            <option value="sgal">SGAL</option>
-            <option value="sgal_stl">SGAL/STL</option>
-            <option value="sgal_srhu_sp">SGAL/SRHU/SP</option>
-            <option value="sgal_srhu">SGAL/SRHU</option>
-            <option value="sgal_sfj">SGAL/SFJ</option>
-
-            <option value="dsi">DSI</option>
-            <option value="dsi_siprod">DSI/SIPROD</option>
-            <option value="dsi_sidev">DSI/SIDEV</option>
-            <option value="dsi_sbur">DSI/SBUR</option>
-
-            <option value="dpi">DPI</option>
-            <option value="dpi_srde">DPI/SRDE</option>
-            <option value="dpi_spproj">DPI/SPPROJ</option>
-
-            <option value="dos">DOS</option>
-            <option value="dos_spub_eqvalobbd">DOS/SPUB/EQVALOBBD</option>
-            <option value="dos_spub_eqtrad">DOS/SPUB/EQTRAD</option>
-            <option value="dos_spub_eqsweb">DOS/SPUB/EQSWEB</option>
-            <option value="dos_spub_eqsenn">DOS/SPUB/EQSENN</option>
-            <option value="dos_spub">DOS/SPUB</option>
-            <option value="dos_sdoc_eqport">DOS/SDOC/EQPORT</option>
-            <option value="dos_sdoc_eqneg">DOS/SDOC/EQNEG</option>
-            <option value="dos_sdoc_eqfdd">DOS/SDOC/EQFDD</option>
-            <option value="dos_sdoc">DOS/SDOC</option>
-            <option value="dos_sav_sap">DOS/SAV/SAP</option>
-            <option value="dos_sav_eqvalodr">DOS/SAV/EQVALODR</option>
-            <option value="dos_sav_eqterm">DOS/SAV/EQTERM</option>
-            <option value="dos_sav">DOS/SAV</option>
-
-            <option value="ddo">DDO</option>
-            <option value="ddo_sf">DDO/SF</option>
-            <option value="ddo_scoo">DDO/SCOO</option>
-            <option value="ddo_scom">DDO/SCOM</option>
+            {rgOrgaList}
           </select>                    
         </td>
         <td>

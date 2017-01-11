@@ -13,14 +13,17 @@ import RefGpecHome         from './components/refgpec-home.jsx';
 import RefGpecProfilsModel from './models/refgpec-profils-model.js';
 import RefGpecSkillsModel  from './models/refgpec-skills-model.js';
 import RefGpecLevelsModel  from './models/refgpec-levels-model.js';
+import RefGpecOrgaModel    from './models/refgpec-orga-model.js';
 
 var levelsModel  = new RefGpecLevelsModel();
 var skillsModel  = new RefGpecSkillsModel();
 var profilsModel = new RefGpecProfilsModel();
+var orgaModel    = new RefGpecOrgaModel();
 
 function render() {
   ReactDOM.render((
     <RefGpecHome
+      orgaModel={orgaModel}
       levelsModel={levelsModel}
       skillsModel={skillsModel}
       profilsModel={profilsModel}
@@ -31,4 +34,6 @@ function render() {
 profilsModel.subscribe(render);
 skillsModel.subscribe(render);
 levelsModel.subscribe(render);
+orgaModel.subscribe(render);
+
 render();
