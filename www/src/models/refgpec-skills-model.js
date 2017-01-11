@@ -61,7 +61,7 @@ RefGpecSkillsModel.prototype.addSkill = function (skillType, skillDomain, skillS
     self.ajaxLoading = false;
     self.inform();
     return cb && cb(null);
-  }, 14000);
+  }, 5000);
 };
 
 RefGpecSkillsModel.prototype.destroy = function (skillId, cb) {

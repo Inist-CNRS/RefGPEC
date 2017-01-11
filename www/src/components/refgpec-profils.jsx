@@ -6,8 +6,7 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     return {
-      newProfilType: '',
-      newProfilDomain: '',
+      newProfilOrga: '',
       newProfilShortName: '',
       newProfilFreeComments: '',
       error: ''
@@ -62,7 +61,116 @@ module.exports = React.createClass({
 
                   {rgProfils}
 
-                  {/* FORM USED TO CREATE A NEW SKILL => TODO*/}
+                  {/* FORM USED TO CREATE A NEW PROFIL */}
+                  <tr className="form-new-profil">
+                   
+                    <td></td>
+
+                    <td className="text-center">
+                      <a href="#">
+                        <span className="fa fa-upload fa-2x" data-toggle="modal" data-target="#profils-file-modal"></span>
+                      </a>
+
+                      {/* Modal d'upload du fichier PDF du profil de poste */}
+                      <div className="modal fade" id="profils-file-modal" tabIndex="-1" role="dialog">
+                        <div className="modal-dialog" role="document">
+                          <div className="modal-content">
+                            <div className="modal-header">
+                              <button type="button" className="close" data-dismiss="modal" aria-label="Ferme"><span aria-hidden="true">&times;</span></button>
+                              <h4 className="modal-title">Uploader le PDF du profil de poste</h4>
+                            </div>
+                            <div className="modal-body">
+                              <p><input className="form-control" type="file" placeholder="PDF du profil" accept="application/pdf" /></p>
+                              <div className="alert alert-info" role="alert">Le nom du fichier sur le disque dure n'a pas d'importance, il sera renommé par RefGPEC en fonction du code du profil.</div>
+                            </div>
+                            <div className="modal-footer">
+                              <button type="button" className="btn btn-default" data-dismiss="modal">Fermer</button>
+                              <button type="button" className="btn btn-primary">Uploader</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>
+                      <select className="form-control"
+                        value={this.state.newProfilOrga}
+                        data-fieldname="newProfilOrga"
+                        onChange={this.handleChange}
+                        disabled={this.props.profilsModel.ajaxLoading}
+                      >
+                        <option></option>
+                        <option value="inist">INIST</option>
+
+                        <option value="sgal">SGAL</option>
+                        <option value="sgal_stl">SGAL/STL</option>
+                        <option value="sgal_srhu_sp">SGAL/SRHU/SP</option>
+                        <option value="sgal_srhu">SGAL/SRHU</option>
+                        <option value="sgal_sfj">SGAL/SFJ</option>
+
+                        <option value="dsi">DSI</option>
+                        <option value="dsi_siprod">DSI/SIPROD</option>
+                        <option value="dsi_sidev">DSI/SIDEV</option>
+                        <option value="dsi_sbur">DSI/SBUR</option>
+
+                        <option value="dpi">DPI</option>
+                        <option value="dpi_srde">DPI/SRDE</option>
+                        <option value="dpi_spproj">DPI/SPPROJ</option>
+
+                        <option value="dos">DOS</option>
+                        <option value="dos_spub_eqvalobbd">DOS/SPUB/EQVALOBBD</option>
+                        <option value="dos_spub_eqtrad">DOS/SPUB/EQTRAD</option>
+                        <option value="dos_spub_eqsweb">DOS/SPUB/EQSWEB</option>
+                        <option value="dos_spub_eqsenn">DOS/SPUB/EQSENN</option>
+                        <option value="dos_spub">DOS/SPUB</option>
+                        <option value="dos_sdoc_eqport">DOS/SDOC/EQPORT</option>
+                        <option value="dos_sdoc_eqneg">DOS/SDOC/EQNEG</option>
+                        <option value="dos_sdoc_eqfdd">DOS/SDOC/EQFDD</option>
+                        <option value="dos_sdoc">DOS/SDOC</option>
+                        <option value="dos_sav_sap">DOS/SAV/SAP</option>
+                        <option value="dos_sav_eqvalodr">DOS/SAV/EQVALODR</option>
+                        <option value="dos_sav_eqterm">DOS/SAV/EQTERM</option>
+                        <option value="dos_sav">DOS/SAV</option>
+
+                        <option value="ddo">DDO</option>
+                        <option value="ddo_sf">DDO/SF</option>
+                        <option value="ddo_scoo">DDO/SCOO</option>
+                        <option value="ddo_scom">DDO/SCOM</option>
+                      </select>                    
+                    </td>
+
+                    <td colSpan="2">
+                      <input className="form-control" type="text"
+                        placeholder="Intitulé du profil"
+                        value={this.state.newProfilShortName}
+                        data-fieldname="newProfilShortName"
+                        onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
+                        disabled={this.props.profilsModel.ajaxLoading}
+                      />
+                    </td>
+
+                    <td>
+                      <textarea className="form-control" rows="1"
+                        placeholder="Commentaires libres"
+                        value={this.state.newProfilFreeComments}
+                        data-fieldname="newProfilFreeComments"
+                        onChange={this.handleChange}
+                        disabled={this.props.profilsModel.ajaxLoading}
+                      />
+                    </td>
+
+                    <td id="profils-new-profil"
+                        data-placement="top" data-toggle="popover"
+                        data-trigger="manual" data-title="Erreur nouveau profil"
+                        data-content={this.state.error}
+                    >
+                      <a href="" className="btn fa fa-plus-square fa-2x" role="button"
+                         onClick={this.handleSubmit}
+                         disabled={self.props.profilsModel.ajaxLoading}
+                         title="Ajouter ce profil au référentiel" />
+                    </td>
+                  </tr>
 
 
                 </tbody>
@@ -92,8 +200,55 @@ module.exports = React.createClass({
     this.props.onTabChange(event.target.getAttribute('href'));
   },
 
+
+
+  handleKeyPress: function (event) {
+    if (event.charCode == 13) {
+      this.handleSubmit(event);
+    }
+  },
+
+  handleChange: function (event) {
+    var newState = {};
+    newState[event.target.getAttribute('data-fieldname')] = event.target.value;
+    this.setState(newState);
+  },
+
+
+  handleSubmit: function (event) {
+    const self = this;
+    
+    if (self.props.profilsModel.ajaxLoading) return;
+    if (self.state.newProfilShortName && self.state.newProfilOrga) {
+      self.props.profilsModel.addProfil(
+        self.state.newProfilOrga, self.state.newProfilShortName, self.state.newProfilFreeComments
+      );
+      self.setState({
+        newProfilOrga: '',
+        newProfilShortName: '',
+        newProfilFreeComments: '',
+      });
+    } else {
+      var missingFields = [];
+      if (!self.state.newProfilShortName) missingFields.push('Intitulé du profil');
+      if (!self.state.newProfilOrga) missingFields.push('Position dans l\'organigramme');
+      self.setState({ error: 'Il manque des champs avant de pouvoir ajouter le profil :\n' + missingFields.join(', ') });
+      setTimeout(function () {
+        $('#profils-new-profil').popover(self.state.error ? 'show' : 'hide');
+        setTimeout(function () {
+          $('#profils-new-profil').popover('hide');
+        }, 5000);
+      }, 100);
+    }
+
+    event.preventDefault(); // Let's stop this event.
+    event.stopPropagation(); // Really this time.
+  },
+
+
   componentDidMount () {
 
+//    $().modal();
   },
 
 

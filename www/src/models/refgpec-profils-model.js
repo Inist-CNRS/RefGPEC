@@ -57,7 +57,7 @@ RefGpecProfilsModel.prototype.addProfil = function (profilOrga, profilShortName,
     self.ajaxLoading = false;
     self.inform();
     return cb && cb(null);
-  }, 14000);
+  }, 5000);
 };
 
 RefGpecProfilsModel.prototype.destroy = function (profilId, cb) {
