@@ -47,9 +47,13 @@ RefGpecSkillsModel.prototype.addSkill = function (skillType, skillDomain, skillS
   var codes = Object.keys(self.skills).filter(function (elt) {
     return (elt.indexOf('c-' + skillType + '-' + skillDomain) === 0)
   });
-  var lastCode = codes[codes.length - 1];
-  var lastCodeSplitted = lastCode.split('-');
-  var newCode  = 'c-' + skillType + '-' + skillDomain + '-' + (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
+  var newCode = 'c-' + skillType + '-' + skillDomain + '-1';
+  // add +1 to the id if more than one skill in this type/domain
+  if (codes.length > 0) {
+    var lastCode = codes[codes.length - 1];
+    var lastCodeSplitted = lastCode.split('-');
+    newCode  = 'c-' + skillType + '-' + skillDomain + '-' + (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
+  }
   self.skills[newCode] = { skillType, skillDomain, skillShortName, skillFreeComments };
   self.inform();
 
