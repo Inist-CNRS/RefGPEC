@@ -39,6 +39,13 @@ module.exports = React.createClass({
 
   render: function () {
 
+    if (!this.props.skillsModel.initializing &&
+        !this.props.profilsModel.initializing &&
+        !this.props.orgaModel.initializing &&
+        !this.props.levelsModel.initializing) {
+      $('#loading-data').modal('hide');
+    }
+
     const refgpecTabs = [];
     refgpecTabs.push(
       <RefGpecIndex
@@ -136,6 +143,47 @@ module.exports = React.createClass({
 
         {refgpecTabs}
 
+        {/* LOADING DATA MODAL */}
+        <div className="modal fade" id="loading-data" tabIndex="-1" role="dialog">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h4 className="modal-title">Initialisation de RefGPEC</h4>
+              </div>
+              <div className="modal-body">
+                <p>
+                  Chargement des données en cours. Veuillez patienter.
+                  <br/><br/>
+                </p>
+
+                <ul className="list-group">
+                  <li className="list-group-item">
+                    <span className={this.getDataLoadedClassName('profilsSkillsModel')}></span>
+                    Profils &amp; Compétences
+                  </li>
+                  <li className="list-group-item">
+                    <span className={this.getDataLoadedClassName('profilsModel')}></span>
+                    Profils de poste
+                  </li>  
+                  <li className="list-group-item">
+                    <span className={this.getDataLoadedClassName('skillsModel')}></span>
+                    Référentiel des compétences
+                  </li>
+                  <li className="list-group-item">
+                    <span className={this.getDataLoadedClassName('levelsModel')}></span>
+                    Modulations des compétences
+                  </li>
+                  <li className="list-group-item">
+                    <span className={this.getDataLoadedClassName('orgaModel')}></span>
+                    Organigramme
+                  </li> 
+                </ul>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <footer className="gpec-footer">
@@ -151,12 +199,36 @@ module.exports = React.createClass({
     );
   },
 
+  getDataLoadedClassName(modelType) {
+    var self = this;
+
+    if (modelType == 'skillsModel') {
+      return self.props.skillsModel.initializing ?
+        'pull-right fa fa-2x fa-square-o' :
+        'pull-right fa fa-2x fa-check-square-o'
+    } else if (modelType == 'profilsModel') {
+      return self.props.profilsModel.initializing ?
+        'pull-right fa fa-2x fa-square-o' :
+        'pull-right fa fa-2x fa-check-square-o'
+    } else if (modelType == 'levelsModel') {
+      return self.props.levelsModel.initializing ?
+        'pull-right fa fa-2x fa-square-o' :
+        'pull-right fa fa-2x fa-check-square-o'
+    } else if (modelType == 'orgaModel') {
+      return self.props.orgaModel.initializing ?
+        'pull-right fa fa-2x fa-square-o' :
+        'pull-right fa fa-2x fa-check-square-o'
+    } else {
+      return 'pull-right fa fa-2x fa-check-square-o';
+    }
+  },
+
   componentDidMount () {
     var self = this;
 
     // to have tooltips cf http://getbootstrap.com/javascript/#tooltips-examples
     $(function () {
-      $().modal();
+      $('#loading-data').modal('show');
       
       // init the popover stuff
       // see http://getbootstrap.com/javascript/#popovers

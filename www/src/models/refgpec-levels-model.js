@@ -1,25 +1,34 @@
 var RefGpecLevelsModel = function () {
-  // fake data for debug
-  this.levels = {
-    "m-1": {
-      levelShortName: "Notions",
-      levelFreeComments: "Connaissances élémentaires et/ou incomplètes"
-    },
-    "m-2": {
-      levelShortName: "Application",
-      levelFreeComments: "Capacité à mettre en œuvre et/ou en pratique, une compétence, un savoir, une technique"
-    },
-    "m-3": {
-      levelShortName: "Maîtrise",
-      levelFreeComments: "Capacité d'user à son gré d'une compétence, d'un savoir, d'une technique"
-    },
-    "m-4": {
-      levelShortName: "Expertise",
-      levelFreeComments: "Fait d'avoir acquis une très grande maîtrise grâce à une longue expérience et d'être reconnu par ses pairs et sollicité"
-    },
-  };
-  this.ajaxLoading = false;
-  this.onChanges = [];
+  const self = this;
+  self.levels = {};
+  self.initializing = true;
+  self.ajaxLoading = false;
+  self.onChanges = [];
+
+  // simulate ajax request
+  setTimeout(function () {
+    // fake data for debug
+    self.levels = {
+      "m-1": {
+        levelShortName: "Notions",
+        levelFreeComments: "Connaissances élémentaires et/ou incomplètes"
+      },
+      "m-2": {
+        levelShortName: "Application",
+        levelFreeComments: "Capacité à mettre en œuvre et/ou en pratique, une compétence, un savoir, une technique"
+      },
+      "m-3": {
+        levelShortName: "Maîtrise",
+        levelFreeComments: "Capacité d'user à son gré d'une compétence, d'un savoir, d'une technique"
+      },
+      "m-4": {
+        levelShortName: "Expertise",
+        levelFreeComments: "Fait d'avoir acquis une très grande maîtrise grâce à une longue expérience et d'être reconnu par ses pairs et sollicité"
+      },
+    };
+    self.initializing = false;
+    self.inform();
+  }, Math.round(Math.random()*5000));
 };
 
 RefGpecLevelsModel.prototype.subscribe = function (onChange) {

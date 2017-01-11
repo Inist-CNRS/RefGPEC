@@ -1,33 +1,44 @@
 var RefGpecSkillsModel = function () {
-  // fake data for debug
-  this.skills = {
-    "c-s-lang-1": {
-      skillType:      "s",
-      skillDomain:    "lang",
-      skillShortName: "Anglais",
-      skillFreeComments: "Anglais, écrit, oral, tout confondu"
-    },
-    "c-sf-info-1": {
-      skillType:      "sf",
-      skillDomain:    "info",
-      skillShortName: "Langage de programmation",
-      skillFreeComments: ""
-    },
-    "c-sf-info-2": {
-      skillType:      "sf",
-      skillDomain:    "info",
-      skillShortName: "Elasticsearch",
-      skillFreeComments: ""
-    },
-    "c-sf-geadmin-1": {
-      skillType:      "sf",
-      skillDomain:    "geadmin",
-      skillShortName: "Elaboration et suivi budgétaire",
-      skillFreeComments: ""
-    },
-  };
-  this.ajaxLoading = false;
-  this.onChanges = [];
+  const self = this;
+
+  self.skills = {};
+  self.initializing = true;
+  self.ajaxLoading = false;
+  self.onChanges = [];
+
+  // simulate ajax request
+  setTimeout(function () {
+    // fake data for debug
+    self.skills = {
+      "c-s-lang-1": {
+        skillType:      "s",
+        skillDomain:    "lang",
+        skillShortName: "Anglais",
+        skillFreeComments: "Anglais, écrit, oral, tout confondu"
+      },
+      "c-sf-info-1": {
+        skillType:      "sf",
+        skillDomain:    "info",
+        skillShortName: "Langage de programmation",
+        skillFreeComments: ""
+      },
+      "c-sf-info-2": {
+        skillType:      "sf",
+        skillDomain:    "info",
+        skillShortName: "Elasticsearch",
+        skillFreeComments: ""
+      },
+      "c-sf-geadmin-1": {
+        skillType:      "sf",
+        skillDomain:    "geadmin",
+        skillShortName: "Elaboration et suivi budgétaire",
+        skillFreeComments: ""
+      },
+    };
+    self.initializing = false;
+    self.inform();
+  }, Math.round(Math.random()*5000));
+
 };
 
 RefGpecSkillsModel.prototype.subscribe = function (onChange) {

@@ -1,25 +1,36 @@
 var RefGpecProfilsModel = function () {
-  // fake data for debug
-  this.profils = {
-    "p-dpi_spproj-1": {
-      profilOrga: "dpi_spproj",
-      profilShortName: "Responsable du Service « Pilotage des projets »",
-      profilFreeComments: "",
-      profilNbSkillsSF: 0,
-      profilNbSkillsS: 1,
-      profilNbSkillsSE: 2,
-    },
-    "p-dos_spub_eqvalobbd-1": {
-      profilOrga: "dos_spub_eqvalobbd",
-      profilShortName: "Chargé de valorisation des bases documentaires",
-      profilFreeComments: "",
-      profilNbSkillsSF: 5,
-      profilNbSkillsS: 3,
-      profilNbSkillsSE: 6,
-    },
-  };
-  this.ajaxLoading = false;
-  this.onChanges = [];
+  const self = this;
+
+  self.profils = {};
+  self.initializing = true;
+  self.ajaxLoading = false;
+  self.onChanges = [];
+    
+  // simulate ajax request
+  setTimeout(function () {
+    // fake data for debug
+    self.profils = {
+      "p-dpi_spproj-1": {
+        profilOrga: "dpi_spproj",
+        profilShortName: "Responsable du Service « Pilotage des projets »",
+        profilFreeComments: "",
+        profilNbSkillsSF: 0,
+        profilNbSkillsS: 1,
+        profilNbSkillsSE: 2,
+      },
+      "p-dos_spub_eqvalobbd-1": {
+        profilOrga: "dos_spub_eqvalobbd",
+        profilShortName: "Chargé de valorisation des bases documentaires",
+        profilFreeComments: "",
+        profilNbSkillsSF: 5,
+        profilNbSkillsS: 3,
+        profilNbSkillsSE: 6,
+      },
+    };
+    self.initializing = false;
+    self.inform();
+  }, Math.round(Math.random()*5000));
+
 };
 
 RefGpecProfilsModel.prototype.subscribe = function (onChange) {
