@@ -10,6 +10,7 @@ module.exports = React.createClass({
       newSkillDomain: '',
       newSkillShortName: '',
       newSkillFreeComments: '',
+      error: ''
     };
   },
 
@@ -106,6 +107,7 @@ module.exports = React.createClass({
                         placeholder="Nom de la compétence"
                         value={this.state.newSkillShortName}
                         data-fieldname="newSkillShortName"
+                        onKeyPress={this.handleKeyPress}
                         onChange={this.handleChange}
                         disabled={this.props.skillsModel.ajaxLoading}
                       />
@@ -119,7 +121,11 @@ module.exports = React.createClass({
                         disabled={this.props.skillsModel.ajaxLoading}
                       />
                     </td>
-                    <td>
+                    <td id="skills-new-skill"
+                        data-placement="top" data-toggle="popover"
+                        data-trigger="manual" data-title="Erreur nouvelle compétence"
+                        data-content={this.state.error}
+                    >
                       <a href="" className="btn fa fa-plus-square fa-2x" role="button"
                          onClick={this.handleSubmit}
                          disabled={self.props.skillsModel.ajaxLoading}
@@ -162,16 +168,31 @@ module.exports = React.createClass({
 
 
   handleSubmit: function (event) {
-    if (this.props.skillsModel.ajaxLoading) return;
-    if (this.state.newSkillShortName && this.state.newSkillDomain && this.state.newSkillType) {
-      this.props.skillsModel.addSkill(this.state.newSkillType, this.state.newSkillDomain, this.state.newSkillShortName, this.state.newSkillFreeComments);
-      this.setState({
+    const self = this;
+    
+    if (self.props.skillsModel.ajaxLoading) return;
+    if (self.state.newSkillShortName && self.state.newSkillDomain && self.state.newSkillType) {
+      self.props.skillsModel.addSkill(self.state.newSkillType, self.state.newSkillDomain, self.state.newSkillShortName, self.state.newSkillFreeComments);
+      self.setState({
         newSkillType: '',
         newSkillDomain: '',
         newSkillShortName: '',
         newSkillFreeComments: '',
       });
+    } else {
+      var missingFields = [];
+      if (!self.state.newSkillShortName) missingFields.push('Nom de la compétence');
+      if (!self.state.newSkillDomain) missingFields.push('Domaine');
+      if (!self.state.newSkillType) missingFields.push('Type');
+      self.setState({ error: 'Il manque des champs avant de pouvoir ajouter la compétence :\n' + missingFields.join(', ') });
+      setTimeout(function () {
+        $('#skills-new-skill').popover(self.state.error ? 'show' : 'hide');
+        setTimeout(function () {
+          $('#skills-new-skill').popover('hide');
+        }, 5000);
+      }, 100);
     }
+
     event.preventDefault(); // Let's stop this event.
     event.stopPropagation(); // Really this time.
   },
