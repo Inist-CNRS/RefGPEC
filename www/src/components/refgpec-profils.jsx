@@ -67,7 +67,7 @@ module.exports = React.createClass({
                     <td></td>
 
                     <td className="text-center">
-                      <a href="#">
+                      <a href="" onClick={this.handleNoClick}>
                         <span className="fa fa-upload fa-2x" data-toggle="modal" data-target="#profils-file-modal"></span>
                       </a>
 
@@ -81,7 +81,7 @@ module.exports = React.createClass({
                             </div>
                             <div className="modal-body">
                               <p><input className="form-control" type="file" placeholder="PDF du profil" accept="application/pdf" /></p>
-                              <div className="alert alert-info" role="alert">Le nom du fichier sur le disque dure n'a pas d'importance, il sera renommé par RefGPEC en fonction du code du profil.</div>
+                              <div className="alert alert-info" role="alert">Le nom du fichier sur le disque dur n'a pas d'importance, il sera renommé par RefGPEC en fonction du code du profil.</div>
                             </div>
                             <div className="modal-footer">
                               <button type="button" className="btn btn-default" data-dismiss="modal">Fermer</button>
@@ -194,6 +194,11 @@ module.exports = React.createClass({
 
 
     );
+  },
+
+  handleNoClick: function (event) {
+    event.preventDefault(); // Let's stop this event.
+    event.stopPropagation(); // Really this time.
   },
 
   handleNavigateTab: function (event) {
