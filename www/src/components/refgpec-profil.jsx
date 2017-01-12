@@ -96,7 +96,6 @@ module.exports = React.createClass({
             value={this.state.profilShortName}
             data-fieldname="profilShortName"
             onChange={this.handleChange}
-            onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           />
@@ -117,7 +116,6 @@ module.exports = React.createClass({
             value={this.state.profilFreeComments}
             data-fieldname="profilFreeComments"
             onChange={this.handleChange}
-            onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           />
@@ -154,18 +152,14 @@ module.exports = React.createClass({
     // tells the component to save data soon
     if (event.target.tagName == 'SELECT') {
       this.setState({ mustBeSaved: true });
+    } else if (event.target.value != this.state[event.target.getAttribute('data-fieldname')]) {
+      console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
+      this.setState({ mustBeSaved: true });
     }
 
     var newState = {};
     newState[event.target.getAttribute('data-fieldname')] = event.target.value;
     this.setState(newState);
-  },
-
-  handleKeyUp: function (event) {
-    console.log('profil.handleKeyUp')
-
-    this.setState({ mustBeSaved: true });
-    console.log('must be saved');
   },
 
   handleDestroy: function (event) {
