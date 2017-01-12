@@ -3,7 +3,7 @@
  * in order to facilitate future updates
  */
 
-var RefGpecOrgaModel = function () {
+var RefGpecOrgaModel = function (options) {
   const self = this;
 
   self.orga = {};
@@ -56,7 +56,7 @@ var RefGpecOrgaModel = function () {
     };
     self.initializing = false;
     self.inform();
-  }, Math.round(Math.random()*5000));
+  }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
 
 };
 

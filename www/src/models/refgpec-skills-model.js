@@ -1,4 +1,4 @@
-var RefGpecSkillsModel = function () {
+var RefGpecSkillsModel = function (options) {
   const self = this;
 
   self.skills = {};
@@ -37,7 +37,7 @@ var RefGpecSkillsModel = function () {
     };
     self.initializing = false;
     self.inform();
-  }, Math.round(Math.random()*5000));
+  }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
 
 };
 

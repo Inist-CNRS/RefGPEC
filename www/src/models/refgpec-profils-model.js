@@ -1,4 +1,4 @@
-var RefGpecProfilsModel = function () {
+var RefGpecProfilsModel = function (options) {
   const self = this;
 
   self.profils = {};
@@ -29,7 +29,7 @@ var RefGpecProfilsModel = function () {
     };
     self.initializing = false;
     self.inform();
-  }, Math.round(Math.random()*5000));
+  }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
 
 };
 

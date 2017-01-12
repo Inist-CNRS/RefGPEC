@@ -15,10 +15,14 @@ import RefGpecSkillsModel  from './models/refgpec-skills-model.js';
 import RefGpecLevelsModel  from './models/refgpec-levels-model.js';
 import RefGpecOrgaModel    from './models/refgpec-orga-model.js';
 
-var levelsModel  = new RefGpecLevelsModel();
-var skillsModel  = new RefGpecSkillsModel();
-var profilsModel = new RefGpecProfilsModel();
-var orgaModel    = new RefGpecOrgaModel();
+var modelOptions = {
+  fakeLoadingMaxDelay: 500,
+  //fakeData: true
+};
+var levelsModel  = new RefGpecLevelsModel(modelOptions);
+var skillsModel  = new RefGpecSkillsModel(modelOptions);
+var profilsModel = new RefGpecProfilsModel(modelOptions);
+var orgaModel    = new RefGpecOrgaModel(modelOptions);
 
 function render() {
   ReactDOM.render((

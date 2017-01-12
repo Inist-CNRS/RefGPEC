@@ -1,4 +1,4 @@
-var RefGpecLevelsModel = function () {
+var RefGpecLevelsModel = function (options) {
   const self = this;
   self.levels = {};
   self.initializing = true;
@@ -28,7 +28,7 @@ var RefGpecLevelsModel = function () {
     };
     self.initializing = false;
     self.inform();
-  }, Math.round(Math.random()*5000));
+  }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
 };
 
 RefGpecLevelsModel.prototype.subscribe = function (onChange) {
