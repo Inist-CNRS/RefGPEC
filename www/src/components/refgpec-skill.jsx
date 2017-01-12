@@ -19,7 +19,10 @@ module.exports = React.createClass({
 
     return (
  
-      <tr data-placement="top" data-toggle="popover" data-trigger="manual" title="Erreur de saisie" data-content={this.state.error} id={this.state.skillId}>
+      <tr id={this.state.skillId}
+        data-placement="top" data-toggle="popover" data-trigger="manual"
+        data-title="Erreur de saisie" data-content={this.state.error}
+      >
 
         {/* ACTION MENU */}
         <td>
@@ -49,7 +52,6 @@ module.exports = React.createClass({
             value={this.state.skillType}
             data-fieldname="skillType"
             onChange={this.handleChange}
-            onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           >
@@ -63,7 +65,6 @@ module.exports = React.createClass({
             value={this.state.skillDomain}
             data-fieldname="skillDomain"
             onChange={this.handleChange}
-            onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           >
@@ -84,7 +85,6 @@ module.exports = React.createClass({
             value={this.state.skillShortName}
             data-fieldname="skillShortName"
             onChange={this.handleChange}
-            onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           />
@@ -95,7 +95,6 @@ module.exports = React.createClass({
             value={this.state.skillFreeComments}
             data-fieldname="skillFreeComments"
             onChange={this.handleChange}
-            onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           />
@@ -132,18 +131,14 @@ module.exports = React.createClass({
     // tells the component to save data soon
     if (event.target.tagName == 'SELECT') {
       this.setState({ mustBeSaved: true });
+    } else if (event.target.value != this.state[event.target.getAttribute('data-fieldname')]) {
+      console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
+      this.setState({ mustBeSaved: true });
     }
 
     var newState = {};
     newState[event.target.getAttribute('data-fieldname')] = event.target.value;
     this.setState(newState);
-  },
-
-  handleKeyUp: function (event) {
-    console.log('skill.handleKeyUp')
-
-    this.setState({ mustBeSaved: true });
-    console.log('must be saved');
   },
 
   handleDestroy: function (event) {

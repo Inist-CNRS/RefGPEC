@@ -17,7 +17,10 @@ module.exports = React.createClass({
 
     return (
  
-      <tr data-placement="top" data-toggle="popover" data-trigger="manual" title="Erreur de saisie" data-content={this.state.error} id={this.state.levelId}>
+      <tr id={this.state.levelId}
+          data-placement="top" data-toggle="popover" data-trigger="manual"
+          data-title="Erreur de saisie" data-content={this.state.error}
+      >
 
         {/* ACTION MENU */}
         <td>
