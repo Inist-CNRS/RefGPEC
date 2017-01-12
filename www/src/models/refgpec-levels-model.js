@@ -70,11 +70,11 @@ RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
   }, 1000);  
 };
 
-RefGpecLevelsModel.prototype.save = function (levelId, level, cb) {
+RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {
   var self = this;
   self.ajaxLoading = true;
 
-  self.levels[levelId] = level;
+  self.levels[levelId] = data;
   self.inform();
 
   setTimeout(function () { // simulate AJAX request

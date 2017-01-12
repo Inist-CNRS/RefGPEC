@@ -40,7 +40,6 @@ module.exports = React.createClass({
             data-fieldname="levelShortName"
             value={this.state.levelShortName}
             onChange={this.handleChange}
-            onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
            />
@@ -51,7 +50,6 @@ module.exports = React.createClass({
             data-fieldname="levelFreeComments"
             value={this.state.levelFreeComments}
             onChange={this.handleChange}
-            onKeyUp={this.handleKeyUp}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           />
@@ -72,22 +70,21 @@ module.exports = React.createClass({
 
   handleSubmit: function (event) {
     if (this.state.mustBeSaved) {
-      this.props.onSave(this.state.levelId, this.state.item);
+      this.props.onSave(this.state.levelId, this.state);
       this.setState({ mustBeSaved: false });
     }
   },
 
   handleChange: function (event) {
+    // tells the data must be saved when possible
+    if (event.target.value != this.state[event.target.getAttribute('data-fieldname')]) {
+      console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
+      this.setState({ mustBeSaved: true });
+    }
+
     var newState = {};
     newState[event.target.getAttribute('data-fieldname')] = event.target.value;
     this.setState(newState);
-  },
-
-  handleKeyUp: function (event) {
-    console.log('level.handleKeyUp')
-
-    this.setState({ mustBeSaved: true });
-    console.log('must be saved');
   },
 
   handleDestroy: function (event) {
