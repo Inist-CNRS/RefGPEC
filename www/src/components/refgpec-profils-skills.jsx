@@ -5,7 +5,8 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     return {
-      layout: 'vertical'
+      'layout': 'vertical',
+      'selectedProfil': 'dpi-spproj-1'
     };
   },
 
@@ -45,9 +46,12 @@ module.exports = React.createClass({
                   {/* FORMULAIRE DE BASCULE D'UN PROFIL A L'AUTRE */}
                   <p>
                     Vous êtes en train de modifier les associations de compétences sur le profil suivant :
-                    <select className="form-control" id="profils-datalist-switcher">
+                    <select className="form-control"
+                      id="profils-datalist-switcher"
+                      value={this.state.selectedProfil}
+                    >
                       <optgroup label="DPI/SPPROJ">
-                        <option value="dpi-spproj-1" selected>Responsable du Service « Pilotage des projets »</option>
+                        <option value="dpi-spproj-1">Responsable du Service « Pilotage des projets »</option>
                       </optgroup>
                       <optgroup label="DOS/SPUB/EQVALOBBD">
                         <option value="dos-spub-eqvalobbd-1">Chargé de valorisation des bases documentaires</option>
@@ -162,8 +166,6 @@ module.exports = React.createClass({
 
                         </tbody>
                       </table>
-                      <input className="btn btn-primary btn-lg" type="submit" value="Enregistrer" />
-
 
                     </div>
                   </div>
