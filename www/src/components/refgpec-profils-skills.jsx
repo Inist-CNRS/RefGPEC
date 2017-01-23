@@ -4,11 +4,20 @@ module.exports = React.createClass({
   displayName: 'RefGpecProfilsSkills',
 
   getInitialState: function () {
-    return {};
+    return {
+      layout: 'vertical'
+    };
   },
 
   render: function () {
     var self = this;
+
+
+    // layout stuff
+    let layoutBtnClasses = 'btn btn-default pull-right fa fa-2x ';
+    layoutBtnClasses += (self.state.layout === 'horizontal') ? 'fa-arrows-h' : 'fa-arrows-v';
+    let layoutColClasses = 'col-lg-6 ';
+    layoutColClasses += (self.state.layout === 'horizontal') ? '' : 'profils-skills-vertical';
 
     return (
  
@@ -20,6 +29,13 @@ module.exports = React.createClass({
               <div className="panel panel-default">
                 <div className="panel-heading">Profils &amp; Compétences</div>
                 <div className="panel-body">
+
+                  <button type="button"
+                    className={layoutBtnClasses}
+                    title="Basculer l'affichage profil/compétences horizontalement et verticalement"
+                    onClick={this.handleSwitchLayout}
+                  />
+
                   <p>
                   Depuis cet onglet il est possible d'associer à chaque profils
                   des <a data-toggle="tab" className="nav-link" href="#skills" onClick={this.handleNavigateTab}>compétences issues du référentiel</a> puis
@@ -46,7 +62,7 @@ module.exports = React.createClass({
               <div className="row">
 
                 {/* PROFILS ET COMPETENCES : ZONE FORMULAIRE */}
-                <div className="col-md-6">
+                <div className={layoutColClasses}>
                   <div className="panel panel-default">
                     <div className="panel-heading">Savoirs, savoir-faire et savoir-être nécessaires pour occuper le poste de manière optimale</div>
                     <div className="panel-body">
@@ -157,7 +173,7 @@ module.exports = React.createClass({
 
 
                 {/* PROFILS ET COMPETENCES : ZONE PDF PREVIEW */}
-                <div className="col-md-6">
+                <div className={layoutColClasses}>
                   <div className="embed-responsive embed-responsive-4by3" style={{ height: "1200px" }}>
                     <iframe className="embed-responsive-item" src="/profils/dpi-spproj-1.pdf"></iframe>
                   </div>
@@ -179,6 +195,14 @@ module.exports = React.createClass({
 
   handleNavigateTab: function (event) {
     this.props.onTabChange(event.target.getAttribute('href'));
+  },
+
+  handleSwitchLayout: function (event) {
+    if (this.state.layout == 'vertical') {
+      this.setState({ layout: 'horizontal' });
+    } else {
+      this.setState({ layout: 'vertical' });
+    }
   },
 
   componentDidMount () {
