@@ -30,7 +30,7 @@ module.exports = React.createClass({
               <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
                 <a href=""
                    onClick={this.handleDestroy}>
-                  <span className="glyphicon glyphicon-remove"></span> Supprimer la compétence
+                  <span className="glyphicon glyphicon-remove"></span> Supprimer la modulation de compétence
                 </a>
               </li>
             </ul>
