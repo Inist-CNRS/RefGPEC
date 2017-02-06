@@ -17,6 +17,11 @@ module.exports = React.createClass({
   render: function () {
     var self = this;
 
+    // model is not ready ? then do not render anything
+    if (self.props.skillsModel.initializing) {
+      return null;
+    }
+
     let rgSkills = [];
     Object.keys(self.props.skillsModel.skills).forEach(function (key) {
       rgSkills.push(

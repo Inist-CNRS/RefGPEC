@@ -56,7 +56,10 @@ module.exports = React.createClass({
     refgpecTabs.push(
       <RefGpecProfilsSkills
         key="2"
+        profilsSkillsModel={this.props.profilsSkillsModel}
         skillsModel={this.props.skillsModel}
+        skillsTypesModel={this.props.skillsTypesModel}
+        skillsDomainsModel={this.props.skillsDomainsModel}
         levelsModel={this.props.levelsModel}
         onTabChange={this.doTabChange} />
     );

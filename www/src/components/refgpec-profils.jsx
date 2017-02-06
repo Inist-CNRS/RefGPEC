@@ -16,6 +16,12 @@ module.exports = React.createClass({
   render: function () {
     var self = this;
 
+    // model is not ready ? then do not render anything
+    if (self.props.profilsModel.initializing ||
+        self.props.orgaModel.initializing) {
+      return null;
+    }
+
     let rgProfils = [];
     Object.keys(self.props.profilsModel.profils).forEach(function (key) {
       rgProfils.push(

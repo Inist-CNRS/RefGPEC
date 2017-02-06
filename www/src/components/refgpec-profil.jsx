@@ -21,6 +21,11 @@ module.exports = React.createClass({
   render: function () {
     const self = this;
 
+    // model is not ready ? then do not render anything
+    if (self.props.orgaModel.initializing) {
+      return null;
+    }
+
     // calculate the classname for skills stats associated to the specified profil
     let nbClassName = {};
     [ 'profilNbSkillsSF', 'profilNbSkillsS', 'profilNbSkillsSE' ].forEach(function (skillTypeNb) {

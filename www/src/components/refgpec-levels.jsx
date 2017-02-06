@@ -14,6 +14,11 @@ module.exports = React.createClass({
   render: function () {
     var self = this;
 
+    // model is not ready ? then do not render anything
+    if (self.props.levelsModel.initializing) {
+      return null;
+    }
+
     let rgLevels = [];
     Object.keys(self.props.levelsModel.levels).forEach(function (key) {
       rgLevels.push(

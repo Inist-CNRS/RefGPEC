@@ -1,5 +1,4 @@
 import React from 'react';
-import RefGpecProfilSkill from './refgpec-profil-skill.jsx';
 
 module.exports = React.createClass({
   displayName: 'RefGpecProfilsSkills',
@@ -14,22 +13,6 @@ module.exports = React.createClass({
   render: function () {
     var self = this;
 
-    let rgPS = [];
-    let key = 'ps-1';
-    if (self.props.profilsSkillsModel.profilsSkills[key]) {
-      rgPS.push(
-        <RefGpecProfilSkill
-          key={key} psId={key}
-          levelsModel={self.props.levelsModel}
-          skillsModel={self.props.skillsModel}
-          skillsTypesModel={this.props.skillsTypesModel}
-          skillsDomainsModel={this.props.skillsDomainsModel}
-          psData={self.props.profilsSkillsModel.profilsSkills[key]}
-          onSave={self.props.profilsSkillsModel.save.bind(self.props.profilsSkillsModel)}
-          onDestroy={self.props.profilsSkillsModel.destroy.bind(self.props.profilsSkillsModel)}
-          ajaxLoading={self.props.profilsSkillsModel.ajaxLoading}
-        />);
-    }
 
     // layout stuff
     let layoutBtnClasses = 'btn btn-default pull-right fa fa-2x ';
@@ -100,7 +83,50 @@ module.exports = React.createClass({
                         </thead>
                         <tbody>
                           
-                          {rgPS}
+
+                          <tr>
+                            <td>
+                              <div className="btn-group">
+                                <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
+                                <ul className="dropdown-menu">
+                                  <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Dissocier la compétence du profil</a></li>
+                                </ul>
+                              </div>
+                            </td>
+                            <td>
+                              <span className="label label-warning">Savoir</span>
+                              <span className="label label-primary">Langues</span>
+                            </td>
+                            <td>
+                              <span className="btn active" title="Anglais, écrit, oral, tout confondu">Anglais</span>
+                            </td>
+                            <td>
+                              <span className="btn active" title="Capacité d'user à son gré d'une compétence, d'un savoir, d'une technique">Maîtrise <span className="badge">3</span></span>
+                            </td>
+                            <td><textarea className="form-control" rows="1" placeholder="Commentaires libres"></textarea></td>
+                          </tr>
+
+                          <tr>
+                            <td>
+                              <div className="btn-group">
+                                <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
+                                <ul className="dropdown-menu">
+                                  <li><a href="#"><span className="glyphicon glyphicon-remove"></span> Dissocier la compétence du profil</a></li>
+                                </ul>
+                              </div>
+                            </td>
+                            <td>
+                              <span className="label label-warning">Savoir-faire</span>
+                              <span className="label label-primary">Gestion administrative</span>
+                            </td>
+                            <td>
+                              <span className="btn active" title="">Elaboration et suivi budgétaire</span>
+                            </td>
+                            <td>
+                              <span className="btn active" title="Connaissances élémentaires et/ou incomplètes">Notions <span className="badge">1</span></span>
+                            </td>
+                            <td><textarea className="form-control" rows="1" placeholder="Commentaires libres"></textarea></td>
+                          </tr>
 
                           <tr>
                             <td>
@@ -131,7 +157,7 @@ module.exports = React.createClass({
                                 <option></option>
                                 <option value="4" title="Fait d'avoir acquis une très grande maîtrise grâce à une longue expérience et d'être reconnu par ses pairs et sollicité">Expertise</option>
                                 <option value="3" title="Capacité d'user à son gré d'une compétence, d'un savoir, d'une technique">Maîtrise</option>
-                                <option value="2" title="Capacité à mettre en œuvre et/ou en pratique, une compétence, un savoir, une technique">Pratique</option>
+                                <option value="2" title="Capacité à mettre en œuvre et/ou en pratique, une compétence, un savoir, une technique">Application</option>
                                 <option value="1" title="Connaissances élémentaires et/ou incomplètes">Notions</option>
                               </select>
                             </td>
