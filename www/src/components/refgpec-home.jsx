@@ -30,7 +30,9 @@ module.exports = React.createClass({
     // show the selected tab
     document.getElementById('tab-' + tabId).parentNode.classList.add('active');
     document.getElementById('tab-' + tabId).parentNode.classList.add('in');
-    document.getElementById(tabId).style.display = 'block';
+    if (document.getElementById(tabId)) {
+      document.getElementById(tabId).style.display = 'block';
+    }
   },
 
   handleTabChange: function (event) {
@@ -238,14 +240,20 @@ module.exports = React.createClass({
       // see http://getbootstrap.com/javascript/#popovers
       $('[data-toggle="popover"]').popover();
 
-      // activate the selected tab
-      self.doTabChange(document.location.hash);
+      // activate the selected tab when clicking on a tab
       $(window).on('hashchange', function() {
-        //console.log('hashchange', document.location.hash);
         self.doTabChange(document.location.hash);
       });
-
     });
+  },
+
+  componentDidUpdate () {
+    var self = this;
+
+    // need this when initializing the first DOM rendering
+    // it certenlay could be optimized because this call is useless
+    // once the DOM is fully loaded  
+    self.doTabChange(document.location.hash);
   },
 
 
