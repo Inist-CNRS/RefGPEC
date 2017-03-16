@@ -20,7 +20,7 @@ install: ## install depedencies thanks to a dockerized npm install
 	@make chown
 
 build: ## build the docker inistcnrs/refgpec image locally
-	@docker build -t inistcnrs/refgpec --build-arg http_proxy --build-arg https_proxy .
+	@docker build -t inistcnrs/refgpec:1.0.1 --build-arg http_proxy --build-arg https_proxy .
 
 run-prod: ## run refgpec in production mode
 	@docker-compose -f ./docker-compose.yml up -d
