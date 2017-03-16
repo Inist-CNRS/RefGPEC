@@ -22,7 +22,7 @@ COPY . /app
 # (no data directory)
 # http port is not yet used
 RUN echo '{ \
-  "httpPort": 3000, \
+  "httpPort": 8080, \
   "configPath": "/app/config.json" \
 }' > /etc/ezmaster.json
 
