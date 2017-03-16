@@ -12,3 +12,20 @@ npm i
 bower i
 npm run dev
 ```
+
+To simulate a production run, you can just type these commandes:
+
+```
+make build
+make run-prod
+```
+
+## Production
+
+Download the docker-compose.yml and just run it.
+
+```
+wget https://raw.githubusercontent.com/Inist-CNRS/RefGPEC/master/docker-compose.yml
+docker-compose up -d
+```
+
