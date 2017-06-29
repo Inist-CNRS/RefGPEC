@@ -7,11 +7,16 @@ Application de gestion d'un référentiel de profils/compétences pour une déma
 
 ## Developement
 
+Prerequisites: [NodeJS](https://nodejs.org/en/download/package-manager/) & [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
+
 ```
-npm i
-bower i
+npm install -g bower
+npm install
+bower install
 npm run dev
 ```
+Then open http://127.0.0.1:8080 to access RefGPEC.
+
 
 To simulate a production run, you can just type these commandes:
 
