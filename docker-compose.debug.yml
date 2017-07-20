@@ -17,3 +17,27 @@ services:
       - 8080:8080
       - 3000:3000
     command: npm run dev
+
+  refgpec-db:
+    container_name: refgpec-db
+    image: postgres:9.6.3
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: "refgpec"
+      POSTGRES_USER: "refgpec"
+      POSTGRES_PASSWORD: "gpecsecret"
+      PGDATA: "/var/lib/postgresql/data"
+    ports:
+      - 5432:5432
+
+  refgpec-db-admin:
+    container_name: refgpec-db-admin
+    image: fenglc/pgadmin4:1.6
+    environment:
+      DEFAULT_USER: "gpec@inist.fr"
+      DEFAULT_PASSWORD: "gpecsecret"
+    ports:
+      - 5050:5050
+    links:
+      - refgpec-db
