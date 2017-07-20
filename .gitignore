@@ -27,5 +27,6 @@ npm-debug.log
 *.swn
 
 yarn.lock
+.idea/
 
 data/
