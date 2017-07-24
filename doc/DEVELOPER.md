@@ -35,15 +35,16 @@ Enter your user name and password in the appropriate fields.(The values are in t
 
 By default : email = gpec@inist.fr and password = gpecsecret 
 
-![PgAdmin connection](./pgadmin_login)
+![PgAdmin connection](./pgadmin_login.png)
 
 Now, right-click on the left menu to create a Server :
-![PgAdmin creation](./pgadmin_create)
+![PgAdmin creation](./pgadmin_create.png)
 
 Then, Enter any name for your new Server
 ![PgAdmin name](./pgadmin_name.png)
 
 Next, in the connection tab, Fill out the fields with this parameters : 
+
 | Field | Value By Default | Name in docker-compose.debug.yml |
 | ------ | ------ | ------ |
 |Host name/adress | refgpec-db | container_name of our postgresql |
