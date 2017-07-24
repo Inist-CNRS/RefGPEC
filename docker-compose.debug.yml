@@ -23,6 +23,7 @@ services:
     image: postgres:9.6.3
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d/ # to generate automatically table and insert after docker's initialization
     environment:
       POSTGRES_DB: "refgpec"
       POSTGRES_USER: "refgpec"

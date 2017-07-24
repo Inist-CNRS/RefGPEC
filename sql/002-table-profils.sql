@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS profils CASCADE ;
 CREATE TABLE profils (
 profil_code VARCHAR(15) NOT NULL,
-profil_shortname VARCHAR(30),
+profil_shortname VARCHAR(100),
 profil_pdf_path VARCHAR(255),
 profil_free_comments VARCHAR(255),
 orga_code VARCHAR(8),
