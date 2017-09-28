@@ -1,38 +1,28 @@
+import axios from 'axios';
 var RefGpecLevelsModel = function (options) {
-  const self = this;
-  self.levels = {};
-  self.initializing = true;
-  self.ajaxLoading = false;
-  self.onChanges = [];
+    const self = this;
+    self.levels = {};
+    self.initializing = true;
+    self.ajaxLoading = false;
+    self.onChanges = [];
+    self.test = {};
 
-  // simulate ajax request
-  setTimeout(function () {
-    // fake data for debug
-    self.levels = {
-      "m-1": {
-        levelNumber: "1",
-        levelShortName: "Notions",
-        levelFreeComments: "Connaissances élémentaires et/ou incomplètes"
-      },
-      "m-2": {
-        levelNumber: "2",
-        levelShortName: "Pratique",
-        levelFreeComments: "Capacité à mettre en œuvre et/ou en pratique, une compétence, un savoir, une technique"
-      },
-      "m-3": {
-        levelNumber: "3",
-        levelShortName: "Maîtrise",
-        levelFreeComments: "Capacité d'user à son gré d'une compétence, d'un savoir, d'une technique"
-      },
-      "m-4": {
-        levelNumber: "4",
-        levelShortName: "Expertise",
-        levelFreeComments: "Fait d'avoir acquis une très grande maîtrise grâce à une longue expérience et d'être reconnu par ses pairs, et de pouvoir transmettre"
-      },
-    };
-    self.initializing = false;
-    self.inform();
-  }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
+    axios.get('http://localhost:3000/levels')
+        .then(response => {
+
+            self.levels = {};
+            response.data.forEach(item => {
+                self.levels[item.level_code] = item;
+            })
+
+            self.initializing = false;
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecLevelsModel error loading data', err);
+        });
+
+
 };
 
 RefGpecLevelsModel.prototype.subscribe = function (onChange) {
@@ -71,7 +61,7 @@ RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
     self.ajaxLoading = false;
     self.inform();
     return cb && cb(null);
-  }, 1000);  
+  }, 1000);
 };
 
 RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {
@@ -85,7 +75,7 @@ RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {
     self.ajaxLoading = false;
     self.inform();
     return cb && cb(null);
-  }, 1000);  
+  }, 1000);
 };
 
 module.exports = RefGpecLevelsModel;

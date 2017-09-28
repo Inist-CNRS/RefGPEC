@@ -68,9 +68,11 @@ module.exports = React.createClass({
           </span>
         </td>
         <td>
-          <span className="btn active" title={this.props.levelsModel.levels[this.state.psLevelId].levelFreeComments}>
-            {this.props.levelsModel.levels[this.state.psLevelId].levelShortName}&nbsp;
-            <span className="badge">{this.props.levelsModel.levels[this.state.psLevelId].levelNumber}</span>
+          <span className="btn active" title={this.props.levelsModel.levels[this.state.psLevelId].level_free_comments}>
+
+            {this.props.levelsModel.levels[this.state.psLevelId].level_shortname}&nbsp;
+            <span className="badge">{this.props.levelsModel.levels[this.state.psLevelId].level_number}</span>
+
           </span>
         </td>
         <td>

@@ -5,9 +5,9 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     return {
-      levelId:           this.props.levelId,
-      levelShortName:    this.props.levelData.levelShortName,
-      levelFreeComments: this.props.levelData.levelFreeComments,
+      levelId:           this.props.levelData.level_code,
+      levelShortName:    this.props.levelData.level_shortname,
+      levelFreeComments: this.props.levelData.level_free_comments,
       mustBeSaved: false,
       error: ''
     };
@@ -95,6 +95,7 @@ module.exports = React.createClass({
     event.stopPropagation(); // Really this time.
 
     if (this.props.ajaxLoading) return;
+
 
     this.props.onDestroy(this.state.levelId);
   },
