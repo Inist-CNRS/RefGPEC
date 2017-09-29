@@ -53,4 +53,16 @@ services:
       PGRST_DB_URI: postgres://refgpec:gpecsecret@refgpec-db:5432/refgpec
       PGRST_DB_SCHEMA: public
       PGRST_DB_ANON_ROLE: web_anon
-      PGRST_SERVER_PROXY_URI: http://127.0.0.1:3000/
+      PGRST_SERVER_PROXY_URI: http://127.0.0.1:3000/api/
+
+  refgpec-rp:
+    container_name: refgpec-rp
+    image: nginx:1.13.3
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./logs/:/var/log/nginx
+    links:
+      - refgpec
+      - refgpec-api
+    ports:
+      - 8081:80
