@@ -1,7 +1,7 @@
 import React from 'react';
 import RefGpecProfilSkill from './refgpec-profil-skill.jsx';
-
-module.exports = React.createClass({
+import pdf from '../profils/dpi-spproj-1.pdf';
+var RefGpecProfilsSkills = React.createClass({
   displayName: 'RefGpecProfilsSkills',
 
   getInitialState: function () {
@@ -151,7 +151,7 @@ module.exports = React.createClass({
                 {/* PROFILS ET COMPETENCES : ZONE PDF PREVIEW */}
                 <div className={layoutColClasses}>
                   <div className="embed-responsive embed-responsive-4by3" style={{ height: "1200px" }}>
-                    <iframe className="embed-responsive-item" src="/profils/dpi-spproj-1.pdf"></iframe>
+                    <iframe className="embed-responsive-item" src={pdf}></iframe>
                   </div>
                 </div>
               </div>
@@ -174,7 +174,7 @@ module.exports = React.createClass({
   },
 
   handleSwitchLayout: function (event) {
-    if (this.state.layout == 'vertical') {
+    if (this.state.layout === 'vertical') {
       this.setState({ layout: 'horizontal' });
     } else {
       this.setState({ layout: 'vertical' });
@@ -188,3 +188,4 @@ module.exports = React.createClass({
 
 
 });
+export default RefGpecProfilsSkills;

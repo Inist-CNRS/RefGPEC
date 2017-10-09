@@ -4,15 +4,12 @@ body {
   padding: 0;
   margin: 0;
 }
-
 * {
   box-sizing: border-box;
 }
-
 .gpec-title {
   padding-left: 55px;
 }
-
 .gpec-logo {
   position: absolute;
   left: 5px;
@@ -21,30 +18,22 @@ body {
 .gpec-big-logo {
   margin-right: 30px;
 }
-
 footer.gpec-footer {
   font-size: 0.8em;
   margin-top: 150px;
 }
-
 footer.gpec-footer hr {
   margin-bottom: 5px;
-} 
-
+}
 .gpec-content {
   margin-top: 50px;
   padding: 20px;
 }
-
 .profils-skills-col-action {
-  width: 30px; 
+  width: 30px;
 }
-
-
-
-
 .profils-col-action {
-  width: 30px; 
+  width: 30px;
 }
 .profils-col-file {
   width: 80px;
@@ -58,11 +47,8 @@ footer.gpec-footer hr {
 .profils-col-code {
   width: 170px;
 }
-
-
-
 .levels-col-action {
-  width: 30px; 
+  width: 30px;
 }
 .levels-col-shortname {
   width: 150px;
@@ -70,11 +56,8 @@ footer.gpec-footer hr {
 .levels-col-code {
   width: 70px;
 }
-
-
-
 .skills-col-action {
-  width: 30px; 
+  width: 30px;
 }
 .skills-col-type {
   width: 150px;
@@ -85,7 +68,6 @@ footer.gpec-footer hr {
 .skills-col-code {
   width: 120px;
 }
-
 /* style used to switch between vertical and 2 columns layout */
 .profils-skills-vertical {
   width: 100%;

@@ -1,7 +1,7 @@
 import React from 'react';
 import RefGpecProfil from './refgpec-profil.jsx';
-
-module.exports = React.createClass({
+import $ from 'jquery';
+var RefGpecProfils = React.createClass({
   displayName: 'RefGpecProfils',
 
   getInitialState: function () {
@@ -187,7 +187,7 @@ module.exports = React.createClass({
 
 
   handleKeyPress: function (event) {
-    if (event.charCode == 13) {
+    if (event.charCode === 13) {
       this.handleSubmit(event);
     }
   },
@@ -238,3 +238,4 @@ module.exports = React.createClass({
 
 
 });
+export default RefGpecProfils;

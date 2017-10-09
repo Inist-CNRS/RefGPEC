@@ -2,11 +2,13 @@
 // https://github.com/tastejs/todomvc/tree/gh-pages/examples/react/js
 
 
-
-
 import    React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Link, browserHistory } from 'react-router';
+import $        from 'jquery';
+
+import 'font-awesome/css/font-awesome.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import './index.css';
 
 import RefGpecHome         from './components/refgpec-home.jsx';
 
@@ -19,8 +21,8 @@ import RefGpecProfilsSkillsModel from './models/refgpec-profils-skills-model.js'
 import RefGpecOrgaModel          from './models/refgpec-orga-model.js';
 
 var modelOptions = {
-  fakeLoadingMaxDelay: 500,
-  //fakeData: true
+    fakeLoadingMaxDelay: 500,
+    //fakeData: true
 };
 var levelsModel        = new RefGpecLevelsModel(modelOptions);
 var skillsModel        = new RefGpecSkillsModel(modelOptions);
@@ -31,17 +33,17 @@ var orgaModel          = new RefGpecOrgaModel(modelOptions);
 var profilsSkillsModel = new RefGpecProfilsSkillsModel(modelOptions);
 
 function render() {
-  ReactDOM.render((
-    <RefGpecHome
-      orgaModel={orgaModel}
-      levelsModel={levelsModel}
-      skillsModel={skillsModel}
-      skillsTypesModel={skillsTypesModel}
-      skillsDomainsModel={skillsDomainsModel}
-      profilsModel={profilsModel}
-      profilsSkillsModel={profilsSkillsModel}
-    />
-  ), document.getElementById('refgpec'));
+    ReactDOM.render((
+        <RefGpecHome
+            orgaModel={orgaModel}
+            levelsModel={levelsModel}
+            skillsModel={skillsModel}
+            skillsTypesModel={skillsTypesModel}
+            skillsDomainsModel={skillsDomainsModel}
+            profilsModel={profilsModel}
+            profilsSkillsModel={profilsSkillsModel}
+        />
+    ), document.getElementById('refgpec'));
 }
 
 profilsModel.subscribe(render);
@@ -52,4 +54,7 @@ levelsModel.subscribe(render);
 orgaModel.subscribe(render);
 profilsSkillsModel.subscribe(render);
 
-render();
+$(function () {
+    render();
+});
+

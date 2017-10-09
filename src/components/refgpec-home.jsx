@@ -1,13 +1,15 @@
 import React         from 'react';
-
+import $ from 'jquery';
+import { Modal, Button } from 'react-bootstrap';
 import RefGpecIndex         from './refgpec-index.jsx';
 import RefGpecProfilsSkills from './refgpec-profils-skills.jsx';
 import RefGpecProfils       from './refgpec-profils.jsx';
 import RefGpecSkills        from './refgpec-skills.jsx';
 import RefGpecLevels        from './refgpec-levels.jsx';
+import logo from '../img/gpec_40x40.png';
 
 
-module.exports = React.createClass({
+var RefGpecHome = React.createClass({
   displayName: 'RefGpecHome',
 
   doTabChange: function (tabId) {
@@ -20,7 +22,7 @@ module.exports = React.createClass({
 
     // cleanup hidden tabs
     [ 'index', 'profils-skills', 'profils', 'skills', 'levels' ].forEach(function (tabName) {
-      if (document.getElementById(tabName) && tabName != tabId) {
+      if (document.getElementById(tabName) && tabName !== tabId) {
         document.getElementById(tabName).style.display = 'none';
         document.getElementById('tab-' + tabName).parentNode.classList.remove('active');
         document.getElementById('tab-' + tabName).parentNode.classList.remove('in');
@@ -40,13 +42,19 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    const loadingModalShow = this.props.skillsModel.initializing ||
+        this.props.profilsModel.initializing ||
+        this.props.orgaModel.initializing ||
+        this.props.levelsModel.initializing;
 
+/*
     if (!this.props.skillsModel.initializing &&
         !this.props.profilsModel.initializing &&
         !this.props.orgaModel.initializing &&
         !this.props.levelsModel.initializing) {
-      $('#loading-data').modal('hide');
+        $('#loading-data').modal && $('#loading-data').modal('hide');
     }
+*/
 
     const refgpecTabs = [];
     refgpecTabs.push(
@@ -102,7 +110,7 @@ module.exports = React.createClass({
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>*/}
-            <img className="gpec-logo" src="/img/gpec_40x40.png" alt="" />
+            <img className="gpec-logo" src={logo} alt="" />
             <a className="gpec-title navbar-brand" id="tab-index" onClick={this.handleTabChange} href="#index" data-toggle="tab" title="Application de gestion d'un référentiel de profils/compétences pour une démarche GPEC">RefGPEC</a>
           </div>
           <div className="navbar-collapse collapse">
@@ -149,45 +157,43 @@ module.exports = React.createClass({
         {refgpecTabs}
 
         {/* LOADING DATA MODAL */}
-        <div className="modal fade" id="loading-data" tabIndex="-1" role="dialog">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h2 className="modal-title text-center">Initialisation de RefGPEC</h2>
-              </div>
-              <div className="modal-body">
-                <ul className="list-group">
-                  <li className="list-group-item">
-                    <span className={this.getDataLoadedClassName('profilsSkillsModel')}></span>
-                    Profils &amp; Compétences
-                  </li>
-                  <li className="list-group-item">
-                    <span className={this.getDataLoadedClassName('profilsModel')}></span>
-                    Profils de poste
-                  </li>  
-                  <li className="list-group-item">
-                    <span className={this.getDataLoadedClassName('skillsModel')}></span>
-                    Référentiel des compétences
-                  </li>
-                  <li className="list-group-item">
-                    <span className={this.getDataLoadedClassName('levelsModel')}></span>
-                    Modulations des compétences
-                  </li>
-                  <li className="list-group-item">
-                    <span className={this.getDataLoadedClassName('orgaModel')}></span>
-                    Organigramme
-                  </li> 
-                </ul>
-              </div>
-              <div className="modal-footer">
-                <p className="text-center">
-                  Chargement des données en cours.<br/>
-                  Veuillez patienter.
-                </p>
-              </div>                
-            </div>
-          </div>
-        </div>
+        <Modal show={loadingModalShow}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              <h2 className="modal-title text-center">Initialisation de RefGPEC</h2>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <ul className="list-group">
+              <li className="list-group-item">
+                <span className={this.getDataLoadedClassName('profilsSkillsModel')}></span>
+                Profils &amp; Compétences
+              </li>
+              <li className="list-group-item">
+                <span className={this.getDataLoadedClassName('profilsModel')}></span>
+                Profils de poste
+              </li>
+              <li className="list-group-item">
+                <span className={this.getDataLoadedClassName('skillsModel')}></span>
+                Référentiel des compétences
+              </li>
+              <li className="list-group-item">
+                <span className={this.getDataLoadedClassName('levelsModel')}></span>
+                Modulations des compétences
+              </li>
+              <li className="list-group-item">
+                <span className={this.getDataLoadedClassName('orgaModel')}></span>
+                Organigramme
+              </li>
+            </ul>
+          </Modal.Body>
+          <Modal.Footer>
+            <p className="text-center">
+              Chargement des données en cours.<br/>
+              Veuillez patienter.
+            </p>
+          </Modal.Footer>
+        </Modal>
 
       </div>
 
@@ -208,19 +214,19 @@ module.exports = React.createClass({
   getDataLoadedClassName(modelType) {
     var self = this;
 
-    if (modelType == 'skillsModel') {
+    if (modelType === 'skillsModel') {
       return self.props.skillsModel.initializing ?
         'pull-right fa fa-2x fa-square' :
         'pull-right fa fa-2x fa-check-square'
-    } else if (modelType == 'profilsModel') {
+    } else if (modelType === 'profilsModel') {
       return self.props.profilsModel.initializing ?
         'pull-right fa fa-2x fa-square' :
         'pull-right fa fa-2x fa-check-square'
-    } else if (modelType == 'levelsModel') {
+    } else if (modelType === 'levelsModel') {
       return self.props.levelsModel.initializing ?
         'pull-right fa fa-2x fa-square' :
         'pull-right fa fa-2x fa-check-square'
-    } else if (modelType == 'orgaModel') {
+    } else if (modelType === 'orgaModel') {
       return self.props.orgaModel.initializing ?
         'pull-right fa fa-2x fa-square' :
         'pull-right fa fa-2x fa-check-square'
@@ -232,14 +238,7 @@ module.exports = React.createClass({
   componentDidMount () {
     var self = this;
 
-    // to have tooltips cf http://getbootstrap.com/javascript/#tooltips-examples
     $(function () {
-      $('#loading-data').modal('show');
-      
-      // init the popover stuff
-      // see http://getbootstrap.com/javascript/#popovers
-      $('[data-toggle="popover"]').popover();
-
       // activate the selected tab when clicking on a tab
       $(window).on('hashchange', function() {
         self.doTabChange(document.location.hash);
@@ -259,3 +258,4 @@ module.exports = React.createClass({
 
 
 });
+export default RefGpecHome;
