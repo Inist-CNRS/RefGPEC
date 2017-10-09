@@ -7,15 +7,13 @@ Application de gestion d'un référentiel de profils/compétences pour une déma
 
 ## Developement
 
-Prerequisites: [NodeJS](https://nodejs.org/en/download/package-manager/) & [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
+Prerequisites: [NodeJS](https://nodejs.org/en/download/package-manager/) & [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) & Docker-compose
 
 ```
-npm install -g bower
-npm install
-bower install
-npm run dev
+make install
+make run-debug
 ```
-Then open http://127.0.0.1:8080 to access RefGPEC.
+Then open http://127.0.0.1:8081 to access RefGPEC.
 
 
 To simulate a production run, you can just type these commandes:
@@ -27,7 +25,8 @@ make run-prod
 
 ## Production
 
-Download the docker-compose.yml and just run it.
+FIXME...
+Download the [docker-compose.yml](https://raw.githubusercontent.com/Inist-CNRS/RefGPEC/master/docker-compose.yml) and just run it.
 
 ```
 wget https://raw.githubusercontent.com/Inist-CNRS/RefGPEC/master/docker-compose.yml
