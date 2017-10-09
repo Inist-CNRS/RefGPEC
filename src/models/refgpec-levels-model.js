@@ -78,4 +78,4 @@ RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {
   }, 1000);
 };
 
-module.exports = RefGpecLevelsModel;
+export default RefGpecLevelsModel;

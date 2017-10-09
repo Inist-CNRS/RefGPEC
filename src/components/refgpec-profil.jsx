@@ -1,6 +1,6 @@
 import React from 'react';
 
-module.exports = React.createClass({
+var RefGpecProfil = React.createClass({
   displayName: 'RefGpecProfil',
 
   getInitialState: function () {
@@ -30,9 +30,9 @@ module.exports = React.createClass({
     let nbClassName = {};
     [ 'profilNbSkillsSF', 'profilNbSkillsS', 'profilNbSkillsSE' ].forEach(function (skillTypeNb) {
       nbClassName[skillTypeNb] = 'label';
-      if (self.state[skillTypeNb] == 0) {
+      if (self.state[skillTypeNb] === 0) {
         nbClassName[skillTypeNb] += ' label-danger';
-      } else if (self.state[skillTypeNb] == 1) {
+      } else if (self.state[skillTypeNb] === 1) {
         nbClassName[skillTypeNb] += ' label-warning';
       } else {
         nbClassName[skillTypeNb] += ' label-success';
@@ -155,9 +155,9 @@ module.exports = React.createClass({
 
     // if it's a change in a select box,
     // tells the component to save data soon
-    if (event.target.tagName == 'SELECT') {
+    if (event.target.tagName === 'SELECT') {
       this.setState({ mustBeSaved: true });
-    } else if (event.target.value != this.state[event.target.getAttribute('data-fieldname')]) {
+    } else if (event.target.value !== this.state[event.target.getAttribute('data-fieldname')]) {
       console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
       this.setState({ mustBeSaved: true });
     }
@@ -189,3 +189,4 @@ module.exports = React.createClass({
 
 
 });
+export default RefGpecProfil;

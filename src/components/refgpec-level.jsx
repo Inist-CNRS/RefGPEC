@@ -1,6 +1,6 @@
 import React from 'react';
 
-module.exports = React.createClass({
+var RefGpecLevel = React.createClass({
   displayName: 'RefGpecLevel',
 
   getInitialState: function () {
@@ -80,7 +80,7 @@ module.exports = React.createClass({
 
   handleChange: function (event) {
     // tells the data must be saved when possible
-    if (event.target.value != this.state[event.target.getAttribute('data-fieldname')]) {
+    if (event.target.value !== this.state[event.target.getAttribute('data-fieldname')]) {
       console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
       this.setState({ mustBeSaved: true });
     }
@@ -107,3 +107,4 @@ module.exports = React.createClass({
 
 
 });
+export default RefGpecLevel;

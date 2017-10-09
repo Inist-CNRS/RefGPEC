@@ -1,17 +1,18 @@
 import React from 'react';
-
-module.exports = React.createClass({
+import ReactDOM from 'react-dom';
+import logo from '../img/gpec_256x256.png';
+var RefGpecIndex = React.createClass({
   displayName: 'RefGpecIndex',
 
   getInitialState: function () {
     return {};
   },
 
-  render: function () {
-    var self = this;
+  render() {
 
+    var self = this;
     return (
- 
+
         <div id="index">
 
           <div className="row">
@@ -22,7 +23,7 @@ module.exports = React.createClass({
                 <div className="container">
                   <h1>Mener sa démarche GPEC<br/> avec RefGPEC</h1>
                   <p>
-                  <img className="gpec-big-logo img-responsive pull-left" src="/img/gpec_256x256.png" alt="" />
+                  <img className="gpec-big-logo img-responsive pull-left" src={logo} alt="" />
                                   L'outil RefGPEC permet la mise en place numérique d'un <a data-toggle="tab" className="nav-link" href="#skills" onClick={this.handleNavigateTab}>référentiel des compétences</a> et d'un <a data-toggle="tab" className="nav-link" href="#profils" onClick={this.handleNavigateTab}>référentiel des profils de poste</a> de votre organisation.
                   </p>
                   <p>
@@ -55,3 +56,4 @@ module.exports = React.createClass({
 
 
 });
+export default RefGpecIndex;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-module.exports = React.createClass({
+var RefGpecProfilSkill = React.createClass({
   displayName: 'RefGpecProfilSkill',
 
   getInitialState: function () {
@@ -128,3 +128,4 @@ module.exports = React.createClass({
 
 
 });
+export default RefGpecProfilSkill;

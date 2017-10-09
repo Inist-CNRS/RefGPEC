@@ -1,7 +1,7 @@
 import React from 'react';
 import RefGpecLevel from './refgpec-level.jsx';
 
-module.exports = React.createClass({
+var RefGpecLevels = React.createClass({
   displayName: 'RefGpecLevels',
 
   getInitialState: function () {
@@ -110,7 +110,7 @@ module.exports = React.createClass({
   },
 
   handleKeyPress: function (event) {
-    if (event.charCode == 13) {
+    if (event.charCode === 13) {
       this.handleSubmit(event);
     }
   },
@@ -143,3 +143,4 @@ module.exports = React.createClass({
 
 
 });
+export default RefGpecLevels;

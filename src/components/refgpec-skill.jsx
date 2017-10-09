@@ -1,6 +1,6 @@
 import React from 'react';
 
-module.exports = React.createClass({
+var RefGpecSkill = React.createClass({
   displayName: 'RefGpecSkill',
 
   getInitialState: function () {
@@ -129,9 +129,9 @@ module.exports = React.createClass({
 
     // if it's a change in a select box,
     // tells the component to save data soon
-    if (event.target.tagName == 'SELECT') {
+    if (event.target.tagName === 'SELECT') {
       this.setState({ mustBeSaved: true });
-    } else if (event.target.value != this.state[event.target.getAttribute('data-fieldname')]) {
+    } else if (event.target.value !== this.state[event.target.getAttribute('data-fieldname')]) {
       console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
       this.setState({ mustBeSaved: true });
     }
@@ -163,3 +163,4 @@ module.exports = React.createClass({
 
 
 });
+export default RefGpecSkill;
