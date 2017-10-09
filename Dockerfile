@@ -1,34 +1,33 @@
-FROM node:6.9.1
+FROM nginx:1.13.3
+
+# to help docker debugging
 ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get -y update && apt-get -y install vim curl gnupg2
 
-# install yarn (faster than npm...)
-RUN npm config set strict-ssl false
-RUN apt-get update && apt-get install -y apt-transport-https
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install -y yarn
+# nodejs installation used for build tools
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN apt-get install -y build-essential nodejs
 
-# install npm dependencies
-WORKDIR /app
-COPY ./package.json /app/package.json
-RUN yarn install && yarn cache clean
+# install tools for bundle.js
+WORKDIR /app/
+COPY ./package.json /app/
+RUN npm install
 
-# copy the code source
-# after dependencies installation
-COPY . /app
+# nginx config
+COPY ./nginx.prod.conf /etc/nginx/conf.d/default.conf
 
-# ezmasterification
+# ezmasterization of refgpec
 # see https://github.com/Inist-CNRS/ezmaster
-# (no data directory)
-# http port is not yet used
 RUN echo '{ \
-  "httpPort": 8080, \
+  "httpPort": 80, \
   "configPath": "/app/config.json" \
 }' > /etc/ezmaster.json
 
 # build www/dist/bundle.js and www/dist/bundle.css for production
+COPY ./src /app/src/
+COPY ./public /app/public/
 RUN npm run build
 
-# run the application
-CMD ["npm", "run", "serve" ]
-EXPOSE 3000
+# remove service-worker stuff
+# see https://github.com/facebookincubator/create-react-app/issues/2398
+RUN rm -f /app/build/service-worker.js

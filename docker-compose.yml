@@ -5,6 +5,41 @@ services:
   refgpec:
     container_name: refgpec
     image: inistcnrs/refgpec:1.0.7
+    links:
+      - refgpec-api
     ports:
-      - 3000:3000
-      - 8080:8080
+      - 8081:80
+
+  refgpec-api:
+    container_name: refgpec-api
+    image: postgrest/postgrest:v0.4.3.0
+    links:
+      - refgpec-db:db
+    environment:
+      PGRST_DB_URI: postgres://refgpec:gpecsecret@refgpec-db:5432/refgpec
+      PGRST_DB_SCHEMA: public
+      PGRST_DB_ANON_ROLE: web_anon
+      PGRST_SERVER_PROXY_URI: http://127.0.0.1:3000/api/
+
+  refgpec-db:
+    container_name: refgpec-db
+    image: postgres:9.6.3
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d/ # to generate automatically table and insert after docker's initialization
+    environment:
+      POSTGRES_DB: "refgpec"
+      POSTGRES_USER: "refgpec"
+      POSTGRES_PASSWORD: "gpecsecret"
+      PGDATA: "/var/lib/postgresql/data"
+
+  refgpec-db-admin:
+    container_name: refgpec-db-admin
+    image: fenglc/pgadmin4:1.6
+    environment:
+      DEFAULT_USER: "gpec@inist.fr"
+      DEFAULT_PASSWORD: "gpecsecret"
+    ports:
+      - 5050:5050
+    links:
+      - refgpec-db
