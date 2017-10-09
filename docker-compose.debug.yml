@@ -2,6 +2,18 @@ version: '2'
 
 services:
 
+  refgpec-rp:
+    container_name: refgpec-rp
+    image: nginx:1.13.3
+    volumes:
+      - ./nginx.debug.conf:/etc/nginx/conf.d/default.conf
+      - ./logs/:/var/log/nginx
+    links:
+      - refgpec
+      - refgpec-api
+    ports:
+      - 8081:80
+
   refgpec:
     container_name: refgpec
     image: node:6.9.1
@@ -10,8 +22,6 @@ services:
       - .:/app
     tty: true
     stdin_open: true  # to be able to use CTRL+C to stop the debug
-    ports:
-      - 8080:3000
     command: npm run start
 
   refgpec-db:
@@ -52,14 +62,3 @@ services:
       PGRST_DB_ANON_ROLE: web_anon
       PGRST_SERVER_PROXY_URI: http://127.0.0.1:3000/api/
 
-  refgpec-rp:
-    container_name: refgpec-rp
-    image: nginx:1.13.3
-    volumes:
-      - ./nginx.debug.conf:/etc/nginx/conf.d/default.conf
-      - ./logs/:/var/log/nginx
-    links:
-      - refgpec
-      - refgpec-api
-    ports:
-      - 8081:80
