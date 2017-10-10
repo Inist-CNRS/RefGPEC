@@ -1,17 +1,26 @@
 import React from 'react';
 import RefGpecProfil from './refgpec-profil.jsx';
 import $ from 'jquery';
+import { Modal, Button } from 'react-bootstrap';
 var RefGpecProfils = React.createClass({
   displayName: 'RefGpecProfils',
 
   getInitialState: function () {
     return {
+      showModal: false,
       newProfilOrga: '',
       newProfilShortName: '',
       newProfilFreeComments: '',
       error: ''
     };
   },
+  close() {
+    this.setState({ showModal: false });
+    },
+
+  open() {
+    this.setState({ showModal: true });
+    },
 
   render: function () {
     var self = this;
@@ -79,29 +88,24 @@ var RefGpecProfils = React.createClass({
                     <td></td>
 
                     <td className="text-center">
-                      <a href="" onClick={this.handleNoClick}>
+                      <a onClick={this.open}>
                         <span className="fa fa-upload fa-2x" data-toggle="modal" data-target="#profils-file-modal"></span>
                       </a>
 
                       {/* Modal d'upload du fichier PDF du profil de poste */}
-                      <div className="modal fade" id="profils-file-modal" tabIndex="-1" role="dialog">
-                        <div className="modal-dialog" role="document">
-                          <div className="modal-content">
-                            <div className="modal-header">
-                              <button type="button" className="close" data-dismiss="modal" aria-label="Ferme"><span aria-hidden="true">&times;</span></button>
-                              <h4 className="modal-title">Uploader le PDF du profil de poste</h4>
-                            </div>
-                            <div className="modal-body">
-                              <p><input className="form-control" type="file" placeholder="PDF du profil" accept="application/pdf" /></p>
-                              <div className="alert alert-info" role="alert">Le nom du fichier sur le disque dur n'a pas d'importance, il sera renommé par RefGPEC en fonction du code du profil.</div>
-                            </div>
-                            <div className="modal-footer">
-                              <button type="button" className="btn btn-default" data-dismiss="modal">Fermer</button>
-                              <button type="button" className="btn btn-primary">Uploader</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <Modal show={this.state.showModal} onHide={this.close} id="profils-file-modal">
+                        <Modal.Header closeButton>
+                          <h4 className="modal-title">Uploader le PDF du profil de poste</h4>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <p><input className="form-control" type="file" placeholder="PDF du profil" accept="application/pdf" /></p>
+                          <div className="alert alert-info" role="alert">Le nom du fichier sur le disque dur n'a pas d'importance, il sera renommé par RefGPEC en fonction du code du profil.</div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <button onClick={this.close} type="button" className="btn btn-default" data-dismiss="modal">Fermer</button>
+                          <button type="button" className="btn btn-primary">Uploader</button>
+                        </Modal.Footer>
+                      </Modal>
                     </td>
 
                     <td>
@@ -231,8 +235,7 @@ var RefGpecProfils = React.createClass({
 
 
   componentDidMount () {
-
-//    $().modal();
+      
   },
 
 
