@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {DropdownButton,MenuItem} from 'react-bootstrap';
 var RefGpecProfilSkill = React.createClass({
   displayName: 'RefGpecProfilSkill',
 
@@ -38,16 +38,20 @@ var RefGpecProfilSkill = React.createClass({
 
         {/* ACTION MENU */}
         <td>
-          <div className="btn-group">
-            <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-            <ul className="dropdown-menu">
-              <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
-                <a href=""
-                   onClick={this.handleDestroy}>
-                  <span className="glyphicon glyphicon-remove"></span> Dissocier la compétence du profil
-                </a>
-              </li>
-            </ul>
+            <div className="btn-group">
+              <DropdownButton className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <MenuItem  href=""onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Dissocier la compétence du profil </MenuItem>
+              </DropdownButton>
+
+            {/*<button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>*/}
+            {/*<ul className="dropdown-menu">*/}
+              {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}
+                {/*<a href=""*/}
+                   {/*onClick={this.handleDestroy}>*/}
+                  {/*<span className="glyphicon glyphicon-remove"></span> Dissocier la compétence du profil*/}
+                {/*</a>*/}
+              {/*</li>*/}
+            {/*</ul>*/}
           </div>
         </td>
 

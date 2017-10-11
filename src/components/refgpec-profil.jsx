@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {DropdownButton,MenuItem} from 'react-bootstrap';
 var RefGpecProfil = React.createClass({
   displayName: 'RefGpecProfil',
 
@@ -54,27 +54,33 @@ var RefGpecProfil = React.createClass({
         {/* ACTION MENU */}
         <td>
           <div className="btn-group">
-            <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-            <ul className="dropdown-menu">
-              <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
-                <a href=""
-                   onClick={this.handleOpenProfilSkills}>
-                  <span className="glyphicon glyphicon-list"></span> Associer des compétences à ce profil
-                </a>
-              </li>
-              <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
-                <a href=""
-                   onClick={this.handleUpdatePDF}>
-                  <span className="fa fa-file-pdf-o"></span> Mettre à jour le PDF du profil
-                </a>
-              </li>
-              <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
-                <a href=""
-                   onClick={this.handleDestroy}>
-                  <span className="glyphicon glyphicon-remove"></span> Supprimer le profil
-                </a>
-              </li>
-            </ul>
+          <DropdownButton className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <MenuItem  href="" onClick={this.handleOpenProfilSkills}>   <span className="glyphicon glyphicon-list"></span> Associer des compétences à ce profil </MenuItem>
+            <MenuItem href=""  onClick={this.handleUpdatePDF}> <span className="fa fa-file-pdf-o"></span> Mettre à jour le PDF du profil </MenuItem>
+            <MenuItem  href="" onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Supprimer le profil </MenuItem>
+          </DropdownButton>
+
+            {/*<button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>*/}
+            {/*<ul className="dropdown-menu">*/}
+              {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}
+                {/*<a href=""*/}
+                   {/*onClick={this.handleOpenProfilSkills}>*/}
+                  {/*<span className="glyphicon glyphicon-list"></span> Associer des compétences à ce profil*/}
+                {/*</a>*/}
+              {/*</li>*/}
+              {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}
+                {/*<a href=""*/}
+                   {/*onClick={this.handleUpdatePDF}>*/}
+                  {/*<span className="fa fa-file-pdf-o"></span> Mettre à jour le PDF du profil*/}
+                {/*</a>*/}
+              {/*</li>*/}
+              {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}
+                {/*<a href=""*/}
+                   {/*onClick={this.handleDestroy}>*/}
+                  {/*<span className="glyphicon glyphicon-remove"></span> Supprimer le profil*/}
+                {/*</a>*/}
+              {/*</li>*/}
+            {/*</ul>*/}
           </div>
         </td>
 

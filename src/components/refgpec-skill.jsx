@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {DropdownButton,MenuItem} from 'react-bootstrap';
 var RefGpecSkill = React.createClass({
   displayName: 'RefGpecSkill',
 
@@ -27,21 +27,27 @@ var RefGpecSkill = React.createClass({
         {/* ACTION MENU */}
         <td>
           <div className="btn-group">
-            <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-            <ul className="dropdown-menu">
-              <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
-                <a href=""
-                   onClick={this.handleDestroy}>
-                  <span className="glyphicon glyphicon-remove"></span> Supprimer la compétence
-                </a>
-              </li>
-              <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
-                <a href=""
-                   onClick={this.handleViewAssociatedProfils}>
-                  <span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence
-                </a>
-              </li>
-            </ul>
+            <DropdownButton className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <MenuItem  href="" onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Supprimer la compétence </MenuItem>
+              <MenuItem href=""  onClick={this.handleViewAssociatedProfils}> <span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence</MenuItem>
+            </DropdownButton>
+
+          {/*<div className="btn-group">*/}
+            {/*<button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>*/}
+            {/*<ul className="dropdown-menu">*/}
+              {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}
+                {/*<a href=""*/}
+                   {/*onClick={this.handleDestroy}>*/}
+                  {/*<span className="glyphicon glyphicon-remove"></span> Supprimer la compétence*/}
+                {/*</a>*/}
+              {/*</li>*/}
+              {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}
+                {/*<a href=""*/}
+                   {/*onClick={this.handleViewAssociatedProfils}>*/}
+                  {/*<span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence*/}
+                {/*</a>*/}
+              {/*</li>*/}
+            {/*</ul>*/}
           </div>
         </td>
 

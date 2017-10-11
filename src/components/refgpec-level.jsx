@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {DropdownButton,MenuItem} from 'react-bootstrap';
 var RefGpecLevel = React.createClass({
   displayName: 'RefGpecLevel',
 
@@ -25,15 +25,10 @@ var RefGpecLevel = React.createClass({
         {/* ACTION MENU */}
         <td>
           <div className="btn-group">
-            <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>
-            <ul className="dropdown-menu">
-              <li className={(this.props.ajaxLoading ? 'disabled' : '')}>
-                <a href=""
-                   onClick={this.handleDestroy}>
-                  <span className="glyphicon glyphicon-remove"></span> Supprimer la modulation de compétence
-                </a>
-              </li>
-            </ul>
+            <DropdownButton aria-expanded="false">
+              <MenuItem  href="" onClick={this.handleDestroy}>  <span className="glyphicon glyphicon-remove"></span> Supprimer la modulation de compétence
+              </MenuItem>
+            </DropdownButton>
           </div>
         </td>
 
@@ -81,7 +76,7 @@ var RefGpecLevel = React.createClass({
   handleChange: function (event) {
     // tells the data must be saved when possible
     if (event.target.value !== this.state[event.target.getAttribute('data-fieldname')]) {
-      console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
+     // console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
       this.setState({ mustBeSaved: true });
     }
 
