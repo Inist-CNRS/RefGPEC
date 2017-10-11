@@ -1,216 +1,235 @@
-import React from 'react';
-import RefGpecSkill from './refgpec-skill.jsx';
-import $ from 'jquery';
+import React from "react";
+import RefGpecSkill from "./refgpec-skill.jsx";
+import {OverlayTrigger, Popover} from "react-bootstrap";
 var RefGpecSkills = React.createClass({
-  displayName: 'RefGpecSkills',
+    displayName: 'RefGpecSkills',
 
-  getInitialState: function () {
-    return {
-      newSkillType: '',
-      newSkillDomain: '',
-      newSkillShortName: '',
-      newSkillFreeComments: '',
-      error: ''
-    };
-  },
+    getInitialState: function () {
+        return {
+            newSkillType: '',
+            newSkillDomain: '',
+            newSkillShortName: '',
+            newSkillFreeComments: '',
+            error: ''
+        };
+    },
 
-  render: function () {
-    var self = this;
+    render: function () {
+        var self = this;
 
-    // model is not ready ? then do not render anything
-    if (self.props.skillsModel.initializing) {
-      return null;
-    }
+        // model is not ready ? then do not render anything
+        if (self.props.skillsModel.initializing) {
+            return null;
+        }
 
-    let rgSkills = [];
-    Object.keys(self.props.skillsModel.skills).forEach(function (key) {
-      rgSkills.push(
-        <RefGpecSkill
-          key={key} skillId={key}
-          skillData={self.props.skillsModel.skills[key]}
-          onSave={self.props.skillsModel.save.bind(self.props.skillsModel)}
-          onDestroy={self.props.skillsModel.destroy.bind(self.props.skillsModel)}
-          ajaxLoading={self.props.skillsModel.ajaxLoading}
-        />);
-    });
+        let rgSkills = [];
+        Object.keys(self.props.skillsModel.skills).forEach(function (key) {
+            rgSkills.push(
+                <RefGpecSkill
+                    key={key} skillId={key}
+                    skillData={self.props.skillsModel.skills[key]}
+                    onSave={self.props.skillsModel.save.bind(self.props.skillsModel)}
+                    onDestroy={self.props.skillsModel.destroy.bind(self.props.skillsModel)}
+                    ajaxLoading={self.props.skillsModel.ajaxLoading}
+                />);
+        });
 
-    return (
- 
-        <div id="skills">
+        return (
 
-
+            <div id="skills">
 
 
-          <div className="row">
-            <div className="col-md-12">
+                <div className="row">
+                    <div className="col-md-12">
 
-              <div className="panel panel-default">
-                <div className="panel-heading">Référentiel des compétences</div>
-                <div className="panel-body">
-                  <p>
-                  Depuis cet onglet il est possible d'administrer le référentiel des compétences.<br/>
-                  Ces compétences pourront être <a data-toggle="tab" className="nav-link" href="#profils-skills" onClick={this.handleNavigateTab}>associées</a> aux différents <a data-toggle="tab" className="nav-link" href="#profils" onClick={this.handleNavigateTab}>profils</a> en leur associant une <a data-toggle="tab" href="#levels" onClick={this.handleNavigateTab}>modulation</a>.
-                  </p>
-                </div>
-              </div>
-
-
-              <table id="skills-list" className="table table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th className="skills-col-action"></th>
-                    <th className="skills-col-type">Type</th>
-                    <th className="skills-col-domain">Domaine</th>
-                    <th className="skills-col-shortname">Nom de la compétence</th>
-                    <th className="skills-col-commentary">Commentaires libres</th>
-                    <th className="skills-col-code">Code</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                  {rgSkills}
+                        <div className="panel panel-default">
+                            <div className="panel-heading">Référentiel des compétences</div>
+                            <div className="panel-body">
+                                <p>
+                                    Depuis cet onglet il est possible d'administrer le référentiel des compétences.<br/>
+                                    Ces compétences pourront être <a data-toggle="tab" className="nav-link"
+                                                                     href="#profils-skills"
+                                                                     onClick={this.handleNavigateTab}>associées</a> aux
+                                    différents <a data-toggle="tab" className="nav-link" href="#profils"
+                                                  onClick={this.handleNavigateTab}>profils</a> en leur associant une <a
+                                    data-toggle="tab" href="#levels" onClick={this.handleNavigateTab}>modulation</a>.
+                                </p>
+                            </div>
+                        </div>
 
 
+                        <table id="skills-list" className="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th className="skills-col-action"></th>
+                                <th className="skills-col-type">Type</th>
+                                <th className="skills-col-domain">Domaine</th>
+                                <th className="skills-col-shortname">Nom de la compétence</th>
+                                <th className="skills-col-commentary">Commentaires libres</th>
+                                <th className="skills-col-code">Code</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                  {/* FORM USED TO CREATE A NEW SKILL */}
-                  <tr className="form-new-skill">
-                    <td></td>
-                    <td>
-                      <select className="form-control"
-                        value={this.state.newSkillType}
-                        data-fieldname="newSkillType"
-                        onChange={this.handleChange}
-                        disabled={this.props.skillsModel.ajaxLoading}
-                      >
-                        <option value=""></option>
-                        <option value="sf">Savoir-faire</option>
-                        <option value="se">Savoir-être</option>
-                        <option value="s">Savoir</option>
-                      </select>
-                    </td>
-                    <td>
-                      <select className="form-control"
-                        value={this.state.newSkillDomain}
-                        data-fieldname="newSkillDomain"
-                        onChange={this.handleChange}
-                        disabled={this.props.skillsModel.ajaxLoading}
-                      >
-                        <option value=""></option>
-                        <option value="gen">Général</option>
-                        <option value="comm">Communication</option>
-                        <option value="geadmin">Gestion administrative</option>
-                        <option value="info">Informatique</option>
-                        <option value="inist">Inist-CNRS</option>
-                        <option value="ist">IST</option>
-                        <option value="lang">Langues</option>
-                        <option value="manag">Management</option>
-                        <option value="outils">Outils</option>
-                      </select>
-                    </td>
-                    <td>
-                      <input className="form-control" type="text"
-                        placeholder="Nom de la compétence"
-                        value={this.state.newSkillShortName}
-                        data-fieldname="newSkillShortName"
-                        onKeyPress={this.handleKeyPress}
-                        onChange={this.handleChange}
-                        disabled={this.props.skillsModel.ajaxLoading}
-                      />
-                    </td>
-                    <td>
+                            {rgSkills}
+
+
+                            {/* FORM USED TO CREATE A NEW SKILL */}
+                            <tr className="form-new-skill">
+                                <td></td>
+                                <td>
+                                    <select className="form-control"
+                                            value={this.state.newSkillType}
+                                            data-fieldname="newSkillType"
+                                            onChange={this.handleChange}
+                                            disabled={this.props.skillsModel.ajaxLoading}
+                                    >
+                                        <option value=""></option>
+                                        <option value="sf">Savoir-faire</option>
+                                        <option value="se">Savoir-être</option>
+                                        <option value="s">Savoir</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select className="form-control"
+                                            value={this.state.newSkillDomain}
+                                            data-fieldname="newSkillDomain"
+                                            onChange={this.handleChange}
+                                            disabled={this.props.skillsModel.ajaxLoading}
+                                    >
+                                        <option value=""></option>
+                                        <option value="gen">Général</option>
+                                        <option value="comm">Communication</option>
+                                        <option value="geadmin">Gestion administrative</option>
+                                        <option value="info">Informatique</option>
+                                        <option value="inist">Inist-CNRS</option>
+                                        <option value="ist">IST</option>
+                                        <option value="lang">Langues</option>
+                                        <option value="manag">Management</option>
+                                        <option value="outils">Outils</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input className="form-control" type="text"
+                                           placeholder="Nom de la compétence"
+                                           value={this.state.newSkillShortName}
+                                           data-fieldname="newSkillShortName"
+                                           onKeyPress={this.handleKeyPress}
+                                           onChange={this.handleChange}
+                                           disabled={this.props.skillsModel.ajaxLoading}
+                                    />
+                                </td>
+                                <td>
                       <textarea className="form-control" rows="1"
-                        placeholder="Commentaires libres"
-                        value={this.state.newSkillFreeComments}
-                        data-fieldname="newSkillFreeComments"
-                        onChange={this.handleChange}
-                        disabled={this.props.skillsModel.ajaxLoading}
+                                placeholder="Commentaires libres"
+                                value={this.state.newSkillFreeComments}
+                                data-fieldname="newSkillFreeComments"
+                                onChange={this.handleChange}
+                                disabled={this.props.skillsModel.ajaxLoading}
                       />
-                    </td>
-                    <td id="skills-new-skill"
-                        data-placement="top" data-toggle="popover"
-                        data-trigger="manual" data-title="Erreur nouvelle compétence"
-                        data-content={this.state.error}
-                    >
-                      <a href="" className="btn fa fa-plus-square fa-2x" role="button"
-                         onClick={this.handleSubmit}
-                         disabled={self.props.skillsModel.ajaxLoading}
-                         title="Ajouter cette compétence au référentiel" />
-                    </td>
-                  </tr>
+                                </td>
 
-                </tbody>
-              </table>
+                                <td>
+                                    <OverlayTrigger show={this.missingField()} trigger="focus"
+                                                    data-title="Erreur nouvelle compétence" placement="top"
+                                                    overlay={
+                                                        <Popover id="popover-positioned-top">
+                                                            {this.state.error }
+                                                        </Popover>}
+                                    >
+                                        <a href="" className="btn fa fa-plus-square fa-2x" role="button"
+                                           onClick={this.handleSubmit}
+                                           title="Ajouter cette compétence au référentiel"/>
+                                    </OverlayTrigger>
+                                </td>
 
-              <div className="progress"
-                   style={{display: self.props.skillsModel.ajaxLoading ? 'block' : 'none'}}>
-                <div className="progress-bar progress-bar-striped active" role="progressbar"
-                     style={{width: '100%'}}>
+                                {/*<td id="skills-new-skill"*/}
+                                {/*data-placement="top" data-toggle="popover"*/}
+                                {/*data-trigger="manual" data-title="Erreur nouvelle compétence"*/}
+                                {/*data-content={this.state.error}*/}
+                                {/*>*/}
+                                {/*<a href="" className="btn fa fa-plus-square fa-2x" role="button"*/}
+                                {/*onClick={this.handleSubmit}*/}
+                                {/*disabled={self.props.skillsModel.ajaxLoading}*/}
+                                {/*title="Ajouter cette compétence au référentiel" />*/}
+                                {/*</td>*/}
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <div className="progress"
+                             style={{display: self.props.skillsModel.ajaxLoading ? 'block' : 'none'}}>
+                            <div className="progress-bar progress-bar-striped active" role="progressbar"
+                                 style={{width: '100%'}}>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-              </div>
 
             </div>
-          </div>
-
-        </div>
 
 
 
-    );
-  },
+        );
+    },
 
 
-  handleKeyPress: function (event) {
-    if (event.charCode === 13) {
-      this.handleSubmit(event);
+    handleKeyPress: function (event) {
+        if (event.charCode === 13) {
+            this.handleSubmit(event);
+        }
+    },
+
+    handleChange: function (event) {
+        var newState = {};
+        newState[event.target.getAttribute('data-fieldname')] = event.target.value;
+        this.setState(newState);
+    },
+
+
+    handleSubmit: function (event) {
+        const self = this;
+
+        if (self.props.skillsModel.ajaxLoading) return;
+        if (self.state.newSkillShortName && self.state.newSkillDomain && self.state.newSkillType) {
+            self.props.skillsModel.addSkill(self.state.newSkillType, self.state.newSkillDomain, self.state.newSkillShortName, self.state.newSkillFreeComments);
+            self.setState({
+                newSkillType: '',
+                newSkillDomain: '',
+                newSkillShortName: '',
+                newSkillFreeComments: '',
+            });
+        } else {
+            var missingFields = [];
+            if (!self.state.newSkillShortName) missingFields.push('Nom de la compétence');
+            if (!self.state.newSkillDomain) missingFields.push('Domaine');
+            if (!self.state.newSkillType) missingFields.push('Type');
+            self.setState({error: 'Il manque des champs avant de pouvoir ajouter la compétence :\n' + missingFields.join(', ')});
+            // setTimeout(function () {
+            //   $('#skills-new-skill').popover(self.state.error ? 'show' : 'hide');
+            //   setTimeout(function () {
+            //     $('#skills-new-skill').popover('hide');
+            //   }, 5000);
+            // }, 100);
+        }
+
+        event.preventDefault(); // Let's stop this event.
+        event.stopPropagation(); // Really this time.
+    },
+
+    handleNavigateTab: function (event) {
+        this.props.onTabChange(event.target.getAttribute('href'));
+    },
+
+    componentDidMount () {
+
+    },
+
+    missingField() {
+        return (!this.state.newProfilShortName) || (!this.state.newProfilOrga);
     }
-  },
-
-  handleChange: function (event) {
-    var newState = {};
-    newState[event.target.getAttribute('data-fieldname')] = event.target.value;
-    this.setState(newState);
-  },
-
-
-  handleSubmit: function (event) {
-    const self = this;
-    
-    if (self.props.skillsModel.ajaxLoading) return;
-    if (self.state.newSkillShortName && self.state.newSkillDomain && self.state.newSkillType) {
-      self.props.skillsModel.addSkill(self.state.newSkillType, self.state.newSkillDomain, self.state.newSkillShortName, self.state.newSkillFreeComments);
-      self.setState({
-        newSkillType: '',
-        newSkillDomain: '',
-        newSkillShortName: '',
-        newSkillFreeComments: '',
-      });
-    } else {
-      var missingFields = [];
-      if (!self.state.newSkillShortName) missingFields.push('Nom de la compétence');
-      if (!self.state.newSkillDomain) missingFields.push('Domaine');
-      if (!self.state.newSkillType) missingFields.push('Type');
-      self.setState({ error: 'Il manque des champs avant de pouvoir ajouter la compétence :\n' + missingFields.join(', ') });
-      setTimeout(function () {
-        $('#skills-new-skill').popover(self.state.error ? 'show' : 'hide');
-        setTimeout(function () {
-          $('#skills-new-skill').popover('hide');
-        }, 5000);
-      }, 100);
-    }
-
-    event.preventDefault(); // Let's stop this event.
-    event.stopPropagation(); // Really this time.
-  },
-
-  handleNavigateTab: function (event) {
-    this.props.onTabChange(event.target.getAttribute('href'));
-  },
-
-  componentDidMount () {
-
-  },
-
-
 
 });
 export default RefGpecSkills;
