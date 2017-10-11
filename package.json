@@ -29,6 +29,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "insertversion:docker-compose": "sed -i \"s#\\(image: inistcnrs/refgpec:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
+    "insertversion:makefile": "sed -i \"s#\\(inistcnrs/refgpec:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
+    "insertversion:footer": "sed -i \"s#\\(version \\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" src/components/refgpec-home.jsx",
+    "version": "npm run insertversion:docker-compose && npm run insertversion:makefile && npm run insertversion:footer && git add docker-compose.yml Makefile src/components/refgpec-home.jsx",
+    "postversion": "git push && git push --tags"
   }
 }
