@@ -2,15 +2,31 @@
  * Dedicated model for the skills types list
  * in order to facilitate future updates
  */
-
+import axios from 'axios';
 var RefGpecSkillsTypesModel = function (options) {
   const self = this;
 
-  self.orga = {};
+  self.st = {};
   this.initializing = true;
   this.ajaxLoading = false;
   this.onChanges = [];
+    axios.get('/api/skills_types')
+        .then(response => {
 
+            self.st = {};
+            response.data.forEach(item => {
+                self.st[item.st_code] = item;
+            })
+
+            self.initializing = false;
+            self.inform();
+
+        })
+        .catch(err => {
+            console.log('RefGpecSkillsTypesModel error loading data', err);
+        });
+
+/*
   // simulate ajax request
   setTimeout(function () {
     // fake data for debug
@@ -24,7 +40,7 @@ var RefGpecSkillsTypesModel = function (options) {
     self.initializing = false;
     self.inform();
   }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
-
+*/
 };
 
 RefGpecSkillsTypesModel.prototype.subscribe = function (onChange) {
@@ -35,4 +51,4 @@ RefGpecSkillsTypesModel.prototype.inform = function () {
   this.onChanges.forEach(function (cb) { cb(); });
 };
 
-module.exports = RefGpecSkillsTypesModel;
+export default  RefGpecSkillsTypesModel;

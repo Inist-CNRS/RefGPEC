@@ -2,15 +2,29 @@
  * Dedicated model for the skills domains list
  * in order to facilitate future updates
  */
-
+import axios from 'axios';
 var RefGpecSkillsDomainsModel = function (options) {
   const self = this;
 
-  self.orga = {};
+  self.sd = {};
   this.initializing = true;
   this.ajaxLoading = false;
   this.onChanges = [];
+    axios.get('/api/skills_domains')
+        .then(response => {
 
+            self.sd= {};
+            response.data.forEach(item => {
+                self.sd[item.sd_code] = item;
+            })
+
+            self.initializing = false;
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecSkillsTypesModel error loading data', err);
+        });
+/*
   // simulate ajax request
   setTimeout(function () {
     // fake data for debug
@@ -30,7 +44,7 @@ var RefGpecSkillsDomainsModel = function (options) {
     self.initializing = false;
     self.inform();
   }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
-
+*/
 };
 
 RefGpecSkillsDomainsModel.prototype.subscribe = function (onChange) {
@@ -41,4 +55,4 @@ RefGpecSkillsDomainsModel.prototype.inform = function () {
   this.onChanges.forEach(function (cb) { cb(); });
 };
 
-module.exports = RefGpecSkillsDomainsModel;
+export default RefGpecSkillsDomainsModel;

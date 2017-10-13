@@ -1,3 +1,4 @@
+import axios from 'axios';
 var RefGpecSkillsModel = function (options) {
   const self = this;
 
@@ -6,9 +7,27 @@ var RefGpecSkillsModel = function (options) {
   self.ajaxLoading = false;
   self.onChanges = [];
 
-  // simulate ajax request
-  setTimeout(function () {
-    // fake data for debug
+
+
+
+      axios.get('/api/skills')
+          .then(response => {
+
+              self.skills = {};
+              response.data.forEach(item => {
+                  self.skills[item.skill_code] = item;
+              })
+              self.initializing = false;
+              self.inform();
+          })
+          .catch(err => {
+              console.log('RefGpecSkillsModel error loading data', err);
+          });
+
+
+/*
+
+      // fake data for debug
     self.skills = {
       "c-s-lang-1": {
         skillType:      "s",
@@ -38,7 +57,7 @@ var RefGpecSkillsModel = function (options) {
     self.initializing = false;
     self.inform();
   }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
-
+*/
 };
 
 RefGpecSkillsModel.prototype.subscribe = function (onChange) {
@@ -103,4 +122,4 @@ RefGpecSkillsModel.prototype.save = function (skillId, level, cb) {
   }, 1000);  
 };
 
-module.exports = RefGpecSkillsModel;
+export default RefGpecSkillsModel;

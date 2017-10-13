@@ -6,10 +6,10 @@ var RefGpecSkill = React.createClass({
   getInitialState: function () {
     return {
       skillId:           this.props.skillId,
-      skillType:         this.props.skillData.skillType,
-      skillDomain:       this.props.skillData.skillDomain,
-      skillShortName:    this.props.skillData.skillShortName,
-      skillFreeComments: this.props.skillData.skillFreeComments,
+      skillType:         this.props.skillData.st_code,
+      skillDomain:       this.props.skillData.sd_code,
+      skillShortName:    this.props.skillData.skill_shortname,
+      skillFreeComments: this.props.skillData.skill_free_comments,
       mustBeSaved: false,
       error: ''
     };
@@ -27,7 +27,7 @@ var RefGpecSkill = React.createClass({
         {/* ACTION MENU */}
         <td>
           <div className="btn-group">
-            <DropdownButton className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <DropdownButton title=" " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <MenuItem  href="" onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Supprimer la compétence </MenuItem>
               <MenuItem href=""  onClick={this.handleViewAssociatedProfils}> <span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence</MenuItem>
             </DropdownButton>
