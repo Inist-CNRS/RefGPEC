@@ -54,7 +54,7 @@ var RefGpecProfil = React.createClass({
         {/* ACTION MENU */}
         <td>
           <div className="btn-group">
-          <DropdownButton className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <DropdownButton title=" " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <MenuItem  href="" onClick={this.handleOpenProfilSkills}>   <span className="glyphicon glyphicon-list"></span> Associer des compétences à ce profil </MenuItem>
             <MenuItem href=""  onClick={this.handleUpdatePDF}> <span className="fa fa-file-pdf-o"></span> Mettre à jour le PDF du profil </MenuItem>
             <MenuItem  href="" onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Supprimer le profil </MenuItem>

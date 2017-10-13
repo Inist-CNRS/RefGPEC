@@ -4,7 +4,7 @@ var RefGpecProfilSkill = React.createClass({
   displayName: 'RefGpecProfilSkill',
 
   getInitialState: function () {
-    console.log('HELLO', this.props.skillsModel.skills[this.props.psData.psSkillId])
+    //console.log('HELLO', this.props.skillsModel.skills[this.props.psData.psSkillId])
     return {
       psId:           this.props.psId,
       psProfilId:     this.props.psData.psProfilId,
@@ -39,7 +39,7 @@ var RefGpecProfilSkill = React.createClass({
         {/* ACTION MENU */}
         <td>
             <div className="btn-group">
-              <DropdownButton className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <DropdownButton title= " " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <MenuItem  href=""onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Dissocier la compétence du profil </MenuItem>
               </DropdownButton>
 
@@ -59,16 +59,16 @@ var RefGpecProfilSkill = React.createClass({
         {/* INPUT FORMS */}
         <td>
           <span className="label label-warning">
-            {this.props.skillsTypesModel.st[this.props.skillsModel.skills[this.state.psSkillId].skillType].stShortName}
+            {this.props.skillsTypesModel.st[this.props.skillsModel.skills[this.state.psSkillId].st_code].st_shortname}
           </span>
           &nbsp;
           <span className="label label-primary">
-            {this.props.skillsDomainsModel.sd[this.props.skillsModel.skills[this.state.psSkillId].skillDomain].sdShortName}
+            {this.props.skillsDomainsModel.sd[this.props.skillsModel.skills[this.state.psSkillId].sd_code].sd_shortname}
           </span>
         </td>
         <td>
           <span className="btn active" title={this.props.skillsModel.skills[this.state.psSkillId].skillFreeComments}>
-            {this.props.skillsModel.skills[this.state.psSkillId].skillShortName}
+            {this.props.skillsModel.skills[this.state.psSkillId].skill_shortname}
           </span>
         </td>
         <td>

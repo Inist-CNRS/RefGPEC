@@ -25,7 +25,7 @@ var RefGpecLevel = React.createClass({
         {/* ACTION MENU */}
         <td>
           <div className="btn-group">
-            <DropdownButton aria-expanded="false">
+            <DropdownButton title=" " aria-expanded="false">
               <MenuItem  href="" onClick={this.handleDestroy}>  <span className="glyphicon glyphicon-remove"></span> Supprimer la modulation de compétence
               </MenuItem>
             </DropdownButton>
