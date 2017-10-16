@@ -9,7 +9,7 @@ services:
       args:
         - http_proxy
         - https_proxy
-    image: inistcnrs/refgpec:1.0.10
+    image: inistcnrs/refgpec:1.0.11
     links:
       - refgpec-api
     ports:
