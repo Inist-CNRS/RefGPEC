@@ -1,0 +1,6 @@
+{
+  "POSTGRES_DB": "refgpec",
+  "POSTGRES_USER": "refgpec",
+  "POSTGRES_PASSWORD": "gpecsecret",
+  "PGDATA": "/var/lib/postgresql/data"
+}
