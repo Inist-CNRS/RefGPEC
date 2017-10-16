@@ -3,13 +3,13 @@ version: '2'
 services:
 
   refgpec:
-    container_name: refgpec
+    container_name: refgpec-front
     build:
-      context: ./refgpec
+      context: ./refgpec-front
       args:
         - http_proxy
         - https_proxy
-    image: inistcnrs/refgpec:1.0.11
+    image: inistcnrs/refgpec-front:1.0.11
     links:
       - refgpec-api
     ports:

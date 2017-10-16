@@ -2,24 +2,26 @@ version: '2'
 
 services:
 
-  refgpec:
-    container_name: refgpec
+  refgpec-front:
+    container_name: refgpec-front
     image: nginx:1.13.3
     volumes:
-      - ./refgpec/nginx.debug.conf:/etc/nginx/conf.d/default.conf
-      - ./refgpec/logs/:/var/log/nginx
+      - ./refgpec-front/nginx.debug.conf:/etc/nginx/conf.d/default.conf
+      - ./refgpec-front/logs/:/var/log/nginx
     links:
-      - refgpec-cra
+      - refgpec-front-cra
       - refgpec-api
     ports:
       - 8081:80
 
-  refgpec-cra:
-    container_name: refgpec-cra
+  # same as refgpec-front but run the create-react-bootstrap stuff
+  # in debug mode to be able to rebuild things during developement
+  refgpec-front-cra:
+    container_name: refgpec-front-cra
     image: node:6.9.1
     working_dir: /app
     volumes:
-      - ./refgpec:/app
+      - ./refgpec-front:/app
     tty: true
     stdin_open: true  # to be able to use CTRL+C to stop the debug
     command: npm run start
