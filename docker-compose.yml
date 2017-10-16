@@ -4,6 +4,11 @@ services:
 
   refgpec:
     container_name: refgpec
+    build:
+      context: ./refgpec
+      args:
+        - http_proxy
+        - https_proxy
     image: inistcnrs/refgpec:1.0.8
     links:
       - refgpec-api
@@ -12,7 +17,12 @@ services:
 
   refgpec-api:
     container_name: refgpec-api
-    image: postgrest/postgrest:v0.4.3.0
+    build:
+      context: ./refgpec-api
+      args:
+        - http_proxy
+        - https_proxy
+    image: inistcnrs/refgpec-api:1.0.8
     links:
       - refgpec-db:db
     environment:
@@ -23,10 +33,14 @@ services:
 
   refgpec-db:
     container_name: refgpec-db
-    image: postgres:9.6.3
+    build:
+      context: ./refgpec-db
+      args:
+        - http_proxy
+        - https_proxy
+    image: inistcnrs/refgpec-db:1.0.8
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-      - ./sql:/docker-entrypoint-initdb.d/ # to generate automatically table and insert after docker's initialization
+      - ./refgpec-db/data/postgres:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: "refgpec"
       POSTGRES_USER: "refgpec"

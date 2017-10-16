@@ -1,11 +1,5 @@
 .DS_Store
 node_modules
-www/dist/*.js
-www/dist/*.css
-www/src/config.local.js
-www/libs/*
-token.txt
-tmp/
 
 lib-cov
 *.seed
@@ -31,3 +25,5 @@ yarn.lock
 
 data/
 build/
+tmp/
+logs/

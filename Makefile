@@ -20,14 +20,14 @@ install: ## install depedencies thanks to a dockerized npm install
 	@make chown
 
 build: ## build the docker inistcnrs/refgpec image locally
-	@docker build -t inistcnrs/refgpec:1.0.8 --build-arg http_proxy --build-arg https_proxy .
+	@docker-compose build
 
 run-prod: ## run refgpec in production mode
 	@docker-compose -f ./docker-compose.yml up
 
 run-debug: ## run refgpec in debug mode (live regenerate the bundle.js if js are modified on fs)
 	@docker-compose -f ./docker-compose.debug.yml up -d
-	@docker attach refgpec
+	@docker attach refgpec-cra
 
 # makefile rule used to keep current user's unix rights on the docker mounted files
 chown:
