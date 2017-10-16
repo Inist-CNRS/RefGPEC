@@ -1,5 +1,6 @@
 import React from "react";
 import RefGpecSkill from "./refgpec-skill.jsx";
+import RefGpecTypes from "./refgpec-types.jsx";
 import {OverlayTrigger, Popover} from "react-bootstrap";
 var RefGpecSkills = React.createClass({
     displayName: 'RefGpecSkills',
@@ -22,12 +23,16 @@ var RefGpecSkills = React.createClass({
             return null;
         }
 
+
+
+
         let rgSkills = [];
         Object.keys(self.props.skillsModel.skills).forEach(function (key) {
             rgSkills.push(
                 <RefGpecSkill
                     key={key} skillId={key}
                     skillData={self.props.skillsModel.skills[key]}
+                    skillsTypesModel={self.props.skillsTypesModel}
                     onSave={self.props.skillsModel.save.bind(self.props.skillsModel)}
                     onDestroy={self.props.skillsModel.destroy.bind(self.props.skillsModel)}
                     ajaxLoading={self.props.skillsModel.ajaxLoading}
@@ -78,17 +83,11 @@ var RefGpecSkills = React.createClass({
                             <tr className="form-new-skill">
                                 <td></td>
                                 <td>
-                                    <select className="form-control"
-                                            value={this.state.newSkillType}
-                                            data-fieldname="newSkillType"
-                                            onChange={this.handleChange}
-                                            disabled={this.props.skillsModel.ajaxLoading}
-                                    >
-                                        <option value=""></option>
-                                        <option value="sf">Savoir-faire</option>
-                                        <option value="se">Savoir-être</option>
-                                        <option value="s">Savoir</option>
-                                    </select>
+                                    <RefGpecTypes
+                                        skillData={self.props.skillsTypesModel}
+                                        ajaxLoading={self.props.skillsTypesModel.ajaxLoading}
+                                    />
+
                                 </td>
                                 <td>
                                     <select className="form-control"

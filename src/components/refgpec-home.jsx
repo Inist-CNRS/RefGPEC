@@ -1,6 +1,6 @@
 import React         from 'react';
 import $ from 'jquery';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import RefGpecIndex         from './refgpec-index.jsx';
 import RefGpecProfilsSkills from './refgpec-profils-skills.jsx';
 import RefGpecProfils       from './refgpec-profils.jsx';
@@ -86,6 +86,8 @@ var RefGpecHome = React.createClass({
       <RefGpecSkills
         key="4"
         skillsModel={this.props.skillsModel}
+        skillsTypesModel={this.props.skillsTypesModel}
+        skillsDomainsModel={this.props.skillsDomainsModel}
         onTabChange={this.doTabChange} />
     );
 
