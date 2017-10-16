@@ -1,6 +1,6 @@
 {
   "name": "refgpec",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Application de gestion d'un référentiel de profils/compétences pour une démarche GPEC",
   "contributors": [
     {
@@ -14,8 +14,7 @@
   ],
   "license": "MIT",
   "private": true,
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
     "insertversion:docker-compose": "sed -i \"s#\\(image: inistcnrs/refgpec:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
     "insertversion:makefile": "sed -i \"s#\\(inistcnrs/refgpec:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
