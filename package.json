@@ -1,0 +1,27 @@
+{
+  "name": "refgpec",
+  "version": "1.0.8",
+  "description": "Application de gestion d'un référentiel de profils/compétences pour une démarche GPEC",
+  "contributors": [
+    {
+      "name": "Stéphane Gully",
+      "url": "https://github.com/kerphi"
+    },
+    {
+      "name": "Jimmy Falck",
+      "url": "https://github.com/jimmojito"
+    }
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+  },
+  "scripts": {
+    "insertversion:docker-compose": "sed -i \"s#\\(image: inistcnrs/refgpec:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
+    "insertversion:makefile": "sed -i \"s#\\(inistcnrs/refgpec:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
+    "insertversion:footer": "sed -i \"s#\\(version \\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" refgpec/src/components/refgpec-home.jsx",
+    "insertversion:package": "sed -i \"s#\\(\"version\": \\)\\(\"[\\.a-z0-9]\\+\"\\)#\\1$\"{npm_package_version}\"#g\" refgpec/package.json",
+    "version": "npm run insertversion:docker-compose && npm run insertversion:makefile && npm run insertversion:footer && git add docker-compose.yml Makefile refgpec/src/components/refgpec-home.jsx",
+    "postversion": "git push && git push --tags"
+  }
+}
