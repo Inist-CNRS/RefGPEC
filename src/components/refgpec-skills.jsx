@@ -1,6 +1,7 @@
 import React from "react";
 import RefGpecSkill from "./refgpec-skill.jsx";
 import RefGpecTypes from "./refgpec-types.jsx";
+import RefGpecDomains from './refgpec-domains';
 import {OverlayTrigger, Popover} from "react-bootstrap";
 var RefGpecSkills = React.createClass({
     displayName: 'RefGpecSkills',
@@ -33,6 +34,7 @@ var RefGpecSkills = React.createClass({
                     key={key} skillId={key}
                     skillData={self.props.skillsModel.skills[key]}
                     skillsTypesModel={self.props.skillsTypesModel}
+                    skillsDomainsModel={self.props.skillsDomainsModel}
                     onSave={self.props.skillsModel.save.bind(self.props.skillsModel)}
                     onDestroy={self.props.skillsModel.destroy.bind(self.props.skillsModel)}
                     ajaxLoading={self.props.skillsModel.ajaxLoading}
@@ -90,23 +92,10 @@ var RefGpecSkills = React.createClass({
 
                                 </td>
                                 <td>
-                                    <select className="form-control"
-                                            value={this.state.newSkillDomain}
-                                            data-fieldname="newSkillDomain"
-                                            onChange={this.handleChange}
-                                            disabled={this.props.skillsModel.ajaxLoading}
-                                    >
-                                        <option value=""></option>
-                                        <option value="gen">Général</option>
-                                        <option value="comm">Communication</option>
-                                        <option value="geadmin">Gestion administrative</option>
-                                        <option value="info">Informatique</option>
-                                        <option value="inist">Inist-CNRS</option>
-                                        <option value="ist">IST</option>
-                                        <option value="lang">Langues</option>
-                                        <option value="manag">Management</option>
-                                        <option value="outils">Outils</option>
-                                    </select>
+                                    <RefGpecDomains
+                                        skillData={self.props.skillsDomainsModel}
+                                        ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
+                                    />
                                 </td>
                                 <td>
                                     <input className="form-control" type="text"

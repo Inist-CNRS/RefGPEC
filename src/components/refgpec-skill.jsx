@@ -1,6 +1,7 @@
 import React from 'react';
 import {DropdownButton,MenuItem} from 'react-bootstrap';
 import RefGpecTypes from "./refgpec-types.jsx";
+import RefGpecDomains from './refgpec-domains';
 var RefGpecSkill = React.createClass({
   displayName: 'RefGpecSkill',
 
@@ -64,23 +65,12 @@ var RefGpecSkill = React.createClass({
             />
         </td>
         <td>
-          <select className="form-control"
-            value={this.state.skillDomain}
-            data-fieldname="skillDomain"
-            onChange={this.handleChange}
-            onBlur={this.handleSubmit}
-            readOnly={this.props.ajaxLoading}
-          >
-            <option value="gen">Général</option>
-            <option value="comm">Communication</option>
-            <option value="geadmin">Gestion administrative</option>
-            <option value="info">Informatique</option>
-            <option value="inist">Inist-CNRS</option>
-            <option value="ist">IST</option>
-            <option value="lang">Langues</option>
-            <option value="manag">Management</option>
-            <option value="outils">Outils</option>
-          </select>
+           <RefGpecDomains
+                skillData={this.props.skillsDomainsModel}
+                skillsTypesModel={this.props.skillsDomainsModel}
+                ajaxLoading={this.props.skillsDomainsModel.ajaxLoading}
+                value={this.state.skillDomain}
+            />
         </td>
         <td>
           <input className="form-control" type="text"
