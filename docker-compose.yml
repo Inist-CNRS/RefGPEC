@@ -2,6 +2,7 @@ version: '2'
 
 services:
 
+  # RefGPEC frontend (ReactJS app)
   refgpec-front:
     container_name: refgpec-front
     build:
@@ -15,6 +16,7 @@ services:
     ports:
       - 8081:80
 
+  # RefGPEC API (PostgREST API)
   refgpec-api:
     container_name: refgpec-api
     build:
@@ -31,6 +33,7 @@ services:
       PGRST_DB_ANON_ROLE: web_anon
       PGRST_SERVER_PROXY_URI: http://127.0.0.1:3000/api/
 
+  # RefGPEC database (PostgreSQL database)
   refgpec-db:
     container_name: refgpec-db
     build:
@@ -47,6 +50,7 @@ services:
       POSTGRES_PASSWORD: "gpecsecret"
       PGDATA: "/var/lib/postgresql/data"
 
+  # RefGPEC database admin backoffice (pgadmin4)
   refgpec-db-admin:
     container_name: refgpec-db-admin
     image: fenglc/pgadmin4:1.6

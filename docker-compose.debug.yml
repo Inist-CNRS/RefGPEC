@@ -2,6 +2,7 @@ version: '2'
 
 services:
 
+  # RefGPEC frontend (ReactJS app)
   refgpec-front:
     container_name: refgpec-front
     image: nginx:1.13.3
@@ -28,6 +29,21 @@ services:
     stdin_open: true  # to be able to use CTRL+C to stop the debug
     command: npm run start
 
+  # RefGPEC API (PostgREST API)
+  refgpec-api:
+    container_name: refgpec-api
+    image: postgrest/postgrest:v0.4.3.0
+    ports:
+      - 3000:3000
+    links:
+      - refgpec-db:db
+    environment:
+      PGRST_DB_URI: postgres://refgpec:gpecsecret@refgpec-db:5432/refgpec
+      PGRST_DB_SCHEMA: public
+      PGRST_DB_ANON_ROLE: web_anon
+      PGRST_SERVER_PROXY_URI: http://127.0.0.1:3000/api/
+
+  # RefGPEC database (PostgreSQL database)
   refgpec-db:
     container_name: refgpec-db
     image: postgres:9.6.3
@@ -42,6 +58,7 @@ services:
     ports:
       - 5432:5432
 
+  # RefGPEC database admin backoffice (pgadmin4)
   refgpec-db-admin:
     container_name: refgpec-db-admin
     image: fenglc/pgadmin4:1.6
@@ -52,17 +69,4 @@ services:
       - 5050:5050
     links:
       - refgpec-db
-
-  refgpec-api:
-    container_name: refgpec-api
-    image: postgrest/postgrest:v0.4.3.0
-    ports:
-      - 3000:3000
-    links:
-      - refgpec-db:db
-    environment:
-      PGRST_DB_URI: postgres://refgpec:gpecsecret@refgpec-db:5432/refgpec
-      PGRST_DB_SCHEMA: public
-      PGRST_DB_ANON_ROLE: web_anon
-      PGRST_SERVER_PROXY_URI: http://127.0.0.1:3000/api/
 
