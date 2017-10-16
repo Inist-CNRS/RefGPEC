@@ -2,7 +2,7 @@ version: '2'
 
 services:
 
-  refgpec:
+  refgpec-front:
     container_name: refgpec-front
     build:
       context: ./refgpec-front
