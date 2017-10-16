@@ -16,7 +16,7 @@
   "private": true,
   "dependencies": {},
   "scripts": {
-    "insertversion:docker-compose": "sed -i \"s#\\(image: inistcnrs/refgpec:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
+    "insertversion:docker-compose": "sed -i \"s#\\(image: inistcnrs/refgpec-[a-z]\\+:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
     "insertversion:makefile": "sed -i \"s#\\(inistcnrs/refgpec:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
     "insertversion:footer": "sed -i \"s#\\(version \\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" refgpec-front/src/components/refgpec-home.jsx",
     "insertversion:package": "sed -i \"s#\\(\\\"version\\\": \\)\\(\\\"[\\.a-z0-9]\\+\\\"\\)#\\1\\\"${npm_package_version}\\\"#g\" refgpec-front/package.json",
