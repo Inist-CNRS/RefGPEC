@@ -13,6 +13,8 @@ services:
       - refgpec-api
     ports:
       - 8081:80
+    tty: true
+    stdin_open: true  # to be able to use CTRL+C to stop the debug
 
   # same as refgpec-front but run the create-react-bootstrap stuff
   # in debug mode to be able to rebuild things during developement
