@@ -26,7 +26,8 @@ COPY ./nginx.prod.conf /etc/nginx/conf.d/default.conf
 # see https://github.com/Inist-CNRS/ezmaster
 RUN echo '{ \
   "httpPort": 80, \
-  "configPath": "/app/config.json" \
+  "configPath": "/etc/nginx/conf.d/default.conf", \
+  "configType": "text" \
 }' > /etc/ezmaster.json
 
 COPY --from=build-deps /app/build /app/build
