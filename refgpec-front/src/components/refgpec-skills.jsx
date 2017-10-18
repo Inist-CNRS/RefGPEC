@@ -40,7 +40,6 @@ var RefGpecSkills = React.createClass({
                     ajaxLoading={self.props.skillsModel.ajaxLoading}
                 />);
         });
-
         return (
 
             <div id="skills">
@@ -79,8 +78,6 @@ var RefGpecSkills = React.createClass({
                             <tbody>
 
                             {rgSkills}
-
-
                             {/* FORM USED TO CREATE A NEW SKILL */}
                             <tr className="form-new-skill">
                                 <td></td>
@@ -88,6 +85,9 @@ var RefGpecSkills = React.createClass({
                                     <RefGpecTypes
                                         skillData={self.props.skillsTypesModel}
                                         ajaxLoading={self.props.skillsTypesModel.ajaxLoading}
+                                        data-fieldname="newSkillType"
+                                        onChange={this.handleTypeChange}
+                                        value={this.state.newSkillType}
                                     />
 
                                 </td>
@@ -95,6 +95,9 @@ var RefGpecSkills = React.createClass({
                                     <RefGpecDomains
                                         skillData={self.props.skillsDomainsModel}
                                         ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
+                                        data-fieldname="newSkillDomain"
+                                        onChange={this.handleDomainChange}
+                                        value={this.state.newSkillDomain}
                                     />
                                 </td>
                                 <td>
@@ -170,12 +173,17 @@ var RefGpecSkills = React.createClass({
         }
     },
 
+    handleTypeChange: function (event) {
+      this.setState({newSkillType:event});
+    },
+    handleDomainChange: function (event) {
+        this.setState({newSkillDomain:event});
+    },
     handleChange: function (event) {
         var newState = {};
         newState[event.target.getAttribute('data-fieldname')] = event.target.value;
         this.setState(newState);
     },
-
 
     handleSubmit: function (event) {
         const self = this;
@@ -205,6 +213,7 @@ var RefGpecSkills = React.createClass({
 
         event.preventDefault(); // Let's stop this event.
         event.stopPropagation(); // Really this time.
+
     },
 
     handleNavigateTab: function (event) {

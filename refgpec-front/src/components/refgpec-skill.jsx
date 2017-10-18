@@ -18,7 +18,6 @@ var RefGpecSkill = React.createClass({
   },
 
   render: function () {
-
     return (
  
       <tr id={this.state.skillId}
@@ -57,20 +56,25 @@ var RefGpecSkill = React.createClass({
       {/* INPUT FORMS */}
         <td>
 
-            <RefGpecTypes
-                skillData={this.props.skillsTypesModel}
-                skillsTypesModel={this.props.skillsTypesModel}
-                ajaxLoading={this.props.skillsTypesModel.ajaxLoading}
-                value={this.state.skillType}
-            />
+          <RefGpecTypes
+              skillData={this.props.skillsTypesModel}
+              ajaxLoading={this.props.skillsTypesModel.ajaxLoading}
+              data-fieldname="SkillType"
+              onChange={this.handleTypeChange}
+              value={this.state.skillType}
+
+          />
+
         </td>
+
         <td>
-           <RefGpecDomains
-                skillData={this.props.skillsDomainsModel}
-                skillsTypesModel={this.props.skillsDomainsModel}
-                ajaxLoading={this.props.skillsDomainsModel.ajaxLoading}
-                value={this.state.skillDomain}
-            />
+          <RefGpecDomains
+              skillData={this.props.skillsDomainsModel}
+              ajaxLoading={this.props.skillsDomainsModel.ajaxLoading}
+              data-fieldname="SkillDomain"
+              onChange={this.handleDomainChange}
+              value={this.state.skillDomain}
+          />
         </td>
         <td>
           <input className="form-control" type="text"
@@ -117,22 +121,18 @@ var RefGpecSkill = React.createClass({
     }
   },
 
-  handleChange: function (event) {
-    console.log('skill.handleChange')
+    handleTypeChange: function (event) {
+        this.setState({skillType:event});
+    },
+    handleDomainChange: function (event) {
+        this.setState({skillDomain:event});
+    },
+    handleChange: function (event) {
+        var newState = {};
+        newState[event.target.getAttribute('data-fieldname')] = event.target.value;
+        this.setState(newState);
+    },
 
-    // if it's a change in a select box,
-    // tells the component to save data soon
-    if (event.target.tagName === 'SELECT') {
-      this.setState({ mustBeSaved: true });
-    } else if (event.target.value !== this.state[event.target.getAttribute('data-fieldname')]) {
-      console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
-      this.setState({ mustBeSaved: true });
-    }
-
-    var newState = {};
-    newState[event.target.getAttribute('data-fieldname')] = event.target.value;
-    this.setState(newState);
-  },
 
   handleDestroy: function (event) {
     event.preventDefault(); // Let's stop this event.

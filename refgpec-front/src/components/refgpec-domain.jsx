@@ -7,7 +7,6 @@ var RefGpecDomain = React.createClass({
     return {
       sd_code: this.props.skillData.sd_code,
       sd_shortname: this.props.skillData.sd_shortname,
-      mustBeSaved: false,
       error: ''
       };
   },
@@ -18,22 +17,6 @@ var RefGpecDomain = React.createClass({
            <option value={this.state.sd_code}>{this.state.sd_shortname}</option>
 
     );
-  },
-
-  handleSubmit: function (event) {
-
-  },
-
-  handleChange: function (event) {
-
-  },
-
-  handleDestroy: function (event) {
-
-  },
-
-  handleViewAssociatedProfils: function (event) {
-
   },
 
   componentDidMount () {

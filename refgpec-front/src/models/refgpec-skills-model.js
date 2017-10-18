@@ -24,7 +24,6 @@ var RefGpecSkillsModel = function (options) {
               console.log('RefGpecSkillsModel error loading data', err);
           });
 
-
 /*
 
       // fake data for debug
@@ -60,6 +59,11 @@ var RefGpecSkillsModel = function (options) {
 */
 };
 
+function postSkills(skill_code,skill_shortname,skill_free_comments,sd_code,st_code){
+    console.log("TEST");
+
+}
+
 RefGpecSkillsModel.prototype.subscribe = function (onChange) {
   this.onChanges.push(onChange);
 };
@@ -69,22 +73,37 @@ RefGpecSkillsModel.prototype.inform = function () {
 };
 
 
-RefGpecSkillsModel.prototype.addSkill = function (skillType, skillDomain, skillShortName, skillFreeComments, cb) {
+RefGpecSkillsModel.prototype.addSkill = function (st_code, sd_code, skill_shortname, skill_free_comments, cb) {
   var self = this;
   self.ajaxLoading = true;
 
   // filter other skills family to have a correct numeric id
   var codes = Object.keys(self.skills).filter(function (elt) {
-    return (elt.indexOf('c-' + skillType + '-' + skillDomain) === 0)
+    return (elt.indexOf('c-' + st_code + '-' + sd_code) === 0)
   });
-  var newCode = 'c-' + skillType + '-' + skillDomain + '-1';
+  var skill_code = 'c-' + st_code + '-' + sd_code + '-1';
   // add +1 to the id if more than one skill in this type/domain
   if (codes.length > 0) {
     var lastCode = codes[codes.length - 1];
     var lastCodeSplitted = lastCode.split('-');
-    newCode  = 'c-' + skillType + '-' + skillDomain + '-' + (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
+      skill_code  = 'c-' + st_code + '-' + sd_code + '-' + (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
   }
-  self.skills[newCode] = { skillType, skillDomain, skillShortName, skillFreeComments };
+
+    axios.post('/api/skills', {
+        skill_code: skill_code,
+        skill_shortname: skill_shortname,
+        skill_free_comments : skill_free_comments,
+        sd_code :sd_code,
+        st_code : st_code
+    })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+  self.skills[skill_code] = { skill_code,skill_shortname,skill_free_comments,sd_code,st_code};
   self.inform();
 
   setTimeout(function () { // simulate AJAX request
@@ -93,6 +112,8 @@ RefGpecSkillsModel.prototype.addSkill = function (skillType, skillDomain, skillS
     return cb && cb(null);
   }, 5000);
 };
+
+
 
 RefGpecSkillsModel.prototype.destroy = function (skillId, cb) {
   var self = this;

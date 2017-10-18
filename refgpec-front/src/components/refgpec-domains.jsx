@@ -28,7 +28,6 @@ var RefGpecDomains = React.createClass({
     return (
             <select className="form-control"
                     value={self.props.value}
-                    data-fieldname="newSkillDomains"
                     onChange={this.handleChange}
                     readOnly={this.props.ajaxLoading}
             >
@@ -39,6 +38,7 @@ var RefGpecDomains = React.createClass({
   },
 
   handleChange: function (event) {
+    this.props.onChange(event.target.value);
   },
 
   handleDestroy: function (event) {

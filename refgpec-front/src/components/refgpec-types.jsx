@@ -5,7 +5,6 @@ var RefGpecTypes = React.createClass({
 
   getInitialState: function () {
     return {
-      mustBeSaved: false,
       error: '',
       st_code: this.props.skillData.st,
     };
@@ -28,9 +27,8 @@ var RefGpecTypes = React.createClass({
     return (
             <select className="form-control"
                     value={self.props.value}
-                    data-fieldname="newSkillTypes"
-                    onChange={this.handleChange}
-                    readOnly={this.props.ajaxLoading}
+                    onChange={self.handleChange}
+                    readOnly={self.props.ajaxLoading}
             >
                 <option></option>
                 {rgTypes}
@@ -39,20 +37,8 @@ var RefGpecTypes = React.createClass({
   },
 
   handleChange: function (event) {
-    console.log('skill.handleChange')
+    this.props.onChange(event.target.value);
 
-        // if it's a change in a select box,
-        // tells the component to save data soon
-    if (event.target.tagName === 'SELECT') {
-      this.setState({ mustBeSaved: true });
-    } else if (event.target.value !== this.state[event.target.getAttribute('data-fieldname')]) {
-      console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
-      this.setState({ mustBeSaved: true });
-    }
-
-    let newState = {};
-    newState[event.target.getAttribute('data-fieldname')] = event.target.value;
-    this.setState(newState);
   },
 
     handleDestroy: function (event) {
