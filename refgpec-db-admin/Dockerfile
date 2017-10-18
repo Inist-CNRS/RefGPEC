@@ -1,4 +1,4 @@
-FROM fenglc/pgadmin4:1.6
+FROM fenglc/pgadmin4:2.0
 
 # need jq to parse JSON
 RUN apk update && apk add jq

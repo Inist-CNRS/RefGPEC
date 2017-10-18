@@ -61,7 +61,7 @@ services:
   # RefGPEC database admin backoffice (pgadmin4)
   refgpec-db-admin:
     container_name: refgpec-db-admin
-    image: fenglc/pgadmin4:1.6
+    image: fenglc/pgadmin4:2.0
     environment:
       DEFAULT_USER: "gpec@inist.fr"
       DEFAULT_PASSWORD: "gpecsecret"
