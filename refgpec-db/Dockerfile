@@ -4,8 +4,10 @@ FROM postgres:9.6.3
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y update && apt-get -y install jq
 
-COPY ./sql/* /docker-entrypoint-initdb.d/
 COPY config.json /
+RUN mkdir -p /docker-entrypoint-initdb2.d/
+COPY ./sql/* /docker-entrypoint-initdb2.d/
+COPY docker-entrypoint.initdb2.d-loader.sh /usr/local/bin/
 COPY docker-entrypoint.overload.sh /usr/local/bin/
 
 # ezmasterization of refgpec
