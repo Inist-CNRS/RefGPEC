@@ -33,14 +33,27 @@ RefGpecLevelsModel.prototype.inform = function () {
   this.onChanges.forEach(function (cb) { cb(); });
 };
 
-RefGpecLevelsModel.prototype.addLevel = function (levelShortName, levelFreeComments, cb) {
+RefGpecLevelsModel.prototype.addLevel = function (level_shortname, level_free_comments, cb) {
   var self = this;
   self.ajaxLoading = true;
 
   var codes    = Object.keys(self.levels);
   var lastCode = codes[codes.length - 1];
-  var newCode  = 'm-' + (parseInt(lastCode.split('-')[1], 10) + 1);
-  self.levels[newCode] = { levelShortName, levelFreeComments };
+  var level_code  = 'm-' + (parseInt(lastCode.split('-')[1], 10) + 1);
+  var level_number = level_code.substring(2);
+    axios.post('/api/levels', {
+        level_code: level_code,
+        level_number : level_number,
+        level_shortname: level_shortname,
+        level_free_comments:level_free_comments
+    })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+  self.levels[level_code] = {level_code,level_number,level_shortname, level_free_comments };
   self.inform();
 
   setTimeout(function () { // simulate AJAX request
