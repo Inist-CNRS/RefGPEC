@@ -16,7 +16,7 @@ ifneq "$(SUPPORTS_MAKE_ARGS)" ""
 endif
 
 install: ## install npm depedencies thanks to a dockerized npm install
-	@docker run -it --rm -v $$(pwd)/refgpec-front:/app -w /app --net=host -e NODE_ENV -e http_proxy -e https_proxy node:6.9.1 npm install -q
+	@docker run -it --rm -v $$(pwd)/refgpec-front:/app -w /app --net=host -e NODE_ENV -e http_proxy -e https_proxy node:8.7.0 npm install -q
 	@make chown
 
 build: ## build the docker images locally needed by refgpec application
@@ -32,10 +32,10 @@ run-debug: ## run refgpec in debug mode (live regenerate the bundle.js if js are
 
 # makefile rule used to keep current user's unix rights on the docker mounted files
 chown:
-	@test ! -d $$(pwd)/refgpec-front/node_modules || docker run -it --rm --net=host -v $$(pwd):/app node:6.9.1 chown -R $$(id -u):$$(id -g) /app/
+	@test ! -d $$(pwd)/refgpec-front/node_modules || docker run -it --rm --net=host -v $$(pwd):/app node:8.7.0 chown -R $$(id -u):$$(id -g) /app/
 
 lint: ## checks the coding rules (in a dockerized process)
-	@docker run -it --rm -v $$(pwd)/refgpec-front:/app -w /app -e NODE_ENV -e http_proxy -e https_proxy node:6.9.1 npm lint
+	@docker run -it --rm -v $$(pwd)/refgpec-front:/app -w /app -e NODE_ENV -e http_proxy -e https_proxy node:8.7.0 npm lint
 
 version: ## creates a new version (same way npm version works)
 ifdef COMMAND_ARGS
