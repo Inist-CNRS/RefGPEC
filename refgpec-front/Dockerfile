@@ -1,5 +1,5 @@
 # build the ReactJS app (with create-react-app build tool)
-FROM node:6.9.1 as build-deps
+FROM node:8.7.0 as build-deps
 WORKDIR /app/
 COPY ./package.json /app/
 RUN npm install
