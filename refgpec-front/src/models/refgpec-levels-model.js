@@ -80,6 +80,19 @@ RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
 RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {
   var self = this;
   self.ajaxLoading = true;
+console.log(data);
+    axios.patch('/api/levels?level_code=eq.'+levelId,{
+        level_code: data.levelId,
+        level_number:data.levelNumber,
+        level_shortname: data.levelShortName,
+        level_free_comments : data.levelFreeComments,
+
+    }) .then(function (response) {
+        console.log(response);
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
 
   self.levels[levelId] = data;
   self.inform();

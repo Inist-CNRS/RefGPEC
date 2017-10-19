@@ -6,6 +6,7 @@ var RefGpecLevel = React.createClass({
   getInitialState: function () {
     return {
       levelId:           this.props.levelData.level_code,
+      levelNumber:           this.props.levelData.level_number,
       levelShortName:    this.props.levelData.level_shortname,
       levelFreeComments: this.props.levelData.level_free_comments,
       mustBeSaved: false,
