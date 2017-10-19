@@ -2,5 +2,7 @@
   "POSTGRES_DB": "refgpec",
   "POSTGRES_USER": "refgpec",
   "POSTGRES_PASSWORD": "gpecsecret",
-  "PGDATA": "/var/lib/postgresql/data"
+  "PGDATA": "/var/lib/postgresql/data",
+  "PGDUMP_EACH_NBHOURS": 24,
+  "PGDUMP_CLEANUP_MORE_THAN_NBDAYS": 30
 }
