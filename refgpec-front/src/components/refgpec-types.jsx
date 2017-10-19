@@ -28,7 +28,8 @@ var RefGpecTypes = React.createClass({
             <select className="form-control"
                     value={self.props.value}
                     onChange={self.handleChange}
-                    readOnly={self.props.ajaxLoading}
+                    readOnly={self.props.readOnly}
+                    disabled={this.props.disabled}
             >
                 <option></option>
                 {rgTypes}

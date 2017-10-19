@@ -29,7 +29,8 @@ var RefGpecDomains = React.createClass({
             <select className="form-control"
                     value={self.props.value}
                     onChange={this.handleChange}
-                    readOnly={this.props.ajaxLoading}
+                    readOnly={this.props.readOnly}
+                    disabled={this.props.disabled}
             >
                 <option></option>
                 {rgDomains}

@@ -59,10 +59,6 @@ var RefGpecSkillsModel = function (options) {
 */
 };
 
-function postSkills(skill_code,skill_shortname,skill_free_comments,sd_code,st_code){
-    console.log("TEST");
-
-}
 
 RefGpecSkillsModel.prototype.subscribe = function (onChange) {
   this.onChanges.push(onChange);
@@ -132,6 +128,19 @@ RefGpecSkillsModel.prototype.destroy = function (skillId, cb) {
 RefGpecSkillsModel.prototype.save = function (skillId, level, cb) {
   var self = this;
   self.ajaxLoading = true;
+
+    axios.patch('/api/skills?skill_code=eq.'+skillId,{
+            skill_code: skillId,
+            skill_shortname: level.skillShortName,
+            skill_free_comments : level.skillFreeComments,
+            sd_code :level.skillDomain,
+            st_code : level.skillType
+        }) .then(function (response) {
+        console.log(response);
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
 
   self.skills[skillId] = level;
   self.inform();

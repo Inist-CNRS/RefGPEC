@@ -196,6 +196,7 @@ var RefGpecSkills = React.createClass({
                 newSkillDomain: '',
                 newSkillShortName: '',
                 newSkillFreeComments: '',
+                error: ''
             });
         } else {
             var missingFields = [];

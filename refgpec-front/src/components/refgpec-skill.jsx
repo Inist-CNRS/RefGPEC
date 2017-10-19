@@ -58,11 +58,12 @@ var RefGpecSkill = React.createClass({
 
           <RefGpecTypes
               skillData={this.props.skillsTypesModel}
-              ajaxLoading={this.props.skillsTypesModel.ajaxLoading}
+              ajaxLoading={true}
               data-fieldname="SkillType"
-              onChange={this.handleTypeChange}
+              readOnly="readonly"
               value={this.state.skillType}
-
+              onChange={this.handleChange}
+              disabled="disabled"
           />
 
         </td>
@@ -70,10 +71,12 @@ var RefGpecSkill = React.createClass({
         <td>
           <RefGpecDomains
               skillData={this.props.skillsDomainsModel}
-              ajaxLoading={this.props.skillsDomainsModel.ajaxLoading}
+              ajaxLoading={true}
               data-fieldname="SkillDomain"
-              onChange={this.handleDomainChange}
+              readOnly="readonly"
               value={this.state.skillDomain}
+              onChange={this.handleChange}
+              disabled="disabled"
           />
         </td>
         <td>
@@ -91,7 +94,7 @@ var RefGpecSkill = React.createClass({
             placeholder="Commentaires libres"
             value={this.state.skillFreeComments}
             data-fieldname="skillFreeComments"
-            onChange={this.handleChange}
+            onChange={this.handleChangeComm}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           />
@@ -106,31 +109,26 @@ var RefGpecSkill = React.createClass({
 
     );
   },
+    handleChange: function (event) {
+
+    },
 
   handleSubmit: function (event) {
     if (this.state.mustBeSaved) {
-      this.props.onSave(this.state.skillId, this.state.item);
+      this.props.onSave(this.state.skillId, this.state);
       this.setState({ mustBeSaved: false });
-    
-      // // display or hide a nice popover to show the error
-      // const self = this;
-      // self.setState({ error: 'saving... demo error msg' });
-      // setTimeout(function () {
-      //   $('#' + self.state.skillId).popover(self.state.error ? 'show' : 'hide');
-      // }, 100);
+
     }
   },
 
-    handleTypeChange: function (event) {
-        this.setState({skillType:event});
+    handleChangeSkill: function (event) {
+
+        this.setState({skillShortName:event.target.value});
+        this.setState({ mustBeSaved: true });
     },
-    handleDomainChange: function (event) {
-        this.setState({skillDomain:event});
-    },
-    handleChange: function (event) {
-        var newState = {};
-        newState[event.target.getAttribute('data-fieldname')] = event.target.value;
-        this.setState(newState);
+    handleChangeComm: function (event) {
+        this.setState({skillFreeComments:event.target.value});
+        this.setState({ mustBeSaved: true });
     },
 
 
