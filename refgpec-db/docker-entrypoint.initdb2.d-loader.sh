@@ -16,12 +16,12 @@ echo ""
 # and load SQL when needed
 for SQLFILE in /docker-entrypoint-initdb2.d/*.sql; do
   SQLFILENAME=$(basename ${SQLFILE})
-  if [ ! -f /${SQLFILENAME}.loaded ]; then
-    echo "Loading -> $SQLFILE"
-    touch /${SQLFILENAME}.loaded
+  if [ ! -f $PGDATA/${SQLFILENAME}.loaded ]; then
+    echo "Loading -> $SQLFILENAME"
+    touch $PGDATA/${SQLFILENAME}.loaded
     cat $SQLFILE | psql -v ON_ERROR_STOP=1 --username $POSTGRES_USER --dbname $POSTGRES_DB
     sleep 1
   else
-    echo "Skipping -> $SQLFILE (already loaded)"
+    echo "Skipping -> $SQLFILENAME (already loaded)"
   fi
 done
