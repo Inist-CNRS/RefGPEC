@@ -67,9 +67,15 @@ RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
   var self = this;
   self.ajaxLoading = true;
 
+  axios.delete('/api/levels?level_code=eq.'+levelId)
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
   delete self.levels[levelId];
   self.inform();
-
   setTimeout(function () { // simulate AJAX request
     self.ajaxLoading = false;
     self.inform();
@@ -80,7 +86,6 @@ RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
 RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {
   var self = this;
   self.ajaxLoading = true;
-console.log(data);
     axios.patch('/api/levels?level_code=eq.'+levelId,{
         level_code: data.levelId,
         level_number:data.levelNumber,
