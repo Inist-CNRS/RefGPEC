@@ -15,9 +15,10 @@ echo ""
 # loop over not yet loaded sql contained in /docker-entrypoint-initdb2.d/
 # and load SQL when needed
 for SQLFILE in /docker-entrypoint-initdb2.d/*.sql; do
-  if [ ! -f ${SQLFILE}.loaded ]; then
+  SQLFILENAME=$(basename ${SQLFILE})
+  if [ ! -f /${SQLFILENAME}.loaded ]; then
     echo "Loading -> $SQLFILE"
-    touch ${SQLFILE}.loaded
+    touch /${SQLFILENAME}.loaded
     cat $SQLFILE | psql -v ON_ERROR_STOP=1 --username $POSTGRES_USER --dbname $POSTGRES_DB
     sleep 1
   else
