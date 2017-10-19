@@ -1,23 +1,19 @@
-FROM postgres:9.6.3
+FROM fenglc/pgadmin4:2.0
 
 # need jq to parse JSON
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get -y update && apt-get -y install jq
+RUN apk update && apk add jq
 
 COPY config.json /
-RUN mkdir -p /docker-entrypoint-initdb2.d/
-COPY ./sql/* /docker-entrypoint-initdb2.d/
-COPY docker-entrypoint.initdb2.d-loader.sh /usr/local/bin/
 COPY docker-entrypoint.overload.sh /usr/local/bin/
 
 # ezmasterization of refgpec
 # see https://github.com/Inist-CNRS/ezmaster
 # notice: httpPort is useless here but as ezmaster require it (v3.8.1) we just add a wrong port number
 RUN echo '{ \
-  "httpPort": 80, \
+  "httpPort": 5050, \
   "configPath": "/config.json", \
   "configType": "json" \
 }' > /etc/ezmaster.json
 
 ENTRYPOINT [ "docker-entrypoint.overload.sh" ]
-CMD [ "postgres" ]
+CMD [ "pgadmin4" ]
