@@ -115,6 +115,13 @@ RefGpecSkillsModel.prototype.destroy = function (skillId, cb) {
   var self = this;
   self.ajaxLoading = true;
 
+  axios.delete('/api/skills?skill_code=eq.'+skillId)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
   delete self.skills[skillId];
   self.inform();
 
