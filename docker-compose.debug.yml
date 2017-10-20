@@ -9,6 +9,7 @@ services:
     volumes:
       - ./refgpec-front/nginx.debug.conf:/etc/nginx/conf.d/default.conf
       - ./refgpec-front/logs/:/var/log/nginx
+      - ./refgpec-front:/app
     links:
       - refgpec-front-cra
       - refgpec-api
