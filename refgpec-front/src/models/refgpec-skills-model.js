@@ -79,6 +79,7 @@ RefGpecSkillsModel.prototype.addSkill = function (st_code, sd_code, skill_shortn
   });
   var skill_code = 'c-' + st_code + '-' + sd_code + '-1';
   // add +1 to the id if more than one skill in this type/domain
+  codes.sort();
   if (codes.length > 0) {
     var lastCode = codes[codes.length - 1];
     var lastCodeSplitted = lastCode.split('-');
