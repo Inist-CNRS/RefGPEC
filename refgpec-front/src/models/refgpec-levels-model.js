@@ -7,7 +7,7 @@ var RefGpecLevelsModel = function (options) {
     self.onChanges = [];
     self.test = {};
 
-    axios.get('/api/levels')
+    axios.get('/api/levels?order=level_code.asc')
         .then(response => {
 
             self.levels = {};

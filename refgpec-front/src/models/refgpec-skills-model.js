@@ -10,7 +10,7 @@ var RefGpecSkillsModel = function (options) {
 
 
 
-      axios.get('/api/skills')
+      axios.get('/api/skills?order=sd_code.asc,st_code.asc,skill_shortname.asc')
           .then(response => {
 
               self.skills = {};
