@@ -1,6 +1,6 @@
 import React from 'react';
 import RefGpecProfilSkill from './refgpec-profil-skill.jsx';
-import pdf from '../profils/dpi-spproj-1.pdf';
+
 var RefGpecProfilsSkills = React.createClass({
   displayName: 'RefGpecProfilsSkills',
 
@@ -151,7 +151,7 @@ var RefGpecProfilsSkills = React.createClass({
                 {/* PROFILS ET COMPETENCES : ZONE PDF PREVIEW */}
                 <div className={layoutColClasses}>
                   <div className="embed-responsive embed-responsive-4by3" style={{ height: "1200px" }}>
-                    <iframe className="embed-responsive-item" src={pdf}></iframe>
+                    <iframe className="embed-responsive-item" src="/profils/p-dpi_spproj-1.pdf"></iframe>
                   </div>
                 </div>
               </div>
