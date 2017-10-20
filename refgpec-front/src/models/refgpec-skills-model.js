@@ -96,9 +96,15 @@ RefGpecSkillsModel.prototype.addSkill = function (st_code, sd_code, skill_shortn
         .then(function (response) {
             self.feedback='';
             self.skills[skill_code] = { skill_code,skill_shortname,skill_free_comments,sd_code,st_code};
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(null);
         })
         .catch(function (error) {
             self.feedback='Une erreur a été rencontrée lors de l\'ajout dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
         });
 
 
@@ -121,18 +127,20 @@ RefGpecSkillsModel.prototype.destroy = function (skillId, cb) {
         .then(function (response) {
             self.feedback='';
             delete self.skills[skillId];
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(null);
         })
         .catch(function (error) {
             self.feedback='Une erreur a été rencontrée lors de la suppression dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
         });
 
   self.inform();
 
-  setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
-    self.inform();
-    return cb && cb(null);
-  }, 1000);  
+
 };
 
 RefGpecSkillsModel.prototype.save = function (skillId, level, cb) {
@@ -148,18 +156,18 @@ RefGpecSkillsModel.prototype.save = function (skillId, level, cb) {
         }) .then(function (response) {
            self.feedback='';
            self.skills[skillId] = level;
+           self.ajaxLoading = false;
+           self.inform();
+           return cb && cb(null);
         })
         .catch(function (error) {
             self.feedback='Une erreur a été rencontrée lors de la suppression dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
         });
 
   self.inform();
-
-  setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
-    self.inform();
-    return cb && cb(null);
-  }, 1000);  
 };
 
 export default RefGpecSkillsModel;

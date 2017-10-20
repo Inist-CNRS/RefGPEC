@@ -51,9 +51,15 @@ RefGpecLevelsModel.prototype.addLevel = function (level_shortname, level_free_co
         .then(function (response) {
             self.feedback='';
             self.levels[level_code] = {level_code,level_number,level_shortname, level_free_comments };
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(null);
         })
         .catch(function (error) {
             self.feedback='Une erreur a été rencontrée lors de l\'ajout dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
         });
   self.inform();
 
@@ -72,9 +78,15 @@ RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
       .then(function (response) {
           self.feedback='';
           delete self.levels[levelId];
+          self.ajaxLoading = false;
+          self.inform();
+          return cb && cb(null);
       })
       .catch(function (error) {
           self.feedback='Une erreur a été rencontré lors de la suppression dans la base de donnée';
+          self.ajaxLoading = false;
+          self.inform();
+          return cb && cb(error);
         });
 
   self.inform();
@@ -97,18 +109,20 @@ RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {
     })  .then(function (response) {
         self.feedback='';
         self.levels[levelId] = data;
+        self.ajaxLoading = false;
+        self.inform();
+        return cb && cb(null);
     })
         .catch(function (error) {
             self.feedback='Une erreur a été rencontré lors de la modification dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
         });
 
 
   self.inform();
-  setTimeout(function () { // simulate AJAX request
-        self.ajaxLoading = false;
-        self.inform();
-        return cb && cb(null);
-    }, 1000);
+
 };
 
 export default RefGpecLevelsModel;

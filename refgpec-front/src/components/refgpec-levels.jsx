@@ -128,12 +128,10 @@ var RefGpecLevels = React.createClass({
       this.props.levelsModel.addLevel(this.state.newShortName, this.state.newFreeComment);
         this.setState({ newShortName: '', newFreeComment: '' });
         let self = this;
-        setTimeout(function(){
             if(! (self.props.levelsModel.feedback)){
                 NotificationManager.success('', 'La modulation '+ self.state.newShortName + ' a été ajouté');
             }else
             {NotificationManager.error('',self.props.levelsModel.feedback ); }
-        },1000);
 
 
 
@@ -151,23 +149,21 @@ var RefGpecLevels = React.createClass({
   handleDestroy: function (levelId){
       this.props.levelsModel.destroy(levelId);
       let self = this;
-      setTimeout(function(){
           if(! (self.props.levelsModel.feedback)){
               NotificationManager.success('', 'La modulation '+ levelId + ' a été supprimé');
           }else
           {NotificationManager.error('',self.props.levelsModel.feedback ); }
-      },1000);
   },
 
   handleSave: function (levelId,levelState){
       this.props.levelsModel.save(levelId, levelState);
       let self = this;
-      setTimeout(function(){
+
           if(! (self.props.levelsModel.feedback)){
               NotificationManager.success('', 'La modulation '+ levelId + ' a été modifié');
           }else
           {NotificationManager.error('',self.props.levelsModel.feedback ); }
-      },1000);
+
   },
 
   componentDidMount () {
