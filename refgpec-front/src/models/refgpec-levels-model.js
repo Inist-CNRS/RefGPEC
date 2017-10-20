@@ -5,6 +5,7 @@ var RefGpecLevelsModel = function (options) {
     self.initializing = true;
     self.ajaxLoading = false;
     self.onChanges = [];
+    self.feedback = '';
     self.test = {};
 
     axios.get('/api/levels')
@@ -48,19 +49,19 @@ RefGpecLevelsModel.prototype.addLevel = function (level_shortname, level_free_co
         level_free_comments:level_free_comments
     })
         .then(function (response) {
-            console.log(response);
+            self.feedback='';
+            self.levels[level_code] = {level_code,level_number,level_shortname, level_free_comments };
         })
         .catch(function (error) {
-            console.log(error);
+            self.feedback='Une erreur a été rencontrée lors de l\'ajout dans la base de donnée';
         });
-  self.levels[level_code] = {level_code,level_number,level_shortname, level_free_comments };
   self.inform();
 
   setTimeout(function () { // simulate AJAX request
     self.ajaxLoading = false;
     self.inform();
     return cb && cb(null);
-  }, 14000);
+  }, 1000);
 };
 
 RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
@@ -68,13 +69,14 @@ RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
   self.ajaxLoading = true;
 
   axios.delete('/api/levels?level_code=eq.'+levelId)
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
+      .then(function (response) {
+          self.feedback='';
+          delete self.levels[levelId];
+      })
+      .catch(function (error) {
+          self.feedback='Une erreur a été rencontré lors de la suppression dans la base de donnée';
         });
-  delete self.levels[levelId];
+
   self.inform();
   setTimeout(function () { // simulate AJAX request
     self.ajaxLoading = false;
@@ -92,21 +94,21 @@ RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {
         level_shortname: data.levelShortName,
         level_free_comments : data.levelFreeComments,
 
-    }) .then(function (response) {
-        console.log(response);
+    })  .then(function (response) {
+        self.feedback='';
+        self.levels[levelId] = data;
     })
         .catch(function (error) {
-            console.log(error);
+            self.feedback='Une erreur a été rencontré lors de la modification dans la base de donnée';
         });
 
-  self.levels[levelId] = data;
-  self.inform();
 
+  self.inform();
   setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
-    self.inform();
-    return cb && cb(null);
-  }, 1000);
+        self.ajaxLoading = false;
+        self.inform();
+        return cb && cb(null);
+    }, 1000);
 };
 
 export default RefGpecLevelsModel;

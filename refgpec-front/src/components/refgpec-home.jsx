@@ -7,8 +7,7 @@ import RefGpecProfils       from './refgpec-profils.jsx';
 import RefGpecSkills        from './refgpec-skills.jsx';
 import RefGpecLevels        from './refgpec-levels.jsx';
 import logo from '../img/gpec_40x40.png';
-
-
+import 'react-notifications/lib/notifications.css';
 var RefGpecHome = React.createClass({
   displayName: 'RefGpecHome',
 
@@ -196,7 +195,6 @@ var RefGpecHome = React.createClass({
             </p>
           </Modal.Footer>
         </Modal>
-
       </div>
 
       <footer className="gpec-footer">

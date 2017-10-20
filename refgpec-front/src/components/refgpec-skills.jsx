@@ -3,6 +3,7 @@ import RefGpecSkill from "./refgpec-skill.jsx";
 import RefGpecTypes from "./refgpec-types.jsx";
 import RefGpecDomains from './refgpec-domains';
 import {OverlayTrigger, Popover} from "react-bootstrap";
+import {NotificationContainer,NotificationManager} from "react-notifications"
 var RefGpecSkills = React.createClass({
     displayName: 'RefGpecSkills',
 
@@ -35,8 +36,8 @@ var RefGpecSkills = React.createClass({
                     skillData={self.props.skillsModel.skills[key]}
                     skillsTypesModel={self.props.skillsTypesModel}
                     skillsDomainsModel={self.props.skillsDomainsModel}
-                    onSave={self.props.skillsModel.save.bind(self.props.skillsModel)}
-                    onDestroy={self.props.skillsModel.destroy.bind(self.props.skillsModel)}
+                    onSave={self.handleSave}
+                    onDestroy={self.handleDestroy}
                     ajaxLoading={self.props.skillsModel.ajaxLoading}
                 />);
         });
@@ -158,7 +159,7 @@ var RefGpecSkills = React.createClass({
 
                     </div>
                 </div>
-
+                <NotificationContainer/>
             </div>
 
 
@@ -191,6 +192,12 @@ var RefGpecSkills = React.createClass({
         if (self.props.skillsModel.ajaxLoading) return;
         if (self.state.newSkillShortName && self.state.newSkillDomain && self.state.newSkillType) {
             self.props.skillsModel.addSkill(self.state.newSkillType, self.state.newSkillDomain, self.state.newSkillShortName, self.state.newSkillFreeComments);
+            setTimeout(function(){
+                if(! (self.props.skillsModel.feedback)){
+                    NotificationManager.success('', 'La compétence '+ self.state.newSkillShortName + ' a été ajouté');
+                }else
+                {NotificationManager.error('',self.props.skillsModel.feedback ); }
+            },1000);
             self.setState({
                 newSkillType: '',
                 newSkillDomain: '',
@@ -220,7 +227,27 @@ var RefGpecSkills = React.createClass({
     handleNavigateTab: function (event) {
         this.props.onTabChange(event.target.getAttribute('href'));
     },
+    handleDestroy: function (skillId){
+        this.props.skillsModel.destroy(skillId);
+        let self = this;
+        setTimeout(function(){
+            if(! (self.props.skillsModel.feedback)){
+                NotificationManager.success('', 'La compétence '+ skillId + ' a été supprimé');
+            }else
+            {NotificationManager.error('',self.props.skillsModel.feedback ); }
+        },1000);
+    },
 
+    handleSave: function (skillId,SkillState){
+        this.props.skillsModel.save(skillId, SkillState);
+        let self = this;
+        setTimeout(function(){
+            if(! (self.props.skillsModel.feedback)){
+                NotificationManager.success('', 'La compétence '+ skillId + ' a été modifié');
+            }else
+            {NotificationManager.error('',self.props.skillsModel.feedback ); }
+        },1000);
+    },
     componentDidMount () {
 
     },

@@ -84,7 +84,7 @@ var RefGpecSkill = React.createClass({
             placeholder="Nom de la compétence"
             value={this.state.skillShortName}
             data-fieldname="skillShortName"
-            onChange={this.handleChange}
+            onChange={this.handleChangeSkill}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           />

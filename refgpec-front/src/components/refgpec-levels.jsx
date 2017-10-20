@@ -1,6 +1,6 @@
 import React from 'react';
 import RefGpecLevel from './refgpec-level.jsx';
-
+import {NotificationContainer,NotificationManager} from "react-notifications"
 var RefGpecLevels = React.createClass({
   displayName: 'RefGpecLevels',
 
@@ -25,14 +25,14 @@ var RefGpecLevels = React.createClass({
         <RefGpecLevel
           key={key} levelId={key}
           levelData={self.props.levelsModel.levels[key]}
-          onSave={self.props.levelsModel.save.bind(self.props.levelsModel)}
-          onDestroy={self.props.levelsModel.destroy.bind(self.props.levelsModel)}
+          onSave={self.handleSave}
+          onDestroy={self.handleDestroy}
           ajaxLoading={self.props.levelsModel.ajaxLoading}
         />);
     });
 
     return (
- 
+
         // MODULATIONS DES COMPETENCES
         <div id="levels">
 
@@ -102,11 +102,11 @@ var RefGpecLevels = React.createClass({
             </div>
           </div>
 
-
+          <NotificationContainer/>
         </div> // MODULATIONS DES COMPETENCES
 
-
     );
+
   },
 
   handleKeyPress: function (event) {
@@ -126,14 +126,48 @@ var RefGpecLevels = React.createClass({
     if (this.props.levelsModel.ajaxLoading) return;
     if (this.state.newShortName) {
       this.props.levelsModel.addLevel(this.state.newShortName, this.state.newFreeComment);
-      this.setState({ newShortName: '', newFreeComment: '' });
+        this.setState({ newShortName: '', newFreeComment: '' });
+        let self = this;
+        setTimeout(function(){
+            if(! (self.props.levelsModel.feedback)){
+                NotificationManager.success('', 'La modulation '+ self.state.newShortName + ' a été ajouté');
+            }else
+            {NotificationManager.error('',self.props.levelsModel.feedback ); }
+        },1000);
+
+
+
+
     }
+
     event.preventDefault(); // Let's stop this event.
     event.stopPropagation(); // Really this time.
   },
 
   handleNavigateTab: function (event) {
     this.props.onTabChange(event.target.getAttribute('href'));
+  },
+
+  handleDestroy: function (levelId){
+      this.props.levelsModel.destroy(levelId);
+      let self = this;
+      setTimeout(function(){
+          if(! (self.props.levelsModel.feedback)){
+              NotificationManager.success('', 'La modulation '+ levelId + ' a été supprimé');
+          }else
+          {NotificationManager.error('',self.props.levelsModel.feedback ); }
+      },1000);
+  },
+
+  handleSave: function (levelId,levelState){
+      this.props.levelsModel.save(levelId, levelState);
+      let self = this;
+      setTimeout(function(){
+          if(! (self.props.levelsModel.feedback)){
+              NotificationManager.success('', 'La modulation '+ levelId + ' a été modifié');
+          }else
+          {NotificationManager.error('',self.props.levelsModel.feedback ); }
+      },1000);
   },
 
   componentDidMount () {

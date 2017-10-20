@@ -6,7 +6,7 @@ var RefGpecSkillsModel = function (options) {
   self.initializing = true;
   self.ajaxLoading = false;
   self.onChanges = [];
-
+  self.feedback = '';
 
 
 
@@ -93,13 +93,14 @@ RefGpecSkillsModel.prototype.addSkill = function (st_code, sd_code, skill_shortn
         st_code : st_code
     })
         .then(function (response) {
-            console.log(response);
+            self.feedback='';
+            self.skills[skill_code] = { skill_code,skill_shortname,skill_free_comments,sd_code,st_code};
         })
         .catch(function (error) {
-            console.log(error);
+            self.feedback='Une erreur a été rencontrée lors de l\'ajout dans la base de donnée';
         });
 
-  self.skills[skill_code] = { skill_code,skill_shortname,skill_free_comments,sd_code,st_code};
+
   self.inform();
 
   setTimeout(function () { // simulate AJAX request
@@ -117,12 +118,13 @@ RefGpecSkillsModel.prototype.destroy = function (skillId, cb) {
 
   axios.delete('/api/skills?skill_code=eq.'+skillId)
         .then(function (response) {
-          console.log(response);
+            self.feedback='';
+            delete self.skills[skillId];
         })
         .catch(function (error) {
-          console.log(error);
+            self.feedback='Une erreur a été rencontrée lors de la suppression dans la base de donnée';
         });
-  delete self.skills[skillId];
+
   self.inform();
 
   setTimeout(function () { // simulate AJAX request
@@ -143,13 +145,13 @@ RefGpecSkillsModel.prototype.save = function (skillId, level, cb) {
             sd_code :level.skillDomain,
             st_code : level.skillType
         }) .then(function (response) {
-        console.log(response);
-    })
+           self.feedback='';
+           self.skills[skillId] = level;
+        })
         .catch(function (error) {
-            console.log(error);
+            self.feedback='Une erreur a été rencontrée lors de la suppression dans la base de donnée';
         });
 
-  self.skills[skillId] = level;
   self.inform();
 
   setTimeout(function () { // simulate AJAX request
