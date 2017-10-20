@@ -32,4 +32,3 @@ Download the [docker-compose.yml](https://raw.githubusercontent.com/Inist-CNRS/R
 wget https://raw.githubusercontent.com/Inist-CNRS/RefGPEC/master/docker-compose.yml
 docker-compose up -d
 ```
-
