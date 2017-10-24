@@ -1,23 +1,32 @@
 import React from 'react';
-import {DropdownButton,MenuItem} from 'react-bootstrap';
-import RefGpecOrganigrammes from './refgpec-organigrammes'
+import {Modal,DropdownButton,MenuItem} from 'react-bootstrap';
+import RefGpecOrganigrammes from './refgpec-organigrammes';
+import RefGpecPDF from './refgpec-pdf';
 var RefGpecProfil = React.createClass({
   displayName: 'RefGpecProfil',
 
   getInitialState: function () {
     return {
-      profilId:           this.props.profilId,
-      profilOrga:         this.props.profilData.profilOrga,
-      profilShortName:    this.props.profilData.profilShortName,
-      profilFreeComments: this.props.profilData.profilFreeComments,
-      profilNbSkillsSF:   this.props.profilData.profilNbSkillsSF,
-      profilNbSkillsS:    this.props.profilData.profilNbSkillsS,
-      profilNbSkillsSE:   this.props.profilData.profilNbSkillsSE,
-
+      profil_code:           this.props.profilId,
+      orga_code:         this.props.profilData.orga_code,
+      profil_shortname:    this.props.profilData.profil_shortname,
+      profil_free_comments: this.props.profilData.profil_free_comments,
+      profil_pdf_path: this.props.profilData.profil_pdf_path,
+      profilNbSkillsSF:   3,
+      profilNbSkillsS:    2,
+      profilNbSkillsSE:   1,
+     showModal : false,
       mustBeSaved: false,
       error: ''
     };
   },
+    close() {
+        this.setState({showModal: false});
+    },
+
+    open() {
+        this.setState({showModal: true});
+    },
 
   render: function () {
     const self = this;
@@ -47,7 +56,7 @@ var RefGpecProfil = React.createClass({
 
     return (
  
-      <tr id={this.state.profilId}
+      <tr id={this.state.profil_code}
           data-placement="top" data-toggle="popover" data-trigger="manual"
           data-title="Erreur de saisie" data-content={this.state.error}
       >
@@ -87,16 +96,39 @@ var RefGpecProfil = React.createClass({
 
         {/* INPUT FORMS */}
         <td className="text-center">
-          <a href={'/profils/' + this.state.profilId + '.pdf'}>
-            <span className="fa fa-file-pdf-o fa-2x"></span>
-          </a>
+
+          <RefGpecPDF
+            skillData={this.state.profil_pdf_path}
+            onClick={self.open}
+          />
+
+          <Modal show={this.state.showModal} onHide={this.close} id="profils-file-modal">
+            <Modal.Header closeButton>
+              <h4 className="modal-title">Uploader le PDF du profil de poste</h4>
+            </Modal.Header>
+            <Modal.Body>
+              <p><input className="form-control" type="file" placeholder="PDF du profil"
+                        accept="application/pdf"/></p>
+              <div className="alert alert-info" role="alert">Le nom du fichier sur le
+                disque dur n'a pas d'importance, il sera renommé par RefGPEC en fonction
+                du code du profil.
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <button onClick={this.close} type="button" className="btn btn-default"
+                      data-dismiss="modal">Fermer
+              </button>
+              <button type="button" className="btn btn-primary">Uploader</button>
+            </Modal.Footer>
+          </Modal>
+
         </td>
         <td>
           <RefGpecOrganigrammes
               skillData={this.props.orgaModel}
               ajaxLoading={this.props.ajaxLoading}
-              data-fieldname="profilOrga"
-              value={this.state.profilOrga}
+              data-fieldname="orga_code"
+              value={this.state.orga_code}
               onChange={this.handleChangeOrga}
               onBlur={this.handleSubmit}
           />
@@ -105,8 +137,8 @@ var RefGpecProfil = React.createClass({
         <td>
           <input className="form-control" type="text"
             placeholder="Intitulé du profil"
-            value={this.state.profilShortName}
-            data-fieldname="profilShortName"
+            value={this.state.profil_shortname}
+            data-fieldname="profil_shortname"
             onChange={this.handleChangeProfil}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
@@ -125,8 +157,8 @@ var RefGpecProfil = React.createClass({
         <td>
           <textarea className="form-control" rows="1"
             placeholder="Commentaires libres"
-            value={this.state.profilFreeComments}
-            data-fieldname="profilFreeComments"
+            value={this.state.profil_free_comments}
+            data-fieldname="profil_free_comments"
             onChange={this.handleChangeFreeComm}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
@@ -134,8 +166,8 @@ var RefGpecProfil = React.createClass({
         </td>
         <td>
           <input className="form-control" type="text" readOnly
-            title={this.state.profilId}
-            value={this.state.profilId}
+            title={this.state.profil_code}
+            value={this.state.profil_code}
           />
         </td>
       </tr>
@@ -143,16 +175,17 @@ var RefGpecProfil = React.createClass({
     );
   },
 
+
   handleSubmit: function (event) {
     if (this.state.mustBeSaved) {
-      this.props.onSave(this.state.profilId, this.state.item);
+      this.props.onSave(this.state.profil_code, this.state.item);
       this.setState({ mustBeSaved: false });
     
       // // display or hide a nice popover to show the error
       // const self = this;
       // self.setState({ error: 'saving... demo error msg' });
       // setTimeout(function () {
-      //   $('#' + self.state.profilId).popover(self.state.error ? 'show' : 'hide');
+      //   $('#' + self.state.profil_code).popover(self.state.error ? 'show' : 'hide');
       // }, 100);
     }
   },
@@ -163,7 +196,7 @@ var RefGpecProfil = React.createClass({
     // tells the component to save data soon
 
     this.setState({ mustBeSaved: true });
-    this.setState({profilOrga:event});
+    this.setState({orga_code:event});
   },
 
 
@@ -173,7 +206,7 @@ var RefGpecProfil = React.createClass({
         // tells the component to save data soon
 
         this.setState({ mustBeSaved: true });
-        this.setState({profilShortName:event.target.value});
+        this.setState({profil_shortname:event.target.value});
     },
 
     handleChangeFreeComm: function (event) {
@@ -182,7 +215,7 @@ var RefGpecProfil = React.createClass({
         // tells the component to save data soon
 
         this.setState({ mustBeSaved: true });
-        this.setState({profilFreeComments:event.target.value});
+        this.setState({profil_free_comments:event.target.value});
     },
 
   handleDestroy: function (event) {
@@ -191,11 +224,11 @@ var RefGpecProfil = React.createClass({
 
     if (this.props.ajaxLoading) return;
 
-    this.props.onDestroy(this.state.profilId);
+    this.props.onDestroy(this.state.profil_code);
   },
 
   handleOpenProfilSkills: function (event) {
-    console.log('TODO: handleOpenProfilSkills ' + this.state.profilId);
+    console.log('TODO: handleOpenProfilSkills ' + this.state.profil_code);
     event.preventDefault(); // Let's stop this event.
     event.stopPropagation(); // Really this time.
   },

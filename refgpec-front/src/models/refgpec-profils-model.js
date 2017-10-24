@@ -1,3 +1,4 @@
+import axios from 'axios';
 var RefGpecProfilsModel = function (options) {
   const self = this;
 
@@ -5,32 +6,20 @@ var RefGpecProfilsModel = function (options) {
   self.initializing = true;
   self.ajaxLoading = false;
   self.onChanges = [];
-    
-  // simulate ajax request
-  setTimeout(function () {
-    // fake data for debug
-    self.profils = {
-      "p-dpi_spproj-1": {
-        profilOrga: "dpi_spproj",
-        profilShortName: "Responsable du Service « Pilotage des projets »",
-        profilFreeComments: "",
-        profilNbSkillsSF: 0,
-        profilNbSkillsS: 1,
-        profilNbSkillsSE: 2,
-      },
-      "p-dos_spub_eqvalobbd-1": {
-        profilOrga: "dos_spub_eqvalobbd",
-        profilShortName: "Chargé de valorisation des bases documentaires",
-        profilFreeComments: "",
-        profilNbSkillsSF: 5,
-        profilNbSkillsS: 3,
-        profilNbSkillsSE: 6,
-      },
-    };
-    self.initializing = false;
-    self.inform();
-  }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
+    axios.get('/api/profils')
+        .then(response => {
 
+            self.profils = {};
+            response.data.forEach(item => {
+                self.profils[item.profil_code] = item;
+            })
+
+            self.initializing = false;
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecProfilModelError loading data', err);
+        });
 };
 
 RefGpecProfilsModel.prototype.subscribe = function (onChange) {
@@ -85,7 +74,10 @@ RefGpecProfilsModel.prototype.destroy = function (profilId, cb) {
   }, 1000);  
 };
 
+
+
 RefGpecProfilsModel.prototype.save = function (profilId, data, cb) {
+
   var self = this;
   self.ajaxLoading = true;
 
@@ -99,4 +91,4 @@ RefGpecProfilsModel.prototype.save = function (profilId, data, cb) {
   }, 1000);  
 };
 
-module.exports = RefGpecProfilsModel;
+export default  RefGpecProfilsModel;
