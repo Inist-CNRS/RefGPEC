@@ -1,0 +1,7 @@
+#!/bin/bash
+
+CONFIG_FILE=/etc/nginx/nginx.conf
+grep "^###" $CONFIG_FILE | sed 's/### //' > /tmp/entrypoint-scripts
+chmod +x /tmp/entrypoint-scripts
+
+exec /tmp/entrypoint-scripts

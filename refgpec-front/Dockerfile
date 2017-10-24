@@ -20,7 +20,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y update && apt-get -y install vim curl gnupg2
 
 # nginx config
-COPY ./nginx.prod.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx.prod.conf /etc/nginx/nginx.conf
+COPY ./entrypoint-scripts-runner /bin/entrypoint-scripts-runner
 
 # ezmasterization of refgpec
 # see https://github.com/Inist-CNRS/ezmaster
@@ -31,3 +32,5 @@ RUN echo '{ \
 }' > /etc/ezmaster.json
 
 COPY --from=build-deps /app/build /app/build
+
+CMD /bin/entrypoint-scripts-runner ; nginx -g 'daemon off;'

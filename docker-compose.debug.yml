@@ -5,9 +5,14 @@ services:
   # RefGPEC frontend (ReactJS app)
   refgpec-front:
     container_name: refgpec-front
-    image: nginx:1.13.3
+    build:
+      context: ./refgpec-front
+      args:
+        - http_proxy
+        - https_proxy
+    image: inistcnrs/refgpec-front:1.2.0
     volumes:
-      - ./refgpec-front/nginx.debug.conf:/etc/nginx/conf.d/default.conf
+      - ./refgpec-front/nginx.debug.conf:/etc/nginx/nginx.conf
       - ./refgpec-front/logs/:/var/log/nginx
       - ./refgpec-front:/app
     links:
