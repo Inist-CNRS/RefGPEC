@@ -188,7 +188,6 @@ var RefGpecSkills = React.createClass({
 
     handleSubmit: function (event) {
         const self = this;
-
         if (self.props.skillsModel.ajaxLoading) return;
         if (self.state.newSkillShortName && self.state.newSkillDomain && self.state.newSkillType) {
             self.props.skillsModel.addSkill(self.state.newSkillType, self.state.newSkillDomain, self.state.newSkillShortName, self.state.newSkillFreeComments);
@@ -248,7 +247,7 @@ var RefGpecSkills = React.createClass({
     },
 
     missingField() {
-        return (!this.state.newProfilShortName) || (!this.state.newProfilOrga);
+        return (!this.state.newSkillShortName) ||  (!this.state.newSkillDomain) || (!this.state.newSkillType);
     }
 
 });

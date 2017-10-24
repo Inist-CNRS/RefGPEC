@@ -1,7 +1,7 @@
 import React from "react";
 import RefGpecProfil from "./refgpec-profil.jsx";
 import {Modal, OverlayTrigger, Popover} from "react-bootstrap";
-
+import RefGpecOrganigrammes from "./refgpec-organigrammes"
 
 var RefGpecProfils = React.createClass({
     displayName: 'RefGpecProfils',
@@ -48,7 +48,7 @@ var RefGpecProfils = React.createClass({
 
         let rgOrgaList = [];
         Object.keys(self.props.orgaModel.orga).forEach(function (key) {
-            rgOrgaList.push(<option value={key} key={key}>{self.props.orgaModel.orga[key].orgaShortName}</option>);
+            rgOrgaList.push(<option value={key} key={key}>{self.props.orgaModel.orga[key].orga_shortname}</option>);
         });
 
         return (
@@ -67,7 +67,7 @@ var RefGpecProfils = React.createClass({
                                                                                                   href="#profils-skills"
                                                                                                   onClick={this.handleNavigateTab}>Profils &amp;
                                     Compétences</a> pour pouvoir leur associer des <a data-toggle="tab" href="#skills"
-                                                                                      onClick={this.handleNavigateTab}>compétences</a>
+                                                                                      onClick={this.handleNavigateTab}>compétences </a>
                                     <a data-toggle="tab" href="#levels" onClick={this.handleNavigateTab}>modulées</a>.
                                 </p>
                             </div>
@@ -124,17 +124,14 @@ var RefGpecProfils = React.createClass({
                                 </td>
 
                                 <td>
-                                    <select className="form-control"
-                                            value={this.state.newProfilOrga}
-                                            data-fieldname="newProfilOrga"
-                                            onChange={this.handleChange}
-                                            disabled={this.props.profilsModel.ajaxLoading}
-                                    >
-                                        <option></option>
+                                    <RefGpecOrganigrammes
 
-                                        {rgOrgaList}
-
-                                    </select>
+                                        skillData={self.props.orgaModel}
+                                        ajaxLoading={self.props.orgaModel.ajaxLoading}
+                                        data-fieldname="newProfilOrga"
+                                        onChange={this.handleOrgaChange}
+                                        value={this.state.newProfilOrga}
+                                    />
                                 </td>
 
                                 <td colSpan="2">
@@ -211,6 +208,9 @@ var RefGpecProfils = React.createClass({
         event.stopPropagation(); // Really this time.
     },
 
+    handleOrgaChange: function (event) {
+        this.setState({newProfilOrga:event});
+    },
     handleNavigateTab: function (event) {
         this.props.onTabChange(event.target.getAttribute('href'));
     },

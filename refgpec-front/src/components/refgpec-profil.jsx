@@ -1,5 +1,6 @@
 import React from 'react';
 import {DropdownButton,MenuItem} from 'react-bootstrap';
+import RefGpecOrganigrammes from './refgpec-organigrammes'
 var RefGpecProfil = React.createClass({
   displayName: 'RefGpecProfil',
 
@@ -41,7 +42,7 @@ var RefGpecProfil = React.createClass({
 
     let rgOrgaList = [];
     Object.keys(self.props.orgaModel.orga).forEach(function (key) {
-      rgOrgaList.push(<option value={key} key={key}>{self.props.orgaModel.orga[key].orgaShortName}</option>);
+      rgOrgaList.push(<option value={key} key={key}>{self.props.orgaModel.orga[key].orga_shortname}</option>);
     }); 
 
     return (
@@ -91,22 +92,22 @@ var RefGpecProfil = React.createClass({
           </a>
         </td>
         <td>
-          <select className="form-control"
-            value={this.state.profilOrga}
-            data-fieldname="profilOrga"
-            onChange={this.handleChange}
-            onBlur={this.handleSubmit}
-            readOnly={this.props.ajaxLoading}
-          >
-            {rgOrgaList}
-          </select>                    
+          <RefGpecOrganigrammes
+              skillData={this.props.orgaModel}
+              ajaxLoading={this.props.ajaxLoading}
+              data-fieldname="profilOrga"
+              value={this.state.profilOrga}
+              onChange={this.handleChangeOrga}
+              onBlur={this.handleSubmit}
+          />
+
         </td>
         <td>
           <input className="form-control" type="text"
             placeholder="Intitulé du profil"
             value={this.state.profilShortName}
             data-fieldname="profilShortName"
-            onChange={this.handleChange}
+            onChange={this.handleChangeProfil}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           />
@@ -126,7 +127,7 @@ var RefGpecProfil = React.createClass({
             placeholder="Commentaires libres"
             value={this.state.profilFreeComments}
             data-fieldname="profilFreeComments"
-            onChange={this.handleChange}
+            onChange={this.handleChangeFreeComm}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           />
@@ -156,22 +157,33 @@ var RefGpecProfil = React.createClass({
     }
   },
 
-  handleChange: function (event) {
-    console.log('profil.handleChange')
+  handleChangeOrga: function (event) {
 
     // if it's a change in a select box,
     // tells the component to save data soon
-    if (event.target.tagName === 'SELECT') {
-      this.setState({ mustBeSaved: true });
-    } else if (event.target.value !== this.state[event.target.getAttribute('data-fieldname')]) {
-      console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
-      this.setState({ mustBeSaved: true });
-    }
 
-    var newState = {};
-    newState[event.target.getAttribute('data-fieldname')] = event.target.value;
-    this.setState(newState);
+    this.setState({ mustBeSaved: true });
+    this.setState({profilOrga:event});
   },
+
+
+    handleChangeProfil: function (event) {
+
+        // if it's a change in a select box,
+        // tells the component to save data soon
+
+        this.setState({ mustBeSaved: true });
+        this.setState({profilShortName:event.target.value});
+    },
+
+    handleChangeFreeComm: function (event) {
+
+        // if it's a change in a select box,
+        // tells the component to save data soon
+
+        this.setState({ mustBeSaved: true });
+        this.setState({profilFreeComments:event.target.value});
+    },
 
   handleDestroy: function (event) {
     event.preventDefault(); // Let's stop this event.
