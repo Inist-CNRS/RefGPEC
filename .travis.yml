@@ -24,5 +24,7 @@ before_install:
 
 script:
   - docker-compose ps
-
+  # just test there is 4 running containers, that is not a lot but that's already it!
+  - NB_CONTAINERS=$(docker-compose ps | grep " Up " | wc -l)
+  - test $NB_CONTAINERS = 4
 
