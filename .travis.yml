@@ -19,9 +19,10 @@ before_install:
   - sudo apt-get -y install docker-ce
   # build an run as in prod refgpec
   - make build
-  - make run-prod
+  - docker-compose -f ./docker-compose.yml up -d
   - sleep 120 ; docker-compose logs
 
 script:
   - docker-compose ps
+
 
