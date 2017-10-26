@@ -80,17 +80,25 @@ RefGpecProfilsModel.prototype.addProfil = function (orga_code, profil_shortname,
 };
 
 RefGpecProfilsModel.prototype.destroy = function (profilId, cb) {
-  var self = this;
-  self.ajaxLoading = true;
+    var self = this;
+    self.ajaxLoading = true;
 
-  delete self.profils[profilId];
-  self.inform();
+    axios.delete('/api/profils?profil_code=eq.'+profilId)
+        .then(function (response) {
+            self.feedback='';
+            delete self.profils[profilId];
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(null);
+        })
+        .catch(function (error) {
+            self.feedback='Une erreur a été rencontrée lors de la suppression dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
+        });
 
-  setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
     self.inform();
-    return cb && cb(null);
-  }, 1000);  
 };
 
 

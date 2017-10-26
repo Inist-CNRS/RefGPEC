@@ -43,7 +43,7 @@ var RefGpecProfils = React.createClass({
                     orgaModel={self.props.orgaModel}
                     profilData={self.props.profilsModel.profils[key]}
                     onSave={self.handleSave}
-                    onDestroy={self.props.profilsModel.destroy.bind(self.props.profilsModel)}
+                    onDestroy={self.handleDestroy}
                     ajaxLoading={self.props.profilsModel.ajaxLoading}
                 />);
         });
@@ -269,6 +269,15 @@ var RefGpecProfils = React.createClass({
 
         event.preventDefault(); // Let's stop this event.
         event.stopPropagation(); // Really this time.
+    },
+
+    handleDestroy: function (profilId){
+        this.props.profilsModel.destroy(profilId);
+        let self = this;
+        if(! (self.props.profilsModel.feedback)){
+            NotificationManager.success('', 'La compétence '+ profilId + ' a été supprimé');
+        }else
+        {NotificationManager.error('',self.props.profilsModel.feedback ); }
     },
 
     handleChangePDF : function (event) {
