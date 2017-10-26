@@ -2,7 +2,7 @@ import React from "react";
 import RefGpecProfil from "./refgpec-profil.jsx";
 import {Modal, OverlayTrigger, Popover} from "react-bootstrap";
 import RefGpecOrganigrammes from "./refgpec-organigrammes"
-
+import {NotificationContainer,NotificationManager} from "react-notifications"
 var RefGpecProfils = React.createClass({
     displayName: 'RefGpecProfils',
 
@@ -40,7 +40,7 @@ var RefGpecProfils = React.createClass({
                     key={key} profilId={key}
                     orgaModel={self.props.orgaModel}
                     profilData={self.props.profilsModel.profils[key]}
-                    onSave={self.props.profilsModel.save.bind(self.props.profilsModel)}
+                    onSave={self.handleSave}
                     onDestroy={self.props.profilsModel.destroy.bind(self.props.profilsModel)}
                     ajaxLoading={self.props.profilsModel.ajaxLoading}
                 />);
@@ -194,7 +194,7 @@ var RefGpecProfils = React.createClass({
 
                     </div>
                 </div>
-
+                <NotificationContainer/>
             </div>
 
 
@@ -203,6 +203,17 @@ var RefGpecProfils = React.createClass({
         );
     },
 
+
+    handleSave: function (profilId,profilState){
+        this.props.profilsModel.save(profilId, profilState);
+        let self = this;
+
+        if(! (self.props.profilsModel.feedback)){
+            NotificationManager.success('', 'Le Profil '+ profilId + ' a été modifié');
+        }else
+        {NotificationManager.error('',self.props.profilsModel.feedback ); }
+
+    },
     handleNoClick: function (event) {
         event.preventDefault(); // Let's stop this event.
         event.stopPropagation(); // Really this time.

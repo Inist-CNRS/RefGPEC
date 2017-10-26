@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Modal,DropdownButton,MenuItem} from 'react-bootstrap';
 import RefGpecOrganigrammes from './refgpec-organigrammes';
 import RefGpecPDF from './refgpec-pdf';
@@ -66,7 +67,9 @@ var RefGpecProfil = React.createClass({
           <div className="btn-group">
           <DropdownButton title=" " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <MenuItem  href="" onClick={this.handleOpenProfilSkills}>   <span className="glyphicon glyphicon-list"></span> Associer des compétences à ce profil </MenuItem>
-            <MenuItem href=""  onClick={this.handleUpdatePDF}> <span className="fa fa-file-pdf-o"></span> Mettre à jour le PDF du profil </MenuItem>
+              {(() => {
+                if(self.state.profil_pdf_path){ return <MenuItem href=""  onClick={this.open }> <span className="fa fa-file-pdf-o"></span> Mettre à jour le PDF du profil </MenuItem>; }
+              })()}
             <MenuItem  href="" onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Supprimer le profil </MenuItem>
           </DropdownButton>
 
@@ -96,8 +99,7 @@ var RefGpecProfil = React.createClass({
 
         {/* INPUT FORMS */}
         <td className="text-center">
-
-          <RefGpecPDF
+         <RefGpecPDF
             skillData={this.state.profil_pdf_path}
             onClick={self.open}
           />
@@ -107,10 +109,9 @@ var RefGpecProfil = React.createClass({
               <h4 className="modal-title">Uploader le PDF du profil de poste</h4>
             </Modal.Header>
             <Modal.Body>
-              <p><input className="form-control" type="file" placeholder="PDF du profil"
-                        accept="application/pdf"/></p>
-              <div className="alert alert-info" role="alert">Le nom du fichier sur le
-                disque dur n'a pas d'importance, il sera renommé par RefGPEC en fonction
+              <p><input ref="formUrlPdf" className="form-control" type="url" placeholder="Lien du PDF du profil"
+                        /></p>
+              <div className="alert alert-info" role="alert">Le nom du fichier n'a pas d'importance, il sera renommé par RefGPEC en fonction
                 du code du profil.
               </div>
             </Modal.Body>
@@ -118,7 +119,7 @@ var RefGpecProfil = React.createClass({
               <button onClick={this.close} type="button" className="btn btn-default"
                       data-dismiss="modal">Fermer
               </button>
-              <button type="button" className="btn btn-primary">Uploader</button>
+              <button type="button" onClick={this.handleChangePDF} className="btn btn-primary">Uploader</button>
             </Modal.Footer>
           </Modal>
 
@@ -129,8 +130,8 @@ var RefGpecProfil = React.createClass({
               ajaxLoading={this.props.ajaxLoading}
               data-fieldname="orga_code"
               value={this.state.orga_code}
-              onChange={this.handleChangeOrga}
-              onBlur={this.handleSubmit}
+              readOnly="readonly"
+              disabled="disabled"
           />
 
         </td>
@@ -178,7 +179,7 @@ var RefGpecProfil = React.createClass({
 
   handleSubmit: function (event) {
     if (this.state.mustBeSaved) {
-      this.props.onSave(this.state.profil_code, this.state.item);
+      this.props.onSave(this.state.profil_code, this.state);
       this.setState({ mustBeSaved: false });
     
       // // display or hide a nice popover to show the error
@@ -189,16 +190,6 @@ var RefGpecProfil = React.createClass({
       // }, 100);
     }
   },
-
-  handleChangeOrga: function (event) {
-
-    // if it's a change in a select box,
-    // tells the component to save data soon
-
-    this.setState({ mustBeSaved: true });
-    this.setState({orga_code:event});
-  },
-
 
     handleChangeProfil: function (event) {
 
@@ -213,7 +204,6 @@ var RefGpecProfil = React.createClass({
 
         // if it's a change in a select box,
         // tells the component to save data soon
-
         this.setState({ mustBeSaved: true });
         this.setState({profil_free_comments:event.target.value});
     },
@@ -233,6 +223,12 @@ var RefGpecProfil = React.createClass({
     event.stopPropagation(); // Really this time.
   },
 
+  handleChangePDF : function (event) {
+        this.close();
+        this.setState({profil_pdf_path:ReactDOM.findDOMNode(this.refs.formUrlPdf).value});
+        this.setState({ mustBeSaved: true },this.handleSubmit);
+
+    },
   componentDidMount () {
 
   },

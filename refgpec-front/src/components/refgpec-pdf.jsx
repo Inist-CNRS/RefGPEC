@@ -21,13 +21,6 @@ var RefGpecPDF = React.createClass({
         );
             },
 
-    getImagePDF: function(){
-            if(this.state.profil_pdf_path){
-            return ;
-        }else{
-            return "fa fa-upload fa-2x";
-        }
-        },
 
     OpenModal: function(){
            this.props.onClick();
@@ -36,9 +29,9 @@ var RefGpecPDF = React.createClass({
     handleChange: function (event) {
     },
 
-    handleDestroy: function (event) {
-
-    }
+    componentWillReceiveProps: function(nextProps) {
+        this.setState({profil_pdf_path: nextProps.skillData})
+        },
 
 });
 

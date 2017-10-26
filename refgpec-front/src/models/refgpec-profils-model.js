@@ -6,6 +6,7 @@ var RefGpecProfilsModel = function (options) {
   self.initializing = true;
   self.ajaxLoading = false;
   self.onChanges = [];
+  self.feedback = '';
     axios.get('/api/profils')
         .then(response => {
 
@@ -77,18 +78,31 @@ RefGpecProfilsModel.prototype.destroy = function (profilId, cb) {
 
 
 RefGpecProfilsModel.prototype.save = function (profilId, data, cb) {
+    var self = this;
+    self.ajaxLoading = true;
+    axios.patch('/api/profils?profil_code=eq.'+profilId,{
+        profil_code: data.profil_code,
+        profil_shortname: data.profil_shortname,
+        profil_free_comments : data.profil_free_comments,
+        profil_pdf_path : data.profil_pdf_path,
+        orga_code: data.orga_code
+    })  .then(function (response) {
+        self.feedback='';
+        self.profils[profilId] = data;
+        self.ajaxLoading = false;
+        self.inform();
+        return cb && cb(null);
+    })
+        .catch(function (error) {
+            self.feedback='Une erreur a été rencontré lors de la modification dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
+        });
 
-  var self = this;
-  self.ajaxLoading = true;
 
-  self.profils[profilId] = data; // TODO data ...
-  self.inform();
-
-  setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
     self.inform();
-    return cb && cb(null);
-  }, 1000);  
+
 };
 
 export default  RefGpecProfilsModel;
