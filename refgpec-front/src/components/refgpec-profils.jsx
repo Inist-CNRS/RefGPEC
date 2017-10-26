@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 import RefGpecProfil from "./refgpec-profil.jsx";
 import {Modal, OverlayTrigger, Popover} from "react-bootstrap";
 import RefGpecOrganigrammes from "./refgpec-organigrammes"
@@ -13,6 +14,7 @@ var RefGpecProfils = React.createClass({
             newProfilOrga: '',
             newProfilShortName: '',
             newProfilFreeComments: '',
+            newProfilPdfPath :'',
             error: '',
         };
     },
@@ -107,10 +109,9 @@ var RefGpecProfils = React.createClass({
                                             <h4 className="modal-title">Uploader le PDF du profil de poste</h4>
                                         </Modal.Header>
                                         <Modal.Body>
-                                            <p><input className="form-control" type="file" placeholder="PDF du profil"
-                                                      accept="application/pdf"/></p>
-                                            <div className="alert alert-info" role="alert">Le nom du fichier sur le
-                                                disque dur n'a pas d'importance, il sera renommé par RefGPEC en fonction
+                                            <p><input ref="formUrlPdf" className="form-control" type="url" placeholder="Lien du PDF du profil"
+                                            /></p>
+                                            <div className="alert alert-info" role="alert">Le nom du fichier n'a pas d'importance, il sera renommé par RefGPEC en fonction
                                                 du code du profil.
                                             </div>
                                         </Modal.Body>
@@ -118,7 +119,7 @@ var RefGpecProfils = React.createClass({
                                             <button onClick={this.close} type="button" className="btn btn-default"
                                                     data-dismiss="modal">Fermer
                                             </button>
-                                            <button type="button" className="btn btn-primary">Uploader</button>
+                                            <button type="button" onClick={this.handleChangePDF} className="btn btn-primary">Uploader</button>
                                         </Modal.Footer>
                                     </Modal>
                                 </td>
@@ -155,7 +156,7 @@ var RefGpecProfils = React.createClass({
                       />
                                 </td>
                                 <td>
-                                    <OverlayTrigger show={this.missingField()} trigger="focus"
+                                    <OverlayTrigger show={this.missingField} trigger="focus"
                                                     data-title="Erreur nouveau profil" placement="top"
                                                     overlay={
                                                         <Popover id="popover-positioned-top">
@@ -214,10 +215,6 @@ var RefGpecProfils = React.createClass({
         {NotificationManager.error('',self.props.profilsModel.feedback ); }
 
     },
-    handleNoClick: function (event) {
-        event.preventDefault(); // Let's stop this event.
-        event.stopPropagation(); // Really this time.
-    },
 
     handleOrgaChange: function (event) {
         this.setState({newProfilOrga:event});
@@ -242,22 +239,26 @@ var RefGpecProfils = React.createClass({
 
     handleSubmit: function (event) {
         const self = this;
-
         if (self.props.profilsModel.ajaxLoading) return;
-        if (self.state.newProfilShortName && self.state.newProfilOrga) {
-            self.props.profilsModel.addProfil(
-                self.state.newProfilOrga, self.state.newProfilShortName, self.state.newProfilFreeComments
-            );
+        if (self.state.newProfilShortName && self.state.newProfilOrga ) {
+            self.props.profilsModel.addProfil(self.state.newProfilOrga, self.state.newProfilShortName, self.state.newProfilFreeComments, self.state.newProfilPdfPath);
+
+            if(! (self.props.profilsModel.feedback)){
+                NotificationManager.success('', 'La compétence '+ self.state.newSkillShortName + ' a été ajouté');
+            }else
+            {NotificationManager.error('',self.props.profilsModel.feedback ); }
             self.setState({
                 newProfilOrga: '',
                 newProfilShortName: '',
                 newProfilFreeComments: '',
+                newProfilPdfPath: '',
+                error: ''
             });
         } else {
             var missingFields = [];
-            if (!self.state.newProfilShortName) missingFields.push('Intitulé du profil');
-            if (!self.state.newProfilOrga) missingFields.push('Position dans l\'organigramme');
-            self.setState({error: 'Il manque des champs avant de pouvoir ajouter le profil :\n' + missingFields.join(', ')});
+            if (!self.state.newProfilShortName) missingFields.push('Nom du profil');
+            if (!self.state.newProfilOrga) missingFields.push('Organisastion');
+            self.setState({error: 'Il manque des champs avant de pouvoir ajouter la compétence :\n' + missingFields.join(', ')});
             // setTimeout(function () {
             //   $('#profils-new-profil').popover(self.state.error ? 'show' : 'hide');
             //   setTimeout(function () {
@@ -270,6 +271,11 @@ var RefGpecProfils = React.createClass({
         event.stopPropagation(); // Really this time.
     },
 
+    handleChangePDF : function (event) {
+        this.close();
+        this.setState({newProfilPdfPath:ReactDOM.findDOMNode(this.refs.formUrlPdf).value});
+
+    },
 
     componentDidMount () {
 

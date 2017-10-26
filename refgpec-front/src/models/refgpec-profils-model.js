@@ -32,33 +32,51 @@ RefGpecProfilsModel.prototype.inform = function () {
 };
 
 
-RefGpecProfilsModel.prototype.addProfil = function (profilOrga, profilShortName, profilFreeComments, cb) {
+RefGpecProfilsModel.prototype.addProfil = function (orga_code, profil_shortname, profil_free_comments,profil_pdf_path, cb) {
   var self = this;
   self.ajaxLoading = true;
 
   // filter other skills family to have a correct numeric id
   var codes = Object.keys(self.profils).filter(function (elt) {
-    return (elt.indexOf('p-' + profilOrga) === 0)
+    return (elt.indexOf('p-' + orga_code) === 0)
   });
-  var newCode = 'p-' + profilOrga + '-1';
+  var profil_code = 'p-' + orga_code + '-1';
   // add +1 to the id if more than one profil in this orga
+  codes.sort();
   if (codes.length > 0) {
     var lastCode = codes[codes.length - 1];
     var lastCodeSplitted = lastCode.split('-');
-    newCode  = 'p-' + profilOrga + '-' + (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
+    profil_code  = 'p-' + orga_code + '-' + (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
   }
-  self.profils[newCode] = { profilOrga, profilShortName, profilFreeComments,
-    profilNbSkillsSF: 0,
-    profilNbSkillsS: 0,
-    profilNbSkillsSE: 0,
-  };
-  self.inform();
+      axios.post('/api/profils', {
+      profil_code: profil_code,
+      profil_shortname: profil_shortname,
+      profil_free_comments : profil_free_comments,
+      profil_pdf_path :profil_pdf_path,
+      orga_code:orga_code
+  })
+      .then(function (response) {
+          self.feedback='';
+          self.profils[profil_code] = { orga_code, profil_shortname, profil_free_comments,profil_pdf_path};
+          self.ajaxLoading = false;
+          self.inform();
+          return cb && cb(null);
+      })
+      .catch(function (error) {
+          self.feedback='Une erreur a été rencontrée lors de l\'ajout dans la base de donnée';
+          self.ajaxLoading = false;
+          self.inform();
+          return cb && cb(error);
+      });
 
-  setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
+
     self.inform();
-    return cb && cb(null);
-  }, 5000);
+
+    setTimeout(function () { // simulate AJAX request
+        self.ajaxLoading = false;
+        self.inform();
+        return cb && cb(null);
+    }, 5000);
 };
 
 RefGpecProfilsModel.prototype.destroy = function (profilId, cb) {
