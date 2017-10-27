@@ -7,13 +7,11 @@ var RefGpecProfilSkill = React.createClass({
     //console.log('HELLO', this.props.skillsModel.skills[this.props.psData.psSkillId])
     return {
       psId:           this.props.psId,
-      psProfilId:     this.props.psData.psProfilId,
-      psSkillId:      this.props.psData.psSkillId,
-      psSkillShortName:
-        this.props.skillsModel.skills[this.props.psData.psSkillId] ?
-          this.props.skillsModel.skills[this.props.psData.psSkillId].skillShortName : '',
-      psLevelId:      this.props.psData.psLevelId,
-      psFreeComments: this.props.psData.psFreeComments,
+      psProfilId:     this.props.psData.profil_code,
+      psSkillId:      this.props.psData.skill_code,
+      psSkillShortName:this.props.skillsModel.skills[this.props.psData.skill_code],
+      psLevelId:      this.props.psData.level_code,
+      psFreeComments: this.props.psData.psl_free_comments,
       mustBeSaved: false,
       error: ''
     };
@@ -109,8 +107,6 @@ var RefGpecProfilSkill = React.createClass({
   },
 
   handleChange: function (event) {
-    console.log('ps.handleChange')
-
     var newState = {};
     newState[event.target.getAttribute('data-fieldname')] = event.target.value;
     this.setState(newState);

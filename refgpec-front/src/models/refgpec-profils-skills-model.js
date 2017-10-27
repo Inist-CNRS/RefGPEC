@@ -1,44 +1,25 @@
+import axios from 'axios';
 var RefGpecProfilsSkillsModel = function (options) {
   const self = this;
 
-  self.profilsSkills = {};
+  self.profilsSkillsLevels = {};
   self.initializing = true;
   self.ajaxLoading = false;
   self.onChanges = [];
-    
-  // simulate ajax request
-  setTimeout(function () {
-    // fake data for debug
-    self.profilsSkills = {
-      "ps-1": {
-        psProfilId:     "p-dpi_spproj-1",
-        psSkillId:      "c-sf-info-1",
-        psLevelId:      "m-2",
-        psFreeComments: "",
-      },
-      "ps-2": {
-        psProfilId:     "p-dpi_spproj-1",
-        psSkillId:      "c-sf-info-2",
-        psLevelId:      "m-3",
-        psFreeComments: "",
-      },
-      "ps-3": {
-        psProfilId:     "p-dos_spub_eqvalobbd-1",
-        psSkillId:      "c-s-lang-1",
-        psLevelId:      "m-3",
-        psFreeComments: "",
-      },
-      "ps-4": {
-        psProfilId:     "p-dos_spub_eqvalobbd-1",
-        psSkillId:      "c-sf-geadmin-1",
-        psLevelId:      "m-1",
-        psFreeComments: "",
-      },
-    };
-    self.initializing = false;
-    self.inform();
-  }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
 
+    axios.get('/api/profils_skills_levels?order=psl_code.asc,profil_code.asc,level_code.asc')
+        .then(response => {
+
+            self.profilsSkillsLevels = {};
+            response.data.forEach(item => {
+                self.profilsSkillsLevels[item.psl_code] = item;
+            });
+            self.initializing = false;
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecProfilSkillsLevelModel error loading data', err);
+        });
 };
 
 RefGpecProfilsSkillsModel.prototype.subscribe = function (onChange) {
@@ -55,7 +36,7 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function (psProfilId, psSki
   self.ajaxLoading = true;
 
   // filter other skills family to have a correct numeric id
-  var codes = Object.keys(self.profilsSkills);
+  var codes = Object.keys(self.profilsSkillsLevels);
   var newCode = 'ps-1';
   // add +1 to the id
   if (codes.length > 0) {
@@ -63,7 +44,7 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function (psProfilId, psSki
     var lastCodeSplitted = lastCode.split('-');
     newCode  = 'ps-' + (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
   }
-  self.profilsSkills[newCode] = { psProfilId, psSkillId, psLevelId, psFreeComments };
+  self.profilsSkillsLevels[newCode] = { psProfilId, psSkillId, psLevelId, psFreeComments };
   self.inform();
 
   setTimeout(function () { // simulate AJAX request
@@ -77,7 +58,7 @@ RefGpecProfilsSkillsModel.prototype.destroy = function (psId, cb) {
   var self = this;
   self.ajaxLoading = true;
 
-  delete self.profilsSkills[psId];
+  delete self.profilsSkillsLevels[psId];
   self.inform();
 
   setTimeout(function () { // simulate AJAX request
@@ -85,6 +66,23 @@ RefGpecProfilsSkillsModel.prototype.destroy = function (psId, cb) {
     self.inform();
     return cb && cb(null);
   }, 1000);  
+};
+
+RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(profil_code){
+  var psl = {};
+    var self = this;
+    axios.get('/api/profils_skills_levels?profil_code=eq.'+profil_code)
+        .then(response => {
+            response.data.forEach(item => {
+                psl[item.psl_code] = item;
+            });
+            self.initializing = false;
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecProfilSkillsLevelModel error loading data', err);
+        });
+    return psl;
 };
 
 
@@ -92,8 +90,7 @@ RefGpecProfilsSkillsModel.prototype.destroy = function (psId, cb) {
 RefGpecProfilsSkillsModel.prototype.save = function (profilId, data, cb) {
   var self = this;
   self.ajaxLoading = true;
-
-  self.profilsSkills[profilId] = data; // TODO data ...
+  self.profilsSkillsLevels[profilId] = data;
   self.inform();
 
   setTimeout(function () { // simulate AJAX request
@@ -103,4 +100,4 @@ RefGpecProfilsSkillsModel.prototype.save = function (profilId, data, cb) {
   }, 1000);  
 };
 
-module.exports = RefGpecProfilsSkillsModel;
+export default RefGpecProfilsSkillsModel;
