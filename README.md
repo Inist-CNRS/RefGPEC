@@ -1,5 +1,6 @@
 # RefGPEC
 
+[![Build Status](https://travis-ci.org/Inist-CNRS/RefGPEC.svg?branch=master)](https://travis-ci.org/Inist-CNRS/RefGPEC) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/refgpec.svg)](https://registry.hub.docker.com/u/inistcnrs/refgpec/)
 
 Application de gestion d'un référentiel de profils/compétences pour une démarche GPEC.
 
