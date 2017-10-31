@@ -1,6 +1,8 @@
 import React from 'react';
 import RefGpecProfilSkill from './refgpec-profil-skill.jsx';
 import RefGPECProfilsList from './refgpec-profils-list';
+import RefGpecSkillsTypeList from './refgpec-skills-type-list';
+import  RefGpecLevelslist from './refgpec-levels-list';
 import { OverlayTrigger, Popover} from "react-bootstrap";
 import {NotificationContainer,NotificationManager} from "react-notifications"
 var RefGpecProfilsSkills = React.createClass({
@@ -10,12 +12,10 @@ var RefGpecProfilsSkills = React.createClass({
         return {
             layout: 'vertical',
             selectedProfil: '',
-            listSkill : '',
             PDF_path : '',
-            newShortName: '',
-            newType:'',
-            newDomain:'',
+            newSkill: '',
             newLevel:'',
+            newFreeComment:'',
             error: '',
         };
     },
@@ -23,8 +23,14 @@ var RefGpecProfilsSkills = React.createClass({
     render: function () {
 
         var self = this;
+        if (self.props.profilsSkillsModel.initializing ||
+            self.props.skillsModel.initializing || self.props.skillsTypesModel.initializing ||
+            self.props.skillsDomainsModel.initializing || self.props.levelsModel.initializing){
+            return null;
+        }
+
         let rgPS = [];
-        Object.keys(self.state.listSkill).forEach(function (key) {
+        Object.keys(self.props.profilsSkillsModel.psl).forEach(function (key) {
             rgPS.push(
                 <RefGpecProfilSkill
                     key={key} psId={key}
@@ -109,7 +115,7 @@ var RefGpecProfilsSkills = React.createClass({
 
                                     <tr>
                                         <td>
-                                            <OverlayTrigger show={this.missingField} trigger="focus"
+                                            <OverlayTrigger show={null} trigger="focus"
                                                             data-title="Erreur nouveau profil_Skills" placement="top"
                                                             overlay={
                                                                 <Popover id="popover-positioned-top">
@@ -123,47 +129,30 @@ var RefGpecProfilsSkills = React.createClass({
 
                                         </td>
                                         <td colSpan="2">
-                                            <select className="form-control" id="skills-datalist">
-                                                <option></option>
-                                                <optgroup label="Général">
-                                                    <option value="tse-gen-1">Participation à des instances/groupes de
-                                                        travail
-                                                    </option>
-                                                </optgroup>
-                                                <optgroup label="Langues">
-                                                    <option value="ts-lang-1">Anglais</option>
-                                                </optgroup>
-                                                <optgroup label="Informatique">
-                                                    <option value="tsf-info-1">Langage de programmation</option>
-                                                    <option value="tsf-info-2">Elasticsearch</option>
-                                                </optgroup>
-                                                <optgroup label="Gestion administrative">
-                                                    <option value="tsf-gadm-1">Elaboration et suivi budgétaire</option>
-                                                </optgroup>
-                                            </select>
+                                                <RefGpecSkillsTypeList
+                                                    skillData={self.props.skillsModel}
+                                                    ajaxLoading={self.props.skillsModel.ajaxLoading}
+                                                    data-fieldname="newSkill"
+                                                    onChange={this.handleSkillChange}
+                                                    value={this.state.newSkill}
+                                                />
                                         </td>
                                         <td>
-                                            <select className="form-control" id="levels-datalist">
-                                                <option></option>
-                                                <option value="4"
-                                                        title="Fait d'avoir acquis une très grande maîtrise grâce à une longue expérience et d'être reconnu par ses pairs et sollicité">
-                                                    Expertise
-                                                </option>
-                                                <option value="3"
-                                                        title="Capacité d'user à son gré d'une compétence, d'un savoir, d'une technique">
-                                                    Maîtrise
-                                                </option>
-                                                <option value="2"
-                                                        title="Capacité à mettre en œuvre et/ou en pratique, une compétence, un savoir, une technique">
-                                                    Pratique
-                                                </option>
-                                                <option value="1" title="Connaissances élémentaires et/ou incomplètes">
-                                                    Notions
-                                                </option>
-                                            </select>
+                                            <RefGpecLevelslist
+                                                skillData={self.props.levelsModel}
+                                                ajaxLoading={self.props.levelsModel.ajaxLoading}
+                                                data-fieldname="newLevel"
+                                                onChange={this.handleLevelChange}
+                                                value={this.state.newLevel}
+                                            />
                                         </td>
-                                        <td><textarea className="form-control" rows="1"
-                                                      placeholder="Commentaires libres"></textarea></td>
+                                        <td> <textarea className="form-control" rows="1"
+                                                       placeholder="Commentaires libres"
+                                                       value={this.state.newFreeComment}
+                                                       data-fieldname="newFreeComment"
+                                                       onChange={this.handleChangeFreeComm}
+                                                       disabled={this.props.profilsSkillsModel.ajaxLoading}
+                                        /></td>
                                     </tr>
                             </tbody>
                           </table>
@@ -196,33 +185,40 @@ var RefGpecProfilsSkills = React.createClass({
         );
     },
 
+    handleSkillChange:function (event) {
+        this.setState({newSkill:event})
+    },
+    handleLevelChange : function (event) {
+        this.setState({newLevel:event})
+    },
+    handleChangeFreeComm :function (event) {
+        this.setState({newFreeComment:event.target.value});
+    },
+
     handleSubmit: function (event) {
         const self = this;
         if (self.props.profilsSkillsModel.ajaxLoading) return;
-
         if (!self.missingField()) {
+            self.props.profilsSkillsModel.addProfilSkill(self.state.selectedProfil, self.state.newSkill, self.state.newLevel, self.state.newFreeComment);
             if(! (self.props.profilsSkillsModel.feedback)){
-                NotificationManager.success('', 'La compétence '+ self.state.newShortName + ' a été ajouté au profil ...');
+                NotificationManager.success('', 'La compétence '+ self.state.newSkill + ' a été ajouté au profil ' + self.state.selectedProfil);
             }else
             {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
             self.setState({
-                newDomain: '',
                 newLevel: '',
-                newShortName: '',
-                newType: '',
-                error: ''
+                newSkill: '',
+                newFreeComment :'',
+                error: '',
             });
         } else {
 
             var missingFields = [];
             if (!self.state.selectedProfil) missingFields.push('Profil de poste');
-            if (!self.state.newDomain) missingFields.push('Domaine');
             if (!self.state.newLevel) missingFields.push('Modulation');
-            if (!self.state.newShortName) missingFields.push('Compétence');
-            if (!self.state.newType) missingFields.push('Type');
+            if (!self.state.newSkill) missingFields.push('Compétence');
             self.setState({error: 'Il manque des champs avant de pouvoir ajouter la compétence :\n' + missingFields.join(', ')});
         }
-
+        console.log(self.props.profilsSkillsModel.profilsSkillsLevels);
         event.preventDefault(); // Let's stop this event.
         event.stopPropagation(); // Really this time.
     },
@@ -230,9 +226,9 @@ var RefGpecProfilsSkills = React.createClass({
     handleChangeProfil: function(event){
         if(event) {
             let code_profil = event;
-            let list_skill = this.props.profilsSkillsModel.getProfilSkillLevel(code_profil);
+            this.props.profilsSkillsModel.getProfilSkillLevel(code_profil);
             let chemin_pdf = this.props.profilsModel.profils[code_profil].profil_pdf_path;
-            this.setState({selectedProfil: code_profil, listSkill: list_skill, PDF_path: chemin_pdf});
+            this.setState({selectedProfil: code_profil, PDF_path: chemin_pdf});
         }
     },
 
@@ -254,7 +250,7 @@ var RefGpecProfilsSkills = React.createClass({
     },
 
     missingField() {
-        return (!this.state.selectedProfil) || (!this.state.newDomain) || (!this.state.newLevel) || (!this.state.newShortName) || (!this.state.newType);
+        return (!this.state.selectedProfil)  || (!this.state.newLevel) || (!this.state.newSkill);
     }
 
 

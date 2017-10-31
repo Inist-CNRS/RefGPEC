@@ -6,6 +6,7 @@ var RefGpecProfilsSkillsModel = function (options) {
   self.initializing = true;
   self.ajaxLoading = false;
   self.onChanges = [];
+  self.psl ={};
 
     axios.get('/api/profils_skills_levels?order=psl_code.asc,profil_code.asc,level_code.asc')
         .then(response => {
@@ -31,27 +32,49 @@ RefGpecProfilsSkillsModel.prototype.inform = function () {
 };
 
 
-RefGpecProfilsSkillsModel.prototype.addProfilSkill = function (psProfilId, psSkillId, psLevelId, psFreeComments, cb) {
+RefGpecProfilsSkillsModel.prototype.addProfilSkill = function (profil_code, skill_code, level_code, psl_free_comments, cb) {
   var self = this;
   self.ajaxLoading = true;
 
   // filter other skills family to have a correct numeric id
   var codes = Object.keys(self.profilsSkillsLevels);
-  var newCode = 'ps-1';
+  var psl_code = 'ps-1';
   // add +1 to the id
+  codes.sort();
   if (codes.length > 0) {
     var lastCode = codes[codes.length - 1];
     var lastCodeSplitted = lastCode.split('-');
-    newCode  = 'ps-' + (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
+      psl_code  = 'ps-' + (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
   }
-  self.profilsSkillsLevels[newCode] = { psProfilId, psSkillId, psLevelId, psFreeComments };
-  self.inform();
+    axios.post('/api/profils_skills_levels', {
+        psl_code : psl_code,
+        profil_code: profil_code,
+        skill_code: skill_code,
+        level_code : level_code,
+        psl_free_comments :psl_free_comments,
+    })
+        .then(function (response) {
+            self.feedback='';
+            self.profilsSkillsLevels[psl_code] = { psl_code,psl_free_comments,level_code,skill_code,profil_code };
+            self.getProfilSkillLevel(profil_code);
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(null);
+        })
+        .catch(function (error) {
+            self.feedback='Une erreur a été rencontrée lors de l\'ajout dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
+        });
 
-  setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
     self.inform();
-    return cb && cb(null);
-  }, 5000);
+    setTimeout(function () { // simulate AJAX request
+        self.ajaxLoading = false;
+        self.inform();
+        return cb && cb(null);
+    }, 5000);
+
 };
 
 RefGpecProfilsSkillsModel.prototype.destroy = function (psId, cb) {
@@ -69,12 +92,13 @@ RefGpecProfilsSkillsModel.prototype.destroy = function (psId, cb) {
 };
 
 RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(profil_code){
-  var psl = {};
+
     var self = this;
+    self.psl ={};
     axios.get('/api/profils_skills_levels?profil_code=eq.'+profil_code)
         .then(response => {
             response.data.forEach(item => {
-                psl[item.psl_code] = item;
+                self.psl[item.psl_code] = item;
             });
             self.initializing = false;
             self.inform();
@@ -82,7 +106,7 @@ RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(profil_code){
         .catch(err => {
             console.log('RefGpecProfilSkillsLevelModel error loading data', err);
         });
-    return psl;
+    self.inform();
 };
 
 

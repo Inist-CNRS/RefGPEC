@@ -7,20 +7,32 @@ var RefGpecProfilsModel = function (options) {
   self.ajaxLoading = false;
   self.onChanges = [];
   self.feedback = '';
+  self.listOrga = {};
+
     axios.get('/api/profils')
         .then(response => {
 
             self.profils = {};
             response.data.forEach(item => {
                 self.profils[item.profil_code] = item;
-            })
-
+            });
             self.initializing = false;
             self.inform();
         })
         .catch(err => {
             console.log('RefGpecProfilModelError loading data', err);
         });
+
+    axios.get('/api/view_list_orga_profils')
+        .then(response => {
+            response.data.forEach(item => {
+                self.listOrga[item.orga_code] = item;
+            });
+        })
+        .catch(err => {
+            console.log('RefGpecProfilModelError loading data', err);
+        });
+
 };
 
 RefGpecProfilsModel.prototype.subscribe = function (onChange) {
@@ -130,5 +142,7 @@ RefGpecProfilsModel.prototype.save = function (profilId, data, cb) {
     self.inform();
 
 };
+
+
 
 export default  RefGpecProfilsModel;

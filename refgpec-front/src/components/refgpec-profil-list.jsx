@@ -13,10 +13,9 @@ var RefGpecProfilList = React.createClass({
     },
 
     render: function () {
-
         return (
-            <option value={this.state.profil_code}>{this.state.profil_shortname}</option>
 
+            <option value={this.state.profil_code}>{this.state.profil_shortname}</option>
         );
     },
 

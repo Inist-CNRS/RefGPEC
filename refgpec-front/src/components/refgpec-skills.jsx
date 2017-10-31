@@ -191,7 +191,6 @@ var RefGpecSkills = React.createClass({
         if (self.props.skillsModel.ajaxLoading) return;
         if (self.state.newSkillShortName && self.state.newSkillDomain && self.state.newSkillType) {
             self.props.skillsModel.addSkill(self.state.newSkillType, self.state.newSkillDomain, self.state.newSkillShortName, self.state.newSkillFreeComments);
-
                 if(! (self.props.skillsModel.feedback)){
                     NotificationManager.success('', 'La compétence '+ self.state.newSkillShortName + ' a été ajouté');
                 }else

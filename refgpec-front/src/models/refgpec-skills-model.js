@@ -7,7 +7,7 @@ var RefGpecSkillsModel = function (options) {
   self.ajaxLoading = false;
   self.onChanges = [];
   self.feedback = '';
-
+    self.listDomain = {};
 
 
       axios.get('/api/skills?order=sd_code.asc,st_code.asc,skill_shortname.asc')
@@ -24,6 +24,15 @@ var RefGpecSkillsModel = function (options) {
               console.log('RefGpecSkillsModel error loading data', err);
           });
 
+    axios.get('/api/view_list_domains_profil')
+        .then(response => {
+            response.data.forEach(item => {
+                self.listDomain[item.sd_code] = item;
+            });
+        })
+        .catch(err => {
+            console.log('RefGpecProfilModelError loading data', err);
+        });
 /*
 
       // fake data for debug
