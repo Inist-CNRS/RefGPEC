@@ -30,6 +30,11 @@ run-debug: ## run refgpec in debug mode (live regenerate the bundle.js if js are
 	@echo "Attaching to create-react-app npm start for debugging"
 	@docker attach refgpec-front-cra
 
+stop: ## stop refgpec containers
+	@docker-compose -f ./docker-compose.debug.yml stop
+kill: ## kill refgpec containers
+	@docker-compose -f ./docker-compose.debug.yml kill
+
 # makefile rule used to keep current user's unix rights on the docker mounted files
 chown:
 	@test ! -d $$(pwd)/refgpec-front/node_modules || docker run -it --rm --net=host -v $$(pwd):/app node:8.7.0 chown -R $$(id -u):$$(id -g) /app/
