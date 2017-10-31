@@ -41,7 +41,7 @@ var RefGpecProfilsSkills = createReactClass({
                     skillsDomainsModel={self.props.skillsDomainsModel}
                     psData={self.props.profilsSkillsModel.profilsSkillsLevels[key]}
                     onSave={self.props.profilsSkillsModel.save.bind(self.props.profilsSkillsModel)}
-                    onDestroy={self.props.profilsSkillsModel.destroy.bind(self.props.profilsSkillsModel)}
+                    onDestroy={self.handleDestroy}
                     ajaxLoading={self.props.profilsSkillsModel.ajaxLoading}
                 />);
         });
@@ -219,9 +219,18 @@ var RefGpecProfilsSkills = createReactClass({
             if (!self.state.newSkill) missingFields.push('Compétence');
             self.setState({error: 'Il manque des champs avant de pouvoir ajouter la compétence :\n' + missingFields.join(', ')});
         }
-        console.log(self.props.profilsSkillsModel.profilsSkillsLevels);
         event.preventDefault(); // Let's stop this event.
         event.stopPropagation(); // Really this time.
+    },
+
+    handleDestroy: function (profilSkillId){
+        let self = this;
+        if (self.props.profilsSkillsModel.ajaxLoading) return;
+        self.props.profilsSkillsModel.destroy(profilSkillId,self.state.selectedProfil);
+        if(! (self.props.profilsSkillsModel.feedback)){
+            NotificationManager.success('', 'La compétence '+ profilSkillId + ' a été supprimé du profil ' +self.state.selectedProfil);
+        }else
+        {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
     },
 
     handleChangeProfil: function(event){

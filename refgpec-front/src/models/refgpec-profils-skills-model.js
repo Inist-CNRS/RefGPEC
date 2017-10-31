@@ -7,6 +7,7 @@ var RefGpecProfilsSkillsModel = function (options) {
   self.ajaxLoading = false;
   self.onChanges = [];
   self.psl ={};
+  self.feedback ='';
 
     axios.get('/api/profils_skills_levels?order=psl_code.asc,profil_code.asc,level_code.asc')
         .then(response => {
@@ -77,18 +78,27 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function (profil_code, skil
 
 };
 
-RefGpecProfilsSkillsModel.prototype.destroy = function (psId, cb) {
-  var self = this;
-  self.ajaxLoading = true;
+RefGpecProfilsSkillsModel.prototype.destroy = function (pslId,profil_code, cb) {
+    var self = this;
+    self.ajaxLoading = true;
 
-  delete self.profilsSkillsLevels[psId];
-  self.inform();
+    axios.delete('/api/profils_skills_levels?psl_code=eq.'+pslId)
+        .then(function (response) {
+            self.feedback='';
+            delete self.profilsSkillsLevels[profil_code];
+            self.getProfilSkillLevel(profil_code);
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(null);
+        })
+        .catch(function (error) {
+            self.feedback='Une erreur a été rencontrée lors de la suppression dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
+        });
 
-  setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
     self.inform();
-    return cb && cb(null);
-  }, 1000);  
 };
 
 RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(profil_code){
@@ -100,7 +110,6 @@ RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(profil_code){
             response.data.forEach(item => {
                 self.psl[item.psl_code] = item;
             });
-            self.initializing = false;
             self.inform();
         })
         .catch(err => {

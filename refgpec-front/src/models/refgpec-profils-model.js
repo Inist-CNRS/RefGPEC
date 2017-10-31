@@ -124,7 +124,7 @@ RefGpecProfilsModel.prototype.save = function (profilId, data, cb) {
         profil_free_comments : data.profil_free_comments,
         profil_pdf_path : data.profil_pdf_path,
         orga_code: data.orga_code
-    })  .then(function (response) {
+    }) .then(function (response) {
         self.feedback='';
         self.profils[profilId] = data;
         self.ajaxLoading = false;
