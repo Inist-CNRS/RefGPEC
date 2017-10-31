@@ -1,6 +1,6 @@
 import React from "react";
-
-var RefGpecDomain = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecDomain = createReactClass({
   displayName: 'RefGpecDomain',
 
   getInitialState: function () {

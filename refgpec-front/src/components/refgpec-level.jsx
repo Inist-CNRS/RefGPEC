@@ -1,6 +1,7 @@
 import React from 'react';
 import {DropdownButton,MenuItem} from 'react-bootstrap';
-var RefGpecLevel = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecLevel = createReactClass({
   displayName: 'RefGpecLevel',
 
   getInitialState: function () {
@@ -26,7 +27,7 @@ var RefGpecLevel = React.createClass({
         {/* ACTION MENU */}
         <td>
           <div className="btn-group">
-            <DropdownButton title=" " aria-expanded="false">
+            <DropdownButton id="dropdown-level" title=" " aria-expanded="false">
               <MenuItem  href="" onClick={this.handleDestroy}>  <span className="glyphicon glyphicon-remove"></span> Supprimer la modulation de compétence
               </MenuItem>
             </DropdownButton>

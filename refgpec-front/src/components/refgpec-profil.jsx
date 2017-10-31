@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import {Modal,DropdownButton,MenuItem} from 'react-bootstrap';
 import RefGpecOrganigrammes from './refgpec-organigrammes';
 import RefGpecPDF from './refgpec-pdf';
-var RefGpecProfil = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecProfil = createReactClass({
   displayName: 'RefGpecProfil',
 
   getInitialState: function () {
@@ -65,7 +66,7 @@ var RefGpecProfil = React.createClass({
         {/* ACTION MENU */}
         <td>
           <div className="btn-group">
-          <DropdownButton title=" " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <DropdownButton id="dropdown-profil" title=" " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <MenuItem  href="" onClick={this.handleOpenProfilSkills}>   <span className="glyphicon glyphicon-list"></span> Associer des compétences à ce profil </MenuItem>
               {(() => {
                 if(self.state.profil_pdf_path){ return <MenuItem href=""  onClick={this.open }> <span className="fa fa-file-pdf-o"></span> Mettre à jour le PDF du profil </MenuItem>; }

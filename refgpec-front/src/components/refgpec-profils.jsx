@@ -4,7 +4,8 @@ import RefGpecProfil from "./refgpec-profil.jsx";
 import {Modal, OverlayTrigger, Popover} from "react-bootstrap";
 import RefGpecOrganigrammes from "./refgpec-organigrammes"
 import {NotificationContainer,NotificationManager} from "react-notifications"
-var RefGpecProfils = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecProfils = createReactClass({
     displayName: 'RefGpecProfils',
 
 
@@ -156,14 +157,14 @@ var RefGpecProfils = React.createClass({
                       />
                                 </td>
                                 <td>
-                                    <OverlayTrigger show={this.missingField} trigger="focus"
+                                    <OverlayTrigger trigger="focus"
                                                     data-title="Erreur nouveau profil" placement="top"
                                                     overlay={
                                                         <Popover id="popover-positioned-top">
                                                             {this.state.error }
                                                         </Popover>}
                                     >
-                                        <a href="" className="btn fa fa-plus-square fa-2x" role="button"
+                                        <a href="" className="fa fa-plus-square fa-2x" role="button"
                                            onClick={this.handleSubmit}
                                            title="Ajouter ce profil au référentiel"/>
                                     </OverlayTrigger>

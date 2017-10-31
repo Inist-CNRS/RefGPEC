@@ -1,6 +1,6 @@
 import React from "react";
-
-var RefGpecLevelList = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecLevelList = createReactClass({
     displayName: 'RefGpecLevelList',
 
     getInitialState: function () {

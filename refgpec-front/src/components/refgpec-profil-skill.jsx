@@ -1,6 +1,7 @@
 import React from 'react';
 import {DropdownButton,MenuItem} from 'react-bootstrap';
-var RefGpecProfilSkill = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecProfilSkill = createReactClass({
   displayName: 'RefGpecProfilSkill',
 
   getInitialState: function () {
@@ -37,7 +38,7 @@ var RefGpecProfilSkill = React.createClass({
         {/* ACTION MENU */}
         <td>
             <div className="btn-group">
-              <DropdownButton title= " " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <DropdownButton id="dropdown-profil_skill" title= " " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <MenuItem  href=""onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Dissocier la compétence du profil </MenuItem>
               </DropdownButton>
 

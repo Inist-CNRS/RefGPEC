@@ -2,7 +2,8 @@ import React from 'react';
 import {DropdownButton,MenuItem} from 'react-bootstrap';
 import RefGpecTypes from "./refgpec-types.jsx";
 import RefGpecDomains from './refgpec-domains';
-var RefGpecSkill = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecSkill = createReactClass({
   displayName: 'RefGpecSkill',
 
   getInitialState: function () {
@@ -28,7 +29,7 @@ var RefGpecSkill = React.createClass({
         {/* ACTION MENU */}
         <td>
           <div className="btn-group">
-            <DropdownButton title=" " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <DropdownButton id="dropdown-skill" title=" " aria-expanded="false">
               <MenuItem  href="" onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Supprimer la compétence </MenuItem>
               <MenuItem href=""  onClick={this.handleViewAssociatedProfils}> <span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence</MenuItem>
             </DropdownButton>

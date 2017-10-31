@@ -1,6 +1,6 @@
 import React from "react";
-
-var RefGpecType = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecType = createReactClass({
   displayName: 'RefGpecType',
 
   getInitialState: function () {

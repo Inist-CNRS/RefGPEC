@@ -1,7 +1,8 @@
 import React from 'react';
 import RefGpecLevel from './refgpec-level.jsx';
 import {NotificationContainer,NotificationManager} from "react-notifications"
-var RefGpecLevels = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecLevels = createReactClass({
   displayName: 'RefGpecLevels',
 
   getInitialState: function () {
@@ -82,7 +83,7 @@ var RefGpecLevels = React.createClass({
                       />
                     </td>
                     <td>
-                      <a href="" className="btn fa fa-plus-square fa-2x" role="button"
+                      <a href="" className="fa fa-plus-square fa-2x" role="button"
                          onClick={this.handleSubmit}
                          disabled={self.props.levelsModel.ajaxLoading}
                          title="Ajouter cette modulation" />

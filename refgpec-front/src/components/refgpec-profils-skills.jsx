@@ -5,7 +5,8 @@ import RefGpecSkillsTypeList from './refgpec-skills-type-list';
 import  RefGpecLevelslist from './refgpec-levels-list';
 import { OverlayTrigger, Popover} from "react-bootstrap";
 import {NotificationContainer,NotificationManager} from "react-notifications"
-var RefGpecProfilsSkills = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecProfilsSkills = createReactClass({
     displayName: 'RefGpecProfilsSkills',
 
     getInitialState: function () {

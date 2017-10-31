@@ -1,6 +1,6 @@
 import React from "react";
-
-var RefGpecSkillTypeList = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecSkillTypeList = createReactClass({
     displayName: 'RefGpecSkillTypeList',
 
     getInitialState: function () {

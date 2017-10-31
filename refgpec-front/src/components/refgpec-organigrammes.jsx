@@ -1,6 +1,7 @@
 import React from 'react';
 import RefGpecOrganigramme from "./refgpec-organigramme.jsx";
-var RefGpecOrganigrammes = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecOrganigrammes = createReactClass({
     displayName: 'RefGpecOrganigrammes',
 
     getInitialState: function () {

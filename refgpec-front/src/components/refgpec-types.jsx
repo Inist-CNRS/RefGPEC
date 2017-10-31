@@ -1,7 +1,8 @@
 import React from 'react';
 import RefGpecType from "./refgpec-type.jsx";
-var RefGpecTypes = React.createClass({
-  displayName: 'RefGpecType',
+var createReactClass = require('create-react-class');
+var RefGpecTypes = createReactClass({
+  displayName: 'RefGpecTypes',
 
   getInitialState: function () {
     return {

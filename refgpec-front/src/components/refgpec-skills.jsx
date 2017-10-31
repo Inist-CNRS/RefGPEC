@@ -4,7 +4,8 @@ import RefGpecTypes from "./refgpec-types.jsx";
 import RefGpecDomains from './refgpec-domains';
 import {OverlayTrigger, Popover} from "react-bootstrap";
 import {NotificationContainer,NotificationManager} from "react-notifications"
-var RefGpecSkills = React.createClass({
+var createReactClass = require('create-react-class');
+var RefGpecSkills = createReactClass({
     displayName: 'RefGpecSkills',
 
     getInitialState: function () {
@@ -122,14 +123,14 @@ var RefGpecSkills = React.createClass({
                                 </td>
 
                                 <td>
-                                    <OverlayTrigger show={this.missingField()} trigger="focus"
+                                    <OverlayTrigger trigger="focus"
                                                     data-title="Erreur nouvelle compétence" placement="top"
                                                     overlay={
                                                         <Popover id="popover-positioned-top">
-                                                            {this.state.error }
+                                                            {this.state.error}
                                                         </Popover>}
                                     >
-                                        <a href="" className="btn fa fa-plus-square fa-2x" role="button"
+                                        <a href="" className="fa fa-plus-square fa-2x" role="button"
                                            onClick={this.handleSubmit}
                                            title="Ajouter cette compétence au référentiel"/>
                                     </OverlayTrigger>
