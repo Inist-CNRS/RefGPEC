@@ -14,9 +14,9 @@ var RefGpecProfil = createReactClass({
       profil_shortname:    this.props.profilData.profil_shortname,
       profil_free_comments: this.props.profilData.profil_free_comments,
       profil_pdf_path: this.props.profilData.profil_pdf_path,
-      profilNbSkillsSF:   3,
-      profilNbSkillsS:    2,
-      profilNbSkillsSE:   1,
+      profilNbSkillsSF:   this.props.profilData.profilnbskillssf,
+      profilNbSkillsS:    this.props.profilData.profilnbskillss,
+      profilNbSkillsSE:   this.props.profilData.profilnbskillsse,
      showModal : false,
       mustBeSaved: false,
       error: ''
@@ -32,7 +32,6 @@ var RefGpecProfil = createReactClass({
 
   render: function () {
     const self = this;
-
     // model is not ready ? then do not render anything
     if (self.props.orgaModel.initializing) {
       return null;
@@ -67,7 +66,7 @@ var RefGpecProfil = createReactClass({
         <td>
           <div className="btn-group">
           <DropdownButton id="dropdown-profil" title=" " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <MenuItem  href="" onClick={this.handleOpenProfilSkills}>   <span className="glyphicon glyphicon-list"></span> Associer des compétences à ce profil </MenuItem>
+            <MenuItem  href="#profils-skills" onClick={this.handleOpenProfilSkills}>   <span className="glyphicon glyphicon-list"></span> Associer des compétences à ce profil </MenuItem>
               {(() => {
                 if(self.state.profil_pdf_path){ return <MenuItem href=""  onClick={this.open }> <span className="fa fa-file-pdf-o"></span> Mettre à jour le PDF du profil </MenuItem>; }
               })()}
@@ -148,7 +147,7 @@ var RefGpecProfil = createReactClass({
         </td>
         <td>
           <p>
-            <a href="#" onClick={this.handleOpenProfilSkills}>
+            <a href="#profils-skills" onClick={this.handleOpenProfilSkills}>
               <span className="glyphicon glyphicon-link" title="Associer des compétences à ce profil"></span>
             </a>&nbsp;
             <span className={nbClassName['profilNbSkillsSF']}>{this.state.profilNbSkillsSF} savoir-faire</span>&nbsp;
@@ -219,9 +218,7 @@ var RefGpecProfil = createReactClass({
   },
 
   handleOpenProfilSkills: function (event) {
-    console.log('TODO: handleOpenProfilSkills ' + this.state.profil_code);
-    event.preventDefault(); // Let's stop this event.
-    event.stopPropagation(); // Really this time.
+    this.props.profilsSkillsModel.getProfilSkillLevel(this.state.profil_code);
   },
 
   handleChangePDF : function (event) {

@@ -80,6 +80,7 @@ var RefGpecHome = createReactClass({
         key="3"
         orgaModel={this.props.orgaModel}
         profilsModel={this.props.profilsModel}
+        profilsSkillsModel={this.props.profilsSkillsModel}
         onTabChange={this.doTabChange} />
     );
 

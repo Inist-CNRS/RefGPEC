@@ -42,6 +42,7 @@ var RefGpecProfils = createReactClass({
                 <RefGpecProfil
                     key={key} profilId={key}
                     orgaModel={self.props.orgaModel}
+                    profilsSkillsModel={self.props.profilsSkillsModel}
                     profilData={self.props.profilsModel.profils[key]}
                     onSave={self.handleSave}
                     onDestroy={self.handleDestroy}
@@ -245,7 +246,7 @@ var RefGpecProfils = createReactClass({
             self.props.profilsModel.addProfil(self.state.newProfilOrga, self.state.newProfilShortName, self.state.newProfilFreeComments, self.state.newProfilPdfPath);
 
             if(! (self.props.profilsModel.feedback)){
-                NotificationManager.success('', 'La compétence '+ self.state.newSkillShortName + ' a été ajouté');
+                NotificationManager.success('', 'le profil '+ self.state.newProfilShortName + ' a été ajouté');
             }else
             {NotificationManager.error('',self.props.profilsModel.feedback ); }
             self.setState({
@@ -259,7 +260,7 @@ var RefGpecProfils = createReactClass({
             var missingFields = [];
             if (!self.state.newProfilShortName) missingFields.push('Nom du profil');
             if (!self.state.newProfilOrga) missingFields.push('Organisastion');
-            self.setState({error: 'Il manque des champs avant de pouvoir ajouter la compétence :\n' + missingFields.join(', ')});
+            self.setState({error: 'Il manque des champs avant de pouvoir ajouter le profil :\n' + missingFields.join(', ')});
             // setTimeout(function () {
             //   $('#profils-new-profil').popover(self.state.error ? 'show' : 'hide');
             //   setTimeout(function () {
@@ -276,7 +277,7 @@ var RefGpecProfils = createReactClass({
         this.props.profilsModel.destroy(profilId);
         let self = this;
         if(! (self.props.profilsModel.feedback)){
-            NotificationManager.success('', 'La compétence '+ profilId + ' a été supprimé');
+            NotificationManager.success('', 'le profil '+ profilId + ' a été supprimé');
         }else
         {NotificationManager.error('',self.props.profilsModel.feedback ); }
     },
