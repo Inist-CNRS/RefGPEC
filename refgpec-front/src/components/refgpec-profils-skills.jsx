@@ -79,11 +79,12 @@ var RefGpecProfilsSkills = createReactClass({
                       <p>
                         Vous êtes en train de modifier les associations de compétences sur le profil suivant :
                         <RefGPECProfilsList
+
                             skillData={self.props.profilsModel}
                             ajaxLoading={self.props.profilsModel.ajaxLoading}
                             data-fieldname="ProfilSelect"
                             onChange={this.handleChangeProfil}
-                            value={this.state.selectedProfil}
+                            value={self.props.profilsSkillsModel.profil}
                         />
                         </p>
 
@@ -168,7 +169,7 @@ var RefGpecProfilsSkills = createReactClass({
                       {/* PROFILS ET COMPETENCES : ZONE PDF PREVIEW */}
                     <div className={layoutColClasses}>
                       <div className="embed-responsive embed-responsive-4by3" style={{ height: "1200px" }}>
-                        <iframe className="embed-responsive-item" src={this.state.PDF_path}></iframe>
+                        <iframe title="pdf-preview" className="embed-responsive-item" src={this.state.PDF_path}></iframe>
                       </div>
                     </div>
                   </div>
@@ -200,11 +201,13 @@ var RefGpecProfilsSkills = createReactClass({
         const self = this;
         if (self.props.profilsSkillsModel.ajaxLoading) return;
         if (!self.missingField()) {
-            self.props.profilsSkillsModel.addProfilSkill(self.state.selectedProfil, self.state.newSkill, self.state.newLevel, self.state.newFreeComment);
-            if(! (self.props.profilsSkillsModel.feedback)){
-                NotificationManager.success('', 'La compétence '+ self.state.newSkill + ' a été ajouté au profil ' + self.state.selectedProfil);
-            }else
-            {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
+            self.props.profilsSkillsModel.addProfilSkill(self.state.selectedProfil, self.state.newSkill, self.state.newLevel, self.state.newFreeComment,function () {
+                if(! (self.props.profilsSkillsModel.feedback)){
+                    NotificationManager.success('', 'La compétence '+ self.state.newSkill + ' a été ajouté au profil ' + self.state.selectedProfil);
+                }else
+                {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
+            });
+
             self.setState({
                 newLevel: '',
                 newSkill: '',
@@ -226,11 +229,13 @@ var RefGpecProfilsSkills = createReactClass({
     handleDestroy: function (profilSkillId){
         let self = this;
         if (self.props.profilsSkillsModel.ajaxLoading) return;
-        self.props.profilsSkillsModel.destroy(profilSkillId,self.state.selectedProfil);
-        if(! (self.props.profilsSkillsModel.feedback)){
-            NotificationManager.success('', 'La compétence '+ profilSkillId + ' a été supprimé du profil ' +self.state.selectedProfil);
-        }else
-        {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
+        self.props.profilsSkillsModel.destroy(profilSkillId,self.state.selectedProfil,function () {
+            if(! (self.props.profilsSkillsModel.feedback)){
+                NotificationManager.success('', 'La compétence '+ profilSkillId + ' a été supprimé du profil ' +self.state.selectedProfil);
+            }else
+            {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
+        });
+
     },
 
     handleChangeProfil: function(event){

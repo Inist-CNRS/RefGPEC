@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import logo from '../img/gpec_256x256.png';
 var createReactClass = require('create-react-class');
 var RefGpecIndex = createReactClass({
@@ -11,7 +10,6 @@ var RefGpecIndex = createReactClass({
 
   render() {
 
-    var self = this;
     return (
 
         <div id="index">

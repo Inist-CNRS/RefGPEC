@@ -37,7 +37,7 @@ RefGpecLevelsModel.prototype.inform = function () {
 RefGpecLevelsModel.prototype.addLevel = function (level_shortname, level_free_comments, cb) {
   var self = this;
   self.ajaxLoading = true;
-
+    self.feedback='';
   var codes    = Object.keys(self.levels);
   var lastCode = codes[codes.length - 1];
   var level_code  = 'm-' + (parseInt(lastCode.split('-')[1], 10) + 1);
@@ -49,7 +49,6 @@ RefGpecLevelsModel.prototype.addLevel = function (level_shortname, level_free_co
         level_free_comments:level_free_comments
     })
         .then(function (response) {
-            self.feedback='';
             self.levels[level_code] = {level_code,level_number,level_shortname, level_free_comments };
             self.ajaxLoading = false;
             self.inform();
@@ -63,20 +62,14 @@ RefGpecLevelsModel.prototype.addLevel = function (level_shortname, level_free_co
         });
   self.inform();
 
-  setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
-    self.inform();
-    return cb && cb(null);
-  }, 1000);
 };
 
 RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
   var self = this;
   self.ajaxLoading = true;
-
+    self.feedback='';
   axios.delete('/api/levels?level_code=eq.'+levelId)
       .then(function (response) {
-          self.feedback='';
           delete self.levels[levelId];
           self.ajaxLoading = false;
           self.inform();
@@ -90,24 +83,19 @@ RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
         });
 
   self.inform();
-  setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
-    self.inform();
-    return cb && cb(null);
-  }, 1000);
 };
 
 RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {
   var self = this;
   self.ajaxLoading = true;
+    self.feedback='';
     axios.patch('/api/levels?level_code=eq.'+levelId,{
         level_code: data.levelId,
         level_number:data.levelNumber,
         level_shortname: data.levelShortName,
         level_free_comments : data.levelFreeComments,
 
-    })  .then(function (response) {
-        self.feedback='';
+    }).then(function (response) {
         self.levels[levelId] = data;
         self.ajaxLoading = false;
         self.inform();

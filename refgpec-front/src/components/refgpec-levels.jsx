@@ -125,18 +125,16 @@ var RefGpecLevels = createReactClass({
 
   handleSubmit: function (event) {
     if (this.props.levelsModel.ajaxLoading) return;
+      let self = this;
     if (this.state.newShortName) {
-      this.props.levelsModel.addLevel(this.state.newShortName, this.state.newFreeComment);
-        this.setState({ newShortName: '', newFreeComment: '' });
-        let self = this;
-            if(! (self.props.levelsModel.feedback)){
-                NotificationManager.success('', 'La modulation '+ self.state.newShortName + ' a été ajouté');
-            }else
-            {NotificationManager.error('',self.props.levelsModel.feedback ); }
 
-
-
-
+      this.props.levelsModel.addLevel(this.state.newShortName, this.state.newFreeComment,function(){
+          this.setState({ newShortName: '', newFreeComment: '' });
+          if(! (self.props.levelsModel.feedback)){
+              NotificationManager.success('', 'La modulation '+ self.state.newShortName + ' a été ajouté');
+          }else
+          {NotificationManager.error('',self.props.levelsModel.feedback ); }
+      });
     }
 
     event.preventDefault(); // Let's stop this event.
@@ -148,23 +146,23 @@ var RefGpecLevels = createReactClass({
   },
 
   handleDestroy: function (levelId){
-      this.props.levelsModel.destroy(levelId);
       let self = this;
+      self.props.levelsModel.destroy(levelId,function(){
           if(! (self.props.levelsModel.feedback)){
               NotificationManager.success('', 'La modulation '+ levelId + ' a été supprimé');
           }else
           {NotificationManager.error('',self.props.levelsModel.feedback ); }
+      });
   },
 
   handleSave: function (levelId,levelState){
-      this.props.levelsModel.save(levelId, levelState);
       let self = this;
-
+      this.props.levelsModel.save(levelId, levelState,function(){
           if(! (self.props.levelsModel.feedback)){
               NotificationManager.success('', 'La modulation '+ levelId + ' a été modifié');
           }else
           {NotificationManager.error('',self.props.levelsModel.feedback ); }
-
+      });
   },
 
   componentDidMount () {

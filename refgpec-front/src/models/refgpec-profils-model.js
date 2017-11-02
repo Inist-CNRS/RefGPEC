@@ -47,7 +47,7 @@ RefGpecProfilsModel.prototype.inform = function () {
 RefGpecProfilsModel.prototype.addProfil = function (orga_code, profil_shortname, profil_free_comments,profil_pdf_path, cb) {
   var self = this;
   self.ajaxLoading = true;
-
+  self.feedback='';
   // filter other skills family to have a correct numeric id
   var codes = Object.keys(self.profils).filter(function (elt) {
     return (elt.indexOf('p-' + orga_code) === 0)
@@ -68,7 +68,6 @@ RefGpecProfilsModel.prototype.addProfil = function (orga_code, profil_shortname,
       orga_code:orga_code
   })
       .then(function (response) {
-          self.feedback='';
           self.ajaxLoading = false;
           var nomchamp = [];
           for (var key in self.profils) {
@@ -103,9 +102,9 @@ RefGpecProfilsModel.prototype.addProfil = function (orga_code, profil_shortname,
 RefGpecProfilsModel.prototype.destroy = function (profilId, cb) {
     var self = this;
     self.ajaxLoading = true;
+    self.feedback='';
     axios.delete('/api/profils?profil_code=eq.'+profilId)
         .then(function (response) {
-            self.feedback='';
             delete self.profils[profilId];
             self.ajaxLoading = false;
             self.inform();
@@ -126,6 +125,7 @@ RefGpecProfilsModel.prototype.destroy = function (profilId, cb) {
 RefGpecProfilsModel.prototype.save = function (profilId, data, cb) {
     var self = this;
     self.ajaxLoading = true;
+    self.feedback='';
     axios.patch('/api/profils?profil_code=eq.'+profilId,{
         profil_code: data.profil_code,
         profil_shortname: data.profil_shortname,
@@ -133,7 +133,6 @@ RefGpecProfilsModel.prototype.save = function (profilId, data, cb) {
         profil_pdf_path : data.profil_pdf_path,
         orga_code: data.orga_code
     }).then(function (response) {
-        self.feedback='';
         self.profils[profilId] = data;
         self.ajaxLoading = false;
         self.inform();

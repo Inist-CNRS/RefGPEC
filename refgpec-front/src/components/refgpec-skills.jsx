@@ -191,11 +191,13 @@ var RefGpecSkills = createReactClass({
         const self = this;
         if (self.props.skillsModel.ajaxLoading) return;
         if (self.state.newSkillShortName && self.state.newSkillDomain && self.state.newSkillType) {
-            self.props.skillsModel.addSkill(self.state.newSkillType, self.state.newSkillDomain, self.state.newSkillShortName, self.state.newSkillFreeComments);
+            self.props.skillsModel.addSkill(self.state.newSkillType, self.state.newSkillDomain, self.state.newSkillShortName, self.state.newSkillFreeComments,function(){
                 if(! (self.props.skillsModel.feedback)){
                     NotificationManager.success('', 'La compétence '+ self.state.newSkillShortName + ' a été ajouté');
                 }else
                 {NotificationManager.error('',self.props.skillsModel.feedback ); }
+            });
+
             self.setState({
                 newSkillType: '',
                 newSkillDomain: '',
@@ -226,21 +228,29 @@ var RefGpecSkills = createReactClass({
         this.props.onTabChange(event.target.getAttribute('href'));
     },
     handleDestroy: function (skillId){
-        this.props.skillsModel.destroy(skillId);
         let self = this;
-       if(! (self.props.skillsModel.feedback)){
+        self.props.skillsModel.destroy(skillId,function(){
+            if(! (self.props.skillsModel.feedback)){
                 NotificationManager.success('', 'La compétence '+ skillId + ' a été supprimé');
             }else
             {NotificationManager.error('',self.props.skillsModel.feedback ); }
+        });
+
+
+
     },
 
     handleSave: function (skillId,SkillState){
-        this.props.skillsModel.save(skillId, SkillState);
         let self = this;
+
+        this.props.skillsModel.save(skillId, SkillState,function () {
             if(! (self.props.skillsModel.feedback)){
                 NotificationManager.success('', 'La compétence '+ skillId + ' a été modifié');
             }else
             {NotificationManager.error('',self.props.skillsModel.feedback ); }
+        });
+
+
     },
     componentDidMount () {
 

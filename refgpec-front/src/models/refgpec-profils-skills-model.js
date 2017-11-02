@@ -7,6 +7,7 @@ var RefGpecProfilsSkillsModel = function (options) {
   self.ajaxLoading = false;
   self.onChanges = [];
   self.psl ={};
+  self.profil='';
   self.feedback ='';
 
     axios.get('/api/profils_skills_levels?order=psl_code.asc,profil_code.asc,level_code.asc')
@@ -36,7 +37,7 @@ RefGpecProfilsSkillsModel.prototype.inform = function () {
 RefGpecProfilsSkillsModel.prototype.addProfilSkill = function (profil_code, skill_code, level_code, psl_free_comments, cb) {
   var self = this;
   self.ajaxLoading = true;
-
+  self.feedback='';
   // filter other skills family to have a correct numeric id
   var codes = Object.keys(self.profilsSkillsLevels);
   var psl_code = 'ps-1';
@@ -55,7 +56,6 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function (profil_code, skil
         psl_free_comments :psl_free_comments,
     })
         .then(function (response) {
-            self.feedback='';
             self.profilsSkillsLevels[psl_code] = { psl_code,psl_free_comments,level_code,skill_code,profil_code };
             self.getProfilSkillLevel(profil_code);
             self.ajaxLoading = false;
@@ -70,21 +70,14 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function (profil_code, skil
         });
 
     self.inform();
-    setTimeout(function () { // simulate AJAX request
-        self.ajaxLoading = false;
-        self.inform();
-        return cb && cb(null);
-    }, 5000);
-
 };
 
 RefGpecProfilsSkillsModel.prototype.destroy = function (pslId,profil_code, cb) {
     var self = this;
     self.ajaxLoading = true;
-
+    self.feedback='';
     axios.delete('/api/profils_skills_levels?psl_code=eq.'+pslId)
         .then(function (response) {
-            self.feedback='';
             delete self.profilsSkillsLevels[profil_code];
             self.getProfilSkillLevel(profil_code);
             self.ajaxLoading = false;
@@ -104,6 +97,7 @@ RefGpecProfilsSkillsModel.prototype.destroy = function (pslId,profil_code, cb) {
 RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(profil_code){
 
     var self = this;
+    self.profil=profil_code;
     self.psl ={};
     axios.get('/api/profils_skills_levels?profil_code=eq.'+profil_code)
         .then(response => {

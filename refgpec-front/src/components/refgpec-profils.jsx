@@ -208,13 +208,14 @@ var RefGpecProfils = createReactClass({
 
 
     handleSave: function (profilId,profilState){
-        this.props.profilsModel.save(profilId, profilState);
         let self = this;
+        this.props.profilsModel.save(profilId, profilState,function(){
+            if(! (self.props.profilsModel.feedback)){
+                NotificationManager.success('', 'Le Profil '+ profilId + ' a été modifié');
+            }else
+            {NotificationManager.error('',self.props.profilsModel.feedback ); }
+        });
 
-        if(! (self.props.profilsModel.feedback)){
-            NotificationManager.success('', 'Le Profil '+ profilId + ' a été modifié');
-        }else
-        {NotificationManager.error('',self.props.profilsModel.feedback ); }
 
     },
 
@@ -243,12 +244,12 @@ var RefGpecProfils = createReactClass({
         const self = this;
         if (self.props.profilsModel.ajaxLoading) return;
         if (self.state.newProfilShortName && self.state.newProfilOrga ) {
-            self.props.profilsModel.addProfil(self.state.newProfilOrga, self.state.newProfilShortName, self.state.newProfilFreeComments, self.state.newProfilPdfPath);
-
-            if(! (self.props.profilsModel.feedback)){
-                NotificationManager.success('', 'le profil '+ self.state.newProfilShortName + ' a été ajouté');
-            }else
-            {NotificationManager.error('',self.props.profilsModel.feedback ); }
+            self.props.profilsModel.addProfil(self.state.newProfilOrga, self.state.newProfilShortName, self.state.newProfilFreeComments, self.state.newProfilPdfPath,function(){
+                if(! (self.props.profilsModel.feedback)){
+                    NotificationManager.success('', 'le profil '+ self.state.newProfilShortName + ' a été ajouté');
+                }else
+                {NotificationManager.error('',self.props.profilsModel.feedback ); }
+            });
             self.setState({
                 newProfilOrga: '',
                 newProfilShortName: '',
@@ -274,12 +275,13 @@ var RefGpecProfils = createReactClass({
     },
 
     handleDestroy: function (profilId){
-        this.props.profilsModel.destroy(profilId);
         let self = this;
-        if(! (self.props.profilsModel.feedback)){
-            NotificationManager.success('', 'le profil '+ profilId + ' a été supprimé');
-        }else
-        {NotificationManager.error('',self.props.profilsModel.feedback ); }
+        this.props.profilsModel.destroy(profilId,function(){
+            if(! (self.props.profilsModel.feedback)){
+                NotificationManager.success('', 'le profil '+ profilId + ' a été supprimé');
+            }else
+            {NotificationManager.error('',self.props.profilsModel.feedback ); }
+        });
     },
 
     handleChangePDF : function (event) {

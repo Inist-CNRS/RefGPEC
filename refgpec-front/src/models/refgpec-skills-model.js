@@ -81,7 +81,7 @@ RefGpecSkillsModel.prototype.inform = function () {
 RefGpecSkillsModel.prototype.addSkill = function (st_code, sd_code, skill_shortname, skill_free_comments, cb) {
   var self = this;
   self.ajaxLoading = true;
-
+    self.feedback='';
   // filter other skills family to have a correct numeric id
   var codes = Object.keys(self.skills).filter(function (elt) {
     return (elt.indexOf('c-' + st_code + '-' + sd_code) === 0)
@@ -103,7 +103,6 @@ RefGpecSkillsModel.prototype.addSkill = function (st_code, sd_code, skill_shortn
         st_code : st_code
     })
         .then(function (response) {
-            self.feedback='';
             self.skills[skill_code] = { skill_code,skill_shortname,skill_free_comments,sd_code,st_code};
             self.ajaxLoading = false;
             self.inform();
@@ -118,12 +117,6 @@ RefGpecSkillsModel.prototype.addSkill = function (st_code, sd_code, skill_shortn
 
 
   self.inform();
-
-  setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
-    self.inform();
-    return cb && cb(null);
-  }, 5000);
 };
 
 
@@ -131,10 +124,9 @@ RefGpecSkillsModel.prototype.addSkill = function (st_code, sd_code, skill_shortn
 RefGpecSkillsModel.prototype.destroy = function (skillId, cb) {
   var self = this;
   self.ajaxLoading = true;
-
+    self.feedback='';
   axios.delete('/api/skills?skill_code=eq.'+skillId)
         .then(function (response) {
-            self.feedback='';
             delete self.skills[skillId];
             self.ajaxLoading = false;
             self.inform();
@@ -155,15 +147,14 @@ RefGpecSkillsModel.prototype.destroy = function (skillId, cb) {
 RefGpecSkillsModel.prototype.save = function (skillId, level, cb) {
   var self = this;
   self.ajaxLoading = true;
-
+    self.feedback='';
     axios.patch('/api/skills?skill_code=eq.'+skillId,{
             skill_code: skillId,
             skill_shortname: level.skillShortName,
             skill_free_comments : level.skillFreeComments,
             sd_code :level.skillDomain,
             st_code : level.skillType
-        }) .then(function (response) {
-           self.feedback='';
+        }).then(function (response) {
            self.skills[skillId] = level;
            self.ajaxLoading = false;
            self.inform();
