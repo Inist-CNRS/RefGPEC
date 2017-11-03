@@ -8,14 +8,14 @@ var RefGpecSkillsModel = function (options) {
   self.onChanges = [];
   self.feedback = '';
     self.listDomain = {};
-    self.listprofils = {};
+    self.listprofils_skills_levels = {};
 
     axios.get('/api/list_skills_attached_profils')
         .then(response => {
-            self.listprofils = {};
+            self.listprofils_skills_levels = {};
             var i=0;
             response.data.forEach(item => {
-                self.listprofils[i] = item;
+                self.listprofils_skills_levels[i] = item;
                 i++;
             });
             self.initializing = false;
@@ -142,9 +142,9 @@ RefGpecSkillsModel.prototype.destroy = function (skillId, cb) {
     self.feedback='';
     axios.delete('/api/profils_skills_levels?skill_code=eq.'+skillId)
         .then(function (response) {
-            for (var key in self.listprofils) {
-                if (self.listprofils[key].skill_code === skillId) {
-                    delete self.listprofils[key];
+            for (var key in self.listprofils_skills_levels) {
+                if (self.listprofils_skills_levels[key].skill_code === skillId) {
+                    delete self.listprofils_skills_levels[key];
                 }
             }
         })
@@ -202,9 +202,9 @@ RefGpecSkillsModel.prototype.save = function (skillId, level, cb) {
 RefGpecSkillsModel.prototype.getlistprofils = function(skillId){
     var self = this;
     var list =[];
-    for (var key in self.listprofils){
-        if(self.listprofils[key].skill_code === skillId){
-            list.push(self.listprofils[key].profil_shortname);
+    for (var key in self.listprofils_skills_levels){
+        if(self.listprofils_skills_levels[key].skill_code === skillId){
+            list.push(self.listprofils_skills_levels[key].profil_shortname);
         }
     }
     return list;
