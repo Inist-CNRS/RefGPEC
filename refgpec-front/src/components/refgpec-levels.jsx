@@ -26,6 +26,7 @@ var RefGpecLevels = createReactClass({
         <RefGpecLevel
           key={key} levelId={key}
           levelData={self.props.levelsModel.levels[key]}
+          profillist={self.props.levelsModel.getlistprofils(key)}
           onSave={self.handleSave}
           onDestroy={self.handleDestroy}
           ajaxLoading={self.props.levelsModel.ajaxLoading}

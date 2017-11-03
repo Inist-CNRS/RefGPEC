@@ -7,6 +7,22 @@ var RefGpecLevelsModel = function (options) {
     self.onChanges = [];
     self.feedback = '';
     self.test = {};
+    self.listprofils = {};
+
+    axios.get('/api/list_levels_attached_profils')
+        .then(response => {
+            self.listprofils = {};
+            var i=0;
+            response.data.forEach(item => {
+                self.listprofils[i] = item;
+                i++;
+            });
+            self.initializing = false;
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecLevelsModel error loading data', err);
+        });
 
     axios.get('/api/levels?order=level_code.asc')
         .then(response => {
@@ -14,8 +30,8 @@ var RefGpecLevelsModel = function (options) {
             self.levels = {};
             response.data.forEach(item => {
                 self.levels[item.level_code] = item;
-            })
 
+            });
             self.initializing = false;
             self.inform();
         })
@@ -68,6 +84,23 @@ RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
   var self = this;
   self.ajaxLoading = true;
     self.feedback='';
+
+    axios.delete('/api/profils_skills_levels?level_code=eq.'+levelId)
+        .then(function (response) {
+            for (var key in self.listprofils) {
+                if (self.listprofils[key].level_code === levelId) {
+                    delete self.listprofils[key];
+                }
+            }
+        })
+        .catch(function (error) {
+            self.feedback='Une erreur a été rencontré lors de la suppression dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
+        });
+
+
   axios.delete('/api/levels?level_code=eq.'+levelId)
       .then(function (response) {
           delete self.levels[levelId];
@@ -111,6 +144,17 @@ RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {
 
   self.inform();
 
+};
+
+RefGpecLevelsModel.prototype.getlistprofils = function(level_code){
+    var self = this;
+   var list =[];
+    for (var key in self.listprofils){
+        if(self.listprofils[key].level_code === level_code){
+            list.push(self.listprofils[key].profil_shortname);
+        }
+    }
+   return list;
 };
 
 export default RefGpecLevelsModel;

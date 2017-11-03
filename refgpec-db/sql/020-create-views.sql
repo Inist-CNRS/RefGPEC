@@ -15,3 +15,15 @@ LEFT JOIN skills s  ON psl.skill_code = s.skill_code
 LEFT JOIN skills_types st on st.st_code =s.st_code
 group by pr.profil_code,pr.profil_shortname,pr.profil_pdf_path,pr.profil_free_comments,pr.orga_code
 order by pr.profil_code ;
+
+create view list_skills_attached_profils as
+select psl.skill_code,skill_shortname,pr.profil_shortname
+from profils pr, skills s, profils_skills_levels psl
+where s.skill_code= psl.skill_code and pr.profil_code= psl.profil_code
+group by psl.skill_code,skill_shortname, pr.profil_shortname;
+
+create view list_levels_attached_profils as
+select psl.level_code,level_shortname,pr.profil_shortname
+from profils pr, levels l, profils_skills_levels psl
+where l.level_code= psl.level_code and pr.profil_code= psl.profil_code
+group by psl.level_code,level_shortname, pr.profil_shortname;

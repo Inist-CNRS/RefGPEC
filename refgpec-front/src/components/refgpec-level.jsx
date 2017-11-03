@@ -1,5 +1,5 @@
 import React from 'react';
-import {DropdownButton,MenuItem} from 'react-bootstrap';
+import {Modal,DropdownButton,MenuItem} from 'react-bootstrap';
 var createReactClass = require('create-react-class');
 var RefGpecLevel = createReactClass({
   displayName: 'RefGpecLevel',
@@ -11,9 +11,17 @@ var RefGpecLevel = createReactClass({
       levelShortName:    this.props.levelData.level_shortname,
       levelFreeComments: this.props.levelData.level_free_comments,
       mustBeSaved: false,
-      error: ''
+      error: '',
+      deleteModal :false
     };
   },
+    closedeleteModal() {
+        this.setState({deleteModal: false});
+    },
+
+    opendeleteModal() {
+        this.setState({deleteModal: true});
+    },
 
   render: function () {
 
@@ -28,9 +36,36 @@ var RefGpecLevel = createReactClass({
         <td>
           <div className="btn-group">
             <DropdownButton id="dropdown-level" title=" " aria-expanded="false">
-              <MenuItem  href="" onClick={this.handleDestroy}>  <span className="glyphicon glyphicon-remove"></span> Supprimer la modulation de compétence
+              <MenuItem  href="" onClick={this.opendeleteModal}>  <span className="glyphicon glyphicon-remove"></span> Supprimer la modulation de compétence
               </MenuItem>
             </DropdownButton>
+            <Modal show={this.state.deleteModal} onHide={this.closedeleteModal} id="profils-file-modal">
+              <Modal.Header closeButton>
+                <h4 className="modal-title">Voulez-vous vraiment supprimer la modulation {this.state.levelShortName} ?</h4>
+              </Modal.Header>
+              <Modal.Body>
+                  {(() => {
+                     if(this.props.profillist.length!==0){
+                         const list = this.props.profillist.map((profil) =>
+                             <li key={this.state.levelId + profil}>{profil}</li>
+                         );
+                         return (
+                             <div className="alert alert-info" role="alert">
+                              En supprimant cette modulation, vous modifierez ces profils :
+                               <ul>{list}</ul>
+                             </div>)
+                     }
+
+                  })()}
+
+              </Modal.Body>
+              <Modal.Footer>
+                <button onClick={this.closedeleteModal} type="button" className="btn btn-default"
+                        data-dismiss="modal">Annuler
+                </button>
+                <button type="button" onClick={this.handleDestroy} className="btn btn-primary">Supprimer</button>
+              </Modal.Footer>
+            </Modal>
           </div>
         </td>
 
