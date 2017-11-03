@@ -8,7 +8,22 @@ var RefGpecSkillsModel = function (options) {
   self.onChanges = [];
   self.feedback = '';
     self.listDomain = {};
+    self.listprofils = {};
 
+    axios.get('/api/list_skills_attached_profils')
+        .then(response => {
+            self.listprofils = {};
+            var i=0;
+            response.data.forEach(item => {
+                self.listprofils[i] = item;
+                i++;
+            });
+            self.initializing = false;
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecSkillsModel error loading data', err);
+        });
 
       axios.get('/api/skills?order=sd_code.asc,st_code.asc,skill_shortname.asc')
           .then(response => {
@@ -31,7 +46,7 @@ var RefGpecSkillsModel = function (options) {
             });
         })
         .catch(err => {
-            console.log('RefGpecProfilModelError loading data', err);
+            console.log('RefGpecSkillsModel error loading data', err);
         });
 /*
 
@@ -125,6 +140,20 @@ RefGpecSkillsModel.prototype.destroy = function (skillId, cb) {
   var self = this;
   self.ajaxLoading = true;
     self.feedback='';
+    axios.delete('/api/profils_skills_levels?skill_code=eq.'+skillId)
+        .then(function (response) {
+            for (var key in self.listprofils) {
+                if (self.listprofils[key].skill_code === skillId) {
+                    delete self.listprofils[key];
+                }
+            }
+        })
+        .catch(function (error) {
+            self.feedback='Une erreur a été rencontré lors de la suppression dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
+        });
   axios.delete('/api/skills?skill_code=eq.'+skillId)
         .then(function (response) {
             delete self.skills[skillId];
@@ -170,4 +199,14 @@ RefGpecSkillsModel.prototype.save = function (skillId, level, cb) {
   self.inform();
 };
 
+RefGpecSkillsModel.prototype.getlistprofils = function(skillId){
+    var self = this;
+    var list =[];
+    for (var key in self.listprofils){
+        if(self.listprofils[key].skill_code === skillId){
+            list.push(self.listprofils[key].profil_shortname);
+        }
+    }
+    return list;
+};
 export default RefGpecSkillsModel;

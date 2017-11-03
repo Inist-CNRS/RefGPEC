@@ -37,6 +37,7 @@ var RefGpecSkills = createReactClass({
                     skillData={self.props.skillsModel.skills[key]}
                     skillsTypesModel={self.props.skillsTypesModel}
                     skillsDomainsModel={self.props.skillsDomainsModel}
+                    profillist={self.props.skillsModel.getlistprofils(key)}
                     onSave={self.handleSave}
                     onDestroy={self.handleDestroy}
                     ajaxLoading={self.props.skillsModel.ajaxLoading}

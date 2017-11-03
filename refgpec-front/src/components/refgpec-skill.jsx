@@ -1,5 +1,5 @@
 import React from 'react';
-import {DropdownButton,MenuItem} from 'react-bootstrap';
+import {Modal,DropdownButton,MenuItem} from 'react-bootstrap';
 import RefGpecTypes from "./refgpec-types.jsx";
 import RefGpecDomains from './refgpec-domains';
 var createReactClass = require('create-react-class');
@@ -14,9 +14,17 @@ var RefGpecSkill = createReactClass({
       skillShortName:    this.props.skillData.skill_shortname,
       skillFreeComments: this.props.skillData.skill_free_comments,
       mustBeSaved: false,
-      error: ''
+      error: '',
+      deleteModal :false
     };
-  },
+    },
+    closedeleteModal() {
+        this.setState({deleteModal: false});
+    },
+
+    opendeleteModal() {
+        this.setState({deleteModal: true});
+    },
 
   render: function () {
     return (
@@ -30,9 +38,37 @@ var RefGpecSkill = createReactClass({
         <td>
           <div className="btn-group">
             <DropdownButton id="dropdown-skill" title=" " aria-expanded="false">
-              <MenuItem  href="" onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Supprimer la compétence </MenuItem>
+              <MenuItem  href="" onClick={this.opendeleteModal}> <span className="glyphicon glyphicon-remove"></span> Supprimer la compétence </MenuItem>
               <MenuItem href=""  onClick={this.handleViewAssociatedProfils}> <span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence</MenuItem>
             </DropdownButton>
+              <Modal show={this.state.deleteModal} onHide={this.closedeleteModal} id="profils-file-modal">
+                <Modal.Header closeButton>
+                  <h4 className="modal-title">Voulez-vous vraiment supprimer la compétence {this.state.skillShortName} ?</h4>
+                </Modal.Header>
+                <Modal.Body>
+                    {(() => {
+                        if(this.props.profillist.length!==0){
+                            const list = this.props.profillist.map((profil) =>
+                                <li key={this.state.skillId + profil}>{profil}</li>
+                            );
+                            return (
+                                <div className="alert alert-info" role="alert">
+                                  En supprimant cette compétence, vous modifierez ces profils :
+                                  <ul>{list}</ul>
+                                </div>)
+                        }
+
+                    })()}
+
+                </Modal.Body>
+                <Modal.Footer>
+                  <button onClick={this.closedeleteModal} type="button" className="btn btn-default"
+                          data-dismiss="modal">Annuler
+                  </button>
+                  <button type="button" onClick={this.handleDestroy} className="btn btn-primary">Supprimer</button>
+                </Modal.Footer>
+              </Modal>
+
 
           {/*<div className="btn-group">*/}
             {/*<button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>*/}
