@@ -8,6 +8,22 @@ var RefGpecProfilsModel = function (options) {
   self.onChanges = [];
   self.feedback = '';
   self.listOrga = {};
+  self.listprofils_skills_levels = {};
+
+    axios.get('/api/list_profils_attached_skills')
+        .then(response => {
+            self.listprofils_skills_levels = {};
+            var i=0;
+            response.data.forEach(item => {
+                self.listprofils_skills_levels[i] = item;
+                i++;
+            });
+            self.initializing = false;
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecProfilModelError error loading data', err);
+        });
 
     axios.get('/api/view_profils_nb_skills')
         .then(response => {
@@ -32,6 +48,8 @@ var RefGpecProfilsModel = function (options) {
         .catch(err => {
             console.log('RefGpecProfilModelError loading data', err);
         });
+
+
 
 };
 
@@ -103,6 +121,22 @@ RefGpecProfilsModel.prototype.destroy = function (profilId, cb) {
     var self = this;
     self.ajaxLoading = true;
     self.feedback='';
+    axios.delete('/api/profils_skills_levels?profil_code=eq.'+profilId)
+        .then(function (response) {
+            for (var key in self.listprofils_skills_levels) {
+                if (self.listprofils_skills_levels[key].profil_code === profilId) {
+                    delete self.listprofils_skills_levels[key];
+                }
+            }
+        })
+        .catch(function (error) {
+            self.feedback='Une erreur a été rencontré lors de la suppression dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
+        });
+
+
     axios.delete('/api/profils?profil_code=eq.'+profilId)
         .then(function (response) {
             delete self.profils[profilId];
@@ -150,6 +184,16 @@ RefGpecProfilsModel.prototype.save = function (profilId, data, cb) {
 
 };
 
+RefGpecProfilsModel.prototype.getlistskills = function(profil_code){
+    var self = this;
+    var list =[];
+    for (var key in self.listprofils_skills_levels){
+        if(self.listprofils_skills_levels[key].profil_code === profil_code){
+            list.push(self.listprofils_skills_levels[key].skill_shortname);
+        }
+    }
+    return list;
+};
 
 
 export default  RefGpecProfilsModel;

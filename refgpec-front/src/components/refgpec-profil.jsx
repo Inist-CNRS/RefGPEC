@@ -19,9 +19,18 @@ var RefGpecProfil = createReactClass({
       profilNbSkillsSE:   this.props.profilData.profilnbskillsse,
      showModal : false,
       mustBeSaved: false,
-      error: ''
+      error: '',
+        deleteModal :false
     };
   },
+    closedeleteModal() {
+        this.setState({deleteModal: false});
+    },
+
+    opendeleteModal() {
+        this.setState({deleteModal: true});
+    },
+
     close() {
         this.setState({showModal: false});
     },
@@ -48,7 +57,7 @@ var RefGpecProfil = createReactClass({
       } else {
         nbClassName[skillTypeNb] += ' label-success';
       }
-    })
+    });
 
     let rgOrgaList = [];
     Object.keys(self.props.orgaModel.orga).forEach(function (key) {
@@ -70,9 +79,35 @@ var RefGpecProfil = createReactClass({
               {(() => {
                 if(self.state.profil_pdf_path){ return <MenuItem href=""  onClick={this.open }> <span className="fa fa-file-pdf-o"></span> Mettre à jour le PDF du profil </MenuItem>; }
               })()}
-            <MenuItem  href="" onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Supprimer le profil </MenuItem>
+            <MenuItem  href="" onClick={this.opendeleteModal}> <span className="glyphicon glyphicon-remove"></span> Supprimer le profil </MenuItem>
           </DropdownButton>
+            <Modal show={this.state.deleteModal} onHide={this.closedeleteModal} id="profils-file-modal">
+              <Modal.Header closeButton>
+                <h4 className="modal-title">Voulez-vous vraiment supprimer le profil {this.state.profil_shortname} ?</h4>
+              </Modal.Header>
+              <Modal.Body>
+                  {(() => {
+                      if(this.props.skilllist.length!==0){
+                          const list = this.props.skilllist.map((skill) =>
+                              <li key={this.state.profil_code + skill}>{skill}</li>
+                          );
+                          return (
+                              <div className="alert alert-info" role="alert">
+                                En supprimant ce profil, vous retirez ces compétences :
+                                <ul>{list}</ul>
+                              </div>)
+                      }
 
+                  })()}
+
+              </Modal.Body>
+              <Modal.Footer>
+                <button onClick={this.closedeleteModal} type="button" className="btn btn-default"
+                        data-dismiss="modal">Annuler
+                </button>
+                <button type="button" onClick={this.handleDestroy} className="btn btn-primary">Supprimer</button>
+              </Modal.Footer>
+            </Modal>
             {/*<button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>*/}
             {/*<ul className="dropdown-menu">*/}
               {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}

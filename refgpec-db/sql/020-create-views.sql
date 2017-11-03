@@ -27,3 +27,9 @@ select psl.level_code,level_shortname,pr.profil_shortname
 from profils pr, levels l, profils_skills_levels psl
 where l.level_code= psl.level_code and pr.profil_code= psl.profil_code
 group by psl.level_code,level_shortname, pr.profil_shortname;
+
+create view list_profils_attached_skills as
+select psl.profil_code,skill_shortname,pr.profil_shortname
+from profils pr, skills s, profils_skills_levels psl
+where s.skill_code= psl.skill_code and pr.profil_code= psl.profil_code
+group by psl.profil_code,skill_shortname,pr.profil_shortname;

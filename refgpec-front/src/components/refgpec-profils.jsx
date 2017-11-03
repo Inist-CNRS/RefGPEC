@@ -44,6 +44,7 @@ var RefGpecProfils = createReactClass({
                     orgaModel={self.props.orgaModel}
                     profilsSkillsModel={self.props.profilsSkillsModel}
                     profilData={self.props.profilsModel.profils[key]}
+                    skilllist={self.props.profilsModel.getlistskills(key)}
                     onSave={self.handleSave}
                     onDestroy={self.handleDestroy}
                     ajaxLoading={self.props.profilsModel.ajaxLoading}
