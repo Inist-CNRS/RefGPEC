@@ -9,8 +9,18 @@ var RefGpecLevels = createReactClass({
     return {
       newShortName: '',
       newFreeComment: '',
+      champtri :'level_code',
+      type_tri : true,
     };
   },
+    trieprofil(event){
+        if(this.state.champtri===event.target.id){
+            this.setState({champtri: event.target.id,type_tri : !this.state.type_tri});
+        }else{
+            this.setState({champtri: event.target.id,type_tri:true});
+        }
+
+    },
 
   render: function () {
     var self = this;
@@ -32,7 +42,13 @@ var RefGpecLevels = createReactClass({
           ajaxLoading={self.props.levelsModel.ajaxLoading}
         />);
     });
+   
+      if(self.state.type_tri){
+          rgLevels.sort(function(a,b){return (a.props.levelData[self.state.champtri] > b.props.levelData[self.state.champtri]) ? 1 : ((b.props.levelData[self.state.champtri] > a.props.levelData[self.state.champtri]) ? -1 : 0);} );
+      }else{
+          rgLevels.sort(function(a,b){return (a.props.levelData[self.state.champtri] < b.props.levelData[self.state.champtri]) ? 1 : ((b.props.levelData[self.state.champtri] < a.props.levelData[self.state.champtri]) ? -1 : 0);} );
 
+      }
     return (
 
         // MODULATIONS DES COMPETENCES
@@ -52,9 +68,9 @@ var RefGpecLevels = createReactClass({
                 <thead>
                   <tr>
                     <th className="levels-col-action"></th>
-                    <th className="levels-col-shortname">Nom court</th>
-                    <th className="levels-col-commentary">Commentaires</th>
-                    <th className="levels-col-code">Code</th>
+                    <th id="level_shortname" onClick={this.trieprofil}  className="levels-col-shortname">Nom court</th>
+                    <th id="level_free_comments" onClick={this.trieprofil}  className="levels-col-commentary">Commentaires</th>
+                    <th id="level_code" onClick={this.trieprofil}  className="levels-col-code">Code</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -14,8 +14,18 @@ var RefGpecSkills = createReactClass({
             newSkillDomain: '',
             newSkillShortName: '',
             newSkillFreeComments: '',
-            error: ''
+            error: '',
+            champtri :'profil_code',
+            type_tri : true,
         };
+    },
+    trieprofil(event){
+        if(this.state.champtri===event.target.id){
+            this.setState({champtri: event.target.id,type_tri : !this.state.type_tri});
+        }else{
+            this.setState({champtri: event.target.id,type_tri:true});
+        }
+
     },
 
     render: function () {
@@ -43,6 +53,12 @@ var RefGpecSkills = createReactClass({
                     ajaxLoading={self.props.skillsModel.ajaxLoading}
                 />);
         });
+        if(self.state.type_tri){
+            rgSkills.sort(function(a,b){return (a.props.skillData[self.state.champtri] > b.props.skillData[self.state.champtri]) ? 1 : ((b.props.skillData[self.state.champtri] > a.props.skillData[self.state.champtri]) ? -1 : 0);} );
+        }else{
+            rgSkills.sort(function(a,b){return (a.props.skillData[self.state.champtri] < b.props.skillData[self.state.champtri]) ? 1 : ((b.props.skillData[self.state.champtri] < a.props.skillData[self.state.champtri]) ? -1 : 0);} );
+
+        }
         return (
 
             <div id="skills">
@@ -71,11 +87,11 @@ var RefGpecSkills = createReactClass({
                             <thead>
                             <tr>
                                 <th className="skills-col-action"></th>
-                                <th className="skills-col-type">Type</th>
-                                <th className="skills-col-domain">Domaine</th>
-                                <th className="skills-col-shortname">Nom de la compétence</th>
-                                <th className="skills-col-commentary">Commentaires libres</th>
-                                <th className="skills-col-code">Code</th>
+                                <th id="st_code" onClick={this.trieprofil}  className="skills-col-type">Type</th>
+                                <th id="sd_code" onClick={this.trieprofil} className="skills-col-domain">Domaine</th>
+                                <th id="skill_shortname" onClick={this.trieprofil} className="skills-col-shortname">Nom de la compétence</th>
+                                <th id="skill_free_comments" onClick={this.trieprofil} className="skills-col-commentary">Commentaires libres</th>
+                                <th id="skill_code" onClick={this.trieprofil} className="skills-col-code">Code</th>
                             </tr>
                             </thead>
                             <tbody>

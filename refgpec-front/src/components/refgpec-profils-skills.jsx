@@ -18,7 +18,18 @@ var RefGpecProfilsSkills = createReactClass({
             newLevel:'',
             newFreeComment:'',
             error: '',
+            champtri :'psl_code',
+            type_tri : true,
         };
+    },
+    trieprofil(event){
+
+        if(this.state.champtri===event.target.id){
+            this.setState({champtri: event.target.id,type_tri : !this.state.type_tri});
+        }else{
+            this.setState({champtri: event.target.id,type_tri:true});
+        }
+
     },
 
     render: function () {
@@ -45,7 +56,13 @@ var RefGpecProfilsSkills = createReactClass({
                     ajaxLoading={self.props.profilsSkillsModel.ajaxLoading}
                 />);
         });
+        if(self.state.type_tri){
+            rgPS.sort(function(a,b){return (a.props.psData[self.state.champtri] > b.props.psData[self.state.champtri]) ? 1 : ((b.props.psData[self.state.champtri] > a.props.psData[self.state.champtri]) ? -1 : 0);} );
+        }else{
+            rgPS.sort(function(a,b){return (a.props.psData[self.state.champtri] < b.props.psData[self.state.champtri]) ? 1 : ((b.props.psData[self.state.champtri] < a.props.psData[self.state.champtri]) ? -1 : 0);} );
 
+        }
+        console.log(rgPS);
         // layout stuff
         let layoutBtnClasses = 'btn btn-default pull-right fa fa-2x ';
         layoutBtnClasses += (self.state.layout === 'horizontal') ? 'fa-arrows-h' : 'fa-arrows-v';
@@ -105,9 +122,9 @@ var RefGpecProfilsSkills = createReactClass({
                             <tr>
                               <th className="profils-skills-col-action"></th>
                               <th className="profils-skills-col-name">Types &amp; Domaines</th>
-                              <th className="profils-skills-col-name">Compétences</th>
-                              <th className="profils-skills-col-name">Modulations</th>
-                              <th className="profils-skills-col-commentary">Commentaires libres</th>
+                              <th  className="profils-skills-col-name">Compétences</th>
+                              <th id="level_code" onClick={this.trieprofil} className="profils-skills-col-name">Modulations</th>
+                              <th id="psl_free_comments" onClick={this.trieprofil} className="profils-skills-col-commentary">Commentaires libres</th>
                             </tr>
                             </thead>
                             <tbody>

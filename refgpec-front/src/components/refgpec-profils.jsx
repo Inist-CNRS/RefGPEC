@@ -17,6 +17,8 @@ var RefGpecProfils = createReactClass({
             newProfilFreeComments: '',
             newProfilPdfPath :'',
             error: '',
+            champtri :'profil_code',
+            type_tri : true,
         };
     },
     close() {
@@ -25,6 +27,14 @@ var RefGpecProfils = createReactClass({
 
     open() {
         this.setState({showModal: true});
+    },
+    trieprofil(event){
+        if(this.state.champtri===event.target.id){
+            this.setState({champtri: event.target.id,type_tri : !this.state.type_tri});
+        }else{
+            this.setState({champtri: event.target.id,type_tri:true});
+        }
+
     },
 
     render: function () {
@@ -55,8 +65,13 @@ var RefGpecProfils = createReactClass({
         Object.keys(self.props.orgaModel.orga).forEach(function (key) {
             rgOrgaList.push(<option value={key} key={key}>{self.props.orgaModel.orga[key].orga_shortname}</option>);
         });
+        if(self.state.type_tri){
+            rgProfils.sort(function(a,b){return (a.props.profilData[self.state.champtri] > b.props.profilData[self.state.champtri]) ? 1 : ((b.props.profilData[self.state.champtri] > a.props.profilData[self.state.champtri]) ? -1 : 0);} );
+        }else{
+            rgProfils.sort(function(a,b){return (a.props.profilData[self.state.champtri] < b.props.profilData[self.state.champtri]) ? 1 : ((b.props.profilData[self.state.champtri] < a.props.profilData[self.state.champtri]) ? -1 : 0);} );
 
-        return (
+        }
+    return (
 
             <div id="profils">
 
@@ -84,17 +99,15 @@ var RefGpecProfils = createReactClass({
                             <tr>
                                 <th className="profils-col-action"></th>
                                 <th className="profils-col-file">PDF du profil</th>
-                                <th className="profils-col-orga">Position dans l'organigramme</th>
-                                <th className="profils-col-title">Intitulé du profil</th>
+                                <th id="orga_code" onClick={this.trieprofil} className="profils-col-orga"> Position dans l'organigramme</th>
+                                <th id="profil_shortname" onClick={this.trieprofil}  className="profils-col-title">Intitulé du profil</th>
                                 <th className="profils-col-stats">Nombre de compétences associées</th>
-                                <th className="profils-col-commentary">Commentaires libres</th>
-                                <th className="profils-col-code">Code</th>
+                                <th id="profil_free_comments" onClick={this.trieprofil} className="profils-col-commentary">Commentaires libres</th>
+                                <th id="profil_code" onClick={this.trieprofil} className="profils-col-code">Code</th>
                             </tr>
                             </thead>
                             <tbody>
-
-                            {rgProfils}
-
+                                {rgProfils}
                             {/* FORM USED TO CREATE A NEW PROFIL */}
                             <tr className="form-new-profil">
 
