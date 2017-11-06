@@ -27,7 +27,7 @@ COPY ./entrypoint-scripts-runner /bin/entrypoint-scripts-runner
 # see https://github.com/Inist-CNRS/ezmaster
 RUN echo '{ \
   "httpPort": 80, \
-  "configPath": "/etc/nginx/conf.d/default.conf", \
+  "configPath": "/etc/nginx/nginx.conf", \
   "configType": "text" \
 }' > /etc/ezmaster.json
 
