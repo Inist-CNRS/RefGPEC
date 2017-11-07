@@ -13,7 +13,7 @@ var RefGpecPDF = createReactClass({
 
         return (
         <div>
-            {this.state.profil_pdf_path ?  <a href={this.state.profil_pdf_path}>
+            {this.state.profil_pdf_path ?  <a onClick={this.openPDF} href={null}>
                 <span className="fa fa-file-pdf-o fa-2x"></span>
             </a> :  <a onClick={this.OpenModal}> <span className="fa fa-upload fa-2x"></span>
             </a> }
@@ -25,7 +25,9 @@ var RefGpecPDF = createReactClass({
     OpenModal: function(){
            this.props.onClick();
     },
-
+    openPDF: function(){
+       window.open(this.state.profil_pdf_path,'_blank');
+    },
     handleChange: function (event) {
     },
 

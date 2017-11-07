@@ -93,7 +93,7 @@ var RefGpecProfil = createReactClass({
                           );
                           return (
                               <div className="alert alert-info" role="alert">
-                                En supprimant ce profil, vous retirez ces compétences :
+                                En supprimant ce profil, vous en dissociez les compétences suivantes :
                                 <ul>{list}</ul>
                               </div>)
                       }
@@ -144,10 +144,12 @@ var RefGpecProfil = createReactClass({
               <h4 className="modal-title">Uploader le PDF du profil de poste</h4>
             </Modal.Header>
             <Modal.Body>
-              <p><input ref="formUrlPdf" className="form-control" type="url" placeholder="Lien du PDF du profil"
-                        /></p>
-              <div className="alert alert-info" role="alert">Le nom du fichier n'a pas d'importance, il sera renommé par RefGPEC en fonction
-                du code du profil.
+                {(() => {
+                    if(self.state.profil_pdf_path){ return <p><input ref="formUrlPdf" className="form-control" type="url" placeholder={this.state.profil_pdf_path} /></p> }
+                          else{ return <p><input ref="formUrlPdf" className="form-control" type="url" placeholder="Lien du PDF du profil"/></p> }
+                })()}
+
+              <div className="alert alert-info" role="alert">
               </div>
             </Modal.Body>
             <Modal.Footer>

@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 import RefGpecProfil from "./refgpec-profil.jsx";
-import {Modal, OverlayTrigger, Popover} from "react-bootstrap";
+import {DropdownButton,MenuItem,Modal, OverlayTrigger, Popover} from "react-bootstrap";
 import RefGpecOrganigrammes from "./refgpec-organigrammes"
 import {NotificationContainer,NotificationManager} from "react-notifications"
+import RefGpecPDF from './refgpec-pdf';
 var createReactClass = require('create-react-class');
 var RefGpecProfils = createReactClass({
     displayName: 'RefGpecProfils',
@@ -99,11 +100,12 @@ var RefGpecProfils = createReactClass({
                             <tr>
                                 <th className="profils-col-action"></th>
                                 <th className="profils-col-file">PDF du profil</th>
-                                <th id="orga_code" onClick={this.trieprofil} className="profils-col-orga"> Position dans l'organigramme</th>
-                                <th id="profil_shortname" onClick={this.trieprofil}  className="profils-col-title">Intitulé du profil</th>
+                                <th role="button" id="orga_code" onClick={this.trieprofil} className="profils-col-orga"> Position dans l'organigramme <i className="fa fa-sort" aria-hidden="true"></i>
+                                </th>
+                                <th role="button" id="profil_shortname" onClick={this.trieprofil}  className="profils-col-title">Intitulé du profil <i className="fa fa-sort" aria-hidden="true"></i></th>
                                 <th className="profils-col-stats">Nombre de compétences associées</th>
-                                <th id="profil_free_comments" onClick={this.trieprofil} className="profils-col-commentary">Commentaires libres</th>
-                                <th id="profil_code" onClick={this.trieprofil} className="profils-col-code">Code</th>
+                                <th role="button" id="profil_free_comments"  onClick={this.trieprofil} className="profils-col-commentary">Commentaires libres <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th role="button" id="profil_code" onClick={this.trieprofil} className="profils-col-code">Code <i className="fa fa-sort" aria-hidden="true"></i></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -111,24 +113,28 @@ var RefGpecProfils = createReactClass({
                             {/* FORM USED TO CREATE A NEW PROFIL */}
                             <tr className="form-new-profil">
 
-                                <td></td>
+                                <td>
+                                      <DropdownButton id="dropdown-profil" title=" " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <MenuItem href=""  onClick={this.open }> <span className="fa fa-file-pdf-o"></span> Mettre à jour le PDF du profil </MenuItem></DropdownButton>
+                                </td>
 
                                 <td className="text-center">
-                                    <a onClick={this.open}>
-                                        <span className="fa fa-upload fa-2x" data-toggle="modal"
-                                              data-target="#profils-file-modal"></span>
-                                    </a>
-
+                                    <RefGpecPDF
+                                        skillData={this.state.newProfilPdfPath}
+                                        onClick={this.open}
+                                    />
                                     {/* Modal d'upload du fichier PDF du profil de poste */}
                                     <Modal show={this.state.showModal} onHide={this.close} id="profils-file-modal">
                                         <Modal.Header closeButton>
                                             <h4 className="modal-title">Uploader le PDF du profil de poste</h4>
                                         </Modal.Header>
                                         <Modal.Body>
-                                            <p><input ref="formUrlPdf" className="form-control" type="url" placeholder="Lien du PDF du profil"
-                                            /></p>
-                                            <div className="alert alert-info" role="alert">Le nom du fichier n'a pas d'importance, il sera renommé par RefGPEC en fonction
-                                                du code du profil.
+                                            {(() => {
+                                                if(this.state.newProfilPdfPath){ return <p><input ref="formUrlPdf" className="form-control" type="url" placeholder={this.state.newProfilPdfPath} /></p> }
+                                                else{ return <p><input ref="formUrlPdf" className="form-control" type="url" placeholder="Lien du PDF du profil"/></p> }
+                                            })()}
+
+                                            <div className="alert alert-info" role="alert">
                                             </div>
                                         </Modal.Body>
                                         <Modal.Footer>
