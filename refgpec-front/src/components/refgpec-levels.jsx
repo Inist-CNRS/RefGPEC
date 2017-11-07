@@ -153,7 +153,7 @@ var RefGpecLevels = createReactClass({
     if (this.state.newShortName) {
 
       this.props.levelsModel.addLevel(this.state.newShortName, this.state.newFreeComment,function(){
-          this.setState({ newShortName: '', newFreeComment: '' });
+          self.setState({ newShortName: '', newFreeComment: '' });
           if(! (self.props.levelsModel.feedback)){
               NotificationManager.success('', 'La modulation '+ self.state.newShortName + ' a été ajouté');
           }else

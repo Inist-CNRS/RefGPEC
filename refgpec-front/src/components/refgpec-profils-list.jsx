@@ -22,7 +22,7 @@ var RefGpecProfilsList = createReactClass({
         Object.keys(rgOrga).forEach(function (orga){
             var listoption = [];
             rgProfils.push(
-            <optgroup key={orga} label ={orga}>
+            <optgroup key={orga} label ={rgOrga[orga].orga_shortname}>
                 {(() => {
                     Object.keys(self.props.skillData.profils).forEach(function (key) {
                     if (self.props.skillData.profils[key].orga_code === orga) {

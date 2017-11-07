@@ -61,8 +61,7 @@ var RefGpecProfilsSkills = createReactClass({
         }else{
             rgPS.sort(function(a,b){return (a.props.psData[self.state.champtri] < b.props.psData[self.state.champtri]) ? 1 : ((b.props.psData[self.state.champtri] < a.props.psData[self.state.champtri]) ? -1 : 0);} );
 
-        }
-        console.log(rgPS);
+        };
         // layout stuff
         let layoutBtnClasses = 'btn btn-default pull-right fa fa-2x ';
         layoutBtnClasses += (self.state.layout === 'horizontal') ? 'fa-arrows-h' : 'fa-arrows-v';
@@ -123,8 +122,8 @@ var RefGpecProfilsSkills = createReactClass({
                               <th className="profils-skills-col-action"></th>
                               <th className="profils-skills-col-name">Types &amp; Domaines</th>
                               <th  className="profils-skills-col-name">Compétences</th>
-                              <th id="level_code" onClick={this.trieprofil} className="profils-skills-col-name">Modulations</th>
-                              <th id="psl_free_comments" onClick={this.trieprofil} className="profils-skills-col-commentary">Commentaires libres</th>
+                              <th  role="button" id="level_code" onClick={this.trieprofil} className="profils-skills-col-name">Modulations <i className="fa fa-sort" aria-hidden="true"></i></th>
+                              <th role="button" id="psl_free_comments" onClick={this.trieprofil} className="profils-skills-col-commentary">Commentaires libres <i className="fa fa-sort" aria-hidden="true"></i></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -175,7 +174,12 @@ var RefGpecProfilsSkills = createReactClass({
                                     </tr>
                             </tbody>
                           </table>
-
+                            <div className="progress"
+                                 style={{display: self.props.profilsSkillsModel.ajaxLoading ? 'block' : 'none'}}>
+                                <div className="progress-bar progress-bar-striped active" role="progressbar"
+                                     style={{width: '100%'}}>
+                                </div>
+                            </div>
                         </div>
                       </div>
 
@@ -256,10 +260,13 @@ var RefGpecProfilsSkills = createReactClass({
     },
 
     handleChangeProfil: function(event){
+        let self = this;
+        let chemin_pdf ='';
         if(event) {
             let code_profil = event;
-            this.props.profilsSkillsModel.getProfilSkillLevel(code_profil);
-            let chemin_pdf = this.props.profilsModel.profils[code_profil].profil_pdf_path;
+            self.props.profilsSkillsModel.getProfilSkillLevel(code_profil,function () {
+                chemin_pdf = self.props.profilsModel.profils[code_profil].profil_pdf_path;
+            });
             this.setState({selectedProfil: code_profil, PDF_path: chemin_pdf});
         }
     },
