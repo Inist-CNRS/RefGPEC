@@ -53,7 +53,7 @@ var RefGpecSkill = createReactClass({
                             );
                             return (
                                 <div className="alert alert-info" role="alert">
-                                  En supprimant cette compétence, vous modifierez ces profils :
+                                  En supprimant cette compétence,  vous dissocierez des compétences de ces profils :
                                   <ul>{list}</ul>
                                 </div>)
                         }

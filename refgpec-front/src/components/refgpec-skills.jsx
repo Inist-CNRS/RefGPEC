@@ -87,11 +87,11 @@ var RefGpecSkills = createReactClass({
                             <thead>
                             <tr>
                                 <th className="skills-col-action"></th>
-                                <th id="st_code" onClick={this.trieprofil}  className="skills-col-type">Type</th>
-                                <th id="sd_code" onClick={this.trieprofil} className="skills-col-domain">Domaine</th>
-                                <th id="skill_shortname" onClick={this.trieprofil} className="skills-col-shortname">Nom de la compétence</th>
-                                <th id="skill_free_comments" onClick={this.trieprofil} className="skills-col-commentary">Commentaires libres</th>
-                                <th id="skill_code" onClick={this.trieprofil} className="skills-col-code">Code</th>
+                                <th role="button" id="st_code" onClick={this.trieprofil}  className="skills-col-type">Type <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th role="button" id="sd_code" onClick={this.trieprofil} className="skills-col-domain">Domaine <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th role="button" id="skill_shortname" onClick={this.trieprofil} className="skills-col-shortname">Nom de la compétence <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th role="button" id="skill_free_comments" onClick={this.trieprofil} className="skills-col-commentary">Commentaires libres <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th role="button" id="skill_code" onClick={this.trieprofil} className="skills-col-code">Code</th>
                             </tr>
                             </thead>
                             <tbody>
