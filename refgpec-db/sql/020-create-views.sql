@@ -23,13 +23,19 @@ where s.skill_code= psl.skill_code and pr.profil_code= psl.profil_code
 group by psl.skill_code,skill_shortname, pr.profil_shortname;
 
 create view list_levels_attached_profils as
-select psl.level_code,level_shortname,pr.profil_shortname
+select psl.level_code,level_shortname,psl.profil_code,pr.profil_shortname
 from profils pr, levels l, profils_skills_levels psl
 where l.level_code= psl.level_code and pr.profil_code= psl.profil_code
-group by psl.level_code,level_shortname, pr.profil_shortname;
+group by psl.level_code,level_shortname, psl.profil_code,pr.profil_shortname;
 
 create view list_profils_attached_skills as
 select psl.profil_code,skill_shortname,pr.profil_shortname
 from profils pr, skills s, profils_skills_levels psl
 where s.skill_code= psl.skill_code and pr.profil_code= psl.profil_code
 group by psl.profil_code,skill_shortname,pr.profil_shortname;
+
+create view view_nb_skills_by_levels as
+select l.level_code,profil_code,count(skill_code)
+from levels l , profils_skills_levels psl
+where l.level_code= psl.level_code
+group by l.level_code,profil_code;

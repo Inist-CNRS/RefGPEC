@@ -8,7 +8,22 @@ var RefGpecLevelsModel = function (options) {
     self.feedback = '';
     self.test = {};
     self.listprofils_skills_levels = {};
+    self.nb_skills={};
 
+    axios.get('/api/view_nb_skills_by_levels')
+        .then(response => {
+            self.nb_skills = {};
+            var i=0;
+            response.data.forEach(item => {
+                self.nb_skills[i] = item;
+                i++;
+            });
+            self.initializing = false;
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecLevelsModel error loading data', err);
+        });
     axios.get('/api/list_levels_attached_profils')
         .then(response => {
             self.listprofils_skills_levels = {};
@@ -148,13 +163,25 @@ RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {
 
 RefGpecLevelsModel.prototype.getlistprofils = function(level_code){
     var self = this;
-   var list =[];
+   var list ={};
     for (var key in self.listprofils_skills_levels){
         if(self.listprofils_skills_levels[key].level_code === level_code){
-            list.push(self.listprofils_skills_levels[key].profil_shortname);
+            list[key]=self.listprofils_skills_levels[key];
         }
     }
    return list;
 };
+RefGpecLevelsModel.prototype.getnbSkill = function(level_code,profil_code){
+    var self = this;
+    var nb=0;
+    for (var key in self.nb_skills){
+
+        if(self.nb_skills[key].level_code === level_code && self.nb_skills[key].profil_code === profil_code){
+            nb=self.nb_skills[key].count;
+        }
+    }
+    return nb;
+};
+
 
 export default RefGpecLevelsModel;

@@ -24,9 +24,9 @@ var RefGpecLevel = createReactClass({
     },
 
   render: function () {
-
+var self= this;
     return (
- 
+
       <tr id={this.state.levelId}
           data-placement="top" data-toggle="popover" data-trigger="manual"
           data-title="Erreur de saisie" data-content={this.state.error}
@@ -44,14 +44,20 @@ var RefGpecLevel = createReactClass({
                 <h4 className="modal-title">Voulez-vous vraiment supprimer la modulation {this.state.levelShortName} ?</h4>
               </Modal.Header>
               <Modal.Body>
+
                   {(() => {
-                     if(this.props.profillist.length!==0){
-                         const list = this.props.profillist.map((profil) =>
-                             <li key={this.state.levelId + profil}>{profil}</li>
-                         );
+                      let list =[];
+                     if(self.props.profillist.length!==0){
+
+                        Object.keys(this.props.profillist).forEach(function (profil) {
+                            list.push(<li key={self.state.levelId + profil}>{self.props.profillist[profil].profil_shortname} :
+                              <strong style={{color: 'red'}}> {(self.props.nbSkill[self.props.profillist[profil].profil_code])} </strong> compétences seront
+                             dissociées)</li>)
+                         });
                          return (
-                             <div className="alert alert-info" role="alert">
-                              En supprimant cette modulation, vous modifierez ces profils :
+
+                             <div   className="alert alert-info" role="alert">
+                               En supprimant cette modulation, vous dissocierez des compétences de ces profils :
                                <ul>{list}</ul>
                              </div>)
                      }

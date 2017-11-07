@@ -31,12 +31,19 @@ var RefGpecLevels = createReactClass({
     }
 
     let rgLevels = [];
+
     Object.keys(self.props.levelsModel.levels).forEach(function (key) {
+    let nb_skill={};
+    let liste_profil=self.props.levelsModel.getlistprofils(key);
+            Object.keys(liste_profil).forEach(function (profil) {
+                nb_skill[liste_profil[profil].profil_code]= self.props.levelsModel.getnbSkill(key,liste_profil[profil].profil_code);
+            });
       rgLevels.push(
         <RefGpecLevel
           key={key} levelId={key}
           levelData={self.props.levelsModel.levels[key]}
-          profillist={self.props.levelsModel.getlistprofils(key)}
+          profillist={liste_profil}
+          nbSkill={nb_skill}
           onSave={self.handleSave}
           onDestroy={self.handleDestroy}
           ajaxLoading={self.props.levelsModel.ajaxLoading}
@@ -68,9 +75,9 @@ var RefGpecLevels = createReactClass({
                 <thead>
                   <tr>
                     <th className="levels-col-action"></th>
-                    <th id="level_shortname" onClick={this.trieprofil}  className="levels-col-shortname">Nom court</th>
-                    <th id="level_free_comments" onClick={this.trieprofil}  className="levels-col-commentary">Commentaires</th>
-                    <th id="level_code" onClick={this.trieprofil}  className="levels-col-code">Code</th>
+                    <th role="button"  id="level_shortname" onClick={this.trieprofil}  className="levels-col-shortname">Nom court <i className="fa fa-sort" aria-hidden="true"></i> </th>
+                    <th  role="button" id="level_free_comments" onClick={this.trieprofil}  className="levels-col-commentary">Commentaires <i className="fa fa-sort" aria-hidden="true"></i> </th>
+                    <th  role="button" id="level_code" onClick={this.trieprofil}  className="levels-col-code">Code <i className="fa fa-sort" aria-hidden="true"></i> </th>
                   </tr>
                 </thead>
                 <tbody>
