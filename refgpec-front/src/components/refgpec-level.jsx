@@ -47,15 +47,13 @@ var self= this;
 
                   {(() => {
                       let list =[];
-                     if(self.props.profillist.length!==0){
-
+                     if(Object.keys(self.props.profillist).length!==0){
                         Object.keys(this.props.profillist).forEach(function (profil) {
                             list.push(<li key={self.state.levelId + profil}>{self.props.profillist[profil].profil_shortname} :
                               <strong style={{color: 'red'}}> {(self.props.nbSkill[self.props.profillist[profil].profil_code])} </strong> compétences seront
                              dissociées)</li>)
                          });
                          return (
-
                              <div   className="alert alert-info" role="alert">
                                En supprimant cette modulation, vous dissocierez des compétences de ces profils :
                                <ul>{list}</ul>
