@@ -174,9 +174,12 @@ var RefGpecLevels = createReactClass({
       self.props.levelsModel.destroy(levelId,function(){
           if(! (self.props.levelsModel.feedback)){
               NotificationManager.success('', 'La modulation '+ levelId + ' a été supprimé');
+              self.props.profilsSkillsModel.updateVue();
+              self.props.levelsModel.inform();
           }else
           {NotificationManager.error('',self.props.levelsModel.feedback ); }
       });
+
   },
 
   handleSave: function (levelId,levelState){

@@ -25,6 +25,23 @@ var RefGpecProfilsSkillsModel = function (options) {
         });
 };
 
+RefGpecProfilsSkillsModel.prototype.updateVue = function () {
+    var self = this;
+    self.psl ={};
+    axios.get('/api/profils_skills_levels?profil_code=eq.'+self.profil)
+        .then(response => {
+            response.data.forEach(item => {
+                self.psl[item.psl_code] = item;
+            });
+            self.ajaxLoading = false;
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecProfilSkillsLevelModel error loading data', err);
+            self.ajaxLoading = false;
+        });
+};
+
 RefGpecProfilsSkillsModel.prototype.subscribe = function (onChange) {
   this.onChanges.push(onChange);
 };
@@ -94,9 +111,10 @@ RefGpecProfilsSkillsModel.prototype.destroy = function (pslId,profil_code, cb) {
     self.inform();
 };
 
-RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(profil_code){
+RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(profil_code,cb){
 
     var self = this;
+    self.ajaxLoading = true;
     self.profil=profil_code;
     self.psl ={};
     axios.get('/api/profils_skills_levels?profil_code=eq.'+profil_code)
@@ -104,10 +122,14 @@ RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(profil_code){
             response.data.forEach(item => {
                 self.psl[item.psl_code] = item;
             });
+            self.ajaxLoading = false;
             self.inform();
+            return cb && cb(null);
         })
         .catch(err => {
             console.log('RefGpecProfilSkillsLevelModel error loading data', err);
+            self.ajaxLoading = false;
+            return cb && cb(err);
         });
     self.inform();
 };

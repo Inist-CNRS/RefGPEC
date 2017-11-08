@@ -215,10 +215,13 @@ var RefGpecProfil = createReactClass({
 
 
   handleSubmit: function (event) {
-    if (this.state.mustBeSaved) {
-      this.props.onSave(this.state.profil_code, this.state);
+    var self =this;
+    if (self.state.mustBeSaved) {
+        self.props.onSave(self.state.profil_code, self.state,function(){
+            self.props.profilsSkillsModel.inform();
+      });
       this.setState({ mustBeSaved: false });
-    
+
       // // display or hide a nice popover to show the error
       // const self = this;
       // self.setState({ error: 'saving... demo error msg' });
@@ -226,6 +229,7 @@ var RefGpecProfil = createReactClass({
       //   $('#' + self.state.profil_code).popover(self.state.error ? 'show' : 'hide');
       // }, 100);
     }
+
   },
 
     handleChangeProfil: function (event) {

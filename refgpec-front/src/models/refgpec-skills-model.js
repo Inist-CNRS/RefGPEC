@@ -9,7 +9,7 @@ var RefGpecSkillsModel = function (options) {
   self.feedback = '';
     self.listDomain = {};
     self.listprofils_skills_levels = {};
-
+    var erreur = false;
     axios.get('/api/list_skills_attached_profils')
         .then(response => {
             self.listprofils_skills_levels = {};
@@ -18,11 +18,10 @@ var RefGpecSkillsModel = function (options) {
                 self.listprofils_skills_levels[i] = item;
                 i++;
             });
-            self.initializing = false;
-            self.inform();
         })
         .catch(err => {
             console.log('RefGpecSkillsModel error loading data', err);
+            erreur+=1;
         });
 
       axios.get('/api/skills?order=sd_code.asc,st_code.asc,skill_shortname.asc')
@@ -32,22 +31,15 @@ var RefGpecSkillsModel = function (options) {
               response.data.forEach(item => {
                   self.skills[item.skill_code] = item;
               })
-              self.initializing = false;
-              self.inform();
           })
           .catch(err => {
               console.log('RefGpecSkillsModel error loading data', err);
+              erreur+=1;
           });
 
-    axios.get('/api/view_list_domains_profil')
-        .then(response => {
-            response.data.forEach(item => {
-                self.listDomain[item.sd_code] = item;
-            });
-        })
-        .catch(err => {
-            console.log('RefGpecSkillsModel error loading data', err);
-        });
+    self.getdomain();
+    self.initializing = erreur;
+    self.inform();
 /*
 
       // fake data for debug
@@ -83,6 +75,40 @@ var RefGpecSkillsModel = function (options) {
 */
 };
 
+RefGpecSkillsModel.prototype.getdomain = function () {
+
+    var self = this;
+    self.listDomain = {};
+    axios.get('/api/view_list_domains_profil')
+        .then(response => {
+            response.data.forEach(item => {
+                self.listDomain[item.sd_code] = item;
+
+            });
+                self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecSkillsModel error loading data', err);
+        });
+};
+
+RefGpecSkillsModel.prototype.updateVue = function () {
+
+    var self = this;
+    axios.get('/api/list_skills_attached_profils')
+        .then(response => {
+            self.listprofils_skills_levels = {};
+            var i=0;
+            response.data.forEach(item => {
+                self.listprofils_skills_levels[i] = item;
+                i++;
+            });
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecSkillsModel error loading data', err);
+        });
+};
 
 RefGpecSkillsModel.prototype.subscribe = function (onChange) {
   this.onChanges.push(onChange);
@@ -120,6 +146,7 @@ RefGpecSkillsModel.prototype.addSkill = function (st_code, sd_code, skill_shortn
         .then(function (response) {
             self.skills[skill_code] = { skill_code,skill_shortname,skill_free_comments,sd_code,st_code};
             self.ajaxLoading = false;
+            self.getdomain();
             self.inform();
             return cb && cb(null);
         })
@@ -147,30 +174,24 @@ RefGpecSkillsModel.prototype.destroy = function (skillId, cb) {
                     delete self.listprofils_skills_levels[key];
                 }
             }
+            self.getdomain();
         })
         .catch(function (error) {
             self.feedback='Une erreur a été rencontré lors de la suppression dans la base de donnée';
             self.ajaxLoading = false;
-            self.inform();
             return cb && cb(error);
         });
   axios.delete('/api/skills?skill_code=eq.'+skillId)
         .then(function (response) {
             delete self.skills[skillId];
             self.ajaxLoading = false;
-            self.inform();
             return cb && cb(null);
         })
         .catch(function (error) {
             self.feedback='Une erreur a été rencontrée lors de la suppression dans la base de donnée';
             self.ajaxLoading = false;
-            self.inform();
             return cb && cb(error);
         });
-
-  self.inform();
-
-
 };
 
 RefGpecSkillsModel.prototype.save = function (skillId, level, cb) {

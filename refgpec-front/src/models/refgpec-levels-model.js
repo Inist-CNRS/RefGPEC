@@ -56,7 +56,38 @@ var RefGpecLevelsModel = function (options) {
 
 
 };
+RefGpecLevelsModel.prototype.updateVue = function () {
+    var self = this;
+    self.listprofils_skills_levels = {};
+    self.nb_skills={};
+    axios.get('/api/view_nb_skills_by_levels')
+        .then(response => {
+            self.nb_skills = {};
+            var i=0;
+            response.data.forEach(item => {
+                self.nb_skills[i] = item;
+                i++;
+            });
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecLevelsModel error loading data', err);
+        });
+    axios.get('/api/list_levels_attached_profils')
+        .then(response => {
+            self.listprofils_skills_levels = {};
+            var i=0;
+            response.data.forEach(item => {
+                self.listprofils_skills_levels[i] = item;
+                i++;
+            });
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecLevelsModel error loading data', err);
+        });
 
+};
 RefGpecLevelsModel.prototype.subscribe = function (onChange) {
   this.onChanges.push(onChange);
 };
@@ -109,9 +140,8 @@ RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
             }
         })
         .catch(function (error) {
-            self.feedback='Une erreur a été rencontré lors de la suppression dans la base de donnée';
+            self.feedback='Une erreur a été rencontré lors de la suppression dans la base de donnée psl';
             self.ajaxLoading = false;
-            self.inform();
             return cb && cb(error);
         });
 
@@ -120,17 +150,13 @@ RefGpecLevelsModel.prototype.destroy = function (levelId, cb) {
       .then(function (response) {
           delete self.levels[levelId];
           self.ajaxLoading = false;
-          self.inform();
           return cb && cb(null);
       })
       .catch(function (error) {
           self.feedback='Une erreur a été rencontré lors de la suppression dans la base de donnée';
           self.ajaxLoading = false;
-          self.inform();
           return cb && cb(error);
         });
-
-  self.inform();
 };
 
 RefGpecLevelsModel.prototype.save = function (levelId, data, cb) {

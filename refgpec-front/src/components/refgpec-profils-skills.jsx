@@ -225,6 +225,9 @@ var RefGpecProfilsSkills = createReactClass({
             self.props.profilsSkillsModel.addProfilSkill(self.state.selectedProfil, self.state.newSkill, self.state.newLevel, self.state.newFreeComment,function () {
                 if(! (self.props.profilsSkillsModel.feedback)){
                     NotificationManager.success('', 'La compétence '+ self.state.newSkill + ' a été ajouté au profil ' + self.state.selectedProfil);
+                    self.props.skillsModel.updateVue();
+                    self.props.levelsModel.updateVue();
+                    self.props.profilsModel.updateVue();
                 }else
                 {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
             });
@@ -266,8 +269,8 @@ var RefGpecProfilsSkills = createReactClass({
             let code_profil = event;
             self.props.profilsSkillsModel.getProfilSkillLevel(code_profil,function () {
                 chemin_pdf = self.props.profilsModel.profils[code_profil].profil_pdf_path;
+                self.setState({selectedProfil: code_profil, PDF_path: chemin_pdf});
             });
-            this.setState({selectedProfil: code_profil, PDF_path: chemin_pdf});
         }
     },
 

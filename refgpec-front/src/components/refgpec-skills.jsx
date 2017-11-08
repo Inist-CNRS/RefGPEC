@@ -249,6 +249,8 @@ var RefGpecSkills = createReactClass({
         self.props.skillsModel.destroy(skillId,function(){
             if(! (self.props.skillsModel.feedback)){
                 NotificationManager.success('', 'La compétence '+ skillId + ' a été supprimé');
+                self.props.profilsSkillsModel.updateVue();
+                self.props.skillsModel.inform();
             }else
             {NotificationManager.error('',self.props.skillsModel.feedback ); }
         });

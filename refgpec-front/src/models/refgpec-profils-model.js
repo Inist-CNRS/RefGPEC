@@ -9,7 +9,7 @@ var RefGpecProfilsModel = function (options) {
   self.feedback = '';
   self.listOrga = {};
   self.listprofils_skills_levels = {};
-
+    var erreur =false;
     axios.get('/api/list_profils_attached_skills')
         .then(response => {
             self.listprofils_skills_levels = {};
@@ -18,7 +18,60 @@ var RefGpecProfilsModel = function (options) {
                 self.listprofils_skills_levels[i] = item;
                 i++;
             });
-            self.initializing = false;
+
+        })
+        .catch(err => {
+            console.log('RefGpecProfilModelError error loading data', err);
+            erreur+=1;
+        });
+
+    axios.get('/api/view_profils_nb_skills')
+        .then(response => {
+
+            self.profils = {};
+            response.data.forEach(item => {
+                self.profils[item.profil_code] = item;
+            });
+        })
+        .catch(err => {
+            console.log('RefGpecProfilModelError loading data', err);
+            erreur+=1;
+        });
+
+self.getorga();
+self.initializing = erreur;
+self.inform();
+};
+
+RefGpecProfilsModel.prototype.getorga = function () {
+
+    var self = this;
+    self.listOrga = {};
+    axios.get('/api/view_list_orga_profils')
+        .then(response => {
+            response.data.forEach(item => {
+                self.listOrga[item.orga_code] = item;
+
+            });
+            self.inform();
+        })
+        .catch(err => {
+            console.log('RefGpecProfilModelError loading data', err);
+        });
+};
+
+RefGpecProfilsModel.prototype.updateVue = function () {
+    var self = this;
+    self.profils = {};
+    self.listprofils_skills_levels = {};
+    axios.get('/api/list_profils_attached_skills')
+        .then(response => {
+            self.listprofils_skills_levels = {};
+            var i=0;
+            response.data.forEach(item => {
+                self.listprofils_skills_levels[i] = item;
+                i++;
+            });
             self.inform();
         })
         .catch(err => {
@@ -32,24 +85,11 @@ var RefGpecProfilsModel = function (options) {
             response.data.forEach(item => {
                 self.profils[item.profil_code] = item;
             });
-            self.initializing = false;
             self.inform();
         })
         .catch(err => {
             console.log('RefGpecProfilModelError loading data', err);
         });
-
-    axios.get('/api/view_list_orga_profils')
-        .then(response => {
-            response.data.forEach(item => {
-                self.listOrga[item.orga_code] = item;
-            });
-        })
-        .catch(err => {
-            console.log('RefGpecProfilModelError loading data', err);
-        });
-
-
 
 };
 
@@ -99,9 +139,11 @@ RefGpecProfilsModel.prototype.addProfil = function (orga_code, profil_shortname,
               break;
           }
           self.profils[profil_code] = {profil_code,profil_shortname,profil_pdf_path,profil_free_comments,orga_code};
+          self.getorga();
           for (var k=0;k<nomchamp.length;k++){
               self.profils[profil_code][nomchamp[k]]=0;
           }
+
           self.inform();
           return cb && cb(null);
 
@@ -126,6 +168,8 @@ RefGpecProfilsModel.prototype.destroy = function (profilId, cb) {
             for (var key in self.listprofils_skills_levels) {
                 if (self.listprofils_skills_levels[key].profil_code === profilId) {
                     delete self.listprofils_skills_levels[key];
+                    self.getorga();
+                    self.inform();
                 }
             }
         })
