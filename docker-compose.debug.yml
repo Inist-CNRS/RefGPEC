@@ -27,7 +27,7 @@ services:
   # in debug mode to be able to rebuild things during developement
   refgpec-front-cra:
     container_name: refgpec-front-cra
-    image: node:8.7.0
+    image: node:8.9.0
     working_dir: /app
     volumes:
       - ./refgpec-front:/app
