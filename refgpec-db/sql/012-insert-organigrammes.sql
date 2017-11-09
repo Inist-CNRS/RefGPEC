@@ -10,7 +10,7 @@ INSERT INTO organigramme (orga_code,orga_shortname)
 ('dsi_siprod','DSI/SIPROD'),
 ('dsi_sidev','DSI/SIDEV'),
 ('dsi_sbur','DSI/SBUR'),
-('dpi','INIST'),
+('dpi','DPI'),
 ('dpi_srde','DPI/SRDE'),
 ('dpi_spproj','DPI/SPPROJ'),
 ('dos','DOS'),
