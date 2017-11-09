@@ -7,7 +7,7 @@ var RefGpecLevelsList = createReactClass({
     getInitialState: function () {
         return {
             error: '',
-            level_code: this.props.skillData.level_code,
+            updating: false,
         };
     },
 
@@ -26,21 +26,46 @@ var RefGpecLevelsList = createReactClass({
 
 
         return (
-            <select className="form-control"
-                    value={self.props.value}
-                    onChange={self.handleChange}
-                    readOnly={self.props.readOnly}
-                    disabled={this.props.disabled}
-            >
-                <option></option>
-                {rgLevels}
-            </select>
-        );
+            <div>
+            {(() => {
+                if(this.props.value){
+                    if(!this.state.updating ) {
+                        return <span onClick={this.handleModifiy} className="btn active"
+                                     title={this.props.skillData.levels[this.props.value].level_free_comments}>
+                                 {self.props.skillData.levels[this.props.value].level_shortname}&nbsp;
+                            <span
+                                className="badge">{this.props.skillData.levels[this.props.value].level_number}</span>
+                              </span>
+                    }else{
+                        return   <select className="form-control"
+                                         value={self.props.value}
+                                         onChange={self.handleChange}
+                                         readOnly={self.props.readOnly}
+                                         disabled={this.props.disabled}>
+                            <option></option>
+                            {rgLevels}
+                        </select>}
+                }else{
+                    return   <select className="form-control"
+                                     onChange={self.handleChange}
+                                     readOnly={self.props.readOnly}
+                                     disabled={this.props.disabled}>
+                        <option></option>
+                        {rgLevels}
+                    </select>
+                }
+            })()}
+        </div>
+        )
+    },
+
+    handleModifiy: function () {
+        this.setState({updating:!this.state.updating});
     },
 
     handleChange: function (event) {
         this.props.onChange(event.target.value);
-
+        this.setState({updating:false});
     },
 
     handleDestroy: function (event) {

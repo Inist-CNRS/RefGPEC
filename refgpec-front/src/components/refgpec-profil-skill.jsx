@@ -1,5 +1,6 @@
 import React from 'react';
 import {DropdownButton,MenuItem} from 'react-bootstrap';
+import  RefGpecLevelslist from './refgpec-levels-list';
 var createReactClass = require('create-react-class');
 var RefGpecProfilSkill = createReactClass({
   displayName: 'RefGpecProfilSkill',
@@ -71,19 +72,21 @@ var RefGpecProfilSkill = createReactClass({
           </span>
         </td>
         <td>
-          <span className="btn active" title={this.props.levelsModel.levels[this.state.psLevelId].level_free_comments}>
-
-            {this.props.levelsModel.levels[this.state.psLevelId].level_shortname}&nbsp;
-            <span className="badge">{this.props.levelsModel.levels[this.state.psLevelId].level_number}</span>
-
-          </span>
-        </td>
+          <RefGpecLevelslist
+              skillData={this.props.levelsModel}
+              ajaxLoading={this.props.levelsModel.ajaxLoading}
+              data-fieldname="psLevel"
+              onChange={this.handleLevelChange}
+              onBlur={this.handleSubmit}
+              value={this.state.psLevelId}
+          />
+          </td>
         <td>
           <textarea className="form-control" rows="1"
             placeholder="Commentaires libres"
             value={this.state.psFreeComments}
             data-fieldname="psFreeComments"
-            onChange={this.handleChange}
+            onChange={this.handleChangeComm}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
           />
@@ -95,7 +98,7 @@ var RefGpecProfilSkill = createReactClass({
 
   handleSubmit: function (event) {
     if (this.state.mustBeSaved) {
-      // TODO this.props.onSave(this.state.psId, this.state.item);
+      this.props.onSave(this.state.psId, this.state);
       this.setState({ mustBeSaved: false });
     
       // // display or hide a nice popover to show the error
@@ -112,6 +115,21 @@ var RefGpecProfilSkill = createReactClass({
     newState[event.target.getAttribute('data-fieldname')] = event.target.value;
     this.setState(newState);
   },
+
+    handleChangeComm: function (event) {
+        this.setState({psFreeComments:event.target.value});
+        this.setState({ mustBeSaved: true });
+    },
+
+    handleLevelChange: function (event) {
+        console.log(event);
+        if(event){
+            this.setState({psLevelId:event,mustBeSaved: true},function () {
+                this.handleSubmit();
+            });
+        }
+
+    },
 
   handleDestroy: function (event) {
     event.preventDefault(); // Let's stop this event.

@@ -51,7 +51,7 @@ var RefGpecProfilsSkills = createReactClass({
                     skillsTypesModel={self.props.skillsTypesModel}
                     skillsDomainsModel={self.props.skillsDomainsModel}
                     psData={self.props.profilsSkillsModel.profilsSkillsLevels[key]}
-                    onSave={self.props.profilsSkillsModel.save.bind(self.props.profilsSkillsModel)}
+                    onSave={ self.handleSave}
                     onDestroy={self.handleDestroy}
                     ajaxLoading={self.props.profilsSkillsModel.ajaxLoading}
                 />);
@@ -273,7 +273,15 @@ var RefGpecProfilsSkills = createReactClass({
             });
         }
     },
-
+    handleSave:function(profiSkillId,profilSkillState){
+    let self = this;
+    this.props.profilsSkillsModel.save(profiSkillId, profilSkillState,function(){
+    if(! (self.props.profilsSkillsModel.feedback)){
+        NotificationManager.success('', 'La compétence '+ profilSkillState.psSkillShortName.skill_shortname + ' a été modifié');
+    }else
+    {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
+    });
+    },
 
     handleNavigateTab: function (event) {
         this.props.onTabChange(event.target.getAttribute('href'));

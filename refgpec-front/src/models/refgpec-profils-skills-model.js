@@ -136,17 +136,33 @@ RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(profil_code,c
 
 
 // save is useless ?
-RefGpecProfilsSkillsModel.prototype.save = function (profilId, data, cb) {
-  var self = this;
-  self.ajaxLoading = true;
-  self.profilsSkillsLevels[profilId] = data;
-  self.inform();
+RefGpecProfilsSkillsModel.prototype.save = function (pslId, data, cb) {
+    var self = this;
+    self.ajaxLoading = true;
+    self.feedback='';
+    axios.patch('/api/profils_skills_levels?psl_code=eq.'+pslId,{
+        psl_code: pslId,
+        psl_free_comments:data.psFreeComments,
+        level_code: data.psLevelId,
+        skill_code :data.psSkillId,
+        profil_code :data.psProfilId
 
-  setTimeout(function () { // simulate AJAX request
-    self.ajaxLoading = false;
+    }).then(function (response) {
+        self.profilsSkillsLevels[pslId] = data;
+        self.ajaxLoading = false;
+        self.inform();
+        return cb && cb(null);
+    })
+        .catch(function (error) {
+            self.feedback='Une erreur a été rencontré lors de la modification dans la base de donnée';
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
+        });
+
+
     self.inform();
-    return cb && cb(null);
-  }, 1000);  
+
 };
 
 export default RefGpecProfilsSkillsModel;
