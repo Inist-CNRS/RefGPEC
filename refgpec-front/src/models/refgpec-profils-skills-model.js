@@ -80,7 +80,7 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function (profil_code, skil
             return cb && cb(null);
         })
         .catch(function (error) {
-            self.feedback='Une erreur a été rencontrée lors de l\'ajout dans la base de donnée';
+            self.feedback='Une erreur a été rencontrée lors de l\'ajout dans la base de données';
             self.ajaxLoading = false;
             self.inform();
             return cb && cb(error);
@@ -102,7 +102,7 @@ RefGpecProfilsSkillsModel.prototype.destroy = function (pslId,profil_code, cb) {
             return cb && cb(null);
         })
         .catch(function (error) {
-            self.feedback='Une erreur a été rencontrée lors de la suppression dans la base de donnée';
+            self.feedback='Une erreur a été rencontrée lors de la suppression dans la base de données';
             self.ajaxLoading = false;
             self.inform();
             return cb && cb(error);
@@ -154,7 +154,7 @@ RefGpecProfilsSkillsModel.prototype.save = function (pslId, data, cb) {
         return cb && cb(null);
     })
         .catch(function (error) {
-            self.feedback='Une erreur a été rencontré lors de la modification dans la base de donnée';
+            self.feedback='Une erreur a été rencontrée lors de la modification dans la base de données';
             self.ajaxLoading = false;
             self.inform();
             return cb && cb(error);
