@@ -34,7 +34,10 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,json,css}": ["prettier --write src/index.js src/*/*.js", "git add"]
+    "*.{js,json,css}": [
+      "prettier --write src/index.js src/*/*.js src/*.css",
+      "git add"
+    ]
   },
   "devDependencies": {
     "husky": "^0.14.3",
