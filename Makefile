@@ -34,6 +34,9 @@ stop: ## stop refgpec containers
 	@docker-compose -f ./docker-compose.debug.yml stop
 kill: ## kill refgpec containers
 	@docker-compose -f ./docker-compose.debug.yml kill
+rm: ## remove all refgpec containers
+	@docker-compose -f ./docker-compose.debug.yml rm
+
 
 # makefile rule used to keep current user's unix rights on the docker mounted files
 chown:
