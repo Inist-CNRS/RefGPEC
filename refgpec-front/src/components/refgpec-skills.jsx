@@ -210,7 +210,7 @@ var RefGpecSkills = createReactClass({
         if (self.state.newSkillShortName && self.state.newSkillDomain && self.state.newSkillType) {
             self.props.skillsModel.addSkill(self.state.newSkillType, self.state.newSkillDomain, self.state.newSkillShortName, self.state.newSkillFreeComments,function(){
                 if(! (self.props.skillsModel.feedback)){
-                    NotificationManager.success('', 'La compétence '+ self.state.newSkillShortName + ' a été ajouté');
+                    NotificationManager.success('', 'La compétence '+ self.state.newSkillShortName + ' a été ajoutée');
                 }else
                 {NotificationManager.error('',self.props.skillsModel.feedback ); }
             });
@@ -248,7 +248,7 @@ var RefGpecSkills = createReactClass({
         let self = this;
         self.props.skillsModel.destroy(skillId,function(){
             if(! (self.props.skillsModel.feedback)){
-                NotificationManager.success('', 'La compétence '+ skillId + ' a été supprimé');
+                NotificationManager.success('', 'La compétence '+ skillId + ' a été supprimée');
                 self.props.profilsSkillsModel.updateVue();
                 self.props.skillsModel.inform();
             }else
@@ -264,7 +264,7 @@ var RefGpecSkills = createReactClass({
 
         this.props.skillsModel.save(skillId, SkillState,function () {
             if(! (self.props.skillsModel.feedback)){
-                NotificationManager.success('', 'La compétence '+ skillId + ' a été modifié');
+                NotificationManager.success('', 'La compétence '+ skillId + ' a été modifiée');
             }else
             {NotificationManager.error('',self.props.skillsModel.feedback ); }
         });

@@ -224,7 +224,7 @@ var RefGpecProfilsSkills = createReactClass({
         if (!self.missingField()) {
             self.props.profilsSkillsModel.addProfilSkill(self.state.selectedProfil, self.state.newSkill, self.state.newLevel, self.state.newFreeComment,function () {
                 if(! (self.props.profilsSkillsModel.feedback)){
-                    NotificationManager.success('', 'La compétence '+ self.state.newSkill + ' a été ajouté au profil ' + self.state.selectedProfil);
+                    NotificationManager.success('', 'La compétence '+ self.state.newSkill + ' a été ajoutée au profil ' + self.state.selectedProfil);
                     self.props.skillsModel.updateVue();
                     self.props.levelsModel.updateVue();
                     self.props.profilsModel.updateVue();
@@ -255,7 +255,7 @@ var RefGpecProfilsSkills = createReactClass({
         if (self.props.profilsSkillsModel.ajaxLoading) return;
         self.props.profilsSkillsModel.destroy(profilSkillId,self.state.selectedProfil,function () {
             if(! (self.props.profilsSkillsModel.feedback)){
-                NotificationManager.success('', 'La compétence '+ profilSkillId + ' a été supprimé du profil ' +self.state.selectedProfil);
+                NotificationManager.success('', 'La compétence '+ profilSkillId + ' a été supprimée du profil ' +self.state.selectedProfil);
             }else
             {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
         });
@@ -277,7 +277,7 @@ var RefGpecProfilsSkills = createReactClass({
     let self = this;
     this.props.profilsSkillsModel.save(profiSkillId, profilSkillState,function(){
     if(! (self.props.profilsSkillsModel.feedback)){
-        NotificationManager.success('', 'La compétence '+ profilSkillState.psSkillShortName.skill_shortname + ' a été modifié');
+        NotificationManager.success('', 'L\'association  '+ profilSkillState.psSkillShortName.skill_shortname + ' a été modifiée');
     }else
     {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
     });

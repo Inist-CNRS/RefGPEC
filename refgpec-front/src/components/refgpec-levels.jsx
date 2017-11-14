@@ -155,7 +155,7 @@ var RefGpecLevels = createReactClass({
       this.props.levelsModel.addLevel(this.state.newShortName, this.state.newFreeComment,function(){
           self.setState({ newShortName: '', newFreeComment: '' });
           if(! (self.props.levelsModel.feedback)){
-              NotificationManager.success('', 'La modulation '+ self.state.newShortName + ' a été ajouté');
+              NotificationManager.success('', 'La modulation '+ self.state.newShortName + ' a été ajoutée');
           }else
           {NotificationManager.error('',self.props.levelsModel.feedback ); }
       });
@@ -173,7 +173,7 @@ var RefGpecLevels = createReactClass({
       let self = this;
       self.props.levelsModel.destroy(levelId,function(){
           if(! (self.props.levelsModel.feedback)){
-              NotificationManager.success('', 'La modulation '+ levelId + ' a été supprimé');
+              NotificationManager.success('', 'La modulation '+ levelId + ' a été supprimée');
               self.props.profilsSkillsModel.updateVue();
               self.props.levelsModel.inform();
           }else
@@ -186,7 +186,7 @@ var RefGpecLevels = createReactClass({
       let self = this;
       this.props.levelsModel.save(levelId, levelState,function(){
           if(! (self.props.levelsModel.feedback)){
-              NotificationManager.success('', 'La modulation '+ levelId + ' a été modifié');
+              NotificationManager.success('', 'La modulation '+ levelId + ' a été modifiée');
           }else
           {NotificationManager.error('',self.props.levelsModel.feedback ); }
       });
