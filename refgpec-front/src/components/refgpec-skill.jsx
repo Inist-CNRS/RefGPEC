@@ -43,7 +43,7 @@ var RefGpecSkill = createReactClass({
             </DropdownButton>
               <Modal show={this.state.deleteModal} onHide={this.closedeleteModal} id="profils-file-modal">
                 <Modal.Header closeButton>
-                  <h4 className="modal-title">Voulez-vous vraiment supprimer la compétence {this.state.skillShortName} ?</h4>
+                  <h4 className="modal-title">Voulez-vous vraiment supprimer la compétence <b>{this.state.skillShortName}</b> ?</h4>
                 </Modal.Header>
                 <Modal.Body>
                     {(() => {
@@ -53,7 +53,7 @@ var RefGpecSkill = createReactClass({
                             );
                             return (
                                 <div className="alert alert-info" role="alert">
-                                  En supprimant cette compétence,  vous dissocierez des compétences de ces profils :
+                                  En supprimant cette compétence, vous dissocierez des compétences de ces profils :
                                   <ul>{list}</ul>
                                 </div>)
                         }

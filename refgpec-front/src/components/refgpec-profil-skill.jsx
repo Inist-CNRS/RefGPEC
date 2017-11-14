@@ -40,7 +40,7 @@ var RefGpecProfilSkill = createReactClass({
         <td>
             <div className="btn-group">
               <DropdownButton id="dropdown-profil_skill" title= " " className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <MenuItem  href=""onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Dissocier la compétence du profil </MenuItem>
+                <MenuItem  href="" onClick={this.handleDestroy}> <span className="glyphicon glyphicon-remove"></span> Dissocier la compétence du profil </MenuItem>
               </DropdownButton>
 
             {/*<button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>*/}

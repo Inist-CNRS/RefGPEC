@@ -83,7 +83,7 @@ var RefGpecProfil = createReactClass({
           </DropdownButton>
             <Modal show={this.state.deleteModal} onHide={this.closedeleteModal} id="profils-file-modal">
               <Modal.Header closeButton>
-                <h4 className="modal-title">Voulez-vous vraiment supprimer le profil {this.state.profil_shortname} ?</h4>
+                <h4 className="modal-title">Voulez-vous vraiment supprimer le profil <b>{this.state.profil_shortname}</b> ?</h4>
               </Modal.Header>
               <Modal.Body>
                   {(() => {

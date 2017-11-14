@@ -41,7 +41,7 @@ var self= this;
             </DropdownButton>
             <Modal show={this.state.deleteModal} onHide={this.closedeleteModal} id="profils-file-modal">
               <Modal.Header closeButton>
-                <h4 className="modal-title">Voulez-vous vraiment supprimer la modulation {this.state.levelShortName} ?</h4>
+                <h4 className="modal-title">Voulez-vous vraiment supprimer la modulation <b>{this.state.levelShortName}</b> ?</h4>
               </Modal.Header>
               <Modal.Body>
 
