@@ -100,12 +100,12 @@ var RefGpecProfils = createReactClass({
                             <tr>
                                 <th className="profils-col-action"></th>
                                 <th className="profils-col-file">PDF du profil</th>
-                                <th role="button" id="orga_code" onClick={this.trieprofil} className="profils-col-orga"> Position dans l'organigramme <i className="fa fa-sort" aria-hidden="true"></i>
+                                <th title="Cliquez pour trier par organigramme" role="button" id="orga_code" onClick={this.trieprofil} className="profils-col-orga"> Position dans l'organigramme <i className="fa fa-sort" aria-hidden="true"></i>
                                 </th>
-                                <th role="button" id="profil_shortname" onClick={this.trieprofil}  className="profils-col-title">Intitulé du profil <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th title="Cliquez pour trier par Nom court" role="button" id="profil_shortname" onClick={this.trieprofil}  className="profils-col-title">Intitulé du profil <i className="fa fa-sort" aria-hidden="true"></i></th>
                                 <th className="profils-col-stats">Nombre de compétences associées</th>
-                                <th role="button" id="profil_free_comments"  onClick={this.trieprofil} className="profils-col-commentary">Commentaires libres <i className="fa fa-sort" aria-hidden="true"></i></th>
-                                <th role="button" id="profil_code" onClick={this.trieprofil} className="profils-col-code">Code <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th title="Cliquez pour trier par Commentaire" role="button" id="profil_free_comments"  onClick={this.trieprofil} className="profils-col-commentary">Commentaires libres <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th title="Cliquez pour trier par Code" role="button" id="profil_code" onClick={this.trieprofil} className="profils-col-code">Code <i className="fa fa-sort" aria-hidden="true"></i></th>
                             </tr>
                             </thead>
                             <tbody>

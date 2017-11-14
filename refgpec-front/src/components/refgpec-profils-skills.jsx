@@ -122,8 +122,8 @@ var RefGpecProfilsSkills = createReactClass({
                               <th className="profils-skills-col-action"></th>
                               <th className="profils-skills-col-name">Types &amp; Domaines</th>
                               <th  className="profils-skills-col-name">Compétences</th>
-                              <th  role="button" id="level_code" onClick={this.trieprofil} className="profils-skills-col-name">Modulations <i className="fa fa-sort" aria-hidden="true"></i></th>
-                              <th role="button" id="psl_free_comments" onClick={this.trieprofil} className="profils-skills-col-commentary">Commentaires libres <i className="fa fa-sort" aria-hidden="true"></i></th>
+                              <th title="Cliquez pour trier par Modulation" role="button" id="level_code" onClick={this.trieprofil} className="profils-skills-col-name">Modulations <i className="fa fa-sort" aria-hidden="true"></i></th>
+                              <th title="Cliquez pour trier par Commentaire" role="button" id="psl_free_comments" onClick={this.trieprofil} className="profils-skills-col-commentary">Commentaires libres <i className="fa fa-sort" aria-hidden="true"></i></th>
                             </tr>
                             </thead>
                             <tbody>

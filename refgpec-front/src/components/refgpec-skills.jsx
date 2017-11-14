@@ -87,11 +87,11 @@ var RefGpecSkills = createReactClass({
                             <thead>
                             <tr>
                                 <th className="skills-col-action"></th>
-                                <th role="button" id="st_code" onClick={this.trieprofil}  className="skills-col-type">Type <i className="fa fa-sort" aria-hidden="true"></i></th>
-                                <th role="button" id="sd_code" onClick={this.trieprofil} className="skills-col-domain">Domaine <i className="fa fa-sort" aria-hidden="true"></i></th>
-                                <th role="button" id="skill_shortname" onClick={this.trieprofil} className="skills-col-shortname">Nom de la compétence <i className="fa fa-sort" aria-hidden="true"></i></th>
-                                <th role="button" id="skill_free_comments" onClick={this.trieprofil} className="skills-col-commentary">Commentaires libres <i className="fa fa-sort" aria-hidden="true"></i></th>
-                                <th role="button" id="skill_code" onClick={this.trieprofil} className="skills-col-code">Code</th>
+                                <th title="Cliquez pour trier par Type" role="button" id="st_code" onClick={this.trieprofil}  className="skills-col-type">Type <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th title="Cliquez pour trier par Domaine" role="button" id="sd_code" onClick={this.trieprofil} className="skills-col-domain">Domaine <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th title="Cliquez pour trier par Nom" role="button" id="skill_shortname" onClick={this.trieprofil} className="skills-col-shortname">Nom de la compétence <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th title="Cliquez pour trier par Commentaire" role="button" id="skill_free_comments" onClick={this.trieprofil} className="skills-col-commentary">Commentaires libres <i className="fa fa-sort" aria-hidden="true"></i></th>
+                                <th title="Cliquez pour trier par Code" role="button" id="skill_code" onClick={this.trieprofil} className="skills-col-code">Code</th>
                             </tr>
                             </thead>
                             <tbody>
