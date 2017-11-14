@@ -138,15 +138,16 @@ var RefGpecProfil = createReactClass({
             skillData={this.state.profil_pdf_path}
             onClick={self.open}
           />
-
           <Modal show={this.state.showModal} onHide={this.close} id="profils-file-modal">
+            <form>
             <Modal.Header closeButton>
-              <h4 className="modal-title">Uploader le PDF du profil de poste</h4>
+              <h4 className="modal-title">Indiquez l'URL du PDF du profil de poste</h4>
             </Modal.Header>
             <Modal.Body>
+
                 {(() => {
-                    if(self.state.profil_pdf_path){ return <p><input ref="formUrlPdf" className="form-control" type="url" placeholder={this.state.profil_pdf_path} /></p> }
-                          else{ return <p><input ref="formUrlPdf" className="form-control" type="url" placeholder="Lien du PDF du profil"/></p> }
+                    if(self.state.profil_pdf_path){ return <p><input id={"URL_PDF" +this.state.profil_code} ref="formUrlPdf" className="form-control" type="url" pattern="^(https?:\/\/)[a-zA-Z0-9-_\\/\\.]+\.pdf$" placeholder={this.state.profil_pdf_path} /></p> }
+                          else{ return <p><input id={"URL_PDF" +this.state.profil_code}  ref="formUrlPdf" className="form-control" type="url" pattern="^(https?:\/\/)[a-zA-Z0-9-_\\/\\.]+\.pdf$"  placeholder="Lien du PDF du profil"/></p> }
                 })()}
 
               <div className="alert alert-info" role="alert">
@@ -156,8 +157,9 @@ var RefGpecProfil = createReactClass({
               <button onClick={this.close} type="button" className="btn btn-default"
                       data-dismiss="modal">Fermer
               </button>
-              <button type="button" onClick={this.handleChangePDF} className="btn btn-primary">Uploader</button>
+              <button type="submit" onClick={this.handleChangePDF}  className="btn btn-primary">Valider</button>
             </Modal.Footer>
+            </form>
           </Modal>
 
         </td>
@@ -263,10 +265,18 @@ var RefGpecProfil = createReactClass({
   },
 
   handleChangePDF : function (event) {
-        this.close();
-        this.setState({profil_pdf_path:ReactDOM.findDOMNode(this.refs.formUrlPdf).value});
-        this.setState({ mustBeSaved: true },this.handleSubmit);
-
+      let url = document.getElementById("URL_PDF" +this.state.profil_code );
+      if(!url.validity.patternMismatch){
+          event.preventDefault();
+          event.stopPropagation();
+          this.close();
+          this.setState({profil_pdf_path: ReactDOM.findDOMNode(this.refs.formUrlPdf).value});
+          this.setState({mustBeSaved: true}, this.handleSubmit);
+      }else{
+          url.oninvalid = function (event) {
+              event.target.setCustomValidity("L'URL doit commencer par http ou https et contenir un .pdf");
+              };
+        }
     },
   componentDidMount () {
 
