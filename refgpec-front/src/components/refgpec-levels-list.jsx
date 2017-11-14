@@ -14,6 +14,7 @@ var RefGpecLevelsList = createReactClass({
     render: function () {
         var self = this;
         let rgLevels = [];
+
         Object.keys(self.props.skillData.levels).forEach(function (key) {
             rgLevels.push(
                 <RefGpecLevelList
@@ -30,9 +31,10 @@ var RefGpecLevelsList = createReactClass({
             {(() => {
                 if(this.props.value){
                     if(!this.state.updating ) {
-                        return <span onClick={this.handleModifiy} className="btn active"
+                        let color = "rgb(255,"+ (255-(Math.floor(255/Object.keys(self.props.skillData.levels).length *(self.props.skillData.levels[self.props.value].level_number -1)))) +",0)";
+                        return <span style={{background:color}} onClick={this.handleModifiy} className="btn active"
                                      title={this.props.skillData.levels[this.props.value].level_free_comments}>
-                                 {self.props.skillData.levels[this.props.value].level_shortname}&nbsp;
+                            <b>{self.props.skillData.levels[this.props.value].level_shortname}</b>&nbsp;
                             <span
                                 className="badge">{this.props.skillData.levels[this.props.value].level_number}</span>
                               </span>
