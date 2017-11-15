@@ -9,6 +9,7 @@ var RefGpecLevels = createReactClass({
     return {
       newShortName: '',
       newFreeComment: '',
+        newNumber:'0',
       champtri :'level_code',
       type_tri : true,
     };
@@ -44,6 +45,7 @@ var RefGpecLevels = createReactClass({
           levelData={self.props.levelsModel.levels[key]}
           profillist={liste_profil}
           nbSkill={nb_skill}
+          max = {self.props.levelsModel.max}
           onSave={self.handleSave}
           onDestroy={self.handleDestroy}
           ajaxLoading={self.props.levelsModel.ajaxLoading}
@@ -75,7 +77,8 @@ var RefGpecLevels = createReactClass({
                 <thead>
                   <tr>
                     <th className="levels-col-action"></th>
-                    <th title="Cliquez pour trier par Nom court" role="button"  id="level_shortname" onClick={this.trieprofil}  className="levels-col-shortname">Nom court <i className="fa fa-sort" aria-hidden="true"></i> </th>
+                      <th title="Cliquez pour trier par Nom court" role="button"  id="level_shortname" onClick={this.trieprofil}  className="levels-col-shortname">Nom Court <i className="fa fa-sort" aria-hidden="true"></i> </th>
+                      <th title="Cliquez pour trier par Niveau" role="button"  id="level_number" onClick={this.trieprofil} className="levels-col-number"> Niveau <i className="fa fa-sort" aria-hidden="true"></i> </th>
                     <th title="Cliquez pour trier par Commentaires"  role="button" id="level_free_comments" onClick={this.trieprofil}  className="levels-col-commentary">Commentaires <i className="fa fa-sort" aria-hidden="true"></i> </th>
                     <th title="Cliquez pour trier par Code"  role="button" id="level_code" onClick={this.trieprofil}  className="levels-col-code">Code <i className="fa fa-sort" aria-hidden="true"></i> </th>
                   </tr>
@@ -87,6 +90,7 @@ var RefGpecLevels = createReactClass({
                   {/* FORM USED TO CREATE A NEW LEVEL */}
                   <tr className="form-new-level">
                     <td></td>
+
                     <td>
                       <input className="form-control" type="text"
                         placeholder="Nom court de la modulation"
@@ -97,6 +101,16 @@ var RefGpecLevels = createReactClass({
                         disabled={self.props.levelsModel.ajaxLoading}
                        />
                     </td>
+                      <td>
+                          <input className="form-control" type="number"
+                                 min="1" max ={this.props.levelsModel.max+1}
+                                 placeholder="Niveau de la modulation"
+                                 data-fieldname="newNumber"
+                                 value={this.state.newNumber}
+                                 onChange={this.handleChange}
+                                 disabled={this.props.levelsModel.ajaxLoading}
+                          />
+                      </td>
                     <td>
                       <textarea className="form-control" rows="2"
                         placeholder="Expliquez en quelque mots la signification de cette modulation de compétence"
@@ -134,15 +148,22 @@ var RefGpecLevels = createReactClass({
 
   },
 
-  handleKeyPress: function (event) {
-    if (event.charCode === 13) {
-      this.handleSubmit(event);
-    }
-  },
+    handleChange: function (event) {
+    let newState = {};
+    if(event.target.getAttribute('data-fieldname')==="newNumber"){
+        newState[event.target.getAttribute('data-fieldname')] = event.target.value;
 
-  handleChange: function (event) {
-    var newState = {};
-    newState[event.target.getAttribute('data-fieldname')] = event.target.value;
+        if(parseInt(event.target.value,10 )> (this.props.levelsModel.max+2)){
+            newState[event.target.getAttribute('data-fieldname')] = this.props.levelsModel.max+1;
+        }
+
+        if(parseInt(event.target.value,10 ) < 1){
+                newState[event.target.getAttribute('data-fieldname')] = 1;
+        }
+
+    }else{
+        newState[event.target.getAttribute('data-fieldname')] = event.target.value;
+    }
     this.setState(newState);
   },
 
@@ -150,10 +171,10 @@ var RefGpecLevels = createReactClass({
   handleSubmit: function (event) {
     if (this.props.levelsModel.ajaxLoading) return;
       let self = this;
-    if (this.state.newShortName) {
+    if (this.state.newShortName && this.state.newNumber ) {
 
-      this.props.levelsModel.addLevel(this.state.newShortName, this.state.newFreeComment,function(){
-          self.setState({ newShortName: '', newFreeComment: '' });
+      this.props.levelsModel.addLevel(this.state.newNumber,this.state.newShortName, this.state.newFreeComment,function(){
+          self.setState({newNumber:'', newShortName: '', newFreeComment: '' });
           if(! (self.props.levelsModel.feedback)){
               NotificationManager.success('', 'La modulation '+ self.state.newShortName + ' a été ajoutée');
           }else

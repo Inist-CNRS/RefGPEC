@@ -6,10 +6,10 @@ var RefGpecLevel = createReactClass({
 
   getInitialState: function () {
     return {
-      levelId:           this.props.levelData.level_code,
-      levelNumber:           this.props.levelData.level_number,
-      levelShortName:    this.props.levelData.level_shortname,
-      levelFreeComments: this.props.levelData.level_free_comments,
+      level_code:           this.props.levelData.level_code,
+      level_number:           this.props.levelData.level_number,
+      level_shortname:    this.props.levelData.level_shortname,
+      level_free_comments: this.props.levelData.level_free_comments,
       mustBeSaved: false,
       error: '',
       deleteModal :false
@@ -27,7 +27,7 @@ var RefGpecLevel = createReactClass({
 var self= this;
     return (
 
-      <tr id={this.state.levelId}
+      <tr id={this.state.level_code}
           data-placement="top" data-toggle="popover" data-trigger="manual"
           data-title="Erreur de saisie" data-content={this.state.error}
       >
@@ -41,7 +41,7 @@ var self= this;
             </DropdownButton>
             <Modal show={this.state.deleteModal} onHide={this.closedeleteModal} id="profils-file-modal">
               <Modal.Header closeButton>
-                <h4 className="modal-title">Voulez-vous vraiment supprimer la modulation <b>{this.state.levelShortName}</b> ?</h4>
+                <h4 className="modal-title">Voulez-vous vraiment supprimer la modulation <b>{this.state.level_shortname}</b> ?</h4>
               </Modal.Header>
               <Modal.Body>
 
@@ -49,7 +49,7 @@ var self= this;
                       let list =[];
                      if(Object.keys(self.props.profillist).length!==0){
                         Object.keys(this.props.profillist).forEach(function (profil) {
-                            list.push(<li key={self.state.levelId + profil}>{self.props.profillist[profil].profil_shortname} :
+                            list.push(<li key={self.state.level_code + profil}>{self.props.profillist[profil].profil_shortname} :
                               <strong style={{color: 'red'}}> {(self.props.nbSkill[self.props.profillist[profil].profil_code])} </strong> compétences seront
                              dissociées)</li>)
                          });
@@ -73,21 +73,33 @@ var self= this;
           </div>
         </td>
 
+
         <td>
           <input className="form-control" type="text"
             placeholder="Nom court de la modulation"
-            data-fieldname="levelShortName"
-            value={this.state.levelShortName}
+            data-fieldname="level_shortname"
+            value={this.state.level_shortname}
             onChange={this.handleChange}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
            />
         </td>
         <td>
+          <input className="form-control" type="number"
+                 min="1" max ={this.props.max+1}
+                 data-fieldname="level_number"
+                 value={this.state.level_number}
+                 onKeyPress={this.handleKeyPress}
+                 onChange={this.handleChange}
+                 onBlur={this.handleSubmit}
+                 disabled={this.props.ajaxLoading}
+          />
+        </td>
+        <td>
           <textarea className="form-control" rows="2"
             placeholder="Expliquez en quelque mots la signification de cette modulation de compétence"
-            data-fieldname="levelFreeComments"
-            value={this.state.levelFreeComments}
+            data-fieldname="level_free_comments"
+            value={this.state.level_free_comments}
             onChange={this.handleChange}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading}
@@ -96,10 +108,10 @@ var self= this;
         <td>
           <input className="form-control" type="string"
             placeholder="Code unique identifiant la modulation"
-            data-fieldname="levelId"
+            data-fieldname="level_code"
             readOnly
-            title={this.state.levelId}
-            value={this.state.levelId}
+            title={this.state.level_code}
+            value={this.state.level_code}
           />
         </td>
       </tr>
@@ -109,7 +121,7 @@ var self= this;
 
   handleSubmit: function (event) {
     if (this.state.mustBeSaved) {
-      this.props.onSave(this.state.levelId, this.state);
+      this.props.onSave(this.state.level_code, this.state);
       this.setState({ mustBeSaved: false });
     }
   },
@@ -117,12 +129,26 @@ var self= this;
   handleChange: function (event) {
     // tells the data must be saved when possible
     if (event.target.value !== this.state[event.target.getAttribute('data-fieldname')]) {
+        var newState = {};
+        if(event.target.getAttribute('data-fieldname')==="level_number"){
+            newState[event.target.getAttribute('data-fieldname')] = event.target.value;
+
+            if(parseInt(event.target.value,10 )> (this.props.max+2)){
+                newState[event.target.getAttribute('data-fieldname')] = this.props.max+1;
+            }
+
+            if(parseInt(event.target.value,10 ) < 1){
+                newState[event.target.getAttribute('data-fieldname')] = 1;
+            }
+
+        }else{
+            newState[event.target.getAttribute('data-fieldname')] = event.target.value;
+        }
+
+
      // console.log('mustBeSaved', event.target.getAttribute('data-fieldname'));
       this.setState({ mustBeSaved: true });
     }
-
-    var newState = {};
-    newState[event.target.getAttribute('data-fieldname')] = event.target.value;
     this.setState(newState);
   },
 
@@ -133,7 +159,7 @@ var self= this;
     if (this.props.ajaxLoading) return;
 
 
-    this.props.onDestroy(this.state.levelId);
+    this.props.onDestroy(this.state.level_code);
   },
 
   componentDidMount () {

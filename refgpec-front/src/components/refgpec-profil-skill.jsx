@@ -122,7 +122,6 @@ var RefGpecProfilSkill = createReactClass({
     },
 
     handleLevelChange: function (event) {
-        console.log(event);
         if(event){
             this.setState({psLevelId:event,mustBeSaved: true},function () {
                 this.handleSubmit();

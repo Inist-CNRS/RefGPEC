@@ -7,6 +7,7 @@ var RefGpecLevelsModel = function(options) {
   self.onChanges = [];
   self.feedback = "";
   self.test = {};
+  self.max = 2;
   self.listprofils_skills_levels = {};
   self.nb_skills = {};
 
@@ -48,13 +49,23 @@ var RefGpecLevelsModel = function(options) {
       response.data.forEach(item => {
         self.levels[item.level_code] = item;
       });
+      self.setMax();
       self.initializing = false;
       self.inform();
     })
     .catch(err => {
       console.log("RefGpecLevelsModel error loading data", err);
     });
+
 };
+
+RefGpecLevelsModel.prototype.setMax = function () {
+    let self = this;
+    Object.keys(self.levels).forEach(function (key) {
+        if (self.levels[key].level_number > self.max)
+            self.max = self.levels[key].level_number;
+    })
+}
 RefGpecLevelsModel.prototype.updateVue = function() {
   var self = this;
   self.listprofils_skills_levels = {};
@@ -87,6 +98,10 @@ RefGpecLevelsModel.prototype.updateVue = function() {
     .catch(err => {
       console.log("RefGpecLevelsModel error loading data", err);
     });
+    Object.keys(self.levels).forEach(function (key) {
+        if (self.levels[key].level_number > self.max)
+            self.max = self.levels[key].level_number;
+    })
 };
 RefGpecLevelsModel.prototype.subscribe = function(onChange) {
   this.onChanges.push(onChange);
@@ -99,6 +114,7 @@ RefGpecLevelsModel.prototype.inform = function() {
 };
 
 RefGpecLevelsModel.prototype.addLevel = function(
+  level_number,
   level_shortname,
   level_free_comments,
   cb
@@ -109,7 +125,6 @@ RefGpecLevelsModel.prototype.addLevel = function(
   var codes = Object.keys(self.levels);
   var lastCode = codes[codes.length - 1];
   var level_code = "m-" + (parseInt(lastCode.split("-")[1], 10) + 1);
-  var level_number = level_code.substring(2);
   axios
     .post("/api/levels", {
       level_code: level_code,
@@ -118,6 +133,9 @@ RefGpecLevelsModel.prototype.addLevel = function(
       level_free_comments: level_free_comments
     })
     .then(function(response) {
+        if(self.max <  level_number){
+            self.max =  level_number;
+        }
       self.levels[level_code] = {
         level_code,
         level_number,
@@ -142,7 +160,6 @@ RefGpecLevelsModel.prototype.destroy = function(levelId, cb) {
   var self = this;
   self.ajaxLoading = true;
   self.feedback = "";
-
   axios
     .delete("/api/profils_skills_levels?level_code=eq." + levelId)
     .then(function(response) {
@@ -162,6 +179,12 @@ RefGpecLevelsModel.prototype.destroy = function(levelId, cb) {
   axios
     .delete("/api/levels?level_code=eq." + levelId)
     .then(function(response) {
+        if(self.max === self.levels[levelId].level_number){
+            for (let i in self.levels) {
+                if (self.levels[i].level_number > self.max)
+                    self.max = self.levels[i].level_number;
+            }
+        }
       delete self.levels[levelId];
       self.ajaxLoading = false;
       return cb && cb(null);
@@ -186,6 +209,9 @@ RefGpecLevelsModel.prototype.save = function(levelId, data, cb) {
       level_free_comments: data.levelFreeComments
     })
     .then(function(response) {
+        if(self.max <  data.levelNumber){
+            self.max =  data.levelNumber;
+        }
       self.levels[levelId] = data;
       self.ajaxLoading = false;
       self.inform();

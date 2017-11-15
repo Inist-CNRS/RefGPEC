@@ -54,6 +54,9 @@ footer.gpec-footer hr {
 .levels-col-shortname {
   width: 150px;
 }
+.levels-col-number {
+  width: 120px;
+}
 .levels-col-code {
   width: 70px;
 }
