@@ -129,7 +129,7 @@ var RefGpecSkill = createReactClass({
         <td>
           <textarea className="form-control" rows="1"
             placeholder="Commentaires libres"
-            value={this.state.skillFreeComments}
+            value={this.state.skillFreeComments  || ''}
             data-fieldname="skillFreeComments"
             onChange={this.handleChangeComm}
             onBlur={this.handleSubmit}

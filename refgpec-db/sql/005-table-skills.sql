@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS skills CASCADE ;
 CREATE TABLE skills (
 skill_code VARCHAR(15) NOT NULL,
-skill_shortname VARCHAR(50),
+skill_shortname VARCHAR(150),
 skill_free_comments VARCHAR(255),
 sd_code VARCHAR(8),
 st_code  VARCHAR(8),
