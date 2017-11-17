@@ -256,6 +256,9 @@ var RefGpecProfilsSkills = createReactClass({
         self.props.profilsSkillsModel.destroy(profilSkillId,self.state.selectedProfil,function () {
             if(! (self.props.profilsSkillsModel.feedback)){
                 NotificationManager.success('', 'La compétence '+ profilSkillId + ' a été supprimée du profil ' +self.state.selectedProfil);
+                self.props.skillsModel.updateVue();
+                self.props.levelsModel.updateVue();
+                self.props.profilsModel.updateVue();
             }else
             {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
         });
@@ -278,6 +281,7 @@ var RefGpecProfilsSkills = createReactClass({
     this.props.profilsSkillsModel.save(profiSkillId, profilSkillState,function(){
     if(! (self.props.profilsSkillsModel.feedback)){
         NotificationManager.success('', 'L\'association  '+ profilSkillState.psSkillShortName.skill_shortname + ' a été modifiée');
+        self.props.levelsModel.updateVue();
     }else
     {NotificationManager.error('',self.props.profilsSkillsModel.feedback ); }
     });

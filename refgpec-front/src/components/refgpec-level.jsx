@@ -50,13 +50,15 @@ var self= this;
                       let list =[];
                      if(Object.keys(self.props.profillist).length!==0){
                         Object.keys(this.props.profillist).forEach(function (profil) {
-                            list.push(<li key={self.state.level_code + profil}>{self.props.profillist[profil].profil_shortname} :
+                            list.push(<li key={self.state.level_code + profil}>
+                                        <a href="#profils-skills" id= {self.props.profillist[profil].profil_code } onClick={self.handleOpenProfilSkills}>
+                                            {self.props.profillist[profil].profil_shortname} </a> :
                               <strong style={{color: 'red'}}> {(self.props.nbSkill[self.props.profillist[profil].profil_code])} </strong> compétences seront
                              dissociées)</li>)
                          });
                          return (
                              <div   className="alert alert-info" role="alert">
-                               En supprimant cette modulation, vous dissocierez des compétences de ces profils :
+                               Veuillez dissocier ces compétences avant de supprimer la modulation :
                                <ul>{list}</ul>
                              </div>)
                      }
@@ -68,7 +70,7 @@ var self= this;
                 <button onClick={this.closedeleteModal} type="button" className="btn btn-default"
                         data-dismiss="modal">Annuler
                 </button>
-                <button type="button" onClick={this.handleDestroy} className="btn btn-primary">Supprimer</button>
+                <button type="button" onClick={this.handleDestroy} disabled={Object.keys(self.props.profillist).length!==0} className="btn btn-primary">Supprimer</button>
               </Modal.Footer>
             </Modal>
           </div>
@@ -174,12 +176,13 @@ var self= this;
 
   },
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.state !== nextState) {
-            return true;
-        }
-        return false;
+        return this.state !== nextState || this.props.profillist !== nextProps.profillist;
     },
-
+    
+    handleOpenProfilSkills: function (event) {
+      this.closedeleteModal();
+        this.props.onProfil(event);
+    },
 
 });
 export default RefGpecLevel;

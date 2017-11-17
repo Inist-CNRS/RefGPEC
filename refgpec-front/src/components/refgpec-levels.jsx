@@ -39,6 +39,7 @@ var RefGpecLevels = createReactClass({
             Object.keys(liste_profil).forEach(function (profil) {
                 nb_skill[liste_profil[profil].profil_code]= self.props.levelsModel.getnbSkill(key,liste_profil[profil].profil_code);
             });
+
       rgLevels.push(
         <RefGpecLevel
           key={key} levelId={key}
@@ -48,6 +49,7 @@ var RefGpecLevels = createReactClass({
           max = {self.props.levelsModel.max}
           onSave={self.handleSave}
           onDestroy={self.handleDestroy}
+          onProfil={self.handleOpenProfilSkills}
           ajaxLoading={self.props.levelsModel.ajaxLoading}
         />);
     });
@@ -216,7 +218,9 @@ var RefGpecLevels = createReactClass({
   componentDidMount () {
 
   },
-
+    handleOpenProfilSkills: function (event) {
+        this.props.profilsSkillsModel.getProfilSkillLevel(event.target.id);
+    },
 
 
 });
