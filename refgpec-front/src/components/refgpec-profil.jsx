@@ -20,7 +20,8 @@ var RefGpecProfil = createReactClass({
      showModal : false,
       mustBeSaved: false,
       error: '',
-        deleteModal :false
+        deleteModal :false,
+        ajaxLoading : false,
     };
   },
     closedeleteModal() {
@@ -181,7 +182,7 @@ var RefGpecProfil = createReactClass({
             data-fieldname="profil_shortname"
             onChange={this.handleChangeProfil}
             onBlur={this.handleSubmit}
-            readOnly={this.props.ajaxLoading}
+            readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
           />
         </td>
         <td>
@@ -201,7 +202,7 @@ var RefGpecProfil = createReactClass({
             data-fieldname="profil_free_comments"
             onChange={this.handleChangeFreeComm}
             onBlur={this.handleSubmit}
-            readOnly={this.props.ajaxLoading}
+            readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
           />
         </td>
         <td>
@@ -219,10 +220,15 @@ var RefGpecProfil = createReactClass({
   handleSubmit: function (event) {
     var self =this;
     if (self.state.mustBeSaved) {
+        self.setState({ ajaxLoading: true },
         self.props.onSave(self.state.profil_code, self.state,function(){
             self.props.profilsSkillsModel.inform();
-      });
-      this.setState({ mustBeSaved: false });
+      }));
+        setTimeout(() => {
+            this.setState({mustBeSaved: false,
+                ajaxLoading: false
+            })
+        },500);
 
       // // display or hide a nice popover to show the error
       // const self = this;
@@ -282,7 +288,12 @@ var RefGpecProfil = createReactClass({
 
   },
 
-
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state !== nextState) {
+            return true;
+        }
+        return false;
+    },
 
 });
 export default RefGpecProfil;

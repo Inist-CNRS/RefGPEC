@@ -7,7 +7,7 @@ var RefGpecLevelsModel = function(options) {
   self.onChanges = [];
   self.feedback = "";
   self.test = {};
-  self.max = 2;
+  self.max = 0;
   self.listprofils_skills_levels = {};
   self.nb_skills = {};
 
@@ -122,9 +122,14 @@ RefGpecLevelsModel.prototype.addLevel = function(
   var self = this;
   self.ajaxLoading = true;
   self.feedback = "";
-  var codes = Object.keys(self.levels);
-  var lastCode = codes[codes.length - 1];
-  var level_code = "m-" + (parseInt(lastCode.split("-")[1], 10) + 1);
+    let level_code = "m-"+ 1;
+    let codes = Object.keys(self.levels);
+    if (codes.length > 0) {
+      codes.sort();
+    let lastCode = codes[codes.length - 1];
+      level_code = "m-" + (parseInt(lastCode.split("-")[1], 10) + 1);
+  }
+
   axios
     .post("/api/levels", {
       level_code: level_code,
@@ -134,7 +139,7 @@ RefGpecLevelsModel.prototype.addLevel = function(
     })
     .then(function(response) {
         if(self.max <  level_number){
-            self.max =  level_number;
+            self.max =  parseInt(level_number,10);
         }
       self.levels[level_code] = {
         level_code,
@@ -166,8 +171,28 @@ RefGpecLevelsModel.prototype.destroy = function(levelId, cb) {
       for (var key in self.listprofils_skills_levels) {
         if (self.listprofils_skills_levels[key].level_code === levelId) {
           delete self.listprofils_skills_levels[key];
+
         }
       }
+        axios
+            .delete("/api/levels?level_code=eq." + levelId)
+            .then(function(response) {
+                if(self.max === self.levels[levelId].level_number){
+                    for (let i in self.levels) {
+                        if (self.levels[i].level_number > self.max)
+                            self.max =parseInt( self.levels[i].level_number,10);;
+                    }
+                }
+                delete self.levels[levelId];
+                self.ajaxLoading = false;
+                return cb && cb(null);
+            })
+            .catch(function(error) {
+                self.feedback =
+                    "Une erreur a été rencontrée lors de la suppression dans la base de données";
+                self.ajaxLoading = false;
+                return cb && cb(error);
+            });
     })
     .catch(function(error) {
       self.feedback =
@@ -176,25 +201,6 @@ RefGpecLevelsModel.prototype.destroy = function(levelId, cb) {
       return cb && cb(error);
     });
 
-  axios
-    .delete("/api/levels?level_code=eq." + levelId)
-    .then(function(response) {
-        if(self.max === self.levels[levelId].level_number){
-            for (let i in self.levels) {
-                if (self.levels[i].level_number > self.max)
-                    self.max = self.levels[i].level_number;
-            }
-        }
-      delete self.levels[levelId];
-      self.ajaxLoading = false;
-      return cb && cb(null);
-    })
-    .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontrée lors de la suppression dans la base de données";
-      self.ajaxLoading = false;
-      return cb && cb(error);
-    });
 };
 
 RefGpecLevelsModel.prototype.save = function(levelId, data, cb) {
@@ -210,7 +216,7 @@ RefGpecLevelsModel.prototype.save = function(levelId, data, cb) {
     })
     .then(function(response) {
         if(self.max <  data.levelNumber){
-            self.max =  data.levelNumber;
+            self.max =   parseInt(data.levelNumber,10);
         }
       self.levels[levelId] = data;
       self.ajaxLoading = false;
@@ -226,6 +232,7 @@ RefGpecLevelsModel.prototype.save = function(levelId, data, cb) {
     });
 
   self.inform();
+
 };
 
 RefGpecLevelsModel.prototype.getlistprofils = function(level_code) {

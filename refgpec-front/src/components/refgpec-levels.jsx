@@ -207,7 +207,7 @@ var RefGpecLevels = createReactClass({
       let self = this;
       this.props.levelsModel.save(levelId, levelState,function(){
           if(! (self.props.levelsModel.feedback)){
-              NotificationManager.success('', 'La modulation '+ levelId + ' a été modifiée');
+              NotificationManager.success('', 'La modulation '+ levelId + ' a été modifiée')
           }else
           {NotificationManager.error('',self.props.levelsModel.feedback ); }
       });

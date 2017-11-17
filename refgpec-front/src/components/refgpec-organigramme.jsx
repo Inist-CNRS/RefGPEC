@@ -7,7 +7,8 @@ var RefGpecOrganigramme = createReactClass({
         return {
             orga_code: this.props.skillData.orga_code,
             orga_shortname: this.props.skillData.orga_shortname,
-            error: ''
+            error: '',
+            ajaxLoading : false,
         };
     },
 
@@ -23,6 +24,12 @@ var RefGpecOrganigramme = createReactClass({
 
     },
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state !== nextState) {
+            return true;
+        }
+        return false;
+    },
 
 });
 export default RefGpecOrganigramme;

@@ -9,7 +9,7 @@ var RefGpecSkillsModel = function(options) {
   self.feedback = "";
   self.listDomain = {};
   self.listprofils_skills_levels = {};
-  var erreur = false;
+  var erreur = 2;
   axios
     .get("/api/list_skills_attached_profils")
     .then(response => {
@@ -19,6 +19,9 @@ var RefGpecSkillsModel = function(options) {
         self.listprofils_skills_levels[i] = item;
         i++;
       });
+        erreur -= 1;
+        self.initializing = erreur!==0;
+        self.inform();
     })
     .catch(err => {
       console.log("RefGpecSkillsModel error loading data", err);
@@ -32,6 +35,10 @@ var RefGpecSkillsModel = function(options) {
       response.data.forEach(item => {
         self.skills[item.skill_code] = item;
       });
+        erreur -= 1;
+        self.initializing = erreur!==0;
+        self.inform();
+
     })
     .catch(err => {
       console.log("RefGpecSkillsModel error loading data", err);
@@ -39,7 +46,7 @@ var RefGpecSkillsModel = function(options) {
     });
 
   self.getdomain();
-  self.initializing = erreur;
+  self.initializing = erreur !==0;
   self.inform();
   /*
 

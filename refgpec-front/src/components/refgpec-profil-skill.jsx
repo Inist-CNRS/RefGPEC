@@ -15,7 +15,8 @@ var RefGpecProfilSkill = createReactClass({
       psLevelId:      this.props.psData.level_code,
       psFreeComments: this.props.psData.psl_free_comments,
       mustBeSaved: false,
-      error: ''
+      error: '',
+        ajaxLoading : false,
     };
   },
 
@@ -78,6 +79,7 @@ var RefGpecProfilSkill = createReactClass({
               data-fieldname="psLevel"
               onChange={this.handleLevelChange}
               onBlur={this.handleSubmit}
+              readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
               value={this.state.psLevelId}
           />
           </td>
@@ -88,7 +90,7 @@ var RefGpecProfilSkill = createReactClass({
             data-fieldname="psFreeComments"
             onChange={this.handleChangeComm}
             onBlur={this.handleSubmit}
-            readOnly={this.props.ajaxLoading}
+            readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
           />
         </td>
       </tr>
@@ -97,9 +99,15 @@ var RefGpecProfilSkill = createReactClass({
   },
 
   handleSubmit: function (event) {
+      let self = this;
     if (this.state.mustBeSaved) {
-      this.props.onSave(this.state.psId, this.state);
-      this.setState({ mustBeSaved: false });
+        self.setState({ ajaxLoading: true },
+      this.props.onSave(this.state.psId, this.state));
+        setTimeout(() => {
+            this.setState({mustBeSaved: false,
+                ajaxLoading: false
+            })
+        },500);
     
       // // display or hide a nice popover to show the error
       // const self = this;
@@ -143,7 +151,12 @@ var RefGpecProfilSkill = createReactClass({
 
   },
 
-
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state !== nextState) {
+            return true;
+        }
+        return false;
+    },
 
 });
 export default RefGpecProfilSkill;

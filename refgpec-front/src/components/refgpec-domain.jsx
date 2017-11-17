@@ -7,7 +7,8 @@ var RefGpecDomain = createReactClass({
     return {
       sd_code: this.props.skillData.sd_code,
       sd_shortname: this.props.skillData.sd_shortname,
-      error: ''
+      error: '',
+      ajaxLoading : false,
       };
   },
 
@@ -23,6 +24,11 @@ var RefGpecDomain = createReactClass({
 
   },
 
-
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state !== nextState) {
+            return true;
+        }
+        return false;
+    },
 });
 export default RefGpecDomain;

@@ -45,7 +45,10 @@ var RefGpecHome = createReactClass({
     const loadingModalShow = this.props.skillsModel.initializing ||
         this.props.profilsModel.initializing ||
         this.props.orgaModel.initializing ||
-        this.props.levelsModel.initializing;
+        this.props.skillsTypesModel.initializing || 
+        this.props.skillsDomainsModel.initializing ||
+        this.props.levelsModel.initializing ||
+        this.props.profilsSkillsModel.initializing;
 
 /*
     if (!this.props.skillsModel.initializing &&
@@ -191,6 +194,15 @@ var RefGpecHome = createReactClass({
                 <span className={this.getDataLoadedClassName('orgaModel')}></span>
                 Organigramme
               </li>
+              <li className="list-group-item">
+                <span className={this.getDataLoadedClassName('DomainModel')}></span>
+                Domaines
+              </li>
+              <li className="list-group-item">
+                <span className={this.getDataLoadedClassName('typeModel')}></span>
+                Types
+              </li>
+
             </ul>
           </Modal.Body>
           <Modal.Footer>
@@ -235,7 +247,15 @@ var RefGpecHome = createReactClass({
       return self.props.orgaModel.initializing ?
         'pull-right fa fa-2x fa-square' :
         'pull-right fa fa-2x fa-check-square'
-    } else {
+    } else if (modelType === 'typeModel') {
+        return self.props.skillsTypesModel.initializing ?
+            'pull-right fa fa-2x fa-square' :
+            'pull-right fa fa-2x fa-check-square'
+    } else if (modelType === 'DomainModel') {
+        return self.props.skillsDomainsModel.initializing ?
+            'pull-right fa fa-2x fa-square' :
+            'pull-right fa fa-2x fa-check-square'
+    }  else {
       return 'pull-right fa fa-2x fa-check-square';
     }
   },

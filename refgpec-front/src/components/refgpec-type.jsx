@@ -7,7 +7,8 @@ var RefGpecType = createReactClass({
     return {
       st_code: this.props.skillData.st_code,
       st_shortname: this.props.skillData.st_shortname,
-      error: ''
+      error: '',
+        ajaxLoading : false,
       };
   },
 
@@ -23,6 +24,12 @@ var RefGpecType = createReactClass({
 
   },
 
+  shouldComponentUpdate(nextProps, nextState) {
+        if (this.state !== nextState) {
+            return true;
+        }
+        return false;
+    },
 
 });
 export default RefGpecType;

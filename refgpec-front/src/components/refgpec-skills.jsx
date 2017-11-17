@@ -32,13 +32,9 @@ var RefGpecSkills = createReactClass({
         var self = this;
 
         // model is not ready ? then do not render anything
-        if (self.props.skillsModel.initializing) {
+        if (self.props.skillsModel.initializing || this.props.skillsDomainsModel.initializing || this.props.skillsTypesModel.initializing ){
             return null;
         }
-
-
-
-
         let rgSkills = [];
         Object.keys(self.props.skillsModel.skills).forEach(function (key) {
             rgSkills.push(
@@ -193,7 +189,7 @@ var RefGpecSkills = createReactClass({
     },
 
     handleTypeChange: function (event) {
-      this.setState({newSkillType:event});
+        this.setState({newSkillType:event});
     },
     handleDomainChange: function (event) {
         this.setState({newSkillDomain:event});

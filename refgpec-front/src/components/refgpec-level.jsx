@@ -12,7 +12,8 @@ var RefGpecLevel = createReactClass({
       level_free_comments: this.props.levelData.level_free_comments,
       mustBeSaved: false,
       error: '',
-      deleteModal :false
+      deleteModal :false,
+        ajaxLoading : false,
     };
   },
     closedeleteModal() {
@@ -81,7 +82,7 @@ var self= this;
             value={this.state.level_shortname}
             onChange={this.handleChange}
             onBlur={this.handleSubmit}
-            readOnly={this.props.ajaxLoading}
+            readOnly={this.state.ajaxLoading}
            />
         </td>
         <td>
@@ -92,7 +93,7 @@ var self= this;
                  onKeyPress={this.handleKeyPress}
                  onChange={this.handleChange}
                  onBlur={this.handleSubmit}
-                 disabled={this.props.ajaxLoading}
+                 disabled={ this.state.ajaxLoading }
           />
         </td>
         <td>
@@ -102,7 +103,7 @@ var self= this;
             value={this.state.level_free_comments}
             onChange={this.handleChange}
             onBlur={this.handleSubmit}
-            readOnly={this.props.ajaxLoading}
+            readOnly={this.state.ajaxLoading}
           />
         </td>
         <td>
@@ -120,10 +121,17 @@ var self= this;
   },
 
   handleSubmit: function (event) {
+      let self = this;
     if (this.state.mustBeSaved) {
-      this.props.onSave(this.state.level_code, this.state);
-      this.setState({ mustBeSaved: false });
+        self.setState({ ajaxLoading: true },
+      this.props.onSave(this.state.level_code, this.state));
+        setTimeout(() => {
+            this.setState({mustBeSaved: false,
+                ajaxLoading: false
+            })
+        },800);
     }
+
   },
 
   handleChange: function (event) {
@@ -165,7 +173,12 @@ var self= this;
   componentDidMount () {
 
   },
-
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state !== nextState) {
+            return true;
+        }
+        return false;
+    },
 
 
 });

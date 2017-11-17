@@ -15,7 +15,8 @@ var RefGpecSkill = createReactClass({
       skillFreeComments: this.props.skillData.skill_free_comments,
       mustBeSaved: false,
       error: '',
-      deleteModal :false
+      deleteModal :false,
+      ajaxLoading : false,
     };
     },
     closedeleteModal() {
@@ -28,12 +29,11 @@ var RefGpecSkill = createReactClass({
 
   render: function () {
     return (
- 
+
       <tr id={this.state.skillId}
         data-placement="top" data-toggle="popover" data-trigger="manual"
         data-title="Erreur de saisie" data-content={this.state.error}
       >
-
         {/* ACTION MENU */}
         <td>
           <div className="btn-group">
@@ -95,7 +95,6 @@ var RefGpecSkill = createReactClass({
 
           <RefGpecTypes
               skillData={this.props.skillsTypesModel}
-              ajaxLoading={true}
               data-fieldname="SkillType"
               readOnly="readonly"
               value={this.state.skillType}
@@ -108,7 +107,6 @@ var RefGpecSkill = createReactClass({
         <td>
           <RefGpecDomains
               skillData={this.props.skillsDomainsModel}
-              ajaxLoading={true}
               data-fieldname="SkillDomain"
               readOnly="readonly"
               value={this.state.skillDomain}
@@ -123,7 +121,7 @@ var RefGpecSkill = createReactClass({
             data-fieldname="skillShortName"
             onChange={this.handleChangeSkill}
             onBlur={this.handleSubmit}
-            readOnly={this.props.ajaxLoading}
+            readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
           />
         </td>
         <td>
@@ -133,7 +131,7 @@ var RefGpecSkill = createReactClass({
             data-fieldname="skillFreeComments"
             onChange={this.handleChangeComm}
             onBlur={this.handleSubmit}
-            readOnly={this.props.ajaxLoading}
+            readOnly={ this.state.ajaxLoading}
           />
         </td>
         <td>
@@ -151,10 +149,16 @@ var RefGpecSkill = createReactClass({
     },
 
   handleSubmit: function (event) {
-    if (this.state.mustBeSaved) {
-      this.props.onSave(this.state.skillId, this.state);
-      this.setState({ mustBeSaved: false });
-
+    let self = this;
+    if (self.state.mustBeSaved) {
+        self.setState({ ajaxLoading: true },
+            self.props.onSave(self.state.skillId,self.state)
+        );
+        setTimeout(() => {
+            this.setState({mustBeSaved: false,
+                ajaxLoading: false
+            })
+        },500);
     }
   },
 
@@ -188,7 +192,12 @@ var RefGpecSkill = createReactClass({
 
   },
 
-
+    shouldComponentUpdate(nextProps, nextState) {
+            if (this.state !== nextState) {
+                return true;
+            }
+        return false;
+    },
 
 });
 export default RefGpecSkill;
