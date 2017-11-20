@@ -258,7 +258,7 @@ var RefGpecHome = createReactClass({
             <p className="muted pull-right">
               <span className="fa fa-github" /> &nbsp;
               <a href="https://github.com/Inist-CNRS/refgpec">RefGPEC</a>{" "}
-              version 1.6.0
+              version 1.6.1
             </p>
           </div>
         </footer>
