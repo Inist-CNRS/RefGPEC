@@ -16,7 +16,7 @@ ifneq "$(SUPPORTS_MAKE_ARGS)" ""
 endif
 
 install: ## install npm depedencies thanks to a dockerized npm install
-	@docker run -it --rm -v $$(pwd):/app -w /app/refgpec-front --net=host -e NODE_ENV -e http_proxy -e https_proxy node:8.9.0 npm install
+	@docker run -it --rm -v $$(pwd):/app -w /app/refgpec-front --net=host -e NODE_ENV -e http_proxy -e https_proxy node:8.9.0 npm install -q
 	@make chown
 
 build: ## build the docker images locally needed by refgpec application
