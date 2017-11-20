@@ -1,28 +1,24 @@
 import React from "react";
-var createReactClass = require('create-react-class');
+var createReactClass = require("create-react-class");
 var RefGpecLevelList = createReactClass({
-    displayName: 'RefGpecLevelList',
+  displayName: "RefGpecLevelList",
 
-    getInitialState: function () {
-        return {
-            level_code: this.props.skillData.level_code,
-            level_shortname: this.props.skillData.level_shortname,
-            error: ''
-        };
-    },
+  getInitialState: function() {
+    return {
+      level_code: this.props.skillData.level_code,
+      level_shortname: this.props.skillData.level_shortname,
+      error: ""
+    };
+  },
 
-    render: function () {
+  render: function() {
+    return (
+      <option value={this.state.level_code}>
+        {this.state.level_shortname}
+      </option>
+    );
+  },
 
-        return (
-            <option value={this.state.level_code}>{this.state.level_shortname}</option>
-
-        );
-    },
-
-    componentDidMount () {
-
-    },
-
-
+  componentDidMount() {}
 });
 export default RefGpecLevelList;

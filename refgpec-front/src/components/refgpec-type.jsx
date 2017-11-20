@@ -1,35 +1,30 @@
 import React from "react";
-var createReactClass = require('create-react-class');
+var createReactClass = require("create-react-class");
 var RefGpecType = createReactClass({
-  displayName: 'RefGpecType',
+  displayName: "RefGpecType",
 
-  getInitialState: function () {
+  getInitialState: function() {
     return {
       st_code: this.props.skillData.st_code,
       st_shortname: this.props.skillData.st_shortname,
-      error: '',
-        ajaxLoading : false,
-      };
+      error: "",
+      ajaxLoading: false
+    };
   },
 
-  render: function () {
-
+  render: function() {
     return (
-           <option value={this.state.st_code}>{this.state.st_shortname}</option>
-
+      <option value={this.state.st_code}>{this.state.st_shortname}</option>
     );
   },
 
-  componentDidMount () {
-
-  },
+  componentDidMount() {},
 
   shouldComponentUpdate(nextProps, nextState) {
-        if (this.state !== nextState) {
-            return true;
-        }
-        return false;
-    },
-
+    if (this.state !== nextState) {
+      return true;
+    }
+    return false;
+  }
 });
 export default RefGpecType;

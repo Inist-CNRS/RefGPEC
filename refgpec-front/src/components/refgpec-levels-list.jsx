@@ -1,85 +1,111 @@
-import React from 'react';
+import React from "react";
 import RefGpecLevelList from "./refgpec-level-list.jsx";
-var createReactClass = require('create-react-class');
+var createReactClass = require("create-react-class");
 var RefGpecLevelsList = createReactClass({
-    displayName: 'RefGpecLevelsList',
+  displayName: "RefGpecLevelsList",
 
-    getInitialState: function () {
-        return {
-            error: '',
-            updating: false,
-        };
-    },
+  getInitialState: function() {
+    return {
+      error: "",
+      updating: false
+    };
+  },
 
-    render: function () {
-        var self = this;
-        let rgLevels = [];
+  render: function() {
+    var self = this;
+    let rgLevels = [];
 
-        Object.keys(self.props.skillData.levels).forEach(function (key) {
-            rgLevels.push(
-                <RefGpecLevelList
-                    key={key} level_code={key}
-                    skillData={self.props.skillData.levels[key]}
-                    ajaxLoading={self.props.skillData.ajaxLoading}
+    Object.keys(self.props.skillData.levels).forEach(function(key) {
+      rgLevels.push(
+        <RefGpecLevelList
+          key={key}
+          level_code={key}
+          skillData={self.props.skillData.levels[key]}
+          ajaxLoading={self.props.skillData.ajaxLoading}
+        />
+      );
+    });
 
-                />);
-        });
+    return (
+      <div>
+        {(() => {
+          if (this.props.value) {
+            if (!this.state.updating) {
+              let color =
+                "rgb(255," +
+                (255 -
+                  Math.floor(
+                    255 /
+                      Object.keys(self.props.skillData.levels).length *
+                      (self.props.skillData.levels[self.props.value]
+                        .level_number -
+                        1)
+                  )) +
+                ",0)";
+              return (
+                <span
+                  style={{ background: color }}
+                  onClick={this.handleModifiy}
+                  className="btn active"
+                  title={
+                    this.props.skillData.levels[this.props.value]
+                      .level_free_comments
+                  }
+                >
+                  <b>
+                    {
+                      self.props.skillData.levels[this.props.value]
+                        .level_shortname
+                    }
+                  </b>&nbsp;
+                  <span className="badge">
+                    {this.props.skillData.levels[this.props.value].level_number}
+                  </span>
+                </span>
+              );
+            } else {
+              return (
+                <select
+                  className="form-control"
+                  value={self.props.value}
+                  onChange={self.handleChange}
+                  readOnly={self.props.readOnly}
+                  disabled={this.props.disabled}
+                >
+                  <option />
+                  {rgLevels}
+                </select>
+              );
+            }
+          } else {
+            return (
+              <select
+                className="form-control"
+                onChange={self.handleChange}
+                readOnly={self.props.readOnly}
+                disabled={this.props.disabled}
+              >
+                <option />
+                {rgLevels}
+              </select>
+            );
+          }
+        })()}
+      </div>
+    );
+  },
 
+  handleModifiy: function() {
+    this.setState({ updating: !this.state.updating });
+  },
 
-        return (
-            <div>
-            {(() => {
-                if(this.props.value){
-                    if(!this.state.updating ) {
-                        let color = "rgb(255,"+ (255-(Math.floor(255/Object.keys(self.props.skillData.levels).length *(self.props.skillData.levels[self.props.value].level_number -1)))) +",0)";
-                        return <span style={{background:color}} onClick={this.handleModifiy} className="btn active"
-                                     title={this.props.skillData.levels[this.props.value].level_free_comments}>
-                            <b>{self.props.skillData.levels[this.props.value].level_shortname}</b>&nbsp;
-                            <span
-                                className="badge">{this.props.skillData.levels[this.props.value].level_number}</span>
-                              </span>
-                    }else{
-                        return   <select className="form-control"
-                                         value={self.props.value}
-                                         onChange={self.handleChange}
-                                         readOnly={self.props.readOnly}
-                                         disabled={this.props.disabled}>
-                            <option></option>
-                            {rgLevels}
-                        </select>}
-                }else{
-                    return   <select className="form-control"
-                                     onChange={self.handleChange}
-                                     readOnly={self.props.readOnly}
-                                     disabled={this.props.disabled}>
-                        <option></option>
-                        {rgLevels}
-                    </select>
-                }
-            })()}
-        </div>
-        )
-    },
+  handleChange: function(event) {
+    this.props.onChange(event.target.value);
+    this.setState({ updating: false });
+  },
 
-    handleModifiy: function () {
-        this.setState({updating:!this.state.updating});
-    },
+  handleDestroy: function(event) {},
 
-    handleChange: function (event) {
-        this.props.onChange(event.target.value);
-        this.setState({updating:false});
-    },
-
-    handleDestroy: function (event) {
-
-    },
-
-
-    componentDidMount () {
-
-    },
-
-
-
+  componentDidMount() {}
 });
 export default RefGpecLevelsList;

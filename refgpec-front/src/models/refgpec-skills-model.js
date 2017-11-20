@@ -19,9 +19,9 @@ var RefGpecSkillsModel = function(options) {
         self.listprofils_skills_levels[i] = item;
         i++;
       });
-        erreur -= 1;
-        self.initializing = erreur!==0;
-        self.inform();
+      erreur -= 1;
+      self.initializing = erreur !== 0;
+      self.inform();
     })
     .catch(err => {
       console.log("RefGpecSkillsModel error loading data", err);
@@ -35,10 +35,9 @@ var RefGpecSkillsModel = function(options) {
       response.data.forEach(item => {
         self.skills[item.skill_code] = item;
       });
-        erreur -= 1;
-        self.initializing = erreur!==0;
-        self.inform();
-
+      erreur -= 1;
+      self.initializing = erreur !== 0;
+      self.inform();
     })
     .catch(err => {
       console.log("RefGpecSkillsModel error loading data", err);
@@ -46,7 +45,7 @@ var RefGpecSkillsModel = function(options) {
     });
 
   self.getdomain();
-  self.initializing = erreur !==0;
+  self.initializing = erreur !== 0;
   self.inform();
   /*
 
