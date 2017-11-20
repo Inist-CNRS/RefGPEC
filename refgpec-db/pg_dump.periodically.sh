@@ -15,7 +15,7 @@ do
     ret=$?
   done
 
-  BACKUP_FILE=/sqldump/dump.$(date '+%Y-%m-%d_%Hh%M').sql
+  BACKUP_FILE=/ezmaster-data/sqldump/dump.$(date '+%Y-%m-%d_%Hh%M').sql
   echo "Running backup through pg_dump: $BACKUP_FILE"
   pg_dump --username=$POSTGRES_USER $POSTGRES_DB > $BACKUP_FILE
   

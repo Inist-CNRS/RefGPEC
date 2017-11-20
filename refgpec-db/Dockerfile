@@ -10,8 +10,11 @@ COPY ./sql/* /docker-entrypoint-initdb2.d/
 COPY docker-entrypoint.initdb2.d-loader.sh /usr/local/bin/
 COPY docker-entrypoint.overload.sh /usr/local/bin/
 
+# PGDATA location
+RUN mkdir -p /ezmaster-data/postgresql-data/
+
 # backup stuff
-RUN mkdir -p /sqldump
+RUN mkdir -p /ezmaster-data/sqldump/
 COPY pg_dump.periodically.sh /usr/local/bin/
 
 # ezmasterization of refgpec
@@ -21,7 +24,7 @@ RUN echo '{ \
   "httpPort": 80, \
   "configPath": "/config.json", \
   "configType": "json", \
-  "dataPath": "/sqldump" \
+  "dataPath": "/ezmaster-data/" \
 }' > /etc/ezmaster.json
 
 ENTRYPOINT [ "docker-entrypoint.overload.sh" ]
