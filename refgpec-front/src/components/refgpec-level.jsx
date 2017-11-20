@@ -53,8 +53,7 @@ var self= this;
                             list.push(<li key={self.state.level_code + profil}>
                                         <a href="#profils-skills" id= {self.props.profillist[profil].profil_code } onClick={self.handleOpenProfilSkills}>
                                             {self.props.profillist[profil].profil_shortname} </a> :
-                              <strong style={{color: 'red'}}> {(self.props.nbSkill[self.props.profillist[profil].profil_code])} </strong> compétences seront
-                             dissociées)</li>)
+                              <strong style={{color: 'red'}}> {(self.props.nbSkill[self.props.profillist[profil].profil_code])} </strong> compétences sont associés</li>)
                          });
                          return (
                              <div   className="alert alert-info" role="alert">
@@ -84,7 +83,8 @@ var self= this;
             value={this.state.level_shortname}
             onChange={this.handleChange}
             onBlur={this.handleSubmit}
-            readOnly={this.state.ajaxLoading}
+            title={this.GetTitle()}
+            readOnly={this.state.ajaxLoading || Object.keys(self.props.profillist).length!==0}
            />
         </td>
         <td>
@@ -95,7 +95,8 @@ var self= this;
                  onKeyPress={this.handleKeyPress}
                  onChange={this.handleChange}
                  onBlur={this.handleSubmit}
-                 disabled={ this.state.ajaxLoading }
+                 title={this.GetTitle()}
+                 disabled={ this.state.ajaxLoading || Object.keys(self.props.profillist).length!==0}
           />
         </td>
         <td>
@@ -105,7 +106,8 @@ var self= this;
             value={this.state.level_free_comments}
             onChange={this.handleChange}
             onBlur={this.handleSubmit}
-            readOnly={this.state.ajaxLoading}
+            title={this.GetTitle()}
+            readOnly={this.state.ajaxLoading || Object.keys(self.props.profillist).length!==0}
           />
         </td>
         <td>
@@ -113,7 +115,8 @@ var self= this;
             placeholder="Code unique identifiant la modulation"
             data-fieldname="level_code"
             readOnly
-            title={this.state.level_code}
+            style={{background:this.props.Color}}
+            title={this.GetTitle()}
             value={this.state.level_code}
           />
         </td>
@@ -178,11 +181,19 @@ var self= this;
     shouldComponentUpdate(nextProps, nextState) {
         return this.state !== nextState || this.props.profillist !== nextProps.profillist;
     },
-    
+
     handleOpenProfilSkills: function (event) {
       this.closedeleteModal();
         this.props.onProfil(event);
     },
+
+  GetTitle() {
+      let title ="";
+      if(Object.keys(this.props.profillist).length!==0){
+          title= "Veuillez dissocier les compétences associées avant de modifier ";
+      }
+      return title;
+  }
 
 });
 export default RefGpecLevel;

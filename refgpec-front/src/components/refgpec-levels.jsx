@@ -39,7 +39,6 @@ var RefGpecLevels = createReactClass({
             Object.keys(liste_profil).forEach(function (profil) {
                 nb_skill[liste_profil[profil].profil_code]= self.props.levelsModel.getnbSkill(key,liste_profil[profil].profil_code);
             });
-
       rgLevels.push(
         <RefGpecLevel
           key={key} levelId={key}
@@ -51,6 +50,7 @@ var RefGpecLevels = createReactClass({
           onDestroy={self.handleDestroy}
           onProfil={self.handleOpenProfilSkills}
           ajaxLoading={self.props.levelsModel.ajaxLoading}
+          Color = {"rgb(255,"+ (255-(Math.floor(255/Object.keys(self.props.levelsModel.levels).length *(self.props.levelsModel.levels[key].level_number -1)))) +",0)"}
         />);
     });
    
@@ -209,6 +209,7 @@ var RefGpecLevels = createReactClass({
       let self = this;
       this.props.levelsModel.save(levelId, levelState,function(){
           if(! (self.props.levelsModel.feedback)){
+              self.props.profilsSkillsModel.updateVue();
               NotificationManager.success('', 'La modulation '+ levelId + ' a été modifiée')
           }else
           {NotificationManager.error('',self.props.levelsModel.feedback ); }
