@@ -37,16 +37,22 @@ footer.gpec-footer hr {
   width: 30px;
 }
 .profils-col-file {
-  width: 80px;
+  width: 60px;
 }
 .profils-col-orga {
-  width: 180px;
+  width: 120px;
+}
+.profils-col-title {
+  width: 350px;
 }
 .profils-col-stats {
-  width: 295px;
+  width: 200px;
+}
+.profils-col-commentary {
+  width: 170px;
 }
 .profils-col-code {
-  width: 170px;
+  width: 150px;
 }
 .levels-col-action {
   width: 30px;
