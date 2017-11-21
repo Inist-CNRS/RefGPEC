@@ -32,7 +32,7 @@ var RefGpecLevelsList = createReactClass({
           if (this.props.value) {
             if (!this.state.updating) {
               let color =
-                "rgb(255," +
+                "rgb(0,255," +
                 (255 -
                   Math.floor(
                     255 /
@@ -41,10 +41,10 @@ var RefGpecLevelsList = createReactClass({
                         .level_number -
                         1)
                   )) +
-                ",0)";
+                ")";
               return (
                 <span
-                  style={{ background: color }}
+                  style={{ borderColor: color ,borderWidth :3 }}
                   onClick={this.handleModifiy}
                   className="btn active"
                   title={
@@ -61,7 +61,12 @@ var RefGpecLevelsList = createReactClass({
                   <span className="badge">
                     {this.props.skillData.levels[this.props.value].level_number}
                   </span>
+                  <span className="icon-modify">
+                      {" "}
+                    <i title="Cliquez pour modifier la modulation" className="fa fa-pencil" aria-hidden="true"></i>
+                    </span>
                 </span>
+
               );
             } else {
               return (
@@ -75,6 +80,7 @@ var RefGpecLevelsList = createReactClass({
                   <option />
                   {rgLevels}
                 </select>
+
               );
             }
           } else {

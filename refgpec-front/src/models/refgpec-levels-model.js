@@ -206,14 +206,14 @@ RefGpecLevelsModel.prototype.save = function(levelId, data, cb) {
   self.feedback = "";
   axios
     .patch("/api/levels?level_code=eq." + levelId, {
-      level_code: data.levelId,
-      level_number: data.levelNumber,
-      level_shortname: data.levelShortName,
-      level_free_comments: data.levelFreeComments
+      level_code: data.level_code,
+      level_number: data.level_number,
+      level_shortname: data.level_shortname,
+      level_free_comments: data.level_free_comments
     })
     .then(function(response) {
-      if (self.max < data.levelNumber) {
-        self.max = parseInt(data.levelNumber, 10);
+      if (self.max < data.level_number) {
+        self.max = parseInt(data.level_number, 10);
       }
       self.levels[levelId] = data;
       self.ajaxLoading = false;

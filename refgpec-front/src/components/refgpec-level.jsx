@@ -135,24 +135,7 @@ var RefGpecLevel = createReactClass({
             }
           />
         </td>
-        <td>
-          <input
-            className="form-control"
-            type="number"
-            min="1"
-            max={this.props.max + 1}
-            data-fieldname="level_number"
-            value={this.state.level_number}
-            onKeyPress={this.handleKeyPress}
-            onChange={this.handleChange}
-            onBlur={this.handleSubmit}
-            title={this.GetTitle()}
-            disabled={
-              this.state.ajaxLoading ||
-              Object.keys(self.props.profillist).length !== 0
-            }
-          />
-        </td>
+
         <td>
           <textarea
             className="form-control"
@@ -171,14 +154,21 @@ var RefGpecLevel = createReactClass({
         </td>
         <td>
           <input
-            className="form-control"
-            type="string"
-            placeholder="Code unique identifiant la modulation"
-            data-fieldname="level_code"
-            readOnly
-            style={{ background: this.props.Color }}
-            title={this.GetTitle()}
-            value={this.state.level_code}
+              className="form-control"
+              style={{ borderColor: self.props.Color ,borderWidth :3 }}
+              type="number"
+              min="1"
+              max={this.props.max + 1}
+              data-fieldname="level_number"
+              value={this.state.level_number}
+              onKeyPress={this.handleKeyPress}
+              onChange={this.handleChange}
+              onBlur={this.handleSubmit}
+              title={this.GetTitle()}
+              disabled={
+                  this.state.ajaxLoading ||
+                  Object.keys(self.props.profillist).length !== 0
+              }
           />
         </td>
       </tr>

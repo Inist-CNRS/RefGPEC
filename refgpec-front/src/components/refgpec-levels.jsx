@@ -29,52 +29,51 @@ var RefGpecLevels = createReactClass({
   },
 
   render: function() {
-    var self = this;
+      var self = this;
 
-    // model is not ready ? then do not render anything
-    if (self.props.levelsModel.initializing) {
-      return null;
-    }
+      // model is not ready ? then do not render anything
+      if (self.props.levelsModel.initializing) {
+          return null;
+      }
 
-    let rgLevels = [];
+      let rgLevels = [];
 
-    Object.keys(self.props.levelsModel.levels).forEach(function(key) {
-      let nb_skill = {};
-      let liste_profil = self.props.levelsModel.getlistprofils(key);
-      Object.keys(liste_profil).forEach(function(profil) {
-        nb_skill[
-          liste_profil[profil].profil_code
-        ] = self.props.levelsModel.getnbSkill(
-          key,
-          liste_profil[profil].profil_code
-        );
+      Object.keys(self.props.levelsModel.levels).forEach(function (key) {
+          let nb_skill = {};
+          let liste_profil = self.props.levelsModel.getlistprofils(key);
+          Object.keys(liste_profil).forEach(function (profil) {
+              nb_skill[
+                  liste_profil[profil].profil_code
+                  ] = self.props.levelsModel.getnbSkill(
+                  key,
+                  liste_profil[profil].profil_code
+              );
+          });
+          rgLevels.push(
+              <RefGpecLevel
+                  key={key}
+                  levelId={key}
+                  levelData={self.props.levelsModel.levels[key]}
+                  profillist={liste_profil}
+                  nbSkill={nb_skill}
+                  max={self.props.levelsModel.max}
+                  onSave={self.handleSave}
+                  onDestroy={self.handleDestroy}
+                  onProfil={self.handleOpenProfilSkills}
+                  ajaxLoading={self.props.levelsModel.ajaxLoading}
+                  Color={
+                      "rgb(0,255," +
+                      (255 -
+                      Math.floor(
+                          255 /
+                          Object.keys(self.props.levelsModel.levels).length *
+                          (self.props.levelsModel.levels[key]
+                              .level_number -
+                          1)
+                      )) +
+                      ")"}/>
+          );
       });
-      rgLevels.push(
-        <RefGpecLevel
-          key={key}
-          levelId={key}
-          levelData={self.props.levelsModel.levels[key]}
-          profillist={liste_profil}
-          nbSkill={nb_skill}
-          max={self.props.levelsModel.max}
-          onSave={self.handleSave}
-          onDestroy={self.handleDestroy}
-          onProfil={self.handleOpenProfilSkills}
-          ajaxLoading={self.props.levelsModel.ajaxLoading}
-          Color={
-            "rgb(255," +
-            (255 -
-              Math.floor(
-                255 /
-                  Object.keys(self.props.levelsModel.levels).length *
-                  (self.props.levelsModel.levels[key].level_number - 1)
-              )) +
-            ",0)"
-          }
-        />
-      );
-    });
-
     if (self.state.type_tri) {
       rgLevels.sort(function(a, b) {
         return a.props.levelData[self.state.champtri] >
@@ -138,16 +137,7 @@ var RefGpecLevels = createReactClass({
                       aria-hidden="true"
                     />{" "}
                   </th>
-                  <th
-                    title="Cliquez pour trier par Niveau"
-                    role="button"
-                    id="level_number"
-                    onClick={this.trieprofil}
-                    className="levels-col-number"
-                  >
-                    {" "}
-                    Niveau <i className="fa fa-sort" aria-hidden="true" />{" "}
-                  </th>
+
                   <th
                     title="Cliquez pour trier par Commentaires"
                     role="button"
@@ -161,13 +151,14 @@ var RefGpecLevels = createReactClass({
                     />{" "}
                   </th>
                   <th
-                    title="Cliquez pour trier par Code"
-                    role="button"
-                    id="level_code"
-                    onClick={this.trieprofil}
-                    className="levels-col-code"
+                      title="Cliquez pour trier par Niveau"
+                      role="button"
+                      id="level_number"
+                      onClick={this.trieprofil}
+                      className="levels-col-number"
                   >
-                    Code <i className="fa fa-sort" aria-hidden="true" />{" "}
+                      {" "}
+                    Modulation <i className="fa fa-sort" aria-hidden="true" />{" "}
                   </th>
                 </tr>
               </thead>
@@ -176,7 +167,16 @@ var RefGpecLevels = createReactClass({
 
                 {/* FORM USED TO CREATE A NEW LEVEL */}
                 <tr className="form-new-level">
-                  <td />
+                  <td>
+                    <a
+                        href=""
+                        className="fa fa-plus-square fa-2x"
+                        role="button"
+                        onClick={this.handleSubmit}
+                        disabled={self.props.levelsModel.ajaxLoading}
+                        title="Ajouter cette modulation"
+                    />
+                  </td>
 
                   <td>
                     <input
@@ -190,19 +190,7 @@ var RefGpecLevels = createReactClass({
                       disabled={self.props.levelsModel.ajaxLoading}
                     />
                   </td>
-                  <td>
-                    <input
-                      className="form-control"
-                      type="number"
-                      min="1"
-                      max={this.props.levelsModel.max + 1}
-                      placeholder="Niveau de la modulation"
-                      data-fieldname="newNumber"
-                      value={this.state.newNumber}
-                      onChange={this.handleChange}
-                      disabled={this.props.levelsModel.ajaxLoading}
-                    />
-                  </td>
+
                   <td>
                     <textarea
                       className="form-control"
@@ -215,13 +203,16 @@ var RefGpecLevels = createReactClass({
                     />
                   </td>
                   <td>
-                    <a
-                      href=""
-                      className="fa fa-plus-square fa-2x"
-                      role="button"
-                      onClick={this.handleSubmit}
-                      disabled={self.props.levelsModel.ajaxLoading}
-                      title="Ajouter cette modulation"
+                    <input
+                        className="form-control"
+                        type="number"
+                        min="1"
+                        max={this.props.levelsModel.max + 1}
+                        placeholder="Niveau de la modulation"
+                        data-fieldname="newNumber"
+                        value={this.state.newNumber}
+                        onChange={this.handleChange}
+                        disabled={this.props.levelsModel.ajaxLoading}
                     />
                   </td>
                 </tr>
@@ -279,7 +270,7 @@ var RefGpecLevels = createReactClass({
         this.state.newFreeComment,
         function() {
           self.setState({
-            newNumber: "",
+            newNumber: "0",
             newShortName: "",
             newFreeComment: ""
           });
