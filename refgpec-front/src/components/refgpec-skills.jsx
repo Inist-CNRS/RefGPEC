@@ -54,6 +54,7 @@ var RefGpecSkills = createReactClass({
           skillsTypesModel={self.props.skillsTypesModel}
           skillsDomainsModel={self.props.skillsDomainsModel}
           profillist={self.props.skillsModel.getlistprofils(key)}
+          onProfil={self.handleOpenProfilSkills}
           onSave={self.handleSave}
           onDestroy={self.handleDestroy}
           ajaxLoading={self.props.skillsModel.ajaxLoading}
@@ -385,6 +386,10 @@ var RefGpecSkills = createReactClass({
     });
   },
   componentDidMount() {},
+
+    handleOpenProfilSkills: function(event) {
+        this.props.profilsSkillsModel.getProfilSkillLevel(event.target.id);
+    },
 
   missingField() {
     return (

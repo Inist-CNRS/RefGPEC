@@ -256,7 +256,7 @@ RefGpecSkillsModel.prototype.getlistprofils = function(skillId) {
   var list = [];
   for (var key in self.listprofils_skills_levels) {
     if (self.listprofils_skills_levels[key].skill_code === skillId) {
-      list.push(self.listprofils_skills_levels[key].profil_shortname);
+      list.push(self.listprofils_skills_levels[key]);
     }
   }
   return list;

@@ -28,6 +28,7 @@ var RefGpecSkill = createReactClass({
   },
 
   render: function() {
+      let self = this;
     return (
       <tr
         id={this.state.skillId}
@@ -46,7 +47,7 @@ var RefGpecSkill = createReactClass({
                 <span className="glyphicon glyphicon-remove" /> Supprimer la
                 compétence{" "}
               </MenuItem>
-              <MenuItem href="" onClick={this.handleViewAssociatedProfils}>
+              <MenuItem href="" >
                 {" "}
                 <span className="glyphicon glyphicon-list" /> Visualiser les
                 profils ayant cette compétence
@@ -65,16 +66,28 @@ var RefGpecSkill = createReactClass({
               </Modal.Header>
               <Modal.Body>
                 {(() => {
-                  if (this.props.profillist.length !== 0) {
-                    const list = this.props.profillist.map(profil => (
-                      <li key={this.state.skillId + profil}>{profil}</li>
-                    ));
+                    let list = [];
+                    if (Object.keys(self.props.profillist).length !== 0) {
+                        Object.keys(self.props.profillist).forEach(function(
+                            profil
+                        ) {
+                            list.push(
+                      <li key={self.state.skillId + profil}><a
+                          href="#profils-skills"
+                          id={self.props.profillist[profil].profil_code}
+                          onClick={self.handleOpenProfilSkills}
+                      >
+                          { self.props.profillist[profil].profil_shortname
+                          }{" "}
+                      </a></li>
+                            );
+                        });
                     return (
-                      <div className="alert alert-info" role="alert">
-                        En supprimant cette compétence, vous dissocierez des
-                        compétences de ces profils :
-                        <ul>{list}</ul>
-                      </div>
+                        <div className="alert alert-info" role="alert">
+                          Veuillez dissocier ces compétences avant de supprimer la
+                          modulation :
+                          <ul>{list}</ul>
+                        </div>
                     );
                   }
                 })()}
@@ -91,6 +104,7 @@ var RefGpecSkill = createReactClass({
                 <button
                   type="button"
                   onClick={this.handleDestroy}
+                  disabled={Object.keys(self.props.profillist).length !== 0}
                   className="btn btn-primary"
                 >
                   Supprimer
@@ -211,13 +225,11 @@ var RefGpecSkill = createReactClass({
     this.props.onDestroy(this.state.skillId);
   },
 
-  handleViewAssociatedProfils: function(event) {
-    console.log("TODO: handleViewAssociatedProfils");
-    event.preventDefault(); // Let's stop this event.
-    event.stopPropagation(); // Really this time.
-  },
-
-  componentDidMount() {},
+    handleOpenProfilSkills: function(event) {
+        this.closedeleteModal();
+        window.scrollTo(0, 0);
+        this.props.onProfil(event);
+    },
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state !== nextState) {
