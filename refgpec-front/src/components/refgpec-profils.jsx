@@ -8,7 +8,7 @@ import {
   OverlayTrigger,
   Popover
 } from "react-bootstrap";
-import RefGpecOrganigrammes from "./refgpec-organigrammes";
+import RefGpecTags from "./refgpec-tags";
 import {
   NotificationContainer,
   NotificationManager
@@ -21,7 +21,7 @@ var RefGpecProfils = createReactClass({
   getInitialState: function() {
     return {
       showModal: false,
-      newProfilOrga: "",
+      newProfilTag: "",
       newProfilShortName: "",
       newProfilFreeComments: "",
       newProfilPdfPath: "",
@@ -54,7 +54,7 @@ var RefGpecProfils = createReactClass({
     // model is not ready ? then do not render anything
     if (
       self.props.profilsModel.initializing ||
-      self.props.orgaModel.initializing
+      self.props.tagModel.initializing
     ) {
       return null;
     }
@@ -65,7 +65,7 @@ var RefGpecProfils = createReactClass({
         <RefGpecProfil
           key={key}
           profilId={key}
-          orgaModel={self.props.orgaModel}
+          tagModel={self.props.tagModel}
           profilsSkillsModel={self.props.profilsSkillsModel}
           profilData={self.props.profilsModel.profils[key]}
           skilllist={self.props.profilsModel.getlistskills(key)}
@@ -76,11 +76,11 @@ var RefGpecProfils = createReactClass({
       );
     });
 
-    let rgOrgaList = [];
-    Object.keys(self.props.orgaModel.orga).forEach(function(key) {
-      rgOrgaList.push(
+    let rgTagList = [];
+    Object.keys(self.props.tagModel.tag).forEach(function(key) {
+      rgTagList.push(
         <option value={key} key={key}>
-          {self.props.orgaModel.orga[key].orga_shortname}
+          {self.props.tagModel.tag[key].tag_shortname}
         </option>
       );
     });
@@ -151,14 +151,14 @@ var RefGpecProfils = createReactClass({
                   <th className="profils-col-action" />
                   <th className="profils-col-file">PDF du profil</th>
                   <th
-                    title="Cliquez pour trier par organigramme"
+                    title="Cliquez pour trier par tag"
                     role="button"
-                    id="orga_code"
+                    id="tag_code"
                     onClick={this.trieprofil}
-                    className="profils-col-orga"
+                    className="profils-col-tag"
                   >
                     {" "}
-                    Position dans l'organigramme{" "}
+                    Tag{" "}
                     <i className="fa fa-sort" aria-hidden="true" />
                   </th>
                   <th
@@ -287,12 +287,12 @@ var RefGpecProfils = createReactClass({
                   </td>
 
                   <td>
-                    <RefGpecOrganigrammes
-                      skillData={self.props.orgaModel}
-                      ajaxLoading={self.props.orgaModel.ajaxLoading}
-                      data-fieldname="newProfilOrga"
-                      onChange={this.handleOrgaChange}
-                      value={this.state.newProfilOrga}
+                    <RefGpecTags
+                      skillData={self.props.tagModel}
+                      ajaxLoading={self.props.tagModel.ajaxLoading}
+                      data-fieldname="newProfilTag"
+                      onChange={this.handleTagChange}
+                      value={this.state.newProfilTag}
                     />
                   </td>
 
@@ -378,6 +378,8 @@ var RefGpecProfils = createReactClass({
     let self = this;
     this.props.profilsModel.save(profilId, profilState, function() {
       if (!self.props.profilsModel.feedback) {
+          self.props.profilsModel.updateVue();
+          self.props.profilsSkillsModel.updateVue();
         NotificationManager.success(
           "",
           "Le Profil " + profilId + " a été modifié"
@@ -388,8 +390,8 @@ var RefGpecProfils = createReactClass({
     });
   },
 
-  handleOrgaChange: function(event) {
-    this.setState({ newProfilOrga: event });
+  handleTagChange: function(event) {
+    this.setState({ newProfilTag: event });
   },
   handleNavigateTab: function(event) {
     this.props.onTabChange(event.target.getAttribute("href"));
@@ -410,14 +412,16 @@ var RefGpecProfils = createReactClass({
   handleSubmit: function(event) {
     const self = this;
     if (self.props.profilsModel.ajaxLoading) return;
-    if (self.state.newProfilShortName && self.state.newProfilOrga) {
+    if (self.state.newProfilShortName) {
       self.props.profilsModel.addProfil(
-        self.state.newProfilOrga,
+        self.state.newProfilTag,
         self.state.newProfilShortName,
         self.state.newProfilFreeComments,
         self.state.newProfilPdfPath,
         function() {
           if (!self.props.profilsModel.feedback) {
+              self.props.profilsModel.updateVue();
+              self.props.profilsSkillsModel.updateVue();
             NotificationManager.success(
               "",
               "le profil " + self.state.newProfilShortName + " a été ajouté"
@@ -428,7 +432,7 @@ var RefGpecProfils = createReactClass({
         }
       );
       self.setState({
-        newProfilOrga: "",
+        newProfilTag: "",
         newProfilShortName: "",
         newProfilFreeComments: "",
         newProfilPdfPath: "",
@@ -437,7 +441,6 @@ var RefGpecProfils = createReactClass({
     } else {
       var missingFields = [];
       if (!self.state.newProfilShortName) missingFields.push("Nom du profil");
-      if (!self.state.newProfilOrga) missingFields.push("Organisastion");
       self.setState({
         error:
           "Il manque des champs avant de pouvoir ajouter le profil :\n" +
@@ -459,10 +462,13 @@ var RefGpecProfils = createReactClass({
     let self = this;
     this.props.profilsModel.destroy(profilId, function() {
       if (!self.props.profilsModel.feedback) {
+          self.props.profilsSkillsModel.updateVue();
+          self.props.profilsModel.inform();
         NotificationManager.success(
           "",
           "le profil " + profilId + " a été supprimé"
         );
+
       } else {
         NotificationManager.error("", self.props.profilsModel.feedback);
       }
@@ -490,7 +496,7 @@ var RefGpecProfils = createReactClass({
   componentDidMount() {},
 
   missingField() {
-    return !this.state.newProfilShortName || !this.state.newProfilOrga;
+    return !this.state.newProfilShortName || !this.state.newProfilTag;
   }
 });
 export default RefGpecProfils;

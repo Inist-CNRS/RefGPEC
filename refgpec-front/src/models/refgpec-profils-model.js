@@ -7,7 +7,7 @@ var RefGpecProfilsModel = function(options) {
   self.ajaxLoading = false;
   self.onChanges = [];
   self.feedback = "";
-  self.listOrga = {};
+  self.listTag = {};
   self.listprofils_skills_levels = {};
   var erreur = false;
   axios
@@ -38,19 +38,19 @@ var RefGpecProfilsModel = function(options) {
       erreur += 1;
     });
 
-  self.getorga();
+  self.gettag();
   self.initializing = erreur;
   self.inform();
 };
 
-RefGpecProfilsModel.prototype.getorga = function() {
+RefGpecProfilsModel.prototype.gettag = function() {
   var self = this;
-  self.listOrga = {};
+  self.listTag = {};
   axios
-    .get("/api/view_list_orga_profils")
+    .get("/api/view_list_tag_profils")
     .then(response => {
       response.data.forEach(item => {
-        self.listOrga[item.orga_code] = item;
+        self.listTag[item.tag_code] = item;
       });
       self.inform();
     })
@@ -63,6 +63,7 @@ RefGpecProfilsModel.prototype.updateVue = function() {
   var self = this;
   self.profils = {};
   self.listprofils_skills_levels = {};
+    self.gettag();
   axios
     .get("/api/list_profils_attached_skills")
     .then(response => {
@@ -103,7 +104,7 @@ RefGpecProfilsModel.prototype.inform = function() {
 };
 
 RefGpecProfilsModel.prototype.addProfil = function(
-  orga_code,
+  tag_code,
   profil_shortname,
   profil_free_comments,
   profil_pdf_path,
@@ -114,19 +115,20 @@ RefGpecProfilsModel.prototype.addProfil = function(
   self.feedback = "";
   // filter other skills family to have a correct numeric id
   var codes = Object.keys(self.profils).filter(function(elt) {
-    return elt.indexOf("p-" + orga_code) === 0;
+    return elt.indexOf("p-") === 0;
   });
-  var profil_code = "p-" + orga_code + "-1";
-  // add +1 to the id if more than one profil in this orga
+  var profil_code = "p-1";
+  // add +1 to the id if more than one profil in this tag
   codes.sort();
   if (codes.length > 0) {
     var lastCode = codes[codes.length - 1];
     var lastCodeSplitted = lastCode.split("-");
     profil_code =
       "p-" +
-      orga_code +
-      "-" +
       (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
+  }
+  if(!tag_code){
+      tag_code = null;
   }
   axios
     .post("/api/profils", {
@@ -134,7 +136,7 @@ RefGpecProfilsModel.prototype.addProfil = function(
       profil_shortname: profil_shortname,
       profil_free_comments: profil_free_comments,
       profil_pdf_path: profil_pdf_path,
-      orga_code: orga_code
+      tag_code: tag_code
     })
     .then(function(response) {
       self.ajaxLoading = false;
@@ -154,9 +156,9 @@ RefGpecProfilsModel.prototype.addProfil = function(
         profil_shortname,
         profil_pdf_path,
         profil_free_comments,
-        orga_code
+        tag_code
       };
-      self.getorga();
+      self.gettag();
       for (var k = 0; k < nomchamp.length; k++) {
         self.profils[profil_code][nomchamp[k]] = 0;
       }
@@ -185,11 +187,27 @@ RefGpecProfilsModel.prototype.destroy = function(profilId, cb) {
       for (var key in self.listprofils_skills_levels) {
         if (self.listprofils_skills_levels[key].profil_code === profilId) {
           delete self.listprofils_skills_levels[key];
-          self.getorga();
+          self.gettag();
           self.inform();
         }
       }
-    })
+            axios
+                .delete("/api/profils?profil_code=eq." + profilId)
+                .then(function(response) {
+                    delete self.profils[profilId];
+                    self.ajaxLoading = false;
+                    self.inform();
+                    return cb && cb(null);
+                })
+                .catch(function(error) {
+                    self.feedback =
+                        "Une erreur a été rencontrée lors de la suppression dans la base de donnée";
+                    self.ajaxLoading = false;
+                    self.inform();
+                    return cb && cb(error);
+                });
+    }
+    )
     .catch(function(error) {
       self.feedback =
         "Une erreur a été rencontré lors de la suppression dans la base de donnée";
@@ -198,21 +216,7 @@ RefGpecProfilsModel.prototype.destroy = function(profilId, cb) {
       return cb && cb(error);
     });
 
-  axios
-    .delete("/api/profils?profil_code=eq." + profilId)
-    .then(function(response) {
-      delete self.profils[profilId];
-      self.ajaxLoading = false;
-      self.inform();
-      return cb && cb(null);
-    })
-    .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontrée lors de la suppression dans la base de donnée";
-      self.ajaxLoading = false;
-      self.inform();
-      return cb && cb(error);
-    });
+
 
   self.inform();
 };
@@ -221,13 +225,16 @@ RefGpecProfilsModel.prototype.save = function(profilId, data, cb) {
   var self = this;
   self.ajaxLoading = true;
   self.feedback = "";
+    if(!data.tag_code){
+        data.tag_code = null;
+    }
   axios
     .patch("/api/profils?profil_code=eq." + profilId, {
       profil_code: data.profil_code,
       profil_shortname: data.profil_shortname,
       profil_free_comments: data.profil_free_comments,
       profil_pdf_path: data.profil_pdf_path,
-      orga_code: data.orga_code
+      tag_code: data.tag_code
     })
     .then(function(response) {
       self.profils[profilId] = data;

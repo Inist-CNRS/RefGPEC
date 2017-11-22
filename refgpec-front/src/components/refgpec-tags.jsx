@@ -1,25 +1,25 @@
 import React from "react";
-import RefGpecOrganigramme from "./refgpec-organigramme.jsx";
+import RefGpecTag from "./refgpec-tag.jsx";
 var createReactClass = require("create-react-class");
-var RefGpecOrganigrammes = createReactClass({
-  displayName: "RefGpecOrganigrammes",
+var RefGpecTags = createReactClass({
+  displayName: "RefGpecTags",
 
   getInitialState: function() {
     return {
       error: "",
-      orga_code: this.props.skillData.orga_code
+      tag_code: this.props.skillData.tag_code
     };
   },
 
   render: function() {
     var self = this;
-    let rgOrganigrammes = [];
-    Object.keys(self.props.skillData.orga).forEach(function(key) {
-      rgOrganigrammes.push(
-        <RefGpecOrganigramme
+    let rgTags = [];
+    Object.keys(self.props.skillData.tag).forEach(function(key) {
+      rgTags.push(
+        <RefGpecTag
           key={key}
-          orga_code={key}
-          skillData={self.props.skillData.orga[key]}
+          tag_code={key}
+          skillData={self.props.skillData.tag[key]}
           ajaxLoading={self.props.skillData.ajaxLoading}
         />
       );
@@ -28,13 +28,12 @@ var RefGpecOrganigrammes = createReactClass({
     return (
       <select
         className="form-control"
-        value={self.props.value}
+        value={self.props.value || ""}
         onChange={self.handleChange}
         readOnly={self.props.readOnly}
-        disabled={this.props.disabled}
       >
         <option />
-        {rgOrganigrammes}
+        {rgTags}
       </select>
     );
   },
@@ -49,7 +48,7 @@ var RefGpecOrganigrammes = createReactClass({
 
     if (this.props.ajaxLoading) return;
 
-    this.props.onDestroy(this.state.orga);
+    this.props.onDestroy(this.state.tag);
   },
 
   handleViewAssociatedProfils: function(event) {
@@ -60,4 +59,4 @@ var RefGpecOrganigrammes = createReactClass({
 
   componentDidMount() {}
 });
-export default RefGpecOrganigrammes;
+export default RefGpecTags;

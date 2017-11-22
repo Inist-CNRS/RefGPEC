@@ -43,6 +43,7 @@ var RefGpecProfilsSkills = createReactClass({
       self.props.skillsModel.initializing ||
       self.props.skillsTypesModel.initializing ||
       self.props.skillsDomainsModel.initializing ||
+      self.props.profilsModel.initializing ||
       self.props.levelsModel.initializing
     ) {
       return null;
@@ -424,7 +425,15 @@ var RefGpecProfilsSkills = createReactClass({
 
   componentDidUpdate() {},
 
-  missingField() {
+    componentWillReceiveProps(nextProps){
+    if(nextProps.profilsSkillsModel.profil !== this.state.selectedProfil){
+        this.setState({ selectedProfil: nextProps.profilsSkillsModel.profil, PDF_path: this.props.profilsModel.profils[nextProps.profilsSkillsModel.profil].profil_pdf_path });
+    }
+    },
+
+
+
+    missingField() {
     return (
       !this.state.selectedProfil || !this.state.newLevel || !this.state.newSkill
     );

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Modal, DropdownButton, MenuItem } from "react-bootstrap";
-import RefGpecOrganigrammes from "./refgpec-organigrammes";
+import RefGpecTags from "./refgpec-tags";
 import RefGpecPDF from "./refgpec-pdf";
 var createReactClass = require("create-react-class");
 var RefGpecProfil = createReactClass({
@@ -10,7 +10,7 @@ var RefGpecProfil = createReactClass({
   getInitialState: function() {
     return {
       profil_code: this.props.profilId,
-      orga_code: this.props.profilData.orga_code,
+      tag_code: this.props.profilData.tag_code,
       profil_shortname: this.props.profilData.profil_shortname,
       profil_free_comments: this.props.profilData.profil_free_comments,
       profil_pdf_path: this.props.profilData.profil_pdf_path,
@@ -43,7 +43,7 @@ var RefGpecProfil = createReactClass({
   render: function() {
     const self = this;
     // model is not ready ? then do not render anything
-    if (self.props.orgaModel.initializing) {
+    if (self.props.tagModel.initializing) {
       return null;
     }
 
@@ -64,11 +64,11 @@ var RefGpecProfil = createReactClass({
       }
     });
 
-    let rgOrgaList = [];
-    Object.keys(self.props.orgaModel.orga).forEach(function(key) {
-      rgOrgaList.push(
+    let rgTagList = [];
+    Object.keys(self.props.tagModel.tag).forEach(function(key) {
+      rgTagList.push(
         <option value={key} key={key}>
-          {self.props.orgaModel.orga[key].orga_shortname}
+          {self.props.tagModel.tag[key].tag_shortname}
         </option>
       );
     });
@@ -258,13 +258,14 @@ var RefGpecProfil = createReactClass({
           </Modal>
         </td>
         <td>
-          <RefGpecOrganigrammes
-            skillData={this.props.orgaModel}
+          <RefGpecTags
+            skillData={this.props.tagModel}
             ajaxLoading={this.props.ajaxLoading}
-            data-fieldname="orga_code"
-            value={this.state.orga_code}
-            readOnly="readonly"
-            disabled="disabled"
+            data-fieldname="tag_code"
+            value={this.state.tag_code}
+            readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
+            onChange={this.handleChangeLevel}
+            onBlur={this.handleSubmit}
           />
         </td>
         <td>
@@ -362,6 +363,14 @@ var RefGpecProfil = createReactClass({
     this.setState({ mustBeSaved: true });
     this.setState({ profil_free_comments: event.target.value });
   },
+
+    handleChangeLevel: function(event) {
+        // if it's a change in a select box,
+        // tells the component to save data soon
+        this.setState({ tag_code: event, mustBeSaved: true }, function() {
+            this.handleSubmit();
+        });
+    },
 
   handleDestroy: function(event) {
     event.preventDefault(); // Let's stop this event.

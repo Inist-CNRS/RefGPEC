@@ -42,7 +42,7 @@ var RefGpecIndex = createReactClass({
                   >
                     référentiel des profils de poste
                   </a>{" "}
-                  de votre organisation.
+                  de votre tagnisation.
                 </p>
                 <p>
                   Ces{" "}
@@ -66,7 +66,7 @@ var RefGpecIndex = createReactClass({
                   </a>{" "}
                   afin d'obtenir un état des lieux précis des compétences
                   nécessaires pour exercer de manière optimale les différents
-                  postes au sein de votre organisation.
+                  postes au sein de votre tagnisation.
                 </p>
                 <p>
                   A noter que l'évaluation des compétences effectives des

@@ -17,7 +17,7 @@ import RefGpecSkillsTypesModel from "./models/refgpec-skills-types-model.js";
 import RefGpecSkillsDomainsModel from "./models/refgpec-skills-domains-model.js";
 import RefGpecLevelsModel from "./models/refgpec-levels-model.js";
 import RefGpecProfilsSkillsModel from "./models/refgpec-profils-skills-model.js";
-import RefGpecOrgaModel from "./models/refgpec-orga-model.js";
+import RefGpecTagModel from "./models/refgpec-tag-model.js";
 
 var modelOptions = {
   fakeLoadingMaxDelay: 500
@@ -28,13 +28,13 @@ var skillsModel = new RefGpecSkillsModel(modelOptions);
 var skillsTypesModel = new RefGpecSkillsTypesModel(modelOptions);
 var skillsDomainsModel = new RefGpecSkillsDomainsModel(modelOptions);
 var profilsModel = new RefGpecProfilsModel(modelOptions);
-var orgaModel = new RefGpecOrgaModel(modelOptions);
+var tagModel = new RefGpecTagModel(modelOptions);
 var profilsSkillsModel = new RefGpecProfilsSkillsModel(modelOptions);
 
 function render() {
   ReactDOM.render(
     <RefGpecHome
-      orgaModel={orgaModel}
+      tagModel={tagModel}
       levelsModel={levelsModel}
       skillsModel={skillsModel}
       skillsTypesModel={skillsTypesModel}
@@ -51,7 +51,7 @@ skillsModel.subscribe(render);
 skillsTypesModel.subscribe(render);
 skillsDomainsModel.subscribe(render);
 levelsModel.subscribe(render);
-orgaModel.subscribe(render);
+tagModel.subscribe(render);
 profilsSkillsModel.subscribe(render);
 
 $(function() {

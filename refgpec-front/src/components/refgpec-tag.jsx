@@ -1,12 +1,12 @@
 import React from "react";
 var createReactClass = require("create-react-class");
-var RefGpecOrganigramme = createReactClass({
-  displayName: "RefGpecOrganigramme",
+var RefGpecTag = createReactClass({
+  displayName: "RefGpecTag",
 
   getInitialState: function() {
     return {
-      orga_code: this.props.skillData.orga_code,
-      orga_shortname: this.props.skillData.orga_shortname,
+      tag_code: this.props.skillData.tag_code,
+      tag_shortname: this.props.skillData.tag_shortname,
       error: "",
       ajaxLoading: false
     };
@@ -14,7 +14,7 @@ var RefGpecOrganigramme = createReactClass({
 
   render: function() {
     return (
-      <option value={this.state.orga_code}>{this.state.orga_shortname}</option>
+      <option value={this.state.tag_code}>{this.state.tag_shortname}</option>
     );
   },
 
@@ -27,4 +27,4 @@ var RefGpecOrganigramme = createReactClass({
     return false;
   }
 });
-export default RefGpecOrganigramme;
+export default RefGpecTag;

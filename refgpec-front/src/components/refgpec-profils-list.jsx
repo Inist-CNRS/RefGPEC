@@ -13,29 +13,46 @@ var RefGpecProfilsList = createReactClass({
   },
 
   render: function() {
-    var self = this;
+      let self = this;
+    let label ="";
     let rgProfils = [];
-    let rgOrga = this.props.skillData.listOrga;
+    let rgTag = this.props.skillData.listTag;
 
-    Object.keys(rgOrga).forEach(function(orga) {
-      var listoption = [];
-      rgProfils.push(
-        <optgroup key={orga} label={rgOrga[orga].orga_shortname}>
-          {(() => {
-            Object.keys(self.props.skillData.profils).forEach(function(key) {
-              if (self.props.skillData.profils[key].orga_code === orga) {
-                listoption.push(
-                  <RefGpecProfilList
-                    key={key}
-                    profil_code={key}
-                    skillData={self.props.skillData.profils[key]}
-                    ajaxLoading={self.props.skillData.ajaxLoading}
-                  />
-                );
-              }
-            });
-            return listoption;
-          })()}
+      Object.keys(rgTag).forEach(function(tag) {
+
+        if(tag==='null'){
+           label= "Non Classé";
+        }else{
+            label= rgTag[tag].tag_shortname;
+        }
+          let listoption = [];
+          rgProfils.push(
+              <optgroup key={label} label={label}>
+                  {(() => {
+                      Object.keys(self.props.skillData.profils).forEach(function(key) {
+                          if (self.props.skillData.profils[key].tag_code === tag) {
+                              listoption.push(
+                                  <RefGpecProfilList
+                                      key={key}
+                                      profil_code={key}
+                                      skillData={self.props.skillData.profils[key]}
+                                      ajaxLoading={self.props.skillData.ajaxLoading}
+                                  />
+                              );
+                          }
+                          if (!self.props.skillData.profils[key].tag_code  && label=== "Non Classé" ){
+                              listoption.push(
+                                  <RefGpecProfilList
+                                      key={key}
+                                      profil_code={key}
+                                      skillData={self.props.skillData.profils[key]}
+                                      ajaxLoading={self.props.skillData.ajaxLoading}
+                                  />
+                              );
+                          }
+                      });
+                      return listoption;
+                  })()}
         </optgroup>
       );
     });
