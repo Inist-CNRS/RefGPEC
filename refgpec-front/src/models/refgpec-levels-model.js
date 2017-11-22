@@ -112,6 +112,18 @@ RefGpecLevelsModel.prototype.inform = function() {
   });
 };
 
+RefGpecLevelsModel.prototype.getmax = function (codes) {
+    let max = 2;
+    codes.forEach(function(key,i) {
+        let number =parseInt(codes[i].split("-")[1],10);
+
+        if(max<number){
+            max = number;
+        }
+    });
+    return max;
+};
+
 RefGpecLevelsModel.prototype.addLevel = function(
   level_number,
   level_shortname,
@@ -125,8 +137,8 @@ RefGpecLevelsModel.prototype.addLevel = function(
   let codes = Object.keys(self.levels);
   if (codes.length > 0) {
     codes.sort();
-    let lastCode = codes[codes.length - 1];
-    level_code = "m-" + (parseInt(lastCode.split("-")[1], 10) + 1);
+      let lastCodeSplitted = self.getmax(codes);
+    level_code = "m-" + (lastCodeSplitted + 1);
   }
 
   axios

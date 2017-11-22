@@ -103,6 +103,17 @@ RefGpecProfilsModel.prototype.inform = function() {
   });
 };
 
+RefGpecProfilsModel.prototype.getmax = function (codes) {
+    let max = 2;
+    codes.forEach(function(key,i) {
+        let number =parseInt(codes[i].split("-")[1],10);
+
+        if(max<number){
+            max = number;
+        }
+    });
+    return max;
+};
 RefGpecProfilsModel.prototype.addProfil = function(
   tag_code,
   profil_shortname,
@@ -121,11 +132,9 @@ RefGpecProfilsModel.prototype.addProfil = function(
   // add +1 to the id if more than one profil in this tag
   codes.sort();
   if (codes.length > 0) {
-    var lastCode = codes[codes.length - 1];
-    var lastCodeSplitted = lastCode.split("-");
-    profil_code =
-      "p-" +
-      (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
+      let lastCodeSplitted = self.getmax(codes);
+      profil_code =
+          "p-" + (lastCodeSplitted + 1);
   }
   if(!tag_code){
       tag_code = null;

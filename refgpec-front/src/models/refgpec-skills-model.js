@@ -125,7 +125,17 @@ RefGpecSkillsModel.prototype.inform = function() {
     cb();
   });
 };
+RefGpecSkillsModel.prototype.getmax = function (codes) {
+    let max = 2;
+    codes.forEach(function(key,i) {
+        let number =parseInt(codes[i].split("-")[1],10);
 
+        if(max<number){
+            max = number;
+        }
+    });
+    return max;
+};
 RefGpecSkillsModel.prototype.addSkill = function(
   st_code,
   sd_code,
@@ -144,15 +154,14 @@ RefGpecSkillsModel.prototype.addSkill = function(
   // add +1 to the id if more than one skill in this type/domain
   codes.sort();
   if (codes.length > 0) {
-    var lastCode = codes[codes.length - 1];
-    var lastCodeSplitted = lastCode.split("-");
+      let lastCodeSplitted = self.getmax(codes);
     skill_code =
       "c-" +
       st_code +
       "-" +
       sd_code +
       "-" +
-      (parseInt(lastCodeSplitted[lastCodeSplitted.length - 1], 10) + 1);
+      (parseInt(lastCodeSplitted + 1 ,10));
   }
 
   axios
