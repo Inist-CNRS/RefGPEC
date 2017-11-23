@@ -45,14 +45,38 @@ Then, Enter any name for your new Server
 
 Next, in the connection tab, Fill out the fields with this parameters : 
 
-| Field | Value By Default | Name in docker-compose.debug.yml |
-| ------ | ------ | ------ |
-|Host name/adress | refgpec-db | container_name of our postgresql |
-|Username | refgpec | POSTGRES_USER |
-|Password | gpecsecret | POSTGRES_PASSWORD |
+| Field            | Value By Default | Name in docker-compose.debug.yml |
+| ---------------- | ---------------- | -------------------------------- |
+| Host name/adress | refgpec-db       | container_name of our postgresql |
+| Username         | refgpec          | POSTGRES_USER                    |
+| Password         | gpecsecret       | POSTGRES_PASSWORD                |
 
 ![PgAdmin Form](./pgadmin_form.png)
 
 Now, pgAdmin is connected to our database postgresql located in its container. And we have access to this one.
 
-![PgAdmin Form](./pgadmin_success.png)
+![PgAdmin success](./pgadmin_success.png)
+
+
+
+# Import CSV file into database 
+
+PgAdmin has GUI for data import since 1.16. Once your tables created,  you can import data easily.
+
+1. Just right-click on the table name and click on Import.
+
+
+![PgAdmin import](./pgadmin_import.png)
+
+```
+	⚠ If you have this error message, Following this instructions :
+	1. Go to the Preferences Menu in the File tab :
+	2. Click on Paths> Binary Paths. And fill out the field "PostGreSQL Binary Path" with the value " /usr/bin/" and validate with OK button.
+```
+![PgAdmin Error](./pgadmin_path.png)
+![PgAdmin Form](./pgadmin_binary_path.png)
+
+
+
+2. Now, choose IMPORT  through the  "Imprt/Export" button,  you must import your local file into pgadmin and select the correct encodage(usually Utf-8) and delimiter of your CSV. 
+  ![PgAdmin Form](./pgadmin_upload.gif)
