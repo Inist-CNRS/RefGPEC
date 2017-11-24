@@ -78,5 +78,10 @@ PgAdmin has GUI for data import since 1.16. Once your tables created,  you can i
 
 
 
-2. Now, choose IMPORT  through the  "Imprt/Export" button,  you must import your local file into pgadmin and select the correct encodage(usually Utf-8) and delimiter of your CSV. 
+2. Now, choose IMPORT  through the  "Import/Export" button,  you must import your local file into pgadmin and select the correct encodage(usually Utf-8) and delimiter of your CSV. 
   ![PgAdmin Form](./pgadmin_upload.gif)
+
+```
+	⚠ When importing into database, please verify your CSV file to ensure that it correspond to the table's columns (Few examples of CSV, for the tables "Skills","Domains" and "Types", are provided in the folder "/doc/examples/").
+
+```
