@@ -82,6 +82,5 @@ PgAdmin has GUI for data import since 1.16. Once your tables created,  you can i
   ![PgAdmin Form](./pgadmin_upload.gif)
 
 ```
-	⚠ When importing into database, please verify your CSV file to ensure that it correspond to the table's columns (Few examples of CSV, for the tables "Skills","Domains" and "Types", are provided in the folder "/doc/examples/").
-
+	⚠ When importing into database, please verify your CSV file to ensure that it correspond to the table's columns (Few examples of CSV, for the tables "Skills","Domains" and "Types", are provided in the folder "/doc/examples/") and be careful to the order of dependancies of SQL's foreign-key (Types and Domains before Skills Table !) .
 ```
