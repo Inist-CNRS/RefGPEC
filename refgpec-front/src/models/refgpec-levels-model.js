@@ -43,7 +43,7 @@ var RefGpecLevelsModel = function(options) {
     });
 
   axios
-    .get("/api/levels?order=level_code.asc")
+    .get("/api/levels?order=level_number.asc")
     .then(response => {
       self.levels = {};
       response.data.forEach(item => {
