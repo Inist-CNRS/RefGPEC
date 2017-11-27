@@ -7,6 +7,7 @@ import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
+import {CSVLink} from 'react-csv';
 var createReactClass = require("create-react-class");
 var RefGpecSkills = createReactClass({
   displayName: "RefGpecSkills",
@@ -45,7 +46,9 @@ var RefGpecSkills = createReactClass({
       return null;
     }
     let rgSkills = [];
+      let rgCSV = [];
     Object.keys(self.props.skillsModel.skills).forEach(function(key) {
+        rgCSV.push(self.props.skillsModel.skills[key]);
       rgSkills.push(
         <RefGpecSkill
           key={key}
@@ -120,8 +123,22 @@ var RefGpecSkills = createReactClass({
                   </a>.
                 </p>
               </div>
+              {(() => {
+                  if (rgCSV.length !==0) {
+                      let date =  new Date().getDate()+ "/"+ new Date().getMonth()+"/"+new Date().getFullYear();
+                      return (
+                    <CSVLink data={rgCSV} style={{backgroundColor:"#8dc63f",float: 'right'}}
+                             title="Cliquez pour télecharger le réferentiel des compétences en csv"
+                     separator={";"}
+                     filename={"Skills_"+date+".csv"}
+                     className="btn btn-primary"
+                     target="_blank">
+                     Exporter en CSV
+                    </CSVLink>
+                      );
+                  }
+              })()}
             </div>
-
             <table
               id="skills-list"
               className="table table-striped table-bordered"
