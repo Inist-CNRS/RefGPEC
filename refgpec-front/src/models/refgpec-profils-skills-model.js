@@ -77,15 +77,21 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function(
     var self = this;
     self.ajaxLoading = true;
     self.feedback = "";
-    // filter other skills family to have a correct numeric id
-    var codes = Object.keys(self.profilsSkillsLevels);
-    var psl_code = "ps-1";
-    // add +1 to the id
-    if (codes.length > 0) {
-        let lastCodeSplitted = self.getmax(codes);
-        psl_code =
-            "ps-" + (lastCodeSplitted + 1);
-
+    Object.keys(self.psl).forEach(function (key) {
+        if(self.psl[key].skill_code === skill_code){
+        self.feedback = "La compétence est déjà associée à ce profil !";
+    }
+    });
+    if(!self.feedback) {
+        // filter other skills family to have a correct numeric id
+        var codes = Object.keys(self.profilsSkillsLevels);
+        var psl_code = "ps-1";
+        // add +1 to the id
+        if (codes.length > 0) {
+            let lastCodeSplitted = self.getmax(codes);
+            psl_code =
+                "ps-" + (lastCodeSplitted + 1);
+        }
         axios
             .post("/api/profils_skills_levels", {
                 psl_code: psl_code,
@@ -114,10 +120,15 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function(
                 self.inform();
                 return cb && cb(error);
             });
+        self.inform();
+    }else{
+        self.ajaxLoading = false;
+        self.inform();
+        return cb && cb(null);
+    }
 
         self.inform();
-    }
-};
+    };
 
 RefGpecProfilsSkillsModel.prototype.destroy = function(pslId, profil_code, cb) {
   var self = this;
