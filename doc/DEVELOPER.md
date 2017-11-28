@@ -81,6 +81,19 @@ PgAdmin has GUI for data import since 1.16. Once your tables created,  you can i
 2. Now, choose IMPORT  through the  "Import/Export" button,  you must import your local file into pgadmin and select the correct encodage(usually Utf-8) and delimiter of your CSV. 
   ![PgAdmin Form](./pgadmin_upload.gif)
 
-```
-	⚠ When importing into database, please verify your CSV file to ensure that it correspond to the table's columns (Few examples of CSV, for the tables "Skills","Domains" and "Types", are provided in the folder "/doc/examples/") and be careful to the order of dependancies of SQL's foreign-key (Types and Domains before Skills Table !) .
-```
+## Rules and Format required
+
+Following the database's Schema. Many conditions are necessary to respect the importations, in particular through the CSV format  : 
+	1. Each file have a header describing each table's columns. These columns must be in the same order as the database's Schema. 
+	2. Frequently, the files are saved with the delimiter ";", check this when you're saving or import the data.
+	3. Usually the default encodage is UTF-8, keep an eye on special characters and/or symbol
+
+Once this is done, please respect the order of dependancies of SQL's foreign-key. One possible solution is : 
+	1. Levels Table
+	2. Types Table
+	3. Domains Table
+	4. Skills Table
+	5. Profils Table
+	6. Profils_Skills_Levels Table
+
+⚠ To help you, the folder  [/data/examples](../data/examples) contains examples of differents Tables to import.

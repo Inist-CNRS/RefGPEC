@@ -1,1 +1,1 @@
-COPY skills FROM '/docker-entrypoint-initdb2.d/Competences.csv' DELIMITER ';' CSV HEADER;
+COPY skills FROM '/docker-entrypoint-initdb2.d/skills.csv' DELIMITER ';' CSV HEADER;
