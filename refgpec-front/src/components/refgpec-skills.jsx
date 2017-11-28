@@ -91,53 +91,55 @@ var RefGpecSkills = createReactClass({
           <div className="col-md-12">
             <div className="panel panel-default">
               <div className="panel-heading">Référentiel des compétences</div>
-              <div className="panel-body">
-                <p>
-                  Depuis cet onglet il est possible d'administrer le référentiel
-                  des compétences.<br />
-                  Ces compétences pourront être{" "}
-                  <a
-                    data-toggle="tab"
-                    className="nav-link"
-                    href="#profils-skills"
-                    onClick={this.handleNavigateTab}
-                  >
-                    associées
-                  </a>{" "}
-                  aux différents{" "}
-                  <a
-                    data-toggle="tab"
-                    className="nav-link"
-                    href="#profils"
-                    onClick={this.handleNavigateTab}
-                  >
-                    profils
-                  </a>{" "}
-                  en leur associant une{" "}
-                  <a
-                    data-toggle="tab"
-                    href="#levels"
-                    onClick={this.handleNavigateTab}
-                  >
-                    modulation
-                  </a>.
-                </p>
+                  <div className="panel-body">
+                    <div className="col-md-6" style={{borderRight: "#cdcdcd medium solid",borderRightWidth:"1px"}}>
+                    Depuis cet onglet il est possible d'administrer le référentiel
+                    des compétences.<br />
+                    Ces compétences pourront être{" "}
+                    <a
+                        data-toggle="tab"
+                        className="nav-link"
+                        href="#profils-skills"
+                        onClick={this.handleNavigateTab}
+                    >
+                      associées
+                    </a>{" "}
+                    aux différents{" "}
+                    <a
+                        data-toggle="tab"
+                        className="nav-link"
+                        href="#profils"
+                        onClick={this.handleNavigateTab}
+                    >
+                      profils
+                    </a>{" "}
+                    en leur associant une{" "}
+                    <a
+                        data-toggle="tab"
+                        href="#levels"
+                        onClick={this.handleNavigateTab}
+                    >
+                      modulation
+                    </a>.
+                  </div>
+              <div className="col-md-6">
+                {(() => {
+                    if (rgCSV.length !==0) {
+                        let date =  new Date().getDate()+ "/"+ new Date().getMonth()+"/"+new Date().getFullYear();
+                        return (
+                            <CSVLink  data={rgCSV} style={{backgroundColor:"#8dc63f",float: 'left'}}
+                                     title="Cliquez pour télecharger le réferentiel des compétences en csv"
+                                     separator={";"}
+                                     filename={"Skills_"+date+".csv"}
+                                     className="btn btn-primary"
+                                     target="_blank">
+                              Exporter en CSV
+                            </CSVLink>
+                        );
+                    }
+                })()}
+                </div>
               </div>
-              {(() => {
-                  if (rgCSV.length !==0) {
-                      let date =  new Date().getDate()+ "/"+ new Date().getMonth()+"/"+new Date().getFullYear();
-                      return (
-                    <CSVLink data={rgCSV} style={{backgroundColor:"#8dc63f",float: 'right'}}
-                             title="Cliquez pour télecharger le réferentiel des compétences en csv"
-                     separator={";"}
-                     filename={"Skills_"+date+".csv"}
-                     className="btn btn-primary"
-                     target="_blank">
-                     Exporter en CSV
-                    </CSVLink>
-                      );
-                  }
-              })()}
             </div>
             <table
               id="skills-list"
@@ -196,73 +198,69 @@ var RefGpecSkills = createReactClass({
                 </tr>
               </thead>
               <tbody>
-                {rgSkills}
-                {/* FORM USED TO CREATE A NEW SKILL */}
-                <tr className="form-new-skill">
-                  <td />
-                  <td>
-                    <RefGpecTypes
-                      skillData={self.props.skillsTypesModel}
-                      ajaxLoading={self.props.skillsTypesModel.ajaxLoading}
-                      data-fieldname="newSkillType"
-                      onChange={this.handleTypeChange}
-                      value={this.state.newSkillType}
-                    />
-                  </td>
-                  <td>
-                    <RefGpecDomains
-                      skillData={self.props.skillsDomainsModel}
-                      ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
-                      data-fieldname="newSkillDomain"
-                      onChange={this.handleDomainChange}
-                      value={this.state.newSkillDomain}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Nom de la compétence"
-                      value={this.state.newSkillShortName}
-                      data-fieldname="newSkillShortName"
-                      onKeyPress={this.handleKeyPress}
-                      onChange={this.handleChange}
-                      disabled={this.props.skillsModel.ajaxLoading}
-                    />
-                  </td>
-                  <td>
-                    <textarea
-                      className="form-control"
-                      rows="1"
-                      placeholder="Commentaires libres"
-                      value={this.state.newSkillFreeComments}
-                      data-fieldname="newSkillFreeComments"
-                      onChange={this.handleChange}
-                      disabled={this.props.skillsModel.ajaxLoading}
-                    />
-                  </td>
-
-                  <td>
-                    <OverlayTrigger
+              {/* FORM USED TO CREATE A NEW SKILL */}
+              <tr className="form-new-skill">
+                <td>
+                  <OverlayTrigger
                       trigger="focus"
                       data-title="Erreur nouvelle compétence"
                       placement="top"
                       overlay={
                         <Popover id="popover-positioned-top">
-                          {this.state.error}
+                            {this.state.error}
                         </Popover>
                       }
-                    >
-                      <a
+                  >
+                    <a
                         href=""
                         className="fa fa-plus-square fa-2x"
                         role="button"
                         onClick={this.handleSubmit}
                         title="Ajouter cette compétence au référentiel"
-                      />
-                    </OverlayTrigger>
-                  </td>
-
+                    />
+                  </OverlayTrigger>
+                </td>
+                <td>
+                  <RefGpecTypes
+                      skillData={self.props.skillsTypesModel}
+                      ajaxLoading={self.props.skillsTypesModel.ajaxLoading}
+                      data-fieldname="newSkillType"
+                      onChange={this.handleTypeChange}
+                      value={this.state.newSkillType}
+                  />
+                </td>
+                <td>
+                  <RefGpecDomains
+                      skillData={self.props.skillsDomainsModel}
+                      ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
+                      data-fieldname="newSkillDomain"
+                      onChange={this.handleDomainChange}
+                      value={this.state.newSkillDomain}
+                  />
+                </td>
+                <td>
+                  <input
+                      className="form-control"
+                      type="text"
+                      placeholder="Nom de la compétence"
+                      value={this.state.newSkillShortName}
+                      data-fieldname="newSkillShortName"
+                      onChange={this.handleChange}
+                      disabled={this.props.skillsModel.ajaxLoading}
+                  />
+                </td>
+                <td>
+                    <textarea
+                        className="form-control"
+                        rows="1"
+                        placeholder="Commentaires libres"
+                        value={this.state.newSkillFreeComments}
+                        data-fieldname="newSkillFreeComments"
+                        onChange={this.handleChange}
+                        disabled={this.props.skillsModel.ajaxLoading}
+                    />
+                </td>
+                <td />
                   {/*<td id="skills-new-skill"*/}
                   {/*data-placement="top" data-toggle="popover"*/}
                   {/*data-trigger="manual" data-title="Erreur nouvelle compétence"*/}
@@ -273,7 +271,11 @@ var RefGpecSkills = createReactClass({
                   {/*disabled={self.props.skillsModel.ajaxLoading}*/}
                   {/*title="Ajouter cette compétence au référentiel" />*/}
                   {/*</td>*/}
-                </tr>
+              </tr>
+
+                {rgSkills}
+
+
               </tbody>
             </table>
 

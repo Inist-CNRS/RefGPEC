@@ -72,11 +72,14 @@ footer.gpec-footer hr {
 .skills-col-type {
   width: 150px;
 }
+.skills-col-commentary{
+  width: 200px;
+}
 .skills-col-domain {
   width: 150px;
 }
 .skills-col-code {
-  width: 120px;
+  width: 150px;
 }
 /* style used to switch between vertical and 2 columns layout */
 .profils-skills-vertical {

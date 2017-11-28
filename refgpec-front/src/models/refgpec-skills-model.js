@@ -251,7 +251,7 @@ RefGpecSkillsModel.prototype.save = function(skillId, level, cb) {
     })
     .catch(function(error) {
       self.feedback =
-        "Une erreur a été rencontrée lors de la suppression dans la base de donnée";
+        "Une erreur a été rencontrée lors de la modification dans la base de donnée";
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);

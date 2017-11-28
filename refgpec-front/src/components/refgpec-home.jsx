@@ -70,26 +70,26 @@ var RefGpecHome = createReactClass({
     refgpecTabs.push(<RefGpecIndex key="1" onTabChange={this.doTabChange} />);
 
     refgpecTabs.push(
-      <RefGpecProfilsSkills
-        key="2"
-        profilsSkillsModel={this.props.profilsSkillsModel}
-        skillsModel={this.props.skillsModel}
-        skillsTypesModel={this.props.skillsTypesModel}
-        skillsDomainsModel={this.props.skillsDomainsModel}
-        profilsModel={this.props.profilsModel}
-        levelsModel={this.props.levelsModel}
-        onTabChange={this.doTabChange}
-      />
+        <RefGpecProfils
+            key="2"
+            tagModel={this.props.tagModel}
+            profilsModel={this.props.profilsModel}
+            profilsSkillsModel={this.props.profilsSkillsModel}
+            onTabChange={this.doTabChange}
+        />
     );
 
     refgpecTabs.push(
-      <RefGpecProfils
-        key="3"
-        tagModel={this.props.tagModel}
-        profilsModel={this.props.profilsModel}
-        profilsSkillsModel={this.props.profilsSkillsModel}
-        onTabChange={this.doTabChange}
-      />
+        <RefGpecProfilsSkills
+            key="3"
+            profilsSkillsModel={this.props.profilsSkillsModel}
+            skillsModel={this.props.skillsModel}
+            skillsTypesModel={this.props.skillsTypesModel}
+            skillsDomainsModel={this.props.skillsDomainsModel}
+            profilsModel={this.props.profilsModel}
+            levelsModel={this.props.levelsModel}
+            onTabChange={this.doTabChange}
+        />
     );
 
     refgpecTabs.push(
@@ -142,22 +142,22 @@ var RefGpecHome = createReactClass({
                   <a
                     data-toggle="tab"
                     className="nav-link"
-                    id="tab-profils-skills"
-                    href="#profils-skills"
-                    onClick={this.handleTabChange}
-                  >
-                    Profils &amp; Compétences
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    data-toggle="tab"
-                    className="nav-link"
                     id="tab-profils"
                     href="#profils"
                     onClick={this.handleTabChange}
                   >
                     Profils de poste
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                      data-toggle="tab"
+                      className="nav-link"
+                      id="tab-profils-skills"
+                      href="#profils-skills"
+                      onClick={this.handleTabChange}
+                  >
+                    Profils &amp; Compétences
                   </a>
                 </li>
                 <li className="nav-item">

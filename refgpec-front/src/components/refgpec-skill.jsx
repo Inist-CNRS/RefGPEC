@@ -47,11 +47,6 @@ var RefGpecSkill = createReactClass({
                 <span className="glyphicon glyphicon-remove" /> Supprimer la
                 compétence{" "}
               </MenuItem>
-              <MenuItem href="" >
-                {" "}
-                <span className="glyphicon glyphicon-list" /> Visualiser les
-                profils ayant cette compétence
-              </MenuItem>
             </DropdownButton>
             <Modal
               show={this.state.deleteModal}
@@ -84,8 +79,7 @@ var RefGpecSkill = createReactClass({
                         });
                     return (
                         <div className="alert alert-info" role="alert">
-                          Veuillez dissocier ces compétences avant de supprimer la
-                          modulation :
+                          Veuillez dissocier cette compétence des profils suivants :
                           <ul>{list}</ul>
                         </div>
                     );

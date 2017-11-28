@@ -110,7 +110,7 @@ var RefGpecProfilsSkills = createReactClass({
                 />
 
                 <p>
-                  Depuis cet onglet il est possible d'associer à chaque profils
+                  Depuis cet onglet il est possible d'associer à chaque profil
                   des{" "}
                   <a
                     data-toggle="tab"
