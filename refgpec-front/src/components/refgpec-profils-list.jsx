@@ -23,14 +23,14 @@ var RefGpecProfilsList = createReactClass({
         if(tag==='null'){
            label= "Non Classé";
         }else{
-            label= rgTag[tag].tag_shortname;
+            label= rgTag[tag].profil_tag;
         }
           let listoption = [];
           rgProfils.push(
               <optgroup key={label} label={label}>
                   {(() => {
                       Object.keys(self.props.skillData.profils).forEach(function(key) {
-                          if (self.props.skillData.profils[key].tag_code === tag) {
+                          if (self.props.skillData.profils[key].profil_tag === tag) {
                               listoption.push(
                                   <RefGpecProfilList
                                       key={key}
@@ -40,7 +40,7 @@ var RefGpecProfilsList = createReactClass({
                                   />
                               );
                           }
-                          if (!self.props.skillData.profils[key].tag_code  && label=== "Non Classé" ){
+                          if (!self.props.skillData.profils[key].profil_tag  && label=== "Non Classé" ){
                               listoption.push(
                                   <RefGpecProfilList
                                       key={key}

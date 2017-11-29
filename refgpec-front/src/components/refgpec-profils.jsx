@@ -21,7 +21,7 @@ var RefGpecProfils = createReactClass({
   getInitialState: function() {
     return {
       showModal: false,
-      newProfilTag: "",
+      newProfilTag:"",
       newProfilShortName: "",
       newProfilFreeComments: "",
       newProfilPdfPath: "",
@@ -53,19 +53,18 @@ var RefGpecProfils = createReactClass({
 
     // model is not ready ? then do not render anything
     if (
-      self.props.profilsModel.initializing ||
-      self.props.tagModel.initializing
+      self.props.profilsModel.initializing
     ) {
       return null;
     }
-
+    let rgTagList = this.props.profilsModel.listTag;
     let rgProfils = [];
     Object.keys(self.props.profilsModel.profils).forEach(function(key) {
       rgProfils.push(
         <RefGpecProfil
           key={key}
           profilId={key}
-          tagModel={self.props.tagModel}
+          tagList={rgTagList}
           profilsSkillsModel={self.props.profilsSkillsModel}
           profilData={self.props.profilsModel.profils[key]}
           skilllist={self.props.profilsModel.getlistskills(key)}
@@ -76,14 +75,8 @@ var RefGpecProfils = createReactClass({
       );
     });
 
-    let rgTagList = [];
-    Object.keys(self.props.tagModel.tag).forEach(function(key) {
-      rgTagList.push(
-        <option value={key} key={key}>
-          {self.props.tagModel.tag[key].tag_shortname}
-        </option>
-      );
-    });
+
+
     if (self.state.type_tri) {
       rgProfils.sort(function(a, b) {
         return a.props.profilData[self.state.champtri] >
@@ -106,6 +99,7 @@ var RefGpecProfils = createReactClass({
       });
     }
     return (
+
       <div id="profils">
         <div className="row">
           <div className="col-md-12">
@@ -153,7 +147,7 @@ var RefGpecProfils = createReactClass({
                   <th
                     title="Cliquez pour trier par tag"
                     role="button"
-                    id="tag_code"
+                    id="profil_tag"
                     onClick={this.trieprofil}
                     className="profils-col-tag"
                   >
@@ -288,14 +282,14 @@ var RefGpecProfils = createReactClass({
 
                   <td>
                     <RefGpecTags
-                      skillData={self.props.tagModel}
-                      ajaxLoading={self.props.tagModel.ajaxLoading}
+                      skillData={rgTagList}
+                      ajaxLoading={self.props.profilsModel.ajaxLoading}
                       data-fieldname="newProfilTag"
                       onChange={this.handleTagChange}
+                      onBlur={this.handleTagChange}
                       value={this.state.newProfilTag}
                     />
                   </td>
-
                   <td colSpan="2">
                     <input
                       className="form-control"
@@ -394,6 +388,7 @@ var RefGpecProfils = createReactClass({
     this.setState({ newProfilTag: event });
   },
   handleNavigateTab: function(event) {
+      window.scrollTo(0, 0);
     this.props.onTabChange(event.target.getAttribute("href"));
   },
 

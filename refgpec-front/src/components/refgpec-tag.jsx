@@ -5,8 +5,7 @@ var RefGpecTag = createReactClass({
 
   getInitialState: function() {
     return {
-      tag_code: this.props.skillData.tag_code,
-      tag_shortname: this.props.skillData.tag_shortname,
+      tag_code: this.props.skillData.profil_tag,
       error: "",
       ajaxLoading: false
     };
@@ -14,7 +13,7 @@ var RefGpecTag = createReactClass({
 
   render: function() {
     return (
-      <option value={this.state.tag_code}>{this.state.tag_shortname}</option>
+      <option value={this.state.tag_code}>{this.state.tag_code}</option>
     );
   },
 

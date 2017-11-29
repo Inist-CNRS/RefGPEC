@@ -44,6 +44,7 @@ var RefGpecHome = createReactClass({
   },
 
   handleTabChange: function(event) {
+      window.scrollTo(0, 0);
     document.location.hash = event.target.getAttribute("href");
   },
 
@@ -51,7 +52,6 @@ var RefGpecHome = createReactClass({
     const loadingModalShow =
       this.props.skillsModel.initializing ||
       this.props.profilsModel.initializing ||
-      this.props.tagModel.initializing ||
       this.props.skillsTypesModel.initializing ||
       this.props.skillsDomainsModel.initializing ||
       this.props.levelsModel.initializing ||
@@ -60,7 +60,6 @@ var RefGpecHome = createReactClass({
     /*
     if (!this.props.skillsModel.initializing &&
         !this.props.profilsModel.initializing &&
-        !this.props.tagModel.initializing &&
         !this.props.levelsModel.initializing) {
         $('#loading-data').modal && $('#loading-data').modal('hide');
     }
@@ -72,7 +71,6 @@ var RefGpecHome = createReactClass({
     refgpecTabs.push(
         <RefGpecProfils
             key="2"
-            tagModel={this.props.tagModel}
             profilsModel={this.props.profilsModel}
             profilsSkillsModel={this.props.profilsSkillsModel}
             onTabChange={this.doTabChange}
@@ -227,10 +225,7 @@ var RefGpecHome = createReactClass({
                   />
                   Modulations des compétences
                 </li>
-                <li className="list-group-item">
-                  <span className={this.getDataLoadedClassName("tagModel")} />
-                  Tag
-                </li>
+
                 <li className="list-group-item">
                   <span
                     className={this.getDataLoadedClassName("DomainModel")}
@@ -281,11 +276,7 @@ var RefGpecHome = createReactClass({
       return self.props.levelsModel.initializing
         ? "pull-right fa fa-2x fa-square"
         : "pull-right fa fa-2x fa-check-square";
-    } else if (modelType === "tagModel") {
-      return self.props.tagModel.initializing
-        ? "pull-right fa fa-2x fa-square"
-        : "pull-right fa fa-2x fa-check-square";
-    } else if (modelType === "typeModel") {
+    }  else if (modelType === "typeModel") {
       return self.props.skillsTypesModel.initializing
         ? "pull-right fa fa-2x fa-square"
         : "pull-right fa fa-2x fa-check-square";

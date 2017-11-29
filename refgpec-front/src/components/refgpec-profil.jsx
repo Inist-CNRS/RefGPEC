@@ -10,7 +10,7 @@ var RefGpecProfil = createReactClass({
   getInitialState: function() {
     return {
       profil_code: this.props.profilId,
-      tag_code: this.props.profilData.tag_code,
+      profil_tag: this.props.profilData.profil_tag,
       profil_shortname: this.props.profilData.profil_shortname,
       profil_free_comments: this.props.profilData.profil_free_comments,
       profil_pdf_path: this.props.profilData.profil_pdf_path,
@@ -42,11 +42,6 @@ var RefGpecProfil = createReactClass({
 
   render: function() {
     const self = this;
-    // model is not ready ? then do not render anything
-    if (self.props.tagModel.initializing) {
-      return null;
-    }
-
     // calculate the classname for skills stats associated to the specified profil
     let nbClassName = {};
     [
@@ -62,15 +57,6 @@ var RefGpecProfil = createReactClass({
       } else {
         nbClassName[skillTypeNb] += " label-success";
       }
-    });
-
-    let rgTagList = [];
-    Object.keys(self.props.tagModel.tag).forEach(function(key) {
-      rgTagList.push(
-        <option value={key} key={key}>
-          {self.props.tagModel.tag[key].tag_shortname}
-        </option>
-      );
     });
 
     return (
@@ -259,12 +245,12 @@ var RefGpecProfil = createReactClass({
         </td>
         <td>
           <RefGpecTags
-            skillData={this.props.tagModel}
+            skillData={this.props.tagList}
             ajaxLoading={this.props.ajaxLoading}
             data-fieldname="tag_code"
-            value={this.state.tag_code}
+            value={this.state.profil_tag}
             readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
-            onChange={this.handleChangeLevel}
+            onChange={this.handleChangeTag}
             onBlur={this.handleSubmit}
           />
         </td>
@@ -364,10 +350,9 @@ var RefGpecProfil = createReactClass({
     this.setState({ profil_free_comments: event.target.value });
   },
 
-    handleChangeLevel: function(event) {
-        // if it's a change in a select box,
-        // tells the component to save data soon
-        this.setState({ tag_code: event, mustBeSaved: true }, function() {
+    handleChangeTag: function(event) {
+    console.log(event);
+        this.setState({ profil_tag: event, mustBeSaved: true }, function() {
             this.handleSubmit();
         });
     },

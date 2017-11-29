@@ -50,7 +50,7 @@ RefGpecProfilsModel.prototype.gettag = function() {
     .get("/api/view_list_tag_profils")
     .then(response => {
       response.data.forEach(item => {
-        self.listTag[item.tag_code] = item;
+        self.listTag[item.profil_tag] = item;
       });
       self.inform();
     })
@@ -115,7 +115,7 @@ RefGpecProfilsModel.prototype.getmax = function (codes) {
     return max;
 };
 RefGpecProfilsModel.prototype.addProfil = function(
-  tag_code,
+  profil_tag,
   profil_shortname,
   profil_free_comments,
   profil_pdf_path,
@@ -136,8 +136,8 @@ RefGpecProfilsModel.prototype.addProfil = function(
       profil_code =
           "p-" + (lastCodeSplitted + 1);
   }
-  if(!tag_code){
-      tag_code = null;
+  if(!profil_tag){
+      profil_tag = null;
   }
   axios
     .post("/api/profils", {
@@ -145,7 +145,7 @@ RefGpecProfilsModel.prototype.addProfil = function(
       profil_shortname: profil_shortname,
       profil_free_comments: profil_free_comments,
       profil_pdf_path: profil_pdf_path,
-      tag_code: tag_code
+      profil_tag: profil_tag
     })
     .then(function(response) {
       self.ajaxLoading = false;
@@ -165,7 +165,7 @@ RefGpecProfilsModel.prototype.addProfil = function(
         profil_shortname,
         profil_pdf_path,
         profil_free_comments,
-        tag_code
+       profil_tag
       };
       self.gettag();
       for (var k = 0; k < nomchamp.length; k++) {
@@ -234,8 +234,8 @@ RefGpecProfilsModel.prototype.save = function(profilId, data, cb) {
   var self = this;
   self.ajaxLoading = true;
   self.feedback = "";
-    if(!data.tag_code){
-        data.tag_code = null;
+    if(!data.profil_tag){
+        data.profil_tag = null;
     }
   axios
     .patch("/api/profils?profil_code=eq." + profilId, {
@@ -243,7 +243,7 @@ RefGpecProfilsModel.prototype.save = function(profilId, data, cb) {
       profil_shortname: data.profil_shortname,
       profil_free_comments: data.profil_free_comments,
       profil_pdf_path: data.profil_pdf_path,
-      tag_code: data.tag_code
+      profil_tag: data.profil_tag
     })
     .then(function(response) {
       self.profils[profilId] = data;

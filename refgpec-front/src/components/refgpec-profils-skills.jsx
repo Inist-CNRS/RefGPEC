@@ -412,6 +412,7 @@ var RefGpecProfilsSkills = createReactClass({
   },
 
   handleNavigateTab: function(event) {
+      window.scrollTo(0, 0);
     this.props.onTabChange(event.target.getAttribute("href"));
   },
 
