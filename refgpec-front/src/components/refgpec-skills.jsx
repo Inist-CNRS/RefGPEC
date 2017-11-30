@@ -217,6 +217,9 @@ var RefGpecSkills = createReactClass({
                   skillsDomainsModel={self.props.skillsDomainsModel}
                   onSubmit = {self.handleAddSkills}
                 />
+
+              <tr><td colSpan="6" style={{height:"25px"}}></td></tr>
+
                 {rgSkills}
 
 
