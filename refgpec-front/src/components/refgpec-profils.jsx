@@ -27,7 +27,8 @@ var RefGpecProfils = createReactClass({
       newProfilPdfPath: "",
       error: "",
       champtri: "profil_code",
-      type_tri: true
+      type_tri: true,
+        filtre:"",
     };
   },
   close() {
@@ -37,6 +38,11 @@ var RefGpecProfils = createReactClass({
   open() {
     this.setState({ showModal: true });
   },
+
+    filterList: function(event){
+        this.setState({filtre: event.target.value.toLowerCase()});
+    },
+
   trieprofil(event) {
     if (this.state.champtri === event.target.id) {
       this.setState({
@@ -60,19 +66,21 @@ var RefGpecProfils = createReactClass({
     let rgTagList = this.props.profilsModel.listTag;
     let rgProfils = [];
     Object.keys(self.props.profilsModel.profils).forEach(function(key) {
-      rgProfils.push(
-        <RefGpecProfil
-          key={key}
-          profilId={key}
-          tagList={rgTagList}
-          profilsSkillsModel={self.props.profilsSkillsModel}
-          profilData={self.props.profilsModel.profils[key]}
-          skilllist={self.props.profilsModel.getlistskills(key)}
-          onSave={self.handleSave}
-          onDestroy={self.handleDestroy}
-          ajaxLoading={self.props.profilsModel.ajaxLoading}
-        />
-      );
+        if(self.props.profilsModel.profils[key].profil_shortname.toLowerCase().search(self.state.filtre.toLowerCase()) !== -1) {
+            rgProfils.push(
+                <RefGpecProfil
+                    key={key}
+                    profilId={key}
+                    tagList={rgTagList}
+                    profilsSkillsModel={self.props.profilsSkillsModel}
+                    profilData={self.props.profilsModel.profils[key]}
+                    skilllist={self.props.profilsModel.getlistskills(key)}
+                    onSave={self.handleSave}
+                    onDestroy={self.handleDestroy}
+                    ajaxLoading={self.props.profilsModel.ajaxLoading}
+                />
+            );
+        }
     });
 
 
@@ -134,6 +142,11 @@ var RefGpecProfils = createReactClass({
                   </a>.
                 </p>
               </div>
+            </div>
+
+            <div   style={{float: "right", marginBottom: "20px"}}>
+              <i className="fa fa-search fa-3" aria-hidden="true"/>
+              <input style={{width :"230px",fontSize:"larger"}} type="text" placeholder="Rechercher un Profil" onChange={this.filterList}/>
             </div>
 
             <table
