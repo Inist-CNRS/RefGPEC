@@ -351,7 +351,6 @@ var RefGpecProfil = createReactClass({
   },
 
     handleChangeTag: function(event) {
-    console.log(event);
         this.setState({ profil_tag: event, mustBeSaved: true }, function() {
             this.handleSubmit();
         });
@@ -360,7 +359,7 @@ var RefGpecProfil = createReactClass({
   handleDestroy: function(event) {
     event.preventDefault(); // Let's stop this event.
     event.stopPropagation(); // Really this time.
-
+      this.closedeleteModal();
     if (this.props.ajaxLoading) return;
 
     this.props.onDestroy(this.state.profil_code);

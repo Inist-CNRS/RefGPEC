@@ -1,8 +1,6 @@
 import React from "react";
 import RefGpecSkill from "./refgpec-skill.jsx";
-import RefGpecTypes from "./refgpec-types.jsx";
-import RefGpecDomains from "./refgpec-domains";
-import { OverlayTrigger, Popover } from "react-bootstrap";
+import RefGpecNewSkill from "./refgpec-new-skill.jsx";
 import {
   NotificationContainer,
   NotificationManager
@@ -46,9 +44,8 @@ var RefGpecSkills = createReactClass({
       return null;
     }
     let rgSkills = [];
-      let rgCSV = [];
+
     Object.keys(self.props.skillsModel.skills).forEach(function(key) {
-        rgCSV.push(self.props.skillsModel.skills[key]);
       rgSkills.push(
         <RefGpecSkill
           key={key}
@@ -124,10 +121,10 @@ var RefGpecSkills = createReactClass({
                   </div>
               <div className="col-md-6">
                 {(() => {
-                    if (rgCSV.length !==0) {
+                    if (Object.keys(self.props.skillsModel.skill_CSV).length !==0) {
                         let date =  new Date().getDate()+ "/"+ new Date().getMonth()+"/"+new Date().getFullYear();
                         return (
-                            <CSVLink  data={rgCSV} style={{backgroundColor:"#8dc63f",float: 'left'}}
+                            <CSVLink  data={self.props.skillsModel.skill_CSV} style={{backgroundColor:"#8dc63f",float: 'left'}}
                                      title="Cliquez pour télecharger le réferentiel des compétences en csv"
                                      separator={";"}
                                      filename={"Skills_"+date+".csv"}
@@ -199,79 +196,12 @@ var RefGpecSkills = createReactClass({
               </thead>
               <tbody>
               {/* FORM USED TO CREATE A NEW SKILL */}
-              <tr className="form-new-skill">
-                <td>
-                  <OverlayTrigger
-                      trigger="focus"
-                      data-title="Erreur nouvelle compétence"
-                      placement="top"
-                      overlay={
-                        <Popover id="popover-positioned-top">
-                            {this.state.error}
-                        </Popover>
-                      }
-                  >
-                    <a
-                        href=""
-                        className="fa fa-plus-square fa-2x"
-                        role="button"
-                        onClick={this.handleSubmit}
-                        title="Ajouter cette compétence au référentiel"
-                    />
-                  </OverlayTrigger>
-                </td>
-                <td>
-                  <RefGpecTypes
-                      skillData={self.props.skillsTypesModel}
-                      ajaxLoading={self.props.skillsTypesModel.ajaxLoading}
-                      data-fieldname="newSkillType"
-                      onChange={this.handleTypeChange}
-                      value={this.state.newSkillType}
-                  />
-                </td>
-                <td>
-                  <RefGpecDomains
-                      skillData={self.props.skillsDomainsModel}
-                      ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
-                      data-fieldname="newSkillDomain"
-                      onChange={this.handleDomainChange}
-                      value={this.state.newSkillDomain}
-                  />
-                </td>
-                <td>
-                  <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Nom de la compétence"
-                      value={this.state.newSkillShortName}
-                      data-fieldname="newSkillShortName"
-                      onChange={this.handleChange}
-                      disabled={this.props.skillsModel.ajaxLoading}
-                  />
-                </td>
-                <td>
-                    <textarea
-                        className="form-control"
-                        rows="1"
-                        placeholder="Commentaires libres"
-                        value={this.state.newSkillFreeComments}
-                        data-fieldname="newSkillFreeComments"
-                        onChange={this.handleChange}
-                        disabled={this.props.skillsModel.ajaxLoading}
-                    />
-                </td>
-                <td />
-                  {/*<td id="skills-new-skill"*/}
-                  {/*data-placement="top" data-toggle="popover"*/}
-                  {/*data-trigger="manual" data-title="Erreur nouvelle compétence"*/}
-                  {/*data-content={this.state.error}*/}
-                  {/*>*/}
-                  {/*<a href="" className="btn fa fa-plus-square fa-2x" role="button"*/}
-                  {/*onClick={this.handleSubmit}*/}
-                  {/*disabled={self.props.skillsModel.ajaxLoading}*/}
-                  {/*title="Ajouter cette compétence au référentiel" />*/}
-                  {/*</td>*/}
-              </tr>
+              <RefGpecNewSkill
+                  skillsModel={self.props.skillsModel}
+                  skillsTypesModel={self.props.skillsTypesModel}
+                  skillsDomainsModel={self.props.skillsDomainsModel}
+                  onSubmit = {self.handleAddSkills}
+                />
                 {rgSkills}
 
 
@@ -297,42 +227,26 @@ var RefGpecSkills = createReactClass({
     );
   },
 
-  handleKeyPress: function(event) {
-    if (event.charCode === 13) {
-      this.handleSubmit(event);
-    }
-  },
 
-  handleTypeChange: function(event) {
-    this.setState({ newSkillType: event });
-  },
-  handleDomainChange: function(event) {
-    this.setState({ newSkillDomain: event });
-  },
-  handleChange: function(event) {
-    var newState = {};
-    newState[event.target.getAttribute("data-fieldname")] = event.target.value;
-    this.setState(newState);
-  },
 
-  handleSubmit: function(event) {
+  handleAddSkills: function(newSkillType,newSkillDomain,newSkillShortName,newSkillFreeComments) {
     const self = this;
     if (self.props.skillsModel.ajaxLoading) return;
     if (
-      self.state.newSkillShortName &&
-      self.state.newSkillDomain &&
-      self.state.newSkillType
+     newSkillShortName &&
+      newSkillDomain &&
+     newSkillType
     ) {
       self.props.skillsModel.addSkill(
-        self.state.newSkillType,
-        self.state.newSkillDomain,
-        self.state.newSkillShortName,
-        self.state.newSkillFreeComments,
+       newSkillType,
+        newSkillDomain,
+       newSkillShortName,
+        newSkillFreeComments,
         function() {
           if (!self.props.skillsModel.feedback) {
             NotificationManager.success(
               "",
-              "La compétence " + self.state.newSkillShortName + " a été ajoutée"
+              "La compétence " + newSkillShortName + " a été ajoutée"
             );
           } else {
             NotificationManager.error("", self.props.skillsModel.feedback);
@@ -349,10 +263,10 @@ var RefGpecSkills = createReactClass({
       });
     } else {
       var missingFields = [];
-      if (!self.state.newSkillShortName)
+      if (!newSkillShortName)
         missingFields.push("Nom de la compétence");
-      if (!self.state.newSkillDomain) missingFields.push("Domaine");
-      if (!self.state.newSkillType) missingFields.push("Type");
+      if (!newSkillDomain) missingFields.push("Domaine");
+      if (!newSkillType) missingFields.push("Type");
       self.setState({
         error:
           "Il manque des champs avant de pouvoir ajouter la compétence :\n" +
@@ -365,9 +279,6 @@ var RefGpecSkills = createReactClass({
       //   }, 5000);
       // }, 100);
     }
-
-    event.preventDefault(); // Let's stop this event.
-    event.stopPropagation(); // Really this time.
   },
 
   handleNavigateTab: function(event) {

@@ -39,3 +39,10 @@ select l.level_code,profil_code,count(skill_code)
 from levels l , profils_skills_levels psl
 where l.level_code= psl.level_code
 group by l.level_code,profil_code;
+
+
+create view view_exportCSV_skills as
+select skill_code as code,sd_shortname as Domaine,st_shortname as Type,skill_shortname as Nom,skill_free_comments as Commentaire
+from skills s, skills_domains sd, skills_types st
+where s.sd_code= sd.sd_code and s.st_code= st.st_code
+order by domaine,type,skill_code;

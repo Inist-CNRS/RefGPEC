@@ -8,6 +8,7 @@ var RefGpecSkillsModel = function(options) {
   self.onChanges = [];
   self.feedback = "";
   self.listDomain = {};
+    self.skill_CSV=[];
   self.listprofils_skills_levels = {};
   var erreur = 2;
   axios
@@ -43,6 +44,7 @@ var RefGpecSkillsModel = function(options) {
       console.log("RefGpecSkillsModel error loading data", err);
       erreur += 1;
     });
+self.getSkillsCSV();
 
   self.getdomain();
   self.initializing = erreur !== 0;
@@ -182,6 +184,7 @@ RefGpecSkillsModel.prototype.addSkill = function(
       };
       self.ajaxLoading = false;
       self.getdomain();
+      self.getSkillsCSV();
       self.inform();
       return cb && cb(null);
     })
@@ -208,6 +211,7 @@ RefGpecSkillsModel.prototype.destroy = function(skillId, cb) {
           delete self.listprofils_skills_levels[key];
         }
       }
+        self.getSkillsCSV();
       self.getdomain();
     })
     .catch(function(error) {
@@ -246,6 +250,7 @@ RefGpecSkillsModel.prototype.save = function(skillId, level, cb) {
     .then(function(response) {
       self.skills[skillId] = level;
       self.ajaxLoading = false;
+      self.getSkillsCSV();
       self.inform();
       return cb && cb(null);
     })
@@ -270,4 +275,23 @@ RefGpecSkillsModel.prototype.getlistprofils = function(skillId) {
   }
   return list;
 };
+
+RefGpecSkillsModel.prototype.getSkillsCSV = function() {
+    var self = this;
+    self.skill_CSV = [];
+    axios
+        .get("/api/view_exportcsv_skills")
+        .then(response => {
+            response.data.forEach(item => {
+                self.skill_CSV.push(item);
+
+            });
+            self.inform();
+        })
+        .catch(err => {
+            console.log("RefGpecSkillsModel error loading data", err);
+            self.inform();
+        });
+};
+
 export default RefGpecSkillsModel;
