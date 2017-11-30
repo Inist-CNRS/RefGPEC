@@ -18,7 +18,8 @@ var RefGpecSkills = createReactClass({
       newSkillFreeComments: "",
       error: "",
       champtri: "profil_code",
-      type_tri: true
+      type_tri: true,
+      filtre:"",
     };
   },
   trieprofil(event) {
@@ -31,6 +32,10 @@ var RefGpecSkills = createReactClass({
       this.setState({ champtri: event.target.id, type_tri: true });
     }
   },
+
+    filterList: function(event){
+        this.setState({filtre: event.target.value.toLowerCase()});
+    },
 
   render: function() {
     var self = this;
@@ -46,20 +51,22 @@ var RefGpecSkills = createReactClass({
     let rgSkills = [];
 
     Object.keys(self.props.skillsModel.skills).forEach(function(key) {
-      rgSkills.push(
-        <RefGpecSkill
-          key={key}
-          skillId={key}
-          skillData={self.props.skillsModel.skills[key]}
-          skillsTypesModel={self.props.skillsTypesModel}
-          skillsDomainsModel={self.props.skillsDomainsModel}
-          profillist={self.props.skillsModel.getlistprofils(key)}
-          onProfil={self.handleOpenProfilSkills}
-          onSave={self.handleSave}
-          onDestroy={self.handleDestroy}
-          ajaxLoading={self.props.skillsModel.ajaxLoading}
-        />
-      );
+      if(self.props.skillsModel.skills[key].skill_shortname.toLowerCase().search(self.state.filtre.toLowerCase()) !== -1) {
+          rgSkills.push(
+              <RefGpecSkill
+                  key={key}
+                  skillId={key}
+                  skillData={self.props.skillsModel.skills[key]}
+                  skillsTypesModel={self.props.skillsTypesModel}
+                  skillsDomainsModel={self.props.skillsDomainsModel}
+                  profillist={self.props.skillsModel.getlistprofils(key)}
+                  onProfil={self.handleOpenProfilSkills}
+                  onSave={self.handleSave}
+                  onDestroy={self.handleDestroy}
+                  ajaxLoading={self.props.skillsModel.ajaxLoading}
+              />
+          );
+      }
     });
     if (self.state.type_tri) {
       rgSkills.sort(function(a, b) {
@@ -119,7 +126,7 @@ var RefGpecSkills = createReactClass({
                       modulation
                     </a>.
                   </div>
-              <div className="col-md-6">
+              <div className="col-col-md-pull-10">
                 {(() => {
                     if (Object.keys(self.props.skillsModel.skill_CSV).length !==0) {
                         let date =  new Date().getDate()+ "/"+ new Date().getMonth()+"/"+new Date().getFullYear();
@@ -137,7 +144,15 @@ var RefGpecSkills = createReactClass({
                 })()}
                 </div>
               </div>
+
+
             </div>
+            <div   style={{float: "right", marginBottom: "20px"}}>
+              <i className="fa fa-search fa-3" aria-hidden="true"/>
+              <input style={{width :"230px",fontSize:"larger"}} type="text" placeholder="Rechercher une compétence" onChange={this.filterList}/>
+            </div>
+
+
             <table
               id="skills-list"
               className="table table-striped table-bordered"
