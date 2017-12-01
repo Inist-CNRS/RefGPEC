@@ -164,23 +164,22 @@ var RefGpecLevels = createReactClass({
                 </tr>
               </thead>
               <tbody>
-                {rgLevels}
 
-                {/* FORM USED TO CREATE A NEW LEVEL */}
-                <tr className="form-new-level">
-                  <td>
-                    <a
-                        href=""
-                        className="fa fa-plus-square fa-2x"
-                        role="button"
-                        onClick={this.handleSubmit}
-                        disabled={self.props.levelsModel.ajaxLoading}
-                        title="Ajouter cette modulation"
-                    />
-                  </td>
+              {/* FORM USED TO CREATE A NEW LEVEL */}
+              <tr className="form-new-level">
+                <td>
+                  <a
+                      href=""
+                      className="fa fa-plus-square fa-2x"
+                      role="button"
+                      onClick={this.handleSubmit}
+                      disabled={self.props.levelsModel.ajaxLoading}
+                      title="Ajouter cette modulation"
+                  />
+                </td>
 
-                  <td>
-                    <input
+                <td>
+                  <input
                       className="form-control"
                       type="text"
                       placeholder="Nom court de la modulation"
@@ -189,34 +188,38 @@ var RefGpecLevels = createReactClass({
                       onChange={this.handleChange}
                       onKeyPress={this.handleKeyPress}
                       disabled={self.props.levelsModel.ajaxLoading}
-                    />
-                  </td>
+                  />
+                </td>
 
-                  <td>
+                <td>
                     <textarea
-                      className="form-control"
-                      rows="2"
-                      placeholder="Expliquez en quelque mots la signification de cette modulation de compétence"
-                      data-fieldname="newFreeComment"
-                      value={this.state.newFreeComment}
-                      onChange={this.handleChange}
-                      disabled={self.props.levelsModel.ajaxLoading}
-                    />
-                  </td>
-                  <td>
-                    <input
                         className="form-control"
-                        type="number"
-                        min="1"
-                        max={this.props.levelsModel.max + 1}
-                        placeholder="Niveau de la modulation"
-                        data-fieldname="newNumber"
-                        value={this.state.newNumber}
+                        rows="2"
+                        placeholder="Expliquez en quelque mots la signification de cette modulation de compétence"
+                        data-fieldname="newFreeComment"
+                        value={this.state.newFreeComment}
                         onChange={this.handleChange}
-                        disabled={this.props.levelsModel.ajaxLoading}
+                        disabled={self.props.levelsModel.ajaxLoading}
                     />
-                  </td>
-                </tr>
+                </td>
+                <td>
+                  <input
+                      className="form-control"
+                      type="number"
+                      min="1"
+                      max={this.props.levelsModel.max + 1}
+                      placeholder="Niveau de la modulation"
+                      data-fieldname="newNumber"
+                      value={this.state.newNumber}
+                      onChange={this.handleChange}
+                      disabled={this.props.levelsModel.ajaxLoading}
+                  />
+                </td>
+              </tr>
+              <tr><td colSpan="6" style={{height:"25px"}}></td></tr>
+
+                {rgLevels}
+
               </tbody>
             </table>
 

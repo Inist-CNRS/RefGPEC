@@ -123,8 +123,8 @@ var RefGpecProfil = createReactClass({
                     ));
                     return (
                       <div className="alert alert-info" role="alert">
-                        En supprimant ce profil, vous en dissociez les
-                        compétences suivantes :
+                        Veuillez dissocier ces compétences du profil avant de supprimer le
+                        profil  :
                         <ul>{list}</ul>
                       </div>
                     );
@@ -143,6 +143,7 @@ var RefGpecProfil = createReactClass({
                 <button
                   type="button"
                   onClick={this.handleDestroy}
+                  disabled={Object.keys(self.props.skilllist).length !== 0}
                   className="btn btn-primary"
                 >
                   Supprimer

@@ -191,51 +191,51 @@ var RefGpecProfilsSkills = createReactClass({
                         </tr>
                       </thead>
                       <tbody>
-                        {rgPS}
 
-                        <tr>
-                          <td>
-                            <OverlayTrigger
+                      <tr>
+                          {/*FORM USED TO CREATE A NEW PROFILS_SKILLS_LEVELS */}
+                        <td>
+                          <OverlayTrigger
                               show={null}
                               trigger="focus"
                               data-title="Erreur nouveau profil_Skills"
                               placement="top"
                               overlay={
                                 <Popover id="popover-positioned-top">
-                                  {this.state.error}
+                                    {this.state.error}
                                 </Popover>
                               }
-                            >
-                              <a
+                          >
+                            <a
                                 href=""
                                 onClick={this.handleSubmit}
                                 className="fa fa-plus-square fa-2x"
                                 role="button"
                                 title="Associer la compétence au profil"
-                              />
-                            </OverlayTrigger>
-                          </td>
-                          <td colSpan="2">
-                            <RefGpecSkillsTypeList
+                            />
+                          </OverlayTrigger>
+                        </td>
+                        <td colSpan="2">
+                          <RefGpecSkillsTypeList
                               skillData={self.props.skillsModel}
                               ajaxLoading={self.props.skillsModel.ajaxLoading}
                               data-fieldname="newSkill"
                               onChange={this.handleSkillChange}
                               value={this.state.newSkill}
-                            />
-                          </td>
-                          <td>
-                            <RefGpecLevelslist
+                          />
+                        </td>
+                        <td>
+                          <RefGpecLevelslist
                               skillData={self.props.levelsModel}
                               ajaxLoading={self.props.levelsModel.ajaxLoading}
                               data-fieldname="newLevel"
                               onChange={this.handleLevelChange}
                               value={this.state.newLevel}
-                            />
-                          </td>
-                          <td>
+                          />
+                        </td>
+                        <td>
                             {" "}
-                            <textarea
+                          <textarea
                               className="form-control"
                               rows="1"
                               placeholder="Commentaires libres"
@@ -243,11 +243,14 @@ var RefGpecProfilsSkills = createReactClass({
                               data-fieldname="newFreeComment"
                               onChange={this.handleChangeFreeComm}
                               disabled={
-                                this.props.profilsSkillsModel.ajaxLoading
+                                  this.props.profilsSkillsModel.ajaxLoading
                               }
-                            />
-                          </td>
-                        </tr>
+                          />
+                        </td>
+                      </tr>
+                      <tr><td colSpan="6" style={{height:"25px"}}></td></tr>
+                        {rgPS}
+
                       </tbody>
                     </table>
                     <div
