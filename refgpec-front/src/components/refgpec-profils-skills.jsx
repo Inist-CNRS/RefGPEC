@@ -22,17 +22,17 @@ var RefGpecProfilsSkills = createReactClass({
       newFreeComment: "",
       error: "",
       champtri: "psl_code",
-      type_tri: true
+      type_sort: true
     };
   },
-  trieprofil(event) {
+  Sort(event) {
     if (this.state.champtri === event.target.id) {
       this.setState({
         champtri: event.target.id,
-        type_tri: !this.state.type_tri
+        type_sort: !this.state.type_sort
       });
     } else {
-      this.setState({ champtri: event.target.id, type_tri: true });
+      this.setState({ champtri: event.target.id, type_sort: true });
     }
   },
 
@@ -66,7 +66,7 @@ var RefGpecProfilsSkills = createReactClass({
         />
       );
     });
-    if (self.state.type_tri) {
+    if (self.state.type_sort) {
       rgPS.sort(function(a, b) {
         return a.props.psData[self.state.champtri] >
           b.props.psData[self.state.champtri]
@@ -172,7 +172,7 @@ var RefGpecProfilsSkills = createReactClass({
                             title="Cliquez pour trier par Modulation"
                             role="button"
                             id="level_code"
-                            onClick={this.trieprofil}
+                            onClick={this.Sort}
                             className="profils-skills-col-name"
                           >
                             Modulations{" "}
@@ -182,7 +182,7 @@ var RefGpecProfilsSkills = createReactClass({
                             title="Cliquez pour trier par Commentaire"
                             role="button"
                             id="psl_free_comments"
-                            onClick={this.trieprofil}
+                            onClick={this.Sort}
                             className="profils-skills-col-commentary"
                           >
                             Commentaires libres{" "}

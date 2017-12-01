@@ -62,17 +62,17 @@ var RefGpecSkill = createReactClass({
               <Modal.Body>
                 {(() => {
                     let list = [];
-                    if (Object.keys(self.props.profillist).length !== 0) {
-                        Object.keys(self.props.profillist).forEach(function(
+                    if (Object.keys(self.props.profilList).length !== 0) {
+                        Object.keys(self.props.profilList).forEach(function(
                             profil
                         ) {
                             list.push(
                       <li key={self.state.skillId + profil}><a
                           href="#profils-skills"
-                          id={self.props.profillist[profil].profil_code}
+                          id={self.props.profilList[profil].profil_code}
                           onClick={self.handleOpenProfilSkills}
                       >
-                          { self.props.profillist[profil].profil_shortname
+                          { self.props.profilList[profil].profil_shortname
                           }{" "}
                       </a></li>
                             );
@@ -98,7 +98,7 @@ var RefGpecSkill = createReactClass({
                 <button
                   type="button"
                   onClick={this.handleDestroy}
-                  disabled={Object.keys(self.props.profillist).length !== 0}
+                  disabled={Object.keys(self.props.profilList).length !== 0}
                   className="btn btn-primary"
                 >
                   Supprimer

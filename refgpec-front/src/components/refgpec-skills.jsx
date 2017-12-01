@@ -18,23 +18,23 @@ var RefGpecSkills = createReactClass({
       newSkillFreeComments: "",
       error: "",
       champtri: "profil_code",
-      type_tri: true,
-      filtre:"",
+      type_sort: true,
+      filter:"",
     };
   },
-  trieprofil(event) {
+  Sort(event) {
     if (this.state.champtri === event.target.id) {
       this.setState({
         champtri: event.target.id,
-        type_tri: !this.state.type_tri
+        type_sort: !this.state.type_sort
       });
     } else {
-      this.setState({ champtri: event.target.id, type_tri: true });
+      this.setState({ champtri: event.target.id, type_sort: true });
     }
   },
 
     filterList: function(event){
-        this.setState({filtre: event.target.value.toLowerCase()});
+        this.setState({filter: event.target.value.toLowerCase()});
     },
 
   render: function() {
@@ -51,7 +51,7 @@ var RefGpecSkills = createReactClass({
     let rgSkills = [];
 
     Object.keys(self.props.skillsModel.skills).forEach(function(key) {
-      if(self.props.skillsModel.skills[key].skill_shortname.toLowerCase().search(self.state.filtre.toLowerCase()) !== -1) {
+      if(self.props.skillsModel.skills[key].skill_shortname.toLowerCase().search(self.state.filter.toLowerCase()) !== -1) {
           rgSkills.push(
               <RefGpecSkill
                   key={key}
@@ -59,7 +59,7 @@ var RefGpecSkills = createReactClass({
                   skillData={self.props.skillsModel.skills[key]}
                   skillsTypesModel={self.props.skillsTypesModel}
                   skillsDomainsModel={self.props.skillsDomainsModel}
-                  profillist={self.props.skillsModel.getlistprofils(key)}
+                  profilList={self.props.skillsModel.getListProfils(key)}
                   onProfil={self.handleOpenProfilSkills}
                   onSave={self.handleSave}
                   onDestroy={self.handleDestroy}
@@ -68,7 +68,7 @@ var RefGpecSkills = createReactClass({
           );
       }
     });
-    if (self.state.type_tri) {
+    if (self.state.type_sort) {
       rgSkills.sort(function(a, b) {
         return a.props.skillData[self.state.champtri] >
           b.props.skillData[self.state.champtri]
@@ -128,10 +128,10 @@ var RefGpecSkills = createReactClass({
                   </div>
               <div className="col-col-md-pull-10">
                 {(() => {
-                    if (Object.keys(self.props.skillsModel.skill_CSV).length !==0) {
+                    if (Object.keys(self.props.skillsModel.skillCSV).length !==0) {
                         let date =  new Date().getDate()+ "/"+ new Date().getMonth()+"/"+new Date().getFullYear();
                         return (
-                            <CSVLink  data={self.props.skillsModel.skill_CSV} style={{backgroundColor:"#8dc63f",float: 'left'}}
+                            <CSVLink  data={self.props.skillsModel.skillCSV} style={{backgroundColor:"#8dc63f",float: 'left'}}
                                      title="Cliquez pour télecharger le réferentiel des compétences en csv"
                                      separator={";"}
                                      filename={"Skills_"+date+".csv"}
@@ -164,7 +164,7 @@ var RefGpecSkills = createReactClass({
                     title="Cliquez pour trier par Type"
                     role="button"
                     id="st_code"
-                    onClick={this.trieprofil}
+                    onClick={this.Sort}
                     className="skills-col-type"
                   >
                     Type <i className="fa fa-sort" aria-hidden="true" />
@@ -173,7 +173,7 @@ var RefGpecSkills = createReactClass({
                     title="Cliquez pour trier par Domaine"
                     role="button"
                     id="sd_code"
-                    onClick={this.trieprofil}
+                    onClick={this.Sort}
                     className="skills-col-domain"
                   >
                     Domaine <i className="fa fa-sort" aria-hidden="true" />
@@ -182,7 +182,7 @@ var RefGpecSkills = createReactClass({
                     title="Cliquez pour trier par Nom"
                     role="button"
                     id="skill_shortname"
-                    onClick={this.trieprofil}
+                    onClick={this.Sort}
                     className="skills-col-shortname"
                   >
                     Nom de la compétence{" "}
@@ -192,7 +192,7 @@ var RefGpecSkills = createReactClass({
                     title="Cliquez pour trier par Commentaire"
                     role="button"
                     id="skill_free_comments"
-                    onClick={this.trieprofil}
+                    onClick={this.Sort}
                     className="skills-col-commentary"
                   >
                     Commentaires libres{" "}
@@ -202,7 +202,7 @@ var RefGpecSkills = createReactClass({
                     title="Cliquez pour trier par Code"
                     role="button"
                     id="skill_code"
-                    onClick={this.trieprofil}
+                    onClick={this.Sort}
                     className="skills-col-code"
                   >
                     Code

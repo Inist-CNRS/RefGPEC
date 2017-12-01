@@ -59,19 +59,19 @@ var RefGpecLevel = createReactClass({
               <Modal.Body>
                 {(() => {
                   let list = [];
-                  if (Object.keys(self.props.profillist).length !== 0) {
-                    Object.keys(this.props.profillist).forEach(function(
+                  if (Object.keys(self.props.profilList).length !== 0) {
+                    Object.keys(this.props.profilList).forEach(function(
                       profil
                     ) {
                       list.push(
                         <li key={self.state.level_code + profil}>
                           <a
                             href="#profils-skills"
-                            id={self.props.profillist[profil].profil_code}
+                            id={self.props.profilList[profil].profil_code}
                             onClick={self.handleOpenProfilSkills}
                           >
                             {
-                              self.props.profillist[profil].profil_shortname
+                              self.props.profilList[profil].profil_shortname
                             }{" "}
                           </a>{" "}
                           :
@@ -79,7 +79,7 @@ var RefGpecLevel = createReactClass({
                             {" "}
                             {
                               self.props.nbSkill[
-                                self.props.profillist[profil].profil_code
+                                self.props.profilList[profil].profil_code
                               ]
                             }{" "}
                           </strong>{" "}
@@ -109,7 +109,7 @@ var RefGpecLevel = createReactClass({
                 <button
                   type="button"
                   onClick={this.handleDestroy}
-                  disabled={Object.keys(self.props.profillist).length !== 0}
+                  disabled={Object.keys(self.props.profilList).length !== 0}
                   className="btn btn-primary"
                 >
                   Supprimer
@@ -131,7 +131,7 @@ var RefGpecLevel = createReactClass({
             title={this.GetTitle()}
             readOnly={
               this.state.ajaxLoading ||
-              Object.keys(self.props.profillist).length !== 0
+              Object.keys(self.props.profilList).length !== 0
             }
           />
         </td>
@@ -148,7 +148,7 @@ var RefGpecLevel = createReactClass({
             title={this.GetTitle()}
             readOnly={
               this.state.ajaxLoading ||
-              Object.keys(self.props.profillist).length !== 0
+              Object.keys(self.props.profilList).length !== 0
             }
           />
         </td>
@@ -167,7 +167,7 @@ var RefGpecLevel = createReactClass({
               title={this.GetTitle()}
               disabled={
                   this.state.ajaxLoading ||
-                  Object.keys(self.props.profillist).length !== 0
+                  Object.keys(self.props.profilList).length !== 0
               }
           />
         </td>
@@ -233,7 +233,7 @@ var RefGpecLevel = createReactClass({
   componentDidMount() {},
   shouldComponentUpdate(nextProps, nextState) {
     return (
-      this.state !== nextState || this.props.profillist !== nextProps.profillist
+      this.state !== nextState || this.props.profilList !== nextProps.profilList
     );
   },
 
@@ -244,7 +244,7 @@ var RefGpecLevel = createReactClass({
 
   GetTitle() {
     let title = "";
-    if (Object.keys(this.props.profillist).length !== 0) {
+    if (Object.keys(this.props.profilList).length !== 0) {
       title = "Veuillez dissocier les compétences associées avant de modifier ";
     }
     return title;

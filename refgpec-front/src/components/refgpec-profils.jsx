@@ -27,8 +27,8 @@ var RefGpecProfils = createReactClass({
       newProfilPdfPath: "",
       error: "",
       champtri: "profil_code",
-      type_tri: true,
-        filtre:"",
+      type_sort: true,
+        filter:"",
     };
   },
   close() {
@@ -40,17 +40,17 @@ var RefGpecProfils = createReactClass({
   },
 
     filterList: function(event){
-        this.setState({filtre: event.target.value.toLowerCase()});
+        this.setState({filter: event.target.value.toLowerCase()});
     },
 
-  trieprofil(event) {
+  Sort(event) {
     if (this.state.champtri === event.target.id) {
       this.setState({
         champtri: event.target.id,
-        type_tri: !this.state.type_tri
+        type_sort: !this.state.type_sort
       });
     } else {
-      this.setState({ champtri: event.target.id, type_tri: true });
+      this.setState({ champtri: event.target.id, type_sort: true });
     }
   },
 
@@ -66,7 +66,7 @@ var RefGpecProfils = createReactClass({
     let rgTagList = this.props.profilsModel.listTag;
     let rgProfils = [];
     Object.keys(self.props.profilsModel.profils).forEach(function(key) {
-        if(self.props.profilsModel.profils[key].profil_shortname.toLowerCase().search(self.state.filtre.toLowerCase()) !== -1) {
+        if(self.props.profilsModel.profils[key].profil_shortname.toLowerCase().search(self.state.filter.toLowerCase()) !== -1) {
             rgProfils.push(
                 <RefGpecProfil
                     key={key}
@@ -85,7 +85,7 @@ var RefGpecProfils = createReactClass({
 
 
 
-    if (self.state.type_tri) {
+    if (self.state.type_sort) {
       rgProfils.sort(function(a, b) {
         return a.props.profilData[self.state.champtri] >
           b.props.profilData[self.state.champtri]
@@ -161,7 +161,7 @@ var RefGpecProfils = createReactClass({
                     title="Cliquez pour trier par tag"
                     role="button"
                     id="profil_tag"
-                    onClick={this.trieprofil}
+                    onClick={this.Sort}
                     className="profils-col-tag"
                   >
                     {" "}
@@ -172,7 +172,7 @@ var RefGpecProfils = createReactClass({
                     title="Cliquez pour trier par Nom court"
                     role="button"
                     id="profil_shortname"
-                    onClick={this.trieprofil}
+                    onClick={this.Sort}
                     className="profils-col-title"
                   >
                     Intitulé du profil{" "}
@@ -185,7 +185,7 @@ var RefGpecProfils = createReactClass({
                     title="Cliquez pour trier par Commentaire"
                     role="button"
                     id="profil_free_comments"
-                    onClick={this.trieprofil}
+                    onClick={this.Sort}
                     className="profils-col-commentary"
                   >
                     Commentaires libres{" "}
@@ -195,7 +195,7 @@ var RefGpecProfils = createReactClass({
                     title="Cliquez pour trier par Code"
                     role="button"
                     id="profil_code"
-                    onClick={this.trieprofil}
+                    onClick={this.Sort}
                     className="profils-col-code"
                   >
                     Code <i className="fa fa-sort" aria-hidden="true" />

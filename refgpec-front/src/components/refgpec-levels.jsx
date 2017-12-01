@@ -14,17 +14,18 @@ var RefGpecLevels = createReactClass({
       newFreeComment: "",
       newNumber: "0",
       champtri: "level_code",
-      type_tri: true
+      type_sort: true
     };
   },
-  trieprofil(event) {
+
+  Sort(event) {
     if (this.state.champtri === event.target.id) {
       this.setState({
         champtri: event.target.id,
-        type_tri: !this.state.type_tri
+        type_sort: !this.state.type_sort
       });
     } else {
-      this.setState({ champtri: event.target.id, type_tri: true });
+      this.setState({ champtri: event.target.id, type_sort: true });
     }
   },
 
@@ -40,7 +41,7 @@ var RefGpecLevels = createReactClass({
 
       Object.keys(self.props.levelsModel.levels).forEach(function (key) {
           let nb_skill = {};
-          let liste_profil = self.props.levelsModel.getlistprofils(key);
+          let liste_profil = self.props.levelsModel.getListProfils(key);
           Object.keys(liste_profil).forEach(function (profil) {
               nb_skill[
                   liste_profil[profil].profil_code
@@ -54,7 +55,7 @@ var RefGpecLevels = createReactClass({
                   key={key}
                   levelId={key}
                   levelData={self.props.levelsModel.levels[key]}
-                  profillist={liste_profil}
+                  profilList={liste_profil}
                   nbSkill={nb_skill}
                   max={self.props.levelsModel.max}
                   onSave={self.handleSave}
@@ -74,7 +75,7 @@ var RefGpecLevels = createReactClass({
                       ")"}/>
           );
       });
-    if (self.state.type_tri) {
+    if (self.state.type_sort) {
       rgLevels.sort(function(a, b) {
         return a.props.levelData[self.state.champtri] >
           b.props.levelData[self.state.champtri]
@@ -129,7 +130,7 @@ var RefGpecLevels = createReactClass({
                     title="Cliquez pour trier par Nom court"
                     role="button"
                     id="level_shortname"
-                    onClick={this.trieprofil}
+                    onClick={this.Sort}
                     className="levels-col-shortname"
                   >
                     Nom Court <i
@@ -142,7 +143,7 @@ var RefGpecLevels = createReactClass({
                     title="Cliquez pour trier par Commentaires"
                     role="button"
                     id="level_free_comments"
-                    onClick={this.trieprofil}
+                    onClick={this.Sort}
                     className="levels-col-commentary"
                   >
                     Commentaires <i
@@ -154,7 +155,7 @@ var RefGpecLevels = createReactClass({
                       title="Cliquez pour trier par Niveau"
                       role="button"
                       id="level_number"
-                      onClick={this.trieprofil}
+                      onClick={this.Sort}
                       className="levels-col-number"
                   >
                       {" "}

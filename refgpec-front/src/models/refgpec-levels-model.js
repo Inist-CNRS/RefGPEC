@@ -243,7 +243,7 @@ RefGpecLevelsModel.prototype.save = function(levelId, data, cb) {
   self.inform();
 };
 
-RefGpecLevelsModel.prototype.getlistprofils = function(level_code) {
+RefGpecLevelsModel.prototype.getListProfils = function(level_code) {
   var self = this;
   var list = {};
   for (var key in self.listprofils_skills_levels) {

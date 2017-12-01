@@ -8,7 +8,7 @@ var RefGpecSkillsModel = function(options) {
   self.onChanges = [];
   self.feedback = "";
   self.listDomain = {};
-    self.skill_CSV=[];
+    self.skillCSV=[];
   self.listprofils_skills_levels = {};
   var erreur = 2;
   axios
@@ -265,7 +265,7 @@ RefGpecSkillsModel.prototype.save = function(skillId, level, cb) {
   self.inform();
 };
 
-RefGpecSkillsModel.prototype.getlistprofils = function(skillId) {
+RefGpecSkillsModel.prototype.getListProfils = function(skillId) {
   var self = this;
   var list = [];
   for (var key in self.listprofils_skills_levels) {
@@ -278,12 +278,12 @@ RefGpecSkillsModel.prototype.getlistprofils = function(skillId) {
 
 RefGpecSkillsModel.prototype.getSkillsCSV = function() {
     var self = this;
-    self.skill_CSV = [];
+    self.skillCSV = [];
     axios
         .get("/api/view_exportcsv_skills")
         .then(response => {
             response.data.forEach(item => {
-                self.skill_CSV.push(item);
+                self.skillCSV.push(item);
 
             });
             self.inform();
