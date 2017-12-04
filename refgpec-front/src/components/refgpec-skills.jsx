@@ -94,9 +94,27 @@ var RefGpecSkills = createReactClass({
         <div className="row">
           <div className="col-md-12">
             <div className="panel panel-default">
-              <div className="panel-heading">Référentiel des compétences</div>
+              <div className="panel-heading row" style={{    marginRight: "0px" , marginLeft:"0px"}}>
+                <div className="col-md-6  text center">Référentiel des compétences </div>
+                <div className="col-md-6 text center">
+                  {(() => {
+                      if (Object.keys(self.props.skillsModel.skillCSV).length !==0) {
+                          let date =  new Date().getFullYear() + "-"+new Date().getMonth()+"-"+ new Date().getDate();
+                          return (
+                              <CSVLink  data={self.props.skillsModel.skillCSV} style={{backgroundColor:"#8dc63f"}}
+                                        title="Cliquez pour télecharger le réferentiel des compétences en csv"
+                                        separator={";"}
+                                        filename={"Référentiel des compétences - GPEC - "+date+".csv"}
+                                        className="btn btn-primary"
+                                        target="_blank">
+                                Exporter en CSV
+                              </CSVLink>
+                          );
+                      }
+                  })()}
+                </div>
+              </div>
                   <div className="panel-body">
-                    <div className="col-md-6" style={{borderRight: "#cdcdcd medium solid",borderRightWidth:"1px"}}>
                     Depuis cet onglet il est possible d'administrer le référentiel
                     des compétences.<br />
                     Ces compétences pourront être{" "}
@@ -125,23 +143,8 @@ var RefGpecSkills = createReactClass({
                     >
                       modulation
                     </a>.
-                  </div>
               <div className="col-col-md-pull-10">
-                {(() => {
-                    if (Object.keys(self.props.skillsModel.skillCSV).length !==0) {
-                        let date =  new Date().getFullYear() + "-"+new Date().getMonth()+"-"+ new Date().getDate();
-                        return (
-                            <CSVLink  data={self.props.skillsModel.skillCSV} style={{backgroundColor:"#8dc63f",float: 'left'}}
-                                     title="Cliquez pour télecharger le réferentiel des compétences en csv"
-                                     separator={";"}
-                                     filename={"Référentiel des compétences - GPEC - "+date+".csv"}
-                                     className="btn btn-primary"
-                                     target="_blank">
-                              Exporter en CSV
-                            </CSVLink>
-                        );
-                    }
-                })()}
+
                 </div>
               </div>
 
