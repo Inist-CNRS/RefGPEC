@@ -2,8 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import RefGpecProfil from "./refgpec-profil.jsx";
 import {
-  DropdownButton,
-  MenuItem,
   Modal,
   OverlayTrigger,
   Popover
@@ -191,36 +189,34 @@ var RefGpecProfils = createReactClass({
                     Commentaires libres{" "}
                     <i className="fa fa-sort" aria-hidden="true" />
                   </th>
-                  <th
-                    title="Cliquez pour trier par Code"
-                    role="button"
-                    id="profil_code"
-                    onClick={this.Sort}
-                    className="profils-col-code"
-                  >
-                    Code <i className="fa fa-sort" aria-hidden="true" />
-                  </th>
+
                 </tr>
               </thead>
               <tbody>
 
               {/* FORM USED TO CREATE A NEW PROFIL */}
               <tr className="form-new-profil">
-                <td>
-                  <DropdownButton
-                      id="dropdown-profil"
-                      title=" "
-                      className="btn btn-default btn-sm dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                  >
-                    <MenuItem href="" onClick={this.open}>
-                        {" "}
-                      <span className="fa fa-file-pdf-o" /> Mettre à jour le
-                      PDF du profil{" "}
-                    </MenuItem>
-                  </DropdownButton>
+
+                  <td>
+                    <OverlayTrigger
+                        trigger="focus"
+                        data-title="Erreur nouveau profil"
+                        placement="top"
+                        overlay={
+                          <Popover id="popover-positioned-top">
+                              {this.state.error}
+                          </Popover>
+                        }
+                    >
+                      <a
+                          href=""
+                          className="fa fa-plus-square fa-2x"
+                          role="button"
+                          onClick={this.handleSubmit}
+                          disabled={this.props.profilsModel.ajaxLoading}
+                          title="Ajouter ce profil au référentiel"
+                      />
+                    </OverlayTrigger>
                 </td>
 
                 <td className="text-center">
@@ -327,37 +323,8 @@ var RefGpecProfils = createReactClass({
                         disabled={this.props.profilsModel.ajaxLoading}
                     />
                 </td>
-                <td>
-                  <OverlayTrigger
-                      trigger="focus"
-                      data-title="Erreur nouveau profil"
-                      placement="top"
-                      overlay={
-                        <Popover id="popover-positioned-top">
-                            {this.state.error}
-                        </Popover>
-                      }
-                  >
-                    <a
-                        href=""
-                        className="fa fa-plus-square fa-2x"
-                        role="button"
-                        onClick={this.handleSubmit}
-                        title="Ajouter ce profil au référentiel"
-                    />
-                  </OverlayTrigger>
-                </td>
 
-                  {/*<td id="profils-new-profil"*/}
-                  {/*data-placement="top" data-toggle="popover"*/}
-                  {/*data-trigger="manual" data-title="Erreur nouveau profil"*/}
-                  {/*data-content={this.state.error}*/}
-                  {/*>*/}
-                  {/*<a href="" className="btn fa fa-plus-square fa-2x" role="button"*/}
-                  {/*onClick={this.handleSubmit}*/}
-                  {/*disabled={self.props.profilsModel.ajaxLoading}*/}
-                  {/*title="Ajouter ce profil au référentiel" />*/}
-                  {/*</td>*/}
+
               </tr>
               <tr><td colSpan="6" style={{height:"25px"}}></td></tr>
                 {rgProfils}

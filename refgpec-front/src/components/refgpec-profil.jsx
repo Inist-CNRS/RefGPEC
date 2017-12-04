@@ -298,15 +298,6 @@ var RefGpecProfil = createReactClass({
             readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
           />
         </td>
-        <td>
-          <input
-            className="form-control"
-            type="text"
-            readOnly
-            title={this.state.profil_code}
-            value={this.state.profil_code}
-          />
-        </td>
       </tr>
     );
   },
