@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import RefGpecProfil from "./refgpec-profil.jsx";
+import RefGpecResearchProfil from "./refgpec-research-profil.jsx";
 import {
   Modal,
   OverlayTrigger,
@@ -26,7 +27,7 @@ var RefGpecProfils = createReactClass({
       error: "",
       champtri: "profil_code",
       type_sort: true,
-        filter:"",
+      filter: {SearchProfilTag :"",SearchProfilShortName:""}
     };
   },
   close() {
@@ -38,7 +39,7 @@ var RefGpecProfils = createReactClass({
   },
 
     filterList: function(event){
-        this.setState({filter: event.target.value.toLowerCase()});
+        this.setState({filter:event});
     },
 
   Sort(event) {
@@ -64,7 +65,14 @@ var RefGpecProfils = createReactClass({
     let rgTagList = this.props.profilsModel.listTag;
     let rgProfils = [];
     Object.keys(self.props.profilsModel.profils).forEach(function(key) {
-        if(self.props.profilsModel.profils[key].profil_shortname.toLowerCase().search(self.state.filter.toLowerCase()) !== -1) {
+      let tag ="";
+      if(self.props.profilsModel.profils[key].profil_tag){
+          tag=self.props.profilsModel.profils[key].profil_tag
+      }
+        if(self.props.profilsModel.profils[key].profil_shortname.toLowerCase().search(self.state.filter.SearchProfilShortName.toLowerCase()) !== -1
+        && tag.search(self.state.filter.SearchProfilTag) !== -1
+
+        ){
             rgProfils.push(
                 <RefGpecProfil
                     key={key}
@@ -141,12 +149,7 @@ var RefGpecProfils = createReactClass({
                 </p>
               </div>
             </div>
-
-            <div   style={{float: "right", marginBottom: "20px"}}>
-              <i className="fa fa-search fa-3" aria-hidden="true"/>
-              <input style={{width :"230px",fontSize:"larger"}} type="text" placeholder="Rechercher un Profil" onChange={this.filterList}/>
-            </div>
-
+            
             <table
               id="profils-list"
               className="table table-striped table-bordered"
@@ -326,6 +329,13 @@ var RefGpecProfils = createReactClass({
 
 
               </tr>
+
+              <RefGpecResearchProfil
+                  profilsModel={this.props.profilsModel}
+                  tagList ={rgTagList}
+                  onChange={this.filterList}
+              />
+
               <tr><td colSpan="6" style={{height:"25px"}}></td></tr>
                 {rgProfils}
 

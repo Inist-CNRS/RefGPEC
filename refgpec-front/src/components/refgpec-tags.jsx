@@ -27,6 +27,7 @@ var RefGpecTags = createReactClass({
         options={rgTags}
         onChange={this.handleChange}
         value={self.state.value}
+        promptTextCreator={(label) => "Créer le Tag "+label}
     />
     );
   },
