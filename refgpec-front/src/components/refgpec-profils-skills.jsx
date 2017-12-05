@@ -8,6 +8,7 @@ import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
+import {CSVLink} from 'react-csv';
 var createReactClass = require("create-react-class");
 var RefGpecProfilsSkills = createReactClass({
   displayName: "RefGpecProfilsSkills",
@@ -100,7 +101,30 @@ var RefGpecProfilsSkills = createReactClass({
         <div className="row">
           <div className="col-md-12">
             <div className="panel panel-default">
-              <div className="panel-heading">Profils &amp; Compétences</div>
+              <div className="panel-heading row" style={{    marginRight: "0px" , marginLeft:"0px"}}>
+                <div className="col-md-6  text center">Profils &amp; Compétences </div>
+                <div className="col-md-6 text center">
+                    {(() => {
+                        if (self.state.selectedProfil && self.props.profilsModel.profils[self.state.selectedProfil]) {
+                        if (Object.keys(self.props.profilsSkillsModel.profilsSkillsCSV.length !== 0)) {
+                            let date = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate();
+                            return (
+                                <CSVLink
+                                    data={self.props.profilsSkillsModel.profilsSkillsCSV}
+                                    style={{backgroundColor: "#8dc63f"}}
+                                    title="Cliquez pour télecharger les compétences associées au profil en CSV"
+                                    separator={";"}
+                                    filename={self.props.profilsModel.profils[self.state.selectedProfil].profil_shortname+ "_" + date + ".csv"}
+                                    className="btn btn-primary"
+                                    target="_blank">
+                                  Exporter en CSV
+                                </CSVLink>
+                            );
+                        }
+                    }
+                    })()}
+                </div>
+              </div>
               <div className="panel-body">
                 <button
                   type="button"

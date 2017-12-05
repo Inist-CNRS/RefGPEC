@@ -9,7 +9,7 @@ var RefGpecProfilsSkillsModel = function(options) {
   self.psl = {};
   self.profil = "";
   self.feedback = "";
-
+    self.profilsSkillsCSV=[];
   axios
     .get(
       "/api/profils_skills_levels?order=psl_code.asc,profil_code.asc,level_code.asc"
@@ -158,10 +158,11 @@ RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(
   profil_code,
   cb
 ) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.profil = profil_code;
   self.psl = {};
+ self.getprofilsSkillsCSV(profil_code);
   axios
     .get("/api/profils_skills_levels?profil_code=eq." + profil_code)
     .then(response => {
@@ -208,6 +209,22 @@ RefGpecProfilsSkillsModel.prototype.save = function(pslId, data, cb) {
     });
 
   self.inform();
+};
+RefGpecProfilsSkillsModel.prototype.getprofilsSkillsCSV = function(profil_code) {
+    let self = this;
+    self.profilsSkillsCSV = [];
+    axios
+        .get("/api/view_exportcsv_profilsskills?profil_code=eq."+profil_code+"&order=modulation.desc,nom.asc")
+        .then(response => {
+            response.data.forEach(item => {
+                self.profilsSkillsCSV.push(item);
+            });
+            self.inform();
+        })
+        .catch(err => {
+            console.log("RefGpecSkillsModel error loading data", err);
+            self.inform();
+        });
 };
 
 export default RefGpecProfilsSkillsModel;
