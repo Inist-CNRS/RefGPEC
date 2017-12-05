@@ -1,6 +1,7 @@
 import React from "react";
 import RefGpecSkill from "./refgpec-skill.jsx";
 import RefGpecNewSkill from "./refgpec-new-skill.jsx";
+import RefGpecResearchSkill from "./refgpec-research-skill";
 import {
   NotificationContainer,
   NotificationManager
@@ -19,7 +20,7 @@ var RefGpecSkills = createReactClass({
       error: "",
       champtri: "profil_code",
       type_sort: true,
-      filter:"",
+      filter: {SearchSkillType :"",SearchSkillDomain :"",SearchSkillShortName:""}
     };
   },
   Sort(event) {
@@ -34,7 +35,7 @@ var RefGpecSkills = createReactClass({
   },
 
     filterList: function(event){
-        this.setState({filter: event.target.value.toLowerCase()});
+      this.setState({filter:event});
     },
 
   render: function() {
@@ -49,9 +50,12 @@ var RefGpecSkills = createReactClass({
       return null;
     }
     let rgSkills = [];
-
     Object.keys(self.props.skillsModel.skills).forEach(function(key) {
-      if(self.props.skillsModel.skills[key].skill_shortname.toLowerCase().search(self.state.filter.toLowerCase()) !== -1) {
+      if(self.props.skillsModel.skills[key].skill_shortname.toLowerCase().search(self.state.filter.SearchSkillShortName.toLowerCase()) !== -1
+        && self.props.skillsModel.skills[key].sd_code.toLowerCase().search(self.state.filter.SearchSkillDomain.toLowerCase()) !== -1
+        && self.props.skillsModel.skills[key].st_code.toLowerCase().search(self.state.filter.SearchSkillType.toLowerCase()) !== -1
+
+      ) {
           rgSkills.push(
               <RefGpecSkill
                   key={key}
@@ -150,12 +154,6 @@ var RefGpecSkills = createReactClass({
 
 
             </div>
-            <div   style={{float: "right", marginBottom: "20px"}}>
-              <i className="fa fa-search fa-3" aria-hidden="true"/>
-              <input style={{width :"230px",fontSize:"larger"}} type="text" placeholder="Rechercher une compétence" onChange={this.filterList}/>
-            </div>
-
-
             <table
               id="skills-list"
               className="table table-striped table-bordered"
@@ -220,6 +218,13 @@ var RefGpecSkills = createReactClass({
                   skillsDomainsModel={self.props.skillsDomainsModel}
                   onSubmit = {self.handleAddSkills}
                 />
+
+              <RefGpecResearchSkill
+                  skillsModel={self.props.skillsModel}
+                  skillsTypesModel={self.props.skillsTypesModel}
+                  skillsDomainsModel={self.props.skillsDomainsModel}
+                  onChange={this.filterList}
+              />
 
               <tr><td colSpan="6" style={{height:"25px"}}></td></tr>
 
