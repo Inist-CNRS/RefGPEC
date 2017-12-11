@@ -6,6 +6,7 @@ import RefGpecProfilsSkills from "./refgpec-profils-skills.jsx";
 import RefGpecProfils from "./refgpec-profils.jsx";
 import RefGpecSkills from "./refgpec-skills.jsx";
 import RefGpecLevels from "./refgpec-levels.jsx";
+import RefGpecDomains from "./refgpec-domains.jsx";
 import logo from "../img/gpec_40x40.png";
 import "react-notifications/lib/notifications.css";
 var createReactClass = require("create-react-class");
@@ -21,7 +22,7 @@ var RefGpecHome = createReactClass({
     document.location.hash = tabId;
 
     // cleanup hidden tabs
-    ["index", "profils-skills", "profils", "skills", "levels"].forEach(function(
+    ["index", "profils-skills", "profils", "skills", "levels","domains"].forEach(function(
       tabName
     ) {
       if (document.getElementById(tabName) && tabName !== tabId) {
@@ -110,7 +111,16 @@ var RefGpecHome = createReactClass({
       />
     );
 
-    return (
+      refgpecTabs.push(
+          <RefGpecDomains
+              key="6"
+              skillsDomainsModel={this.props.skillsDomainsModel}
+              onTabChange={this.doTabChange}
+          />
+      );
+
+
+      return (
       <div id="content">
         {/* ONGLETS POUR LA NAVIGATION */}
         <nav className="navbar navbar-default navbar-fixed-top">
@@ -178,6 +188,17 @@ var RefGpecHome = createReactClass({
                     onClick={this.handleTabChange}
                   >
                     Modulations des compétences
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                      data-toggle="tab"
+                      className="nav-link"
+                      id="tab-domains"
+                      href="#domains"
+                      onClick={this.handleTabChange}
+                  >
+                    Gestion des Domaines
                   </a>
                 </li>
               </ul>

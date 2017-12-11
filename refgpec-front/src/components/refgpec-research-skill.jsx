@@ -1,6 +1,6 @@
 import React from "react";
 import RefGpecTypes from "./refgpec-types.jsx";
-import RefGpecDomains from "./refgpec-domains";
+import RefGpecDomains from "./refgpec-list-domains";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 
 const WAIT_INTERVAL = 500;

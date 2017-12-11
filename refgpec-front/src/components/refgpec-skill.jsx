@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, DropdownButton, MenuItem } from "react-bootstrap";
 import RefGpecTypes from "./refgpec-types.jsx";
-import RefGpecDomains from "./refgpec-domains";
+import RefGpecDomains from "./refgpec-list-domains";
 var createReactClass = require("create-react-class");
 var RefGpecSkill = createReactClass({
   displayName: "RefGpecSkill",

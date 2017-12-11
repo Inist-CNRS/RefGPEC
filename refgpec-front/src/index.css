@@ -66,9 +66,16 @@ footer.gpec-footer hr {
 .levels-col-code {
   width: 70px;
 }
-.skills-col-action {
-  width: 30px;
+.domains-col-action {
+   width: 30px;
+ }
+.domains-col-code {
+  width: 150px;
 }
+.domains-col-shortname {
+  width: 150px;
+}
+
 .skills-col-type {
   width: 150px;
 }
