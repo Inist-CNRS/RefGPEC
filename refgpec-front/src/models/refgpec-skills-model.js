@@ -98,8 +98,7 @@ RefGpecSkillsModel.prototype.inform = function() {
 RefGpecSkillsModel.prototype.getmax = function (codes) {
     let max = 2;
     codes.forEach(function(key,i) {
-        let number =parseInt(codes[i].split("-")[1],10);
-
+        let number =parseInt(codes[i].split("-")[3],10);
         if(max<number){
             max = number;
         }
@@ -113,23 +112,23 @@ RefGpecSkillsModel.prototype.addSkill = function(
   skill_free_comments,
   cb
 ) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = "";
   // filter other skills family to have a correct numeric id
-  var codes = Object.keys(self.skills).filter(function(elt) {
-    return elt.indexOf("c-" + st_code + "-" + sd_code) === 0;
+    let codes = Object.keys(self.skills).filter(function(elt) {
+    return elt.indexOf("c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase()) === 0;
   });
-  var skill_code = "c-" + st_code + "-" + sd_code + "-1";
+    let skill_code = "c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase() + "-1";
   // add +1 to the id if more than one skill in this type/domain
   codes.sort();
   if (codes.length > 0) {
       let lastCodeSplitted = self.getmax(codes);
     skill_code =
       "c-" +
-      st_code +
+      st_code.toLowerCase() +
       "-" +
-      sd_code +
+      sd_code.toLowerCase() +
       "-" +
       (parseInt(lastCodeSplitted + 1 ,10));
   }
