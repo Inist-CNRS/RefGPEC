@@ -1,18 +1,11 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import RefGpecProfil from "./refgpec-profil.jsx";
 import RefGpecResearchProfil from "./refgpec-research-profil.jsx";
-import {
-  Modal,
-  OverlayTrigger,
-  Popover
-} from "react-bootstrap";
-import RefGpecTags from "./refgpec-tags";
+import RefGpecNewProfil from'./refgpec-new-profil.jsx'
 import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
-import RefGpecPDF from "./refgpec-pdf";
 var createReactClass = require("create-react-class");
 var RefGpecProfils = createReactClass({
   displayName: "RefGpecProfils",
@@ -83,7 +76,6 @@ var RefGpecProfils = createReactClass({
                     skilllist={self.props.profilsModel.getlistskills(key)}
                     onSave={self.handleSave}
                     onDestroy={self.handleDestroy}
-                    ajaxLoading={self.props.profilsModel.ajaxLoading}
                 />
             );
         }
@@ -198,137 +190,10 @@ var RefGpecProfils = createReactClass({
               <tbody>
 
               {/* FORM USED TO CREATE A NEW PROFIL */}
-              <tr className="form-new-profil">
-
-                  <td>
-                    <OverlayTrigger
-                        trigger="focus"
-                        data-title="Erreur nouveau profil"
-                        placement="top"
-                        overlay={
-                          <Popover id="popover-positioned-top">
-                              {this.state.error}
-                          </Popover>
-                        }
-                    >
-                      <a
-                          href=""
-                          className="fa fa-plus-square fa-2x"
-                          role="button"
-                          onClick={this.handleSubmit}
-                          disabled={this.props.profilsModel.ajaxLoading}
-                          title="Ajouter ce profil au référentiel"
-                      />
-                    </OverlayTrigger>
-                </td>
-
-                <td className="text-center">
-                  <RefGpecPDF
-                      skillData={this.state.newProfilPdfPath}
-                      onClick={this.open}
-                  />
-                    {/* Modal d'upload du fichier PDF du profil de poste */}
-                  <Modal
-                      show={this.state.showModal}
-                      onHide={this.close}
-                      id="profils-file-modal"
-                  >
-                    <form>
-                      <Modal.Header closeButton>
-                        <h4 className="modal-title">
-                          Indiquez l'URL du PDF du profil de poste
-                        </h4>
-                      </Modal.Header>
-                      <Modal.Body>
-                          {(() => {
-                              if (this.state.newProfilPdfPath) {
-                                  return (
-                                      <p>
-                                        <input
-                                            id="URL_PDF_NEW"
-                                            ref="formUrlPdf"
-                                            className="form-control"
-                                            pattern="^(https?:\/\/)[a-zA-Z0-9-_\.]+(:\d{1,4}\/)?[a-zA-Z0-9-_?!_~%!$&'()*+,;=:@\\/]+\.pdf$"
-                                            type="url"
-                                            placeholder={this.state.newProfilPdfPath}
-                                        />
-                                      </p>
-                                  );
-                              } else {
-                                  return (
-                                      <p>
-                                        <input
-                                            id="URL_PDF_NEW"
-                                            ref="formUrlPdf"
-                                            className="form-control"
-                                            type="url"
-                                            pattern="^(https?:\/\/)[a-zA-Z0-9-_\.]+(:\d{1,4}\/)?[a-zA-Z0-9-_?!_~%!$&'()*+,;=:@\\/]+\.pdf$"
-                                            placeholder="Lien du PDF du profil"
-                                        />
-                                      </p>
-                                  );
-                              }
-                          })()}
-                        <div className="alert alert-info" role="alert" />
-                      </Modal.Body>
-                      <Modal.Footer>
-                        <button
-                            onClick={this.close}
-                            type="button"
-                            className="btn btn-default"
-                            data-dismiss="modal"
-                        >
-                          Fermer
-                        </button>
-                        <button
-                            type="submit"
-                            onClick={this.handleChangePDF}
-                            className="btn btn-primary"
-                        >
-                          Valider
-                        </button>
-                      </Modal.Footer>
-                    </form>
-                  </Modal>
-                </td>
-
-                <td>
-                  <RefGpecTags
-                      skillData={rgTagList}
-                      ajaxLoading={self.props.profilsModel.ajaxLoading}
-                      data-fieldname="newProfilTag"
-                      onChange={this.handleTagChange}
-                      onBlur={this.handleTagChange}
-                      value={this.state.newProfilTag}
-                  />
-                </td>
-                <td colSpan="2">
-                  <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Intitulé du profil"
-                      value={this.state.newProfilShortName}
-                      data-fieldname="newProfilShortName"
-                      onChange={this.handleChange}
-                      onKeyPress={this.handleKeyPress}
-                      disabled={this.props.profilsModel.ajaxLoading}
-                  />
-                </td>
-
-                <td>
-                    <textarea
-                        className="form-control"
-                        rows="1"
-                        placeholder="Commentaires libres"
-                        value={this.state.newProfilFreeComments}
-                        data-fieldname="newProfilFreeComments"
-                        onChange={this.handleChange}
-                        disabled={this.props.profilsModel.ajaxLoading}
-                    />
-                </td>
-
-
-              </tr>
+             <RefGpecNewProfil
+                 profilsModel={this.props.profilsModel}
+                 onSubmit = {self.handleSubmit}
+                 />
 
               <RefGpecResearchProfil
                   profilsModel={this.props.profilsModel}
@@ -377,9 +242,6 @@ var RefGpecProfils = createReactClass({
     });
   },
 
-  handleTagChange: function(event) {
-    this.setState({ newProfilTag: event });
-  },
   handleNavigateTab: function(event) {
       window.scrollTo(0, 0);
     this.props.onTabChange(event.target.getAttribute("href"));
@@ -397,53 +259,28 @@ var RefGpecProfils = createReactClass({
     this.setState(newState);
   },
 
-  handleSubmit: function(event) {
+  handleSubmit: function(newProfilTag,newProfilShortName,newProfilFreeComments,newProfilPdfPath) {
     const self = this;
     if (self.props.profilsModel.ajaxLoading) return;
-    if (self.state.newProfilShortName) {
+
       self.props.profilsModel.addProfil(
-        self.state.newProfilTag,
-        self.state.newProfilShortName,
-        self.state.newProfilFreeComments,
-        self.state.newProfilPdfPath,
+        newProfilTag,
+        newProfilShortName,
+        newProfilFreeComments,
+        newProfilPdfPath,
         function() {
           if (!self.props.profilsModel.feedback) {
               self.props.profilsModel.updateVue();
               self.props.profilsSkillsModel.updateVue();
             NotificationManager.success(
               "",
-              "le profil " + self.state.newProfilShortName + " a été ajouté"
+              "le profil " + newProfilShortName + " a été ajouté"
             );
           } else {
             NotificationManager.error("", self.props.profilsModel.feedback);
           }
         }
       );
-      self.setState({
-        newProfilTag: "",
-        newProfilShortName: "",
-        newProfilFreeComments: "",
-        newProfilPdfPath: "",
-        error: ""
-      });
-    } else {
-      var missingFields = [];
-      if (!self.state.newProfilShortName) missingFields.push("Nom du profil");
-      self.setState({
-        error:
-          "Il manque des champs avant de pouvoir ajouter le profil :\n" +
-          missingFields.join(", ")
-      });
-      // setTimeout(function () {
-      //   $('#profils-new-profil').popover(self.state.error ? 'show' : 'hide');
-      //   setTimeout(function () {
-      //     $('#profils-new-profil').popover('hide');
-      //   }, 5000);
-      // }, 100);
-    }
-
-    event.preventDefault(); // Let's stop this event.
-    event.stopPropagation(); // Really this time.
   },
 
   handleDestroy: function(profilId) {
@@ -463,28 +300,10 @@ var RefGpecProfils = createReactClass({
     });
   },
 
-  handleChangePDF: function(event) {
-    let url = document.getElementById("URL_PDF_NEW");
-    if (!url.validity.patternMismatch) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.close();
-      this.setState({
-        newProfilPdfPath: ReactDOM.findDOMNode(this.refs.formUrlPdf).value
-      });
-    } else {
-      url.oninvalid = function(event) {
-        event.target.setCustomValidity(
-          "L'URL doit commencer par http ou https et contenir un .pdf"
-        );
-      };
-    }
-  },
-
-  componentDidMount() {},
-
   missingField() {
     return !this.state.newProfilShortName || !this.state.newProfilTag;
-  }
+  },
+
+
 });
 export default RefGpecProfils;

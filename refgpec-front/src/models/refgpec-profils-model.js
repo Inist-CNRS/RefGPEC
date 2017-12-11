@@ -61,7 +61,6 @@ RefGpecProfilsModel.prototype.gettag = function() {
 
 RefGpecProfilsModel.prototype.updateVue = function() {
   var self = this;
-  self.profils = {};
   self.listprofils_skills_levels = {};
     self.gettag();
   axios
@@ -82,7 +81,6 @@ RefGpecProfilsModel.prototype.updateVue = function() {
   axios
     .get("/api/view_profils_nb_skills")
     .then(response => {
-      self.profils = {};
       response.data.forEach(item => {
         self.profils[item.profil_code] = item;
       });

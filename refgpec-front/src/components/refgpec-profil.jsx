@@ -150,27 +150,6 @@ var RefGpecProfil = createReactClass({
                 </button>
               </Modal.Footer>
             </Modal>
-            {/*<button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>*/}
-            {/*<ul className="dropdown-menu">*/}
-            {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}
-            {/*<a href=""*/}
-            {/*onClick={this.handleOpenProfilSkills}>*/}
-            {/*<span className="glyphicon glyphicon-list"></span> Associer des compétences à ce profil*/}
-            {/*</a>*/}
-            {/*</li>*/}
-            {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}
-            {/*<a href=""*/}
-            {/*onClick={this.handleUpdatePDF}>*/}
-            {/*<span className="fa fa-file-pdf-o"></span> Mettre à jour le PDF du profil*/}
-            {/*</a>*/}
-            {/*</li>*/}
-            {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}
-            {/*<a href=""*/}
-            {/*onClick={this.handleDestroy}>*/}
-            {/*<span className="glyphicon glyphicon-remove"></span> Supprimer le profil*/}
-            {/*</a>*/}
-            {/*</li>*/}
-            {/*</ul>*/}
           </div>
         </td>
 
@@ -247,10 +226,10 @@ var RefGpecProfil = createReactClass({
         <td>
           <RefGpecTags
             skillData={this.props.tagList}
-            ajaxLoading={this.props.ajaxLoading}
+
             data-fieldname="tag_code"
             value={this.state.profil_tag}
-            readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
+            readOnly={this.state.ajaxLoading}
             onChange={this.handleChangeTag}
             onBlur={this.handleSubmit}
           />
@@ -264,7 +243,7 @@ var RefGpecProfil = createReactClass({
             data-fieldname="profil_shortname"
             onChange={this.handleChangeProfil}
             onBlur={this.handleSubmit}
-            readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
+            readOnly={this.state.ajaxLoading}
           />
         </td>
         <td>
@@ -295,7 +274,7 @@ var RefGpecProfil = createReactClass({
             data-fieldname="profil_free_comments"
             onChange={this.handleChangeFreeComm}
             onBlur={this.handleSubmit}
-            readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
+            readOnly={ this.state.ajaxLoading}
           />
         </td>
       </tr>
@@ -311,19 +290,8 @@ var RefGpecProfil = createReactClass({
           self.props.profilsSkillsModel.inform();
         })
       );
-      setTimeout(() => {
-        this.setState({
-          mustBeSaved: false,
-          ajaxLoading: false
-        });
-      }, 500);
-
-      // // display or hide a nice popover to show the error
-      // const self = this;
-      // self.setState({ error: 'saving... demo error msg' });
-      // setTimeout(function () {
-      //   $('#' + self.state.profil_code).popover(self.state.error ? 'show' : 'hide');
-      // }, 100);
+      self.setState(
+            { ajaxLoading: false,mustBeSaved:false })
     }
   },
 
@@ -352,7 +320,7 @@ var RefGpecProfil = createReactClass({
     event.preventDefault(); // Let's stop this event.
     event.stopPropagation(); // Really this time.
       this.closedeleteModal();
-    if (this.props.ajaxLoading) return;
+    if (this.state.ajaxLoading) return;
 
     this.props.onDestroy(this.state.profil_code);
   },

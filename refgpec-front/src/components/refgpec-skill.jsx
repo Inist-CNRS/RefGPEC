@@ -8,11 +8,11 @@ var RefGpecSkill = createReactClass({
 
   getInitialState: function() {
     return {
-      skillId: this.props.skillId,
-      skillType: this.props.skillData.st_code,
-      skillDomain: this.props.skillData.sd_code,
-      skillShortName: this.props.skillData.skill_shortname,
-      skillFreeComments: this.props.skillData.skill_free_comments,
+      skill_code: this.props.skillId,
+      st_code: this.props.skillData.st_code,
+      sd_code: this.props.skillData.sd_code,
+      skill_shortname: this.props.skillData.skill_shortname,
+      skill_free_comments: this.props.skillData.skill_free_comments,
       mustBeSaved: false,
       error: "",
       deleteModal: false,
@@ -31,7 +31,7 @@ var RefGpecSkill = createReactClass({
       let self = this;
     return (
       <tr
-        id={this.state.skillId}
+        id={this.state.skill_code}
         data-placement="top"
         data-toggle="popover"
         data-trigger="manual"
@@ -56,7 +56,7 @@ var RefGpecSkill = createReactClass({
               <Modal.Header closeButton>
                 <h4 className="modal-title">
                   Voulez-vous vraiment supprimer la compétence{" "}
-                  <b>{this.state.skillShortName}</b> ?
+                  <b>{this.state.skill_shortname}</b> ?
                 </h4>
               </Modal.Header>
               <Modal.Body>
@@ -67,7 +67,7 @@ var RefGpecSkill = createReactClass({
                             profil
                         ) {
                             list.push(
-                      <li key={self.state.skillId + profil}><a
+                      <li key={self.state.skill_code + profil}><a
                           href="#profils-skills"
                           id={self.props.profilList[profil].profil_code}
                           onClick={self.handleOpenProfilSkills}
@@ -129,9 +129,9 @@ var RefGpecSkill = createReactClass({
         <td>
           <RefGpecTypes
             skillData={this.props.skillsTypesModel}
-            data-fieldname="SkillType"
+            data-fieldname="st_code"
             readOnly="readonly"
-            value={this.state.skillType}
+            value={this.state.st_code}
             onChange={this.handleChange}
             disabled="disabled"
           />
@@ -140,9 +140,9 @@ var RefGpecSkill = createReactClass({
         <td>
           <RefGpecDomains
             skillData={this.props.skillsDomainsModel}
-            data-fieldname="SkillDomain"
+            data-fieldname="sd_code"
             readOnly="readonly"
-            value={this.state.skillDomain}
+            value={this.state.sd_code}
             onChange={this.handleChange}
             disabled="disabled"
           />
@@ -152,8 +152,8 @@ var RefGpecSkill = createReactClass({
             className="form-control"
             type="text"
             placeholder="Nom de la compétence"
-            value={this.state.skillShortName}
-            data-fieldname="skillShortName"
+            value={this.state.skill_shortname}
+            data-fieldname="skill_shortname"
             onChange={this.handleChangeSkill}
             onBlur={this.handleSubmit}
             readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
@@ -164,8 +164,8 @@ var RefGpecSkill = createReactClass({
             className="form-control"
             rows="1"
             placeholder="Commentaires libres"
-            value={this.state.skillFreeComments || ""}
-            data-fieldname="skillFreeComments"
+            value={this.state.skill_free_comments || ""}
+            data-fieldname="skill_free_comments"
             onChange={this.handleChangeComm}
             onBlur={this.handleSubmit}
             readOnly={this.state.ajaxLoading}
@@ -176,8 +176,8 @@ var RefGpecSkill = createReactClass({
             className="form-control"
             type="text"
             readOnly
-            title={this.state.skillId}
-            value={this.state.skillId}
+            title={this.state.skill_code}
+            value={this.state.skill_code}
           />
         </td>
       </tr>
@@ -190,7 +190,7 @@ var RefGpecSkill = createReactClass({
     if (self.state.mustBeSaved) {
       self.setState(
         { ajaxLoading: true },
-        self.props.onSave(self.state.skillId, self.state)
+        self.props.onSave(self.state.skill_code, self.state)
       );
       setTimeout(() => {
         this.setState({
@@ -202,11 +202,11 @@ var RefGpecSkill = createReactClass({
   },
 
   handleChangeSkill: function(event) {
-    this.setState({ skillShortName: event.target.value });
+    this.setState({ skill_shortname: event.target.value });
     this.setState({ mustBeSaved: true });
   },
   handleChangeComm: function(event) {
-    this.setState({ skillFreeComments: event.target.value });
+    this.setState({ skill_free_comments: event.target.value });
     this.setState({ mustBeSaved: true });
   },
 
@@ -216,7 +216,7 @@ var RefGpecSkill = createReactClass({
 
     if (this.props.ajaxLoading) return;
 
-    this.props.onDestroy(this.state.skillId);
+    this.props.onDestroy(this.state.skill_code);
   },
 
     handleOpenProfilSkills: function(event) {

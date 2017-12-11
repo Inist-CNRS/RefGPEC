@@ -49,39 +49,7 @@ self.getSkillsCSV();
   self.getdomain();
   self.initializing = erreur !== 0;
   self.inform();
-  /*
 
-      // fake data for debug
-    self.skills = {
-      "c-s-lang-1": {
-        skillType:      "s",
-        skillDomain:    "lang",
-        skillShortName: "Anglais",
-        skillFreeComments: "Anglais, écrit, oral, tout confondu"
-      },
-      "c-sf-info-1": {
-        skillType:      "sf",
-        skillDomain:    "info",
-        skillShortName: "Langage de programmation",
-        skillFreeComments: ""
-      },
-      "c-sf-info-2": {
-        skillType:      "sf",
-        skillDomain:    "info",
-        skillShortName: "Elasticsearch",
-        skillFreeComments: ""
-      },
-      "c-sf-geadmin-1": {
-        skillType:      "sf",
-        skillDomain:    "geadmin",
-        skillShortName: "Elaboration et suivi budgétaire",
-        skillFreeComments: ""
-      },
-    };
-    self.initializing = false;
-    self.inform();
-  }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
-*/
 };
 
 RefGpecSkillsModel.prototype.getdomain = function() {
@@ -235,20 +203,20 @@ RefGpecSkillsModel.prototype.destroy = function(skillId, cb) {
     });
 };
 
-RefGpecSkillsModel.prototype.save = function(skillId, level, cb) {
+RefGpecSkillsModel.prototype.save = function(skillId, skillstate, cb) {
   var self = this;
   self.ajaxLoading = true;
   self.feedback = "";
   axios
     .patch("/api/skills?skill_code=eq." + skillId, {
       skill_code: skillId,
-      skill_shortname: level.skillShortName,
-      skill_free_comments: level.skillFreeComments,
-      sd_code: level.skillDomain,
-      st_code: level.skillType
+      skill_shortname: skillstate.skill_shortname,
+      skill_free_comments: skillstate.skill_free_comments,
+      sd_code: skillstate.sd_code,
+      st_code: skillstate.st_code
     })
     .then(function(response) {
-      self.skills[skillId] = level;
+      self.skills[skillId] = skillstate;
       self.ajaxLoading = false;
       self.getSkillsCSV();
       self.inform();

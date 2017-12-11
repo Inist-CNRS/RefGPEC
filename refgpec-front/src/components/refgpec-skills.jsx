@@ -315,6 +315,7 @@ var RefGpecSkills = createReactClass({
     let self = this;
     self.props.skillsModel.destroy(skillId, function() {
       if (!self.props.skillsModel.feedback) {
+
         NotificationManager.success(
           "",
           "La compétence " + skillId + " a été supprimée"
@@ -332,6 +333,8 @@ var RefGpecSkills = createReactClass({
 
     this.props.skillsModel.save(skillId, SkillState, function() {
       if (!self.props.skillsModel.feedback) {
+          self.props.skillsModel.updateVue();
+          self.props.profilsSkillsModel.updateVue();
         NotificationManager.success(
           "",
           "La compétence " + skillId + " a été modifiée"

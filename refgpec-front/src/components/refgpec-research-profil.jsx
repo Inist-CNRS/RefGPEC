@@ -88,5 +88,7 @@ var RefGpecResearchProfil = createReactClass({
     componentWillMount() {
         this.timer = null;
     },
+
+
 });
 export default RefGpecResearchProfil;
