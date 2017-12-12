@@ -111,7 +111,7 @@ var RefGpecProfilsSkills = createReactClass({
                             return (
                                 <CSVLink
                                     data={self.props.profilsSkillsModel.profilsSkillsCSV}
-                                    style={{backgroundColor: "#8dc63f"}}
+                                    style={{backgroundColor: "#8dc63f",float:"right"}}
                                     title="Cliquez pour télecharger les compétences associées au profil en CSV"
                                     separator={";"}
                                     filename={self.props.profilsModel.profils[self.state.selectedProfil].profil_shortname+ "_" + date + ".csv"}

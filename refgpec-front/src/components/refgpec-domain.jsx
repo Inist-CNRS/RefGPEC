@@ -1,7 +1,5 @@
 import React from "react";
 import { Modal, DropdownButton, MenuItem } from "react-bootstrap";
-import RefGpecTypes from "./refgpec-types.jsx";
-import RefGpecDomains from "./refgpec-list-domains";
 var createReactClass = require("create-react-class");
 var RefGpecDomain = createReactClass({
     displayName: "RefGpecDomain",
@@ -36,9 +34,9 @@ var RefGpecDomain = createReactClass({
                 data-content={this.state.error}
             >
                 {/* ACTION MENU */}
-                <td>
+                <td style={{textAlign:"center"}}>
                     <div className="btn-group">
-                        <DropdownButton id="dropdown-skill" title=" " aria-expanded="false">
+                        <DropdownButton id="dropdown-domain" title=" " aria-expanded="false">
                             <MenuItem href="" onClick={this.opendeleteModal}>
                                 {" "}
                                 <span className="glyphicon glyphicon-remove" /> Supprimer le Domaine{" "}
@@ -47,7 +45,7 @@ var RefGpecDomain = createReactClass({
                         <Modal
                             show={this.state.deleteModal}
                             onHide={this.closedeleteModal}
-                            id="profils-file-modal"
+                            id="domains-file-modal"
                         >
                             <Modal.Header closeButton>
                                 <h4 className="modal-title">
@@ -56,31 +54,7 @@ var RefGpecDomain = createReactClass({
                                 </h4>
                             </Modal.Header>
                             <Modal.Body>
-                                {(() => {
-                                    let list = [];
-                                    if (Object.keys(self.props.skillList).length !== 0) {
-                                        Object.keys(self.props.skillList).forEach(function(
-                                            skill
-                                        ) {
-                                            list.push(
-                                                <li key={self.state.sd_code + skill}><a
-                                                    href="#profils-skills"
-                                                    id={self.props.skillList[skill].skill_code}
-                                                    onClick={self.handleOpenProfilSkills}
-                                                >
-                                                    { self.props.skillList[skill].skill_shortname
-                                                    }{" "}
-                                                </a></li>
-                                            );
-                                        });
-                                        return (
-                                            <div className="alert alert-info" role="alert">
-                                                Veuillez dissocier ce Domaine des compétences suivantes :
-                                                <ul>{list}</ul>
-                                            </div>
-                                        );
-                                    }
-                                })()}
+
                             </Modal.Body>
                             <Modal.Footer>
                                 <button

@@ -32,7 +32,7 @@ var RefGpecNewSkill = createReactClass({
     return (
 
               <tr className="form-new-skill">
-                <td>
+                <td style={{textAlign:"center"}}>
                   <OverlayTrigger
                       trigger="focus"
                       data-title="Erreur nouvelle compétence"

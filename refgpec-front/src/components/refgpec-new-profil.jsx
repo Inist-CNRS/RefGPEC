@@ -45,7 +45,7 @@ var RefGpecNewProfil = createReactClass({
                 );
         return (
                             <tr className="form-new-profil">
-                                <td>
+                                <td style={{textAlign:"center"}}>
                                     <OverlayTrigger
                                         trigger="focus"
                                         data-title="Erreur nouveau profil"

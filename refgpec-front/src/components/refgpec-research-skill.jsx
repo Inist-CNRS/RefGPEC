@@ -33,7 +33,7 @@ var RefGpecResearchSkill = createReactClass({
         return (
 
             <tr className="form-new-skill">
-                <td>
+                <td  style= {{width: "87px",textAlign:"center"}}>
                     <OverlayTrigger
                         trigger="focus"
                         placement="top"
@@ -50,7 +50,7 @@ var RefGpecResearchSkill = createReactClass({
                             title="Rechercher dans le référentiel"/>
                     </OverlayTrigger>
                 </td>
-                <td>
+                <td style= {{width: "260px"}}>
                     <RefGpecTypes
                         skillData={self.props.skillsTypesModel}
                         ajaxLoading={self.props.skillsTypesModel.ajaxLoading}
@@ -59,7 +59,7 @@ var RefGpecResearchSkill = createReactClass({
                         value={this.state.SearchSkillType}
                     />
                 </td>
-                <td>
+                <td  style= {{width: "291px"}}>
                     <RefGpecDomains
                         skillData={self.props.skillsDomainsModel}
                         ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
@@ -68,17 +68,20 @@ var RefGpecResearchSkill = createReactClass({
                         value={this.state.SearchSkillDomain}
                     />
                 </td>
-                <td>
-                    <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Nom de la compétence à rechercher"
-                        value={this.state.SearchSkillShortName}
-                        data-fieldname="SearchSkillShortName"
-                        onChange={this.handleChange}
-                        onKeyDown={this.handleKeyDown}
-                        disabled={this.props.skillsModel.ajaxLoading}
-                    />
+                <td >
+                    <div className="input-group">
+                        <span style={{ cursor: "pointer"}} onClick={this.resetSearch} className="input-group-addon"><i className="fa fa-times fa-fw"></i></span>
+                        <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Nom de la compétence à rechercher"
+                            value={this.state.SearchSkillShortName}
+                            data-fieldname="SearchSkillShortName"
+                            onChange={this.handleChange}
+                            onKeyDown={this.handleKeyDown}
+                            disabled={this.props.skillsModel.ajaxLoading}
+                        />
+                    </div>
                 </td>
             </tr>
         );
@@ -108,6 +111,10 @@ var RefGpecResearchSkill = createReactClass({
         this.props.onChange(this.state);
     },
 
+    resetSearch() {
+        this.setState({SearchSkillShortName: ""});
+        this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+    },
     componentWillMount() {
         this.timer = null;
     },

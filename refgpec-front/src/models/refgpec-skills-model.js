@@ -135,7 +135,7 @@ RefGpecSkillsModel.prototype.addSkill = function(
 
   axios
     .post("/api/skills", {
-      skill_code: skill_code,
+      skill_code: "c-s-inist-04",
       skill_shortname: skill_shortname,
       skill_free_comments: skill_free_comments,
       sd_code: sd_code,
@@ -158,6 +158,7 @@ RefGpecSkillsModel.prototype.addSkill = function(
     .catch(function(error) {
       self.feedback =
         "Une erreur a été rencontrée lors de l'ajout dans la base de donnée";
+      console.log(error.response);
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);

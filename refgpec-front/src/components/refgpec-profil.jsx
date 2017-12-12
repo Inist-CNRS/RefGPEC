@@ -69,7 +69,7 @@ var RefGpecProfil = createReactClass({
         data-content={this.state.error}
       >
         {/* ACTION MENU */}
-        <td>
+        <td style={{textAlign:"center"}}>
           <div className="btn-group">
             <DropdownButton
               id="dropdown-profil"
@@ -154,7 +154,7 @@ var RefGpecProfil = createReactClass({
         </td>
 
         {/* INPUT FORMS */}
-        <td className="text-center">
+        <td className="text-center" >
           <RefGpecPDF
             skillData={this.state.profil_pdf_path}
             onClick={self.open}

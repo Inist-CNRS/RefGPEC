@@ -34,25 +34,22 @@ footer.gpec-footer hr {
   width: 30px;
 }
 .profils-col-action {
-  width: 30px;
+  width: 60px;
 }
 .profils-col-file {
   width: 60px;
 }
 .profils-col-tag {
-  width: 120px;
-}
-.profils-col-title {
-  width: 350px;
-}
-.profils-col-stats {
-  width: 200px;
-}
-.profils-col-commentary {
   width: 170px;
 }
-.profils-col-code {
-  width: 150px;
+.profils-col-title {
+  width: 620px;
+}
+.profils-col-stats {
+  width: 50px;
+}
+.profils-col-commentary {
+  width: 320px;
 }
 .levels-col-action {
   width: 30px;
@@ -70,17 +67,22 @@ footer.gpec-footer hr {
    width: 30px;
  }
 .domains-col-code {
-  width: 150px;
+  width: 500px;
 }
 .domains-col-shortname {
-  width: 150px;
+  width: 750px;
 }
-
+.skills-col-action {
+  width: 30px;
+}
 .skills-col-type {
   width: 150px;
 }
 .skills-col-commentary{
   width: 200px;
+}
+.skills-col-shortname {
+  width: 300px;
 }
 .skills-col-domain {
   width: 150px;

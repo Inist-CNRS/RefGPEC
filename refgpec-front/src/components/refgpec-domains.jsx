@@ -75,7 +75,7 @@ let RefGpecDomains = createReactClass({
             });
         }
         return (
-            // MODULATIONS DES COMPETENCES
+            // MODULATIONS DES DOMAINES
             <div id="domains">
                 <div className="row">
                     <div className="col-md-12">
@@ -91,7 +91,7 @@ let RefGpecDomains = createReactClass({
                                         className="nav-link"
                                         href="#skills"
                                     >
-                                        atribuer à chaques compétences
+                                        atribuer à chaque compétence
                                     </a>.
                                 </p>
                             </div>

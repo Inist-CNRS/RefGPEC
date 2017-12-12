@@ -113,7 +113,7 @@ var RefGpecLevels = createReactClass({
                     className="nav-link"
                     href="#profils-skills"
                   >
-                    associer à chaques compétences
+                    associer à chaque compétence
                   </a>.
                 </p>
               </div>

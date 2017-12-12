@@ -105,7 +105,7 @@ var RefGpecSkills = createReactClass({
                       if (Object.keys(self.props.skillsModel.skillCSV).length !==0) {
                           let date =  new Date().getFullYear() + "-"+new Date().getMonth()+"-"+ new Date().getDate();
                           return (
-                              <CSVLink  data={self.props.skillsModel.skillCSV} style={{backgroundColor:"#8dc63f"}}
+                              <CSVLink  data={self.props.skillsModel.skillCSV} style={{backgroundColor:"#8dc63f",float:"right"}}
                                         title="Cliquez pour télecharger le réferentiel des compétences en csv"
                                         separator={";"}
                                         filename={"Référentiel des compétences - GPEC - "+date+".csv"}
@@ -154,6 +154,19 @@ var RefGpecSkills = createReactClass({
 
 
             </div>
+            <table
+                id="skills-list"
+                className="table table-striped table-bordered"
+            >
+              <tbody>
+            <RefGpecResearchSkill
+                skillsModel={self.props.skillsModel}
+                skillsTypesModel={self.props.skillsTypesModel}
+                skillsDomainsModel={self.props.skillsDomainsModel}
+                onChange={this.filterList}
+            />
+              </tbody>
+            </table>
             <table
               id="skills-list"
               className="table table-striped table-bordered"
@@ -218,13 +231,6 @@ var RefGpecSkills = createReactClass({
                   skillsDomainsModel={self.props.skillsDomainsModel}
                   onSubmit = {self.handleAddSkills}
                 />
-
-              <RefGpecResearchSkill
-                  skillsModel={self.props.skillsModel}
-                  skillsTypesModel={self.props.skillsTypesModel}
-                  skillsDomainsModel={self.props.skillsDomainsModel}
-                  onChange={this.filterList}
-              />
 
               <tr><td colSpan="6" style={{height:"25px"}}></td></tr>
 

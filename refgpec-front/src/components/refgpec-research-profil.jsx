@@ -28,7 +28,7 @@ var RefGpecResearchProfil = createReactClass({
         return (
 
             <tr className="form-research-profil">
-                <td>
+                <td  style= {{width: "93px",textAlign:"center"}}>
 
                         <i
                             className="fa fa-search fa-3"
@@ -48,8 +48,10 @@ var RefGpecResearchProfil = createReactClass({
 
                 </td>
 
-                <td colSpan="4">
-                    <input
+                <td colSpan="4" width="300px">
+                <div className="input-group">
+                                        <span style={{ cursor: "pointer"}} onClick={this.resetSearch} className="input-group-addon"><i className="fa fa-times fa-fw"></i></span>
+                                        <input
                         className="form-control"
                         type="text"
                         placeholder="Nom du profil à rechercher"
@@ -59,8 +61,9 @@ var RefGpecResearchProfil = createReactClass({
                         onKeyDown={this.handleKeyDown}
                         disabled={this.props.profilsModel.ajaxLoading}
                     />
-                </td>
-            </tr>
+                                      </div>
+                                  </td>
+                              </tr>
         );
     },
 
@@ -84,7 +87,10 @@ var RefGpecResearchProfil = createReactClass({
     triggerChange() {
         this.props.onChange(this.state);
     },
-
+    resetSearch() {
+        this.setState({SearchProfilShortName: ""});
+        this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+    },
     componentWillMount() {
         this.timer = null;
     },

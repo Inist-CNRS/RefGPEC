@@ -39,7 +39,7 @@ var RefGpecSkill = createReactClass({
         data-content={this.state.error}
       >
         {/* ACTION MENU */}
-        <td>
+        <td style={{textAlign:"center"}}>
           <div className="btn-group">
             <DropdownButton id="dropdown-skill" title=" " aria-expanded="false">
               <MenuItem href="" onClick={this.opendeleteModal}>
