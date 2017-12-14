@@ -9,6 +9,7 @@ import {
   NotificationManager
 } from "react-notifications";
 import {CSVLink} from 'react-csv';
+import RefGpecPDF from './refgpec-pdf.jsx';
 var createReactClass = require("create-react-class");
 var RefGpecProfilsSkills = createReactClass({
   displayName: "RefGpecProfilsSkills",
@@ -126,12 +127,19 @@ var RefGpecProfilsSkills = createReactClass({
                 </div>
               </div>
               <div className="panel-body">
-                <button
-                  type="button"
-                  className={layoutBtnClasses}
-                  title="Basculer l'affichage profil/compétences horizontalement et verticalement"
-                  onClick={this.handleSwitchLayout}
-                />
+                {(() => {
+             if(this.state.PDF_path){
+               return(
+                   <button
+                       type="button"
+                       className="pull-right fa fa-file-pdf-o "
+                       title="Ouvrir le PDF dans une nouvelle fenêtre"
+                       onClick={this.handleOpenPDF}
+                       style={{fontSize:"40px"}}
+                   />
+                   );
+                  }
+                })()}
 
                 <p>
                   Depuis cet onglet il est possible d'associer à chaque profil
@@ -295,19 +303,6 @@ var RefGpecProfilsSkills = createReactClass({
                 </div>
               </div>
 
-              {/* PROFILS ET COMPETENCES : ZONE PDF PREVIEW */}
-              <div className={layoutColClasses}>
-                <div
-                  className="embed-responsive embed-responsive-4by3"
-                  style={{ height: "1200px" }}
-                >
-                  <iframe
-                    title="pdf-preview"
-                    className="embed-responsive-item"
-                    src={this.state.PDF_path}
-                  />
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -443,12 +438,8 @@ var RefGpecProfilsSkills = createReactClass({
     this.props.onTabChange(event.target.getAttribute("href"));
   },
 
-  handleSwitchLayout: function(event) {
-    if (this.state.layout === "vertical") {
-      this.setState({ layout: "horizontal" });
-    } else {
-      this.setState({ layout: "vertical" });
-    }
+  handleOpenPDF: function(event){
+      window.open(this.state.PDF_path, 'newwindow', 'width=720,height=480');
   },
 
   componentDidUpdate() {},
