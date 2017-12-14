@@ -26,7 +26,8 @@
     "react-dom": "^15.6.2",
     "react-notifications": "^1.4.3",
     "react-scripts": "1.0.14",
-    "react-select": "^1.1.0"
+    "react-select": "^1.1.0",
+    "react-select-plus": "^1.0.0-rc.10.patch1"
   },
   "scripts": {
     "start": "react-scripts start",

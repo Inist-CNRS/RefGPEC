@@ -1,5 +1,6 @@
 import React from "react";
-import RefGpecSkillTypeList from "./refgpec-skill-type-list.jsx";
+import 'react-select-plus/dist/react-select-plus.css';
+import Select from 'react-select-plus';
 var createReactClass = require("create-react-class");
 var RefGpecSkillsTypesList = createReactClass({
   displayName: "RefGpecSkillsTypesList",
@@ -13,53 +14,40 @@ var RefGpecSkillsTypesList = createReactClass({
   },
 
   render: function() {
-    var self = this;
-    let rgskill = [];
-    let rgDomain = this.props.skillData.listDomain;
+      let self =this;
+      let ops = [];
+      let rgDomain = this.props.skillData.listDomain;
+      Object.keys(rgDomain).forEach(function(dom) {
+          let option = [];
+          Object.keys(self.props.skillData.skills).forEach(function(key) {
+                  if (self.props.skillData.skills[key].sd_code === dom) {
+                    option.push({
+                        label: self.props.skillData.skills[key].skill_shortname,
+                        value: self.props.skillData.skills[key].skill_code
+                    })
+                  }
+              });
+          ops.push({
+              label: rgDomain[dom].sd_shortname,options:option});
 
-    Object.keys(rgDomain).forEach(function(dom) {
-      var listoption = [];
-      rgskill.push(
-        <optgroup key={dom} label={rgDomain[dom].sd_shortname}>
-          {(() => {
-            Object.keys(self.props.skillData.skills).forEach(function(key) {
-              if (self.props.skillData.skills[key].sd_code === dom) {
-                listoption.push(
-                  <RefGpecSkillTypeList
-                    key={key}
-                    profil_code={key}
-                    skillData={self.props.skillData.skills[key]}
-                    ajaxLoading={self.props.skillData.ajaxLoading}
-                  />
-                );
-              }
-            });
-            return listoption;
-          })()}
-        </optgroup>
-      );
-    });
+          });
 
     return (
-      <select
-        className="form-control"
-        value={self.props.value}
-        onChange={this.handleChange}
-        readOnly={this.props.readOnly}
-        disabled={this.props.disabled}
-      >
-        <option />
-        {rgskill}
-      </select>
+        <Select
+            onChange={this.handleChange}
+            options={ops}
+            placeholder="Selectionnez une compétence"
+            value={this.props.value} />
     );
   },
 
   handleChange: function(event) {
-    this.props.onChange(event.target.value);
+      if(!event){
+          this.props.onChange("");
+      }else{
+          this.props.onChange(event.value);
+          }
   },
 
-  handleDestroy: function(event) {},
-
-  componentDidMount() {}
 });
 export default RefGpecSkillsTypesList;
