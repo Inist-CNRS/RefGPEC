@@ -20,7 +20,8 @@ var RefGpecSkills = createReactClass({
       error: "",
       champtri: "profil_code",
       type_sort: true,
-      filter: {SearchSkillType :"",SearchSkillDomain :"",SearchSkillShortName:""}
+      filter: {SearchSkillType :"",SearchSkillDomain :"",SearchSkillShortName:""},
+      lastSkillAdd :[]
     };
   },
   Sort(event) {
@@ -50,13 +51,14 @@ var RefGpecSkills = createReactClass({
       return null;
     }
     let rgSkills = [];
-    Object.keys(self.props.skillsModel.skills).forEach(function(key) {
+    let skillsadd= [];
+    Object.keys(self.props.skillsModel.skills).forEach(function(key,i) {
       if(self.props.skillsModel.skills[key].skill_shortname.toLowerCase().search(self.state.filter.SearchSkillShortName.toLowerCase()) !== -1
         && self.props.skillsModel.skills[key].sd_code.toLowerCase().search(self.state.filter.SearchSkillDomain.toLowerCase()) !== -1
         && self.props.skillsModel.skills[key].st_code.toLowerCase().search(self.state.filter.SearchSkillType.toLowerCase()) !== -1
 
       ) {
-          rgSkills.push(
+        let skill =
               <RefGpecSkill
                   key={key}
                   skillId={key}
@@ -68,10 +70,17 @@ var RefGpecSkills = createReactClass({
                   onSave={self.handleSave}
                   onDestroy={self.handleDestroy}
                   ajaxLoading={self.props.skillsModel.ajaxLoading}
-              />
-          );
+              />;
+
+          if(self.props.skillsModel.lastSkillAdd.indexOf(self.props.skillsModel.skills[key].skill_code)!== -1){
+              skillsadd.push(i);
+          }
+          rgSkills.push(skill);
       }
     });
+
+
+
     if (self.state.type_sort) {
       rgSkills.sort(function(a, b) {
         return a.props.skillData[self.state.champtri] >
@@ -92,7 +101,11 @@ var RefGpecSkills = createReactClass({
             ? -1
             : 0;
       });
-    }
+}
+      Object.keys(skillsadd).forEach(function(key) {
+          rgSkills.unshift((rgSkills.splice(skillsadd[key], 1)[0]));
+      });
+
     return (
       <div id="skills">
         <div className="row">
@@ -291,8 +304,9 @@ var RefGpecSkills = createReactClass({
         newSkillDomain: "",
         newSkillShortName: "",
         newSkillFreeComments: "",
-        error: ""
+        error: "",
       });
+
     } else {
       var missingFields = [];
       if (!newSkillShortName)

@@ -9,6 +9,7 @@ var RefGpecSkillsModel = function(options) {
   self.feedback = "";
   self.listDomain = {};
     self.skillCSV=[];
+    self.lastSkillAdd =[];
   self.listprofils_skills_levels = {};
   var erreur = 2;
   axios
@@ -135,7 +136,7 @@ RefGpecSkillsModel.prototype.addSkill = function(
 
   axios
     .post("/api/skills", {
-      skill_code: "c-s-inist-04",
+      skill_code: skill_code,
       skill_shortname: skill_shortname,
       skill_free_comments: skill_free_comments,
       sd_code: sd_code,
@@ -152,6 +153,7 @@ RefGpecSkillsModel.prototype.addSkill = function(
       self.ajaxLoading = false;
       self.getdomain();
       self.getSkillsCSV();
+        self.lastSkillAdd.push(skill_code);
       self.inform();
       return cb && cb(null);
     })
