@@ -1,6 +1,7 @@
 import React from "react";
 import RefGpecTags from "./refgpec-tags.jsx";
-
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 const WAIT_INTERVAL = 500;
 const ENTER_KEY = 13;
 var createReactClass = require("create-react-class");
@@ -24,6 +25,12 @@ var RefGpecResearchProfil = createReactClass({
         ) {
             return null;
         }
+        let rgTags = [];
+
+            Object.keys(self.props.tagList).forEach(function(key) {
+              rgTags.push({value:self.props.tagList[key].profil_tag,label:self.props.tagList[key].profil_tag}
+              );
+            });
 
         return (
 
@@ -37,15 +44,17 @@ var RefGpecResearchProfil = createReactClass({
                             title="Rechercher un profil"/>
                 </td>
                    <td colSpan="2">
-                    <RefGpecTags
-                        skillData={this.props.tagList}
-                        ajaxLoading={this.props.profilsModel.ajaxLoading}
-                        data-fieldname="SearchProfilTag"
-                        onChange={this.handleTagChange}
-                        onBlur={this.handleTagChange}
-                        value={this.state.SearchProfilTag}
-                    />
-
+                   <Select
+                           clearable={true}
+                           multi={false}
+                           simpleValue
+                           options={rgTags}
+                           onChange={this.handleTagChange}
+                           data-fieldname="SearchProfilTag"
+                           value={this.state.SearchProfilTag}
+                           promptTextCreator={(label) => "Créer le Tag "+label}
+                            clearable ={true}
+                       />
                 </td>
 
                 <td colSpan="4" width="300px">
@@ -68,7 +77,11 @@ var RefGpecResearchProfil = createReactClass({
     },
 
     handleTagChange: function(event) {
-        this.setState({ SearchProfilTag: event });
+    if(event){
+      this.setState({ SearchProfilTag: event });
+    }else {
+          this.setState({ SearchProfilTag: "" });
+    }
         this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
     },
 
