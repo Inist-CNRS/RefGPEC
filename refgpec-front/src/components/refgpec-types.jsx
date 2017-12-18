@@ -14,15 +14,14 @@ var RefGpecTypes = createReactClass({
   render: function() {
     var self = this;
     let rgTypes = [];
-      let color=[];
-    Object.keys(self.props.skillData.st).forEach(function(key,i) {
-      if(i===0){
-          color[key] = "rgb(204,153, 102)";
-
-      }else if (i===1){
-          color[key] = "rgb(204, 51, 255)";
-      }else {
-          color[key] = "rgb(255, 153, 153)";
+    let color = [];
+    Object.keys(self.props.skillData.st).forEach(function(key, i) {
+      if (i === 0) {
+        color[key] = "rgb(204,153, 102)";
+      } else if (i === 1) {
+        color[key] = "rgb(204, 51, 255)";
+      } else {
+        color[key] = "rgb(255, 153, 153)";
       }
 
       rgTypes.push(
@@ -31,14 +30,15 @@ var RefGpecTypes = createReactClass({
           st_code={key}
           skillData={self.props.skillData.st[key]}
           ajaxLoading={self.props.skillData.ajaxLoading}
-        />)
+        />
+      );
     });
 
     return (
       <select
         className="form-control"
         value={self.props.value}
-        style={{ borderColor: color[self.props.value] ,borderWidth :3 }}
+        style={{ borderColor: color[self.props.value], borderWidth: 3 }}
         onChange={self.handleChange}
         readOnly={self.props.readOnly}
         disabled={this.props.disabled}

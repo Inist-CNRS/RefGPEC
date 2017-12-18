@@ -12,9 +12,7 @@ var RefGpecTag = createReactClass({
   },
 
   render: function() {
-    return (
-      <option value={this.state.tag_code}>{this.state.tag_code}</option>
-    );
+    return <option value={this.state.tag_code}>{this.state.tag_code}</option>;
   },
 
   componentDidMount() {},

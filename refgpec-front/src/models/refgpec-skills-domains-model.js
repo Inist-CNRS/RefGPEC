@@ -25,7 +25,6 @@ var RefGpecSkillsDomainsModel = function(options) {
     .catch(err => {
       console.log("RefGpecSkillsTypesModel error loading data", err);
     });
-
 };
 
 RefGpecSkillsDomainsModel.prototype.subscribe = function(onChange) {
@@ -33,9 +32,9 @@ RefGpecSkillsDomainsModel.prototype.subscribe = function(onChange) {
 };
 
 RefGpecSkillsDomainsModel.prototype.getListSkills = function(sd_code) {
-    let self = this;
-    let list = {};
-    return list;
+  let self = this;
+  let list = {};
+  return list;
 };
 
 RefGpecSkillsDomainsModel.prototype.inform = function() {

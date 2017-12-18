@@ -6,7 +6,7 @@ import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
-import {CSVLink} from 'react-csv';
+import { CSVLink } from "react-csv";
 var createReactClass = require("create-react-class");
 var RefGpecSkills = createReactClass({
   displayName: "RefGpecSkills",
@@ -20,8 +20,12 @@ var RefGpecSkills = createReactClass({
       error: "",
       champtri: "profil_code",
       type_sort: true,
-      filter: {SearchSkillType :"",SearchSkillDomain :"",SearchSkillShortName:""},
-      lastSkillAdd :[]
+      filter: {
+        SearchSkillType: "",
+        SearchSkillDomain: "",
+        SearchSkillShortName: ""
+      },
+      lastSkillAdd: []
     };
   },
   Sort(event) {
@@ -35,9 +39,9 @@ var RefGpecSkills = createReactClass({
     }
   },
 
-    filterList: function(event){
-      this.setState({filter:event});
-    },
+  filterList: function(event) {
+    this.setState({ filter: event });
+  },
 
   render: function() {
     var self = this;
@@ -51,38 +55,47 @@ var RefGpecSkills = createReactClass({
       return null;
     }
     let rgSkills = [];
-    let skillsadd= [];
-    Object.keys(self.props.skillsModel.skills).forEach(function(key,i) {
-      if(self.props.skillsModel.skills[key].skill_shortname.toLowerCase().search(self.state.filter.SearchSkillShortName.toLowerCase()) !== -1
-        && self.props.skillsModel.skills[key].sd_code.toLowerCase().search(self.state.filter.SearchSkillDomain.toLowerCase()) !== -1
-        && self.props.skillsModel.skills[key].st_code.toLowerCase().search(self.state.filter.SearchSkillType.toLowerCase()) !== -1
-
+    let skillsadd = [];
+    Object.keys(self.props.skillsModel.skills).forEach(function(key, i) {
+      if (
+        self.props.skillsModel.skills[key].skill_shortname
+          .toLowerCase()
+          .search(self.state.filter.SearchSkillShortName.toLowerCase()) !==
+          -1 &&
+        self.props.skillsModel.skills[key].sd_code
+          .toLowerCase()
+          .search(self.state.filter.SearchSkillDomain.toLowerCase()) !== -1 &&
+        self.props.skillsModel.skills[key].st_code
+          .toLowerCase()
+          .search(self.state.filter.SearchSkillType.toLowerCase()) !== -1
       ) {
-        let skill =
-              <RefGpecSkill
-                  key={key}
-                  skillId={key}
-                  skillData={self.props.skillsModel.skills[key]}
-                  skillsTypesModel={self.props.skillsTypesModel}
-                  skillsDomainsModel={self.props.skillsDomainsModel}
-                  profilList={self.props.skillsModel.getListProfils(key)}
-                  onProfil={self.handleOpenProfilSkills}
-                  onSave={self.handleSave}
-                  onDestroy={self.handleDestroy}
-                  ajaxLoading={self.props.skillsModel.ajaxLoading}
-              />;
+        let skill = (
+          <RefGpecSkill
+            key={key}
+            skillId={key}
+            skillData={self.props.skillsModel.skills[key]}
+            skillsTypesModel={self.props.skillsTypesModel}
+            skillsDomainsModel={self.props.skillsDomainsModel}
+            profilList={self.props.skillsModel.getListProfils(key)}
+            onProfil={self.handleOpenProfilSkills}
+            onSave={self.handleSave}
+            onDestroy={self.handleDestroy}
+            ajaxLoading={self.props.skillsModel.ajaxLoading}
+          />
+        );
 
-
-              // get list of just added skills to be able to put it in top of the long list
-          // so that the user can see the skill he just added
-          if(self.props.skillsModel.lastSkillAdd.indexOf(self.props.skillsModel.skills[key].skill_code)!== -1){
-              skillsadd.push(i);
-          }
-          rgSkills.push(skill);
+        // get list of just added skills to be able to put it in top of the long list
+        // so that the user can see the skill he just added
+        if (
+          self.props.skillsModel.lastSkillAdd.indexOf(
+            self.props.skillsModel.skills[key].skill_code
+          ) !== -1
+        ) {
+          skillsadd.push(i);
+        }
+        rgSkills.push(skill);
       }
     });
-
-
 
     if (self.state.type_sort) {
       rgSkills.sort(function(a, b) {
@@ -104,85 +117,101 @@ var RefGpecSkills = createReactClass({
             ? -1
             : 0;
       });
+    }
 
-}// once the big list is sorted, we extract "just added skills" from the list
-      // and we add it at the first position (top of the list)
-      Object.keys(skillsadd).forEach(function(key) {
-          rgSkills.unshift((rgSkills.splice(skillsadd[key], 1)[0]));
-      });
+    // once the big list is sorted, we extract "just added skills" from the list
+    // and we add it at the first position (top of the list)
+    Object.keys(skillsadd).forEach(function(key) {
+      rgSkills.unshift(rgSkills.splice(skillsadd[key], 1)[0]);
+    });
 
     return (
       <div id="skills">
         <div className="row">
           <div className="col-md-12">
             <div className="panel panel-default">
-              <div className="panel-heading row" style={{    marginRight: "0px" , marginLeft:"0px"}}>
-                <div className="col-md-6  text center">Référentiel des compétences </div>
+              <div
+                className="panel-heading row"
+                style={{ marginRight: "0px", marginLeft: "0px" }}
+              >
+                <div className="col-md-6  text center">
+                  Référentiel des compétences{" "}
+                </div>
                 <div className="col-md-6 text center">
                   {(() => {
-                      if (Object.keys(self.props.skillsModel.skillCSV).length !==0) {
-                          let date =  new Date().getFullYear() + "-"+new Date().getMonth()+"-"+ new Date().getDate();
-                          return (
-                              <CSVLink  data={self.props.skillsModel.skillCSV} style={{backgroundColor:"#8dc63f",float:"right"}}
-                                        title="Cliquez pour télecharger le réferentiel des compétences en csv"
-                                        separator={";"}
-                                        filename={"Référentiel des compétences - GPEC - "+date+".csv"}
-                                        className="btn btn-primary"
-                                        target="_blank">
-                                Exporter en CSV
-                              </CSVLink>
-                          );
-                      }
+                    if (
+                      Object.keys(self.props.skillsModel.skillCSV).length !== 0
+                    ) {
+                      let date =
+                        new Date().getFullYear() +
+                        "-" +
+                        new Date().getMonth() +
+                        "-" +
+                        new Date().getDate();
+                      return (
+                        <CSVLink
+                          data={self.props.skillsModel.skillCSV}
+                          style={{ backgroundColor: "#8dc63f", float: "right" }}
+                          title="Cliquez pour télecharger le réferentiel des compétences en csv"
+                          separator={";"}
+                          filename={
+                            "Référentiel des compétences - GPEC - " +
+                            date +
+                            ".csv"
+                          }
+                          className="btn btn-primary"
+                          target="_blank"
+                        >
+                          Exporter en CSV
+                        </CSVLink>
+                      );
+                    }
                   })()}
                 </div>
               </div>
-                  <div className="panel-body">
-                    Depuis cet onglet il est possible d'administrer le référentiel
-                    des compétences.<br />
-                    Ces compétences pourront être{" "}
-                    <a
-                        data-toggle="tab"
-                        className="nav-link"
-                        href="#profils-skills"
-                        onClick={this.handleNavigateTab}
-                    >
-                      associées
-                    </a>{" "}
-                    aux différents{" "}
-                    <a
-                        data-toggle="tab"
-                        className="nav-link"
-                        href="#profils"
-                        onClick={this.handleNavigateTab}
-                    >
-                      profils
-                    </a>{" "}
-                    en leur associant une{" "}
-                    <a
-                        data-toggle="tab"
-                        href="#levels"
-                        onClick={this.handleNavigateTab}
-                    >
-                      modulation
-                    </a>.
-              <div className="col-col-md-pull-10">
-
-                </div>
+              <div className="panel-body">
+                Depuis cet onglet il est possible d'administrer le référentiel
+                des compétences.<br />
+                Ces compétences pourront être{" "}
+                <a
+                  data-toggle="tab"
+                  className="nav-link"
+                  href="#profils-skills"
+                  onClick={this.handleNavigateTab}
+                >
+                  associées
+                </a>{" "}
+                aux différents{" "}
+                <a
+                  data-toggle="tab"
+                  className="nav-link"
+                  href="#profils"
+                  onClick={this.handleNavigateTab}
+                >
+                  profils
+                </a>{" "}
+                en leur associant une{" "}
+                <a
+                  data-toggle="tab"
+                  href="#levels"
+                  onClick={this.handleNavigateTab}
+                >
+                  modulation
+                </a>.
+                <div className="col-col-md-pull-10" />
               </div>
-
-
             </div>
             <table
-                id="skills-list"
-                className="table table-striped table-bordered"
+              id="skills-list"
+              className="table table-striped table-bordered"
             >
               <tbody>
-            <RefGpecResearchSkill
-                skillsModel={self.props.skillsModel}
-                skillsTypesModel={self.props.skillsTypesModel}
-                skillsDomainsModel={self.props.skillsDomainsModel}
-                onChange={this.filterList}
-            />
+                <RefGpecResearchSkill
+                  skillsModel={self.props.skillsModel}
+                  skillsTypesModel={self.props.skillsTypesModel}
+                  skillsDomainsModel={self.props.skillsDomainsModel}
+                  onChange={this.filterList}
+                />
               </tbody>
             </table>
             <table
@@ -242,19 +271,19 @@ var RefGpecSkills = createReactClass({
                 </tr>
               </thead>
               <tbody>
-              {/* FORM USED TO CREATE A NEW SKILL */}
-              <RefGpecNewSkill
+                {/* FORM USED TO CREATE A NEW SKILL */}
+                <RefGpecNewSkill
                   skillsModel={self.props.skillsModel}
                   skillsTypesModel={self.props.skillsTypesModel}
                   skillsDomainsModel={self.props.skillsDomainsModel}
-                  onSubmit = {self.handleAddSkills}
+                  onSubmit={self.handleAddSkills}
                 />
 
-              <tr><td colSpan="6" style={{height:"25px"}}></td></tr>
+                <tr>
+                  <td colSpan="6" style={{ height: "25px" }} />
+                </tr>
 
                 {rgSkills}
-
-
               </tbody>
             </table>
 
@@ -277,20 +306,19 @@ var RefGpecSkills = createReactClass({
     );
   },
 
-
-
-  handleAddSkills: function(newSkillType,newSkillDomain,newSkillShortName,newSkillFreeComments) {
+  handleAddSkills: function(
+    newSkillType,
+    newSkillDomain,
+    newSkillShortName,
+    newSkillFreeComments
+  ) {
     const self = this;
     if (self.props.skillsModel.ajaxLoading) return;
-    if (
-     newSkillShortName &&
-      newSkillDomain &&
-     newSkillType
-    ) {
+    if (newSkillShortName && newSkillDomain && newSkillType) {
       self.props.skillsModel.addSkill(
-       newSkillType,
+        newSkillType,
         newSkillDomain,
-       newSkillShortName,
+        newSkillShortName,
         newSkillFreeComments,
         function() {
           if (!self.props.skillsModel.feedback) {
@@ -309,13 +337,11 @@ var RefGpecSkills = createReactClass({
         newSkillDomain: "",
         newSkillShortName: "",
         newSkillFreeComments: "",
-        error: "",
+        error: ""
       });
-
     } else {
       var missingFields = [];
-      if (!newSkillShortName)
-        missingFields.push("Nom de la compétence");
+      if (!newSkillShortName) missingFields.push("Nom de la compétence");
       if (!newSkillDomain) missingFields.push("Domaine");
       if (!newSkillType) missingFields.push("Type");
       self.setState({
@@ -333,14 +359,13 @@ var RefGpecSkills = createReactClass({
   },
 
   handleNavigateTab: function(event) {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     this.props.onTabChange(event.target.getAttribute("href"));
   },
   handleDestroy: function(skillId) {
     let self = this;
     self.props.skillsModel.destroy(skillId, function() {
       if (!self.props.skillsModel.feedback) {
-
         NotificationManager.success(
           "",
           "La compétence " + skillId + " a été supprimée"
@@ -358,8 +383,8 @@ var RefGpecSkills = createReactClass({
 
     this.props.skillsModel.save(skillId, SkillState, function() {
       if (!self.props.skillsModel.feedback) {
-          self.props.skillsModel.updateVue();
-          self.props.profilsSkillsModel.updateVue();
+        self.props.skillsModel.updateVue();
+        self.props.profilsSkillsModel.updateVue();
         NotificationManager.success(
           "",
           "La compétence " + skillId + " a été modifiée"
@@ -371,9 +396,9 @@ var RefGpecSkills = createReactClass({
   },
   componentDidMount() {},
 
-    handleOpenProfilSkills: function(event) {
-        this.props.profilsSkillsModel.getProfilSkillLevel(event.target.id);
-    },
+  handleOpenProfilSkills: function(event) {
+    this.props.profilsSkillsModel.getProfilSkillLevel(event.target.id);
+  },
 
   missingField() {
     return (

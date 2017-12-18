@@ -1,7 +1,7 @@
 import React from "react";
 import RefGpecProfil from "./refgpec-profil.jsx";
 import RefGpecResearchProfil from "./refgpec-research-profil.jsx";
-import RefGpecNewProfil from'./refgpec-new-profil.jsx'
+import RefGpecNewProfil from "./refgpec-new-profil.jsx";
 import {
   NotificationContainer,
   NotificationManager
@@ -13,14 +13,14 @@ var RefGpecProfils = createReactClass({
   getInitialState: function() {
     return {
       showModal: false,
-      newProfilTag:"",
+      newProfilTag: "",
       newProfilShortName: "",
       newProfilFreeComments: "",
       newProfilPdfPath: "",
       error: "",
       champtri: "profil_code",
       type_sort: true,
-      filter: {SearchProfilTag :"",SearchProfilShortName:""}
+      filter: { SearchProfilTag: "", SearchProfilShortName: "" }
     };
   },
   close() {
@@ -31,9 +31,9 @@ var RefGpecProfils = createReactClass({
     this.setState({ showModal: true });
   },
 
-    filterList: function(event){
-        this.setState({filter:event});
-    },
+  filterList: function(event) {
+    this.setState({ filter: event });
+  },
 
   Sort(event) {
     if (this.state.champtri === event.target.id) {
@@ -50,38 +50,37 @@ var RefGpecProfils = createReactClass({
     var self = this;
 
     // model is not ready ? then do not render anything
-    if (
-      self.props.profilsModel.initializing
-    ) {
+    if (self.props.profilsModel.initializing) {
       return null;
     }
     let rgTagList = this.props.profilsModel.listTag;
     let rgProfils = [];
     Object.keys(self.props.profilsModel.profils).forEach(function(key) {
-      let tag ="";
-      if(self.props.profilsModel.profils[key].profil_tag){
-          tag=self.props.profilsModel.profils[key].profil_tag
+      let tag = "";
+      if (self.props.profilsModel.profils[key].profil_tag) {
+        tag = self.props.profilsModel.profils[key].profil_tag;
       }
-        if(self.props.profilsModel.profils[key].profil_shortname.toLowerCase().search(self.state.filter.SearchProfilShortName.toLowerCase()) !== -1
-        && tag.search(self.state.filter.SearchProfilTag) !== -1
-
-        ){
-            rgProfils.push(
-                <RefGpecProfil
-                    key={key}
-                    profilId={key}
-                    tagList={rgTagList}
-                    profilsSkillsModel={self.props.profilsSkillsModel}
-                    profilData={self.props.profilsModel.profils[key]}
-                    skilllist={self.props.profilsModel.getlistskills(key)}
-                    onSave={self.handleSave}
-                    onDestroy={self.handleDestroy}
-                />
-            );
-        }
+      if (
+        self.props.profilsModel.profils[key].profil_shortname
+          .toLowerCase()
+          .search(self.state.filter.SearchProfilShortName.toLowerCase()) !==
+          -1 &&
+        tag.search(self.state.filter.SearchProfilTag) !== -1
+      ) {
+        rgProfils.push(
+          <RefGpecProfil
+            key={key}
+            profilId={key}
+            tagList={rgTagList}
+            profilsSkillsModel={self.props.profilsSkillsModel}
+            profilData={self.props.profilsModel.profils[key]}
+            skilllist={self.props.profilsModel.getlistskills(key)}
+            onSave={self.handleSave}
+            onDestroy={self.handleDestroy}
+          />
+        );
+      }
     });
-
-
 
     if (self.state.type_sort) {
       rgProfils.sort(function(a, b) {
@@ -105,7 +104,6 @@ var RefGpecProfils = createReactClass({
       });
     }
     return (
-
       <div id="profils">
         <div className="row">
           <div className="col-md-12">
@@ -142,15 +140,15 @@ var RefGpecProfils = createReactClass({
               </div>
             </div>
             <table
-                id="profils-list"
-                className="table table-striped table-bordered"
+              id="profils-list"
+              className="table table-striped table-bordered"
             >
               <tbody>
-            <RefGpecResearchProfil
-                profilsModel={this.props.profilsModel}
-                tagList ={rgTagList}
-                onChange={this.filterList}
-            />
+                <RefGpecResearchProfil
+                  profilsModel={this.props.profilsModel}
+                  tagList={rgTagList}
+                  onChange={this.filterList}
+                />
               </tbody>
             </table>
             <table
@@ -169,8 +167,7 @@ var RefGpecProfils = createReactClass({
                     className="profils-col-tag"
                   >
                     {" "}
-                    Tag{" "}
-                    <i className="fa fa-sort" aria-hidden="true" />
+                    Tag <i className="fa fa-sort" aria-hidden="true" />
                   </th>
                   <th
                     title="Cliquez pour trier par Nom court"
@@ -195,22 +192,19 @@ var RefGpecProfils = createReactClass({
                     Commentaires libres{" "}
                     <i className="fa fa-sort" aria-hidden="true" />
                   </th>
-
                 </tr>
               </thead>
               <tbody>
+                {/* FORM USED TO CREATE A NEW PROFIL */}
+                <RefGpecNewProfil
+                  profilsModel={this.props.profilsModel}
+                  onSubmit={self.handleSubmit}
+                />
 
-              {/* FORM USED TO CREATE A NEW PROFIL */}
-             <RefGpecNewProfil
-                 profilsModel={this.props.profilsModel}
-                 onSubmit = {self.handleSubmit}
-                 />
-
-
-
-              <tr><td colSpan="6" style={{height:"25px"}}></td></tr>
+                <tr>
+                  <td colSpan="6" style={{ height: "25px" }} />
+                </tr>
                 {rgProfils}
-
               </tbody>
             </table>
 
@@ -237,8 +231,8 @@ var RefGpecProfils = createReactClass({
     let self = this;
     this.props.profilsModel.save(profilId, profilState, function() {
       if (!self.props.profilsModel.feedback) {
-          self.props.profilsModel.updateVue();
-          self.props.profilsSkillsModel.updateVue();
+        self.props.profilsModel.updateVue();
+        self.props.profilsSkillsModel.updateVue();
         NotificationManager.success(
           "",
           "Le Profil " + profilId + " a été modifié"
@@ -250,7 +244,7 @@ var RefGpecProfils = createReactClass({
   },
 
   handleNavigateTab: function(event) {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     this.props.onTabChange(event.target.getAttribute("href"));
   },
 
@@ -266,41 +260,45 @@ var RefGpecProfils = createReactClass({
     this.setState(newState);
   },
 
-  handleSubmit: function(newProfilTag,newProfilShortName,newProfilFreeComments,newProfilPdfPath) {
+  handleSubmit: function(
+    newProfilTag,
+    newProfilShortName,
+    newProfilFreeComments,
+    newProfilPdfPath
+  ) {
     const self = this;
     if (self.props.profilsModel.ajaxLoading) return;
 
-      self.props.profilsModel.addProfil(
-        newProfilTag,
-        newProfilShortName,
-        newProfilFreeComments,
-        newProfilPdfPath,
-        function() {
-          if (!self.props.profilsModel.feedback) {
-              self.props.profilsModel.updateVue();
-              self.props.profilsSkillsModel.updateVue();
-            NotificationManager.success(
-              "",
-              "le profil " + newProfilShortName + " a été ajouté"
-            );
-          } else {
-            NotificationManager.error("", self.props.profilsModel.feedback);
-          }
+    self.props.profilsModel.addProfil(
+      newProfilTag,
+      newProfilShortName,
+      newProfilFreeComments,
+      newProfilPdfPath,
+      function() {
+        if (!self.props.profilsModel.feedback) {
+          self.props.profilsModel.updateVue();
+          self.props.profilsSkillsModel.updateVue();
+          NotificationManager.success(
+            "",
+            "le profil " + newProfilShortName + " a été ajouté"
+          );
+        } else {
+          NotificationManager.error("", self.props.profilsModel.feedback);
         }
-      );
+      }
+    );
   },
 
   handleDestroy: function(profilId) {
     let self = this;
     this.props.profilsModel.destroy(profilId, function() {
       if (!self.props.profilsModel.feedback) {
-          self.props.profilsSkillsModel.updateVue();
-          self.props.profilsModel.inform();
+        self.props.profilsSkillsModel.updateVue();
+        self.props.profilsModel.inform();
         NotificationManager.success(
           "",
           "le profil " + profilId + " a été supprimé"
         );
-
       } else {
         NotificationManager.error("", self.props.profilsModel.feedback);
       }
@@ -309,8 +307,6 @@ var RefGpecProfils = createReactClass({
 
   missingField() {
     return !this.state.newProfilShortName || !this.state.newProfilTag;
-  },
-
-
+  }
 });
 export default RefGpecProfils;

@@ -13,18 +13,21 @@ var RefGpecPDF = createReactClass({
     return (
       <div>
         {this.state.profil_pdf_path ? (
-            <div>
+          <div>
             <a onClick={this.openPDF} href={null}>
-            <span className="fa fa-file-pdf-o fa-2x" >
-
-           </span>
+              <span className="fa fa-file-pdf-o fa-2x" />
             </a>
 
-              <span className="icon-modify">
-                      {" "}
-                <i onClick={this.OpenModal} title="Cliquez pour modifier la PDF" className="fa fa-pencil" aria-hidden="true"></i>
+            <span className="icon-modify">
+              {" "}
+              <i
+                onClick={this.OpenModal}
+                title="Cliquez pour modifier la PDF"
+                className="fa fa-pencil"
+                aria-hidden="true"
+              />
             </span>
-         </div>
+          </div>
         ) : (
           <a onClick={this.OpenModal}>
             {" "}

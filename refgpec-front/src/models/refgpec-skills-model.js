@@ -8,8 +8,8 @@ var RefGpecSkillsModel = function(options) {
   self.onChanges = [];
   self.feedback = "";
   self.listDomain = {};
-    self.skillCSV=[];
-    self.lastSkillAdd =[];
+  self.skillCSV = [];
+  self.lastSkillAdd = [];
   self.listprofils_skills_levels = {};
   var erreur = 2;
   axios
@@ -45,12 +45,11 @@ var RefGpecSkillsModel = function(options) {
       console.log("RefGpecSkillsModel error loading data", err);
       erreur += 1;
     });
-self.getSkillsCSV();
+  self.getSkillsCSV();
 
   self.getdomain();
   self.initializing = erreur !== 0;
   self.inform();
-
 };
 
 RefGpecSkillsModel.prototype.getdomain = function() {
@@ -96,15 +95,15 @@ RefGpecSkillsModel.prototype.inform = function() {
     cb();
   });
 };
-RefGpecSkillsModel.prototype.getmax = function (codes) {
-    let max = 2;
-    codes.forEach(function(key,i) {
-        let number =parseInt(codes[i].split("-")[3],10);
-        if(max<number){
-            max = number;
-        }
-    });
-    return max;
+RefGpecSkillsModel.prototype.getmax = function(codes) {
+  let max = 2;
+  codes.forEach(function(key, i) {
+    let number = parseInt(codes[i].split("-")[3], 10);
+    if (max < number) {
+      max = number;
+    }
+  });
+  return max;
 };
 RefGpecSkillsModel.prototype.addSkill = function(
   st_code,
@@ -117,21 +116,26 @@ RefGpecSkillsModel.prototype.addSkill = function(
   self.ajaxLoading = true;
   self.feedback = "";
   // filter other skills family to have a correct numeric id
-    let codes = Object.keys(self.skills).filter(function(elt) {
-    return elt.indexOf("c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase()) === 0;
+  let codes = Object.keys(self.skills).filter(function(elt) {
+    return (
+      elt.indexOf(
+        "c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase()
+      ) === 0
+    );
   });
-    let skill_code = "c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase() + "-1";
+  let skill_code =
+    "c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase() + "-1";
   // add +1 to the id if more than one skill in this type/domain
   codes.sort();
   if (codes.length > 0) {
-      let lastCodeSplitted = self.getmax(codes);
+    let lastCodeSplitted = self.getmax(codes);
     skill_code =
       "c-" +
       st_code.toLowerCase() +
       "-" +
       sd_code.toLowerCase() +
       "-" +
-      (parseInt(lastCodeSplitted + 1 ,10));
+      parseInt(lastCodeSplitted + 1, 10);
   }
 
   axios
@@ -153,7 +157,7 @@ RefGpecSkillsModel.prototype.addSkill = function(
       self.ajaxLoading = false;
       self.getdomain();
       self.getSkillsCSV();
-        self.lastSkillAdd.push(skill_code);
+      self.lastSkillAdd.push(skill_code);
       self.inform();
       return cb && cb(null);
     })
@@ -181,7 +185,7 @@ RefGpecSkillsModel.prototype.destroy = function(skillId, cb) {
           delete self.listprofils_skills_levels[key];
         }
       }
-        self.getSkillsCSV();
+      self.getSkillsCSV();
       self.getdomain();
     })
     .catch(function(error) {
@@ -247,21 +251,20 @@ RefGpecSkillsModel.prototype.getListProfils = function(skillId) {
 };
 
 RefGpecSkillsModel.prototype.getSkillsCSV = function() {
-    var self = this;
-    self.skillCSV = [];
-    axios
-        .get("/api/view_exportcsv_skills")
-        .then(response => {
-            response.data.forEach(item => {
-                self.skillCSV.push(item);
-
-            });
-            self.inform();
-        })
-        .catch(err => {
-            console.log("RefGpecSkillsModel error loading data", err);
-            self.inform();
-        });
+  var self = this;
+  self.skillCSV = [];
+  axios
+    .get("/api/view_exportcsv_skills")
+    .then(response => {
+      response.data.forEach(item => {
+        self.skillCSV.push(item);
+      });
+      self.inform();
+    })
+    .catch(err => {
+      console.log("RefGpecSkillsModel error loading data", err);
+      self.inform();
+    });
 };
 
 export default RefGpecSkillsModel;

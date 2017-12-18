@@ -13,7 +13,7 @@ var RefGpecNewSkill = createReactClass({
       newSkillDomain: "",
       newSkillShortName: "",
       newSkillFreeComments: "",
-      error: "",
+      error: ""
     };
   },
 
@@ -30,72 +30,69 @@ var RefGpecNewSkill = createReactClass({
     }
 
     return (
-
-              <tr className="form-new-skill">
-                <td style={{textAlign:"center"}}>
-                  <OverlayTrigger
-                      trigger="focus"
-                      data-title="Erreur nouvelle compétence"
-                      placement="top"
-                      overlay={
-                        <Popover id="popover-positioned-top">
-                            {this.state.error}
-                        </Popover>
-                      }
-                  >
-                    <a
-                        href=""
-                        className="fa fa-plus-square fa-2x"
-                        role="button"
-                        onClick={this.handleSubmit}
-                        title="Ajouter cette compétence au référentiel"
-                    />
-                  </OverlayTrigger>
-                </td>
-                <td>
-                  <RefGpecTypes
-                      skillData={self.props.skillsTypesModel}
-                      ajaxLoading={self.props.skillsTypesModel.ajaxLoading}
-                      data-fieldname="newSkillType"
-                      onChange={this.handleTypeChange}
-                      value={this.state.newSkillType}
-                  />
-                </td>
-                <td>
-                  <RefGpecDomains
-                      skillData={self.props.skillsDomainsModel}
-                      ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
-                      data-fieldname="newSkillDomain"
-                      onChange={this.handleDomainChange}
-                      value={this.state.newSkillDomain}
-                  />
-                </td>
-                <td>
-                  <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Nom de la compétence"
-                      value={this.state.newSkillShortName}
-                      data-fieldname="newSkillShortName"
-                      onChange={this.handleChange}
-                      disabled={this.props.skillsModel.ajaxLoading}
-                  />
-                </td>
-                <td>
-                    <textarea
-                        className="form-control"
-                        rows="1"
-                        placeholder="Commentaires libres"
-                        value={this.state.newSkillFreeComments}
-                        data-fieldname="newSkillFreeComments"
-                        onChange={this.handleChange}
-                        disabled={this.props.skillsModel.ajaxLoading}
-                    />
-                </td>
-                <td />
-              </tr>
+      <tr className="form-new-skill">
+        <td style={{ textAlign: "center" }}>
+          <OverlayTrigger
+            trigger="focus"
+            data-title="Erreur nouvelle compétence"
+            placement="top"
+            overlay={
+              <Popover id="popover-positioned-top">{this.state.error}</Popover>
+            }
+          >
+            <a
+              href=""
+              className="fa fa-plus-square fa-2x"
+              role="button"
+              onClick={this.handleSubmit}
+              title="Ajouter cette compétence au référentiel"
+            />
+          </OverlayTrigger>
+        </td>
+        <td>
+          <RefGpecTypes
+            skillData={self.props.skillsTypesModel}
+            ajaxLoading={self.props.skillsTypesModel.ajaxLoading}
+            data-fieldname="newSkillType"
+            onChange={this.handleTypeChange}
+            value={this.state.newSkillType}
+          />
+        </td>
+        <td>
+          <RefGpecDomains
+            skillData={self.props.skillsDomainsModel}
+            ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
+            data-fieldname="newSkillDomain"
+            onChange={this.handleDomainChange}
+            value={this.state.newSkillDomain}
+          />
+        </td>
+        <td>
+          <input
+            className="form-control"
+            type="text"
+            placeholder="Nom de la compétence"
+            value={this.state.newSkillShortName}
+            data-fieldname="newSkillShortName"
+            onChange={this.handleChange}
+            disabled={this.props.skillsModel.ajaxLoading}
+          />
+        </td>
+        <td>
+          <textarea
+            className="form-control"
+            rows="1"
+            placeholder="Commentaires libres"
+            value={this.state.newSkillFreeComments}
+            data-fieldname="newSkillFreeComments"
+            onChange={this.handleChange}
+            disabled={this.props.skillsModel.ajaxLoading}
+          />
+        </td>
+        <td />
+      </tr>
     );
-    },
+  },
 
   handleKeyPress: function(event) {
     if (event.charCode === 13) {
@@ -123,8 +120,13 @@ var RefGpecNewSkill = createReactClass({
       self.state.newSkillDomain &&
       self.state.newSkillType
     ) {
-        self.props.onSubmit(self.state.newSkillType,self.state.newSkillDomain,self.state.newSkillShortName,self.state.newSkillFreeComments);
-           self.setState({
+      self.props.onSubmit(
+        self.state.newSkillType,
+        self.state.newSkillDomain,
+        self.state.newSkillShortName,
+        self.state.newSkillFreeComments
+      );
+      self.setState({
         newSkillType: "",
         newSkillDomain: "",
         newSkillShortName: "",

@@ -8,8 +8,8 @@ import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
-import {CSVLink} from 'react-csv';
-import RefGpecPDF from './refgpec-pdf.jsx';
+import { CSVLink } from "react-csv";
+import RefGpecPDF from "./refgpec-pdf.jsx";
 var createReactClass = require("create-react-class");
 var RefGpecProfilsSkills = createReactClass({
   displayName: "RefGpecProfilsSkills",
@@ -102,42 +102,73 @@ var RefGpecProfilsSkills = createReactClass({
         <div className="row">
           <div className="col-md-12">
             <div className="panel panel-default">
-              <div className="panel-heading row" style={{    marginRight: "0px" , marginLeft:"0px"}}>
-                <div className="col-md-6  text center">Profils &amp; Compétences </div>
+              <div
+                className="panel-heading row"
+                style={{ marginRight: "0px", marginLeft: "0px" }}
+              >
+                <div className="col-md-6  text center">
+                  Profils &amp; Compétences{" "}
+                </div>
                 <div className="col-md-6 text center">
-                    {(() => {
-                        if (self.state.selectedProfil && self.props.profilsModel.profils[self.state.selectedProfil]) {
-                        if (Object.keys(self.props.profilsSkillsModel.profilsSkillsCSV.length !== 0)) {
-                            let date = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate();
-                            return (
-                                <CSVLink
-                                    data={self.props.profilsSkillsModel.profilsSkillsCSV}
-                                    style={{backgroundColor: "#8dc63f",float:"right"}}
-                                    title="Cliquez pour télecharger les compétences associées au profil en CSV"
-                                    separator={";"}
-                                    filename={self.props.profilsModel.profils[self.state.selectedProfil].profil_shortname+ "_" + date + ".csv"}
-                                    className="btn btn-primary"
-                                    target="_blank">
-                                  Exporter en CSV
-                                </CSVLink>
-                            );
-                        }
+                  {(() => {
+                    if (
+                      self.state.selectedProfil &&
+                      self.props.profilsModel.profils[self.state.selectedProfil]
+                    ) {
+                      if (
+                        Object.keys(
+                          self.props.profilsSkillsModel.profilsSkillsCSV
+                            .length !== 0
+                        )
+                      ) {
+                        let date =
+                          new Date().getFullYear() +
+                          "-" +
+                          new Date().getMonth() +
+                          "-" +
+                          new Date().getDate();
+                        return (
+                          <CSVLink
+                            data={
+                              self.props.profilsSkillsModel.profilsSkillsCSV
+                            }
+                            style={{
+                              backgroundColor: "#8dc63f",
+                              float: "right"
+                            }}
+                            title="Cliquez pour télecharger les compétences associées au profil en CSV"
+                            separator={";"}
+                            filename={
+                              self.props.profilsModel.profils[
+                                self.state.selectedProfil
+                              ].profil_shortname +
+                              "_" +
+                              date +
+                              ".csv"
+                            }
+                            className="btn btn-primary"
+                            target="_blank"
+                          >
+                            Exporter en CSV
+                          </CSVLink>
+                        );
+                      }
                     }
-                    })()}
+                  })()}
                 </div>
               </div>
               <div className="panel-body">
                 {(() => {
-             if(this.state.PDF_path){
-               return(
-                   <button
-                       type="button"
-                       className="pull-right fa fa-file-pdf-o "
-                       title="Ouvrir le PDF dans une nouvelle fenêtre"
-                       onClick={this.handleOpenPDF}
-                       style={{fontSize:"40px"}}
-                   />
-                   );
+                  if (this.state.PDF_path) {
+                    return (
+                      <button
+                        type="button"
+                        className="pull-right fa fa-file-pdf-o "
+                        title="Ouvrir le PDF dans une nouvelle fenêtre"
+                        onClick={this.handleOpenPDF}
+                        style={{ fontSize: "40px" }}
+                      />
+                    );
                   }
                 })()}
 
@@ -223,51 +254,50 @@ var RefGpecProfilsSkills = createReactClass({
                         </tr>
                       </thead>
                       <tbody>
-
-                      <tr>
+                        <tr>
                           {/*FORM USED TO CREATE A NEW PROFILS_SKILLS_LEVELS */}
-                        <td>
-                          <OverlayTrigger
+                          <td>
+                            <OverlayTrigger
                               show={null}
                               trigger="focus"
                               data-title="Erreur nouveau profil_Skills"
                               placement="top"
                               overlay={
                                 <Popover id="popover-positioned-top">
-                                    {this.state.error}
+                                  {this.state.error}
                                 </Popover>
                               }
-                          >
-                            <a
+                            >
+                              <a
                                 href=""
                                 onClick={this.handleSubmit}
                                 className="fa fa-plus-square fa-2x"
                                 role="button"
                                 title="Associer la compétence au profil"
-                            />
-                          </OverlayTrigger>
-                        </td>
-                        <td colSpan="2">
-                          <RefGpecSkillsTypeList
+                              />
+                            </OverlayTrigger>
+                          </td>
+                          <td colSpan="2">
+                            <RefGpecSkillsTypeList
                               skillData={self.props.skillsModel}
                               ajaxLoading={self.props.skillsModel.ajaxLoading}
                               data-fieldname="newSkill"
                               onChange={this.handleSkillChange}
                               value={this.state.newSkill}
-                          />
-                        </td>
-                        <td>
-                          <RefGpecLevelslist
+                            />
+                          </td>
+                          <td>
+                            <RefGpecLevelslist
                               skillData={self.props.levelsModel}
                               ajaxLoading={self.props.levelsModel.ajaxLoading}
                               data-fieldname="newLevel"
                               onChange={this.handleLevelChange}
                               value={this.state.newLevel}
-                          />
-                        </td>
-                        <td>
+                            />
+                          </td>
+                          <td>
                             {" "}
-                          <textarea
+                            <textarea
                               className="form-control"
                               rows="1"
                               placeholder="Commentaires libres"
@@ -275,14 +305,15 @@ var RefGpecProfilsSkills = createReactClass({
                               data-fieldname="newFreeComment"
                               onChange={this.handleChangeFreeComm}
                               disabled={
-                                  this.props.profilsSkillsModel.ajaxLoading
+                                this.props.profilsSkillsModel.ajaxLoading
                               }
-                          />
-                        </td>
-                      </tr>
-                      <tr><td colSpan="6" style={{height:"25px"}}></td></tr>
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colSpan="6" style={{ height: "25px" }} />
+                        </tr>
                         {rgPS}
-
                       </tbody>
                     </table>
                     <div
@@ -302,7 +333,6 @@ var RefGpecProfilsSkills = createReactClass({
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -434,25 +464,28 @@ var RefGpecProfilsSkills = createReactClass({
   },
 
   handleNavigateTab: function(event) {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     this.props.onTabChange(event.target.getAttribute("href"));
   },
 
-  handleOpenPDF: function(event){
-      window.open(this.state.PDF_path, 'newwindow', 'width=720,height=480');
+  handleOpenPDF: function(event) {
+    window.open(this.state.PDF_path, "newwindow", "width=720,height=480");
   },
 
   componentDidUpdate() {},
 
-    componentWillReceiveProps(nextProps){
-    if(nextProps.profilsSkillsModel.profil !== this.state.selectedProfil){
-        this.setState({ selectedProfil: nextProps.profilsSkillsModel.profil, PDF_path: this.props.profilsModel.profils[nextProps.profilsSkillsModel.profil].profil_pdf_path });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profilsSkillsModel.profil !== this.state.selectedProfil) {
+      this.setState({
+        selectedProfil: nextProps.profilsSkillsModel.profil,
+        PDF_path: this.props.profilsModel.profils[
+          nextProps.profilsSkillsModel.profil
+        ].profil_pdf_path
+      });
     }
-    },
+  },
 
-
-
-    missingField() {
+  missingField() {
     return (
       !this.state.selectedProfil || !this.state.newLevel || !this.state.newSkill
     );

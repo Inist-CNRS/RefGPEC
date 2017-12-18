@@ -7,117 +7,119 @@ const WAIT_INTERVAL = 500;
 const ENTER_KEY = 13;
 var createReactClass = require("create-react-class");
 var RefGpecResearchSkill = createReactClass({
-    displayName: "RefGpecResearchSkill",
+  displayName: "RefGpecResearchSkill",
 
-    getInitialState: function() {
-        return {
-            SearchSkillType: "",
-            SearchSkillDomain: "",
-            SearchSkillShortName: "",
-
+  getInitialState: function() {
+    return {
+      SearchSkillType: "",
+      SearchSkillDomain: "",
+      SearchSkillShortName: ""
     };
-    },
+  },
 
-    render: function() {
-        var self = this;
+  render: function() {
+    var self = this;
 
-        // model is not ready ? then do not render anything
-        if (
-            self.props.skillsModel.initializing ||
-            this.props.skillsDomainsModel.initializing ||
-            this.props.skillsTypesModel.initializing
-        ) {
-            return null;
-        }
+    // model is not ready ? then do not render anything
+    if (
+      self.props.skillsModel.initializing ||
+      this.props.skillsDomainsModel.initializing ||
+      this.props.skillsTypesModel.initializing
+    ) {
+      return null;
+    }
 
-        return (
+    return (
+      <tr className="form-new-skill">
+        <td style={{ width: "87px", textAlign: "center" }}>
+          <OverlayTrigger
+            trigger="focus"
+            placement="top"
+            overlay={
+              <Popover id="popover-positioned-top">{this.state.error}</Popover>
+            }
+          >
+            <i
+              className="fa fa-search fa-3"
+              style={{ fontSize: "2em" }}
+              disabled={true}
+              title="Rechercher dans le référentiel"
+            />
+          </OverlayTrigger>
+        </td>
+        <td style={{ width: "260px" }}>
+          <RefGpecTypes
+            skillData={self.props.skillsTypesModel}
+            ajaxLoading={self.props.skillsTypesModel.ajaxLoading}
+            data-fieldname="SearchSkillType"
+            onChange={this.handleTypeChange}
+            value={this.state.SearchSkillType}
+          />
+        </td>
+        <td style={{ width: "291px" }}>
+          <RefGpecDomains
+            skillData={self.props.skillsDomainsModel}
+            ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
+            data-fieldname="SearchSkillDomain"
+            onChange={this.handleDomainChange}
+            value={this.state.SearchSkillDomain}
+          />
+        </td>
+        <td>
+          <div className="input-group">
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={this.resetSearch}
+              className="input-group-addon"
+            >
+              <i className="fa fa-times fa-fw" />
+            </span>
+            <input
+              className="form-control"
+              type="text"
+              placeholder="Nom de la compétence à rechercher"
+              value={this.state.SearchSkillShortName}
+              data-fieldname="SearchSkillShortName"
+              onChange={this.handleChange}
+              onKeyDown={this.handleKeyDown}
+              disabled={this.props.skillsModel.ajaxLoading}
+            />
+          </div>
+        </td>
+      </tr>
+    );
+  },
 
-            <tr className="form-new-skill">
-                <td  style= {{width: "87px",textAlign:"center"}}>
-                    <OverlayTrigger
-                        trigger="focus"
-                        placement="top"
-                        overlay={
-                            <Popover id="popover-positioned-top">
-                                {this.state.error}
-                            </Popover>
-                        }
-                    >
-                        <i
-                            className="fa fa-search fa-3"
-                            style= {{fontSize: "2em"}}
-                            disabled={true}
-                            title="Rechercher dans le référentiel"/>
-                    </OverlayTrigger>
-                </td>
-                <td style= {{width: "260px"}}>
-                    <RefGpecTypes
-                        skillData={self.props.skillsTypesModel}
-                        ajaxLoading={self.props.skillsTypesModel.ajaxLoading}
-                        data-fieldname="SearchSkillType"
-                        onChange={this.handleTypeChange}
-                        value={this.state.SearchSkillType}
-                    />
-                </td>
-                <td  style= {{width: "291px"}}>
-                    <RefGpecDomains
-                        skillData={self.props.skillsDomainsModel}
-                        ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
-                        data-fieldname="SearchSkillDomain"
-                        onChange={this.handleDomainChange}
-                        value={this.state.SearchSkillDomain}
-                    />
-                </td>
-                <td >
-                    <div className="input-group">
-                        <span style={{ cursor: "pointer"}} onClick={this.resetSearch} className="input-group-addon"><i className="fa fa-times fa-fw"></i></span>
-                        <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Nom de la compétence à rechercher"
-                            value={this.state.SearchSkillShortName}
-                            data-fieldname="SearchSkillShortName"
-                            onChange={this.handleChange}
-                            onKeyDown={this.handleKeyDown}
-                            disabled={this.props.skillsModel.ajaxLoading}
-                        />
-                    </div>
-                </td>
-            </tr>
-        );
-    },
+  handleTypeChange: function(event) {
+    this.setState({ SearchSkillType: event });
+    this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+  },
+  handleDomainChange: function(event) {
+    this.setState({ SearchSkillDomain: event });
+    this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+  },
+  handleChange: function(event) {
+    clearTimeout(this.timer);
+    this.setState({ SearchSkillShortName: event.target.value });
+    this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+  },
 
-    handleTypeChange: function(event) {
-        this.setState({ SearchSkillType: event })
-        this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
-    },
-    handleDomainChange: function(event) {
-        this.setState({ SearchSkillDomain: event });
-        this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
-    },
-    handleChange: function(event) {
-        clearTimeout(this.timer);
-        this.setState({SearchSkillShortName: event.target.value });
-        this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
-    },
+  handleKeyDown(e) {
+    if (e.keyCode === ENTER_KEY) {
+      this.triggerChange();
+    }
+  },
 
-    handleKeyDown(e) {
-        if (e.keyCode === ENTER_KEY) {
-            this.triggerChange();
-        }
-    },
+  triggerChange() {
+    this.props.onChange(this.state);
+  },
 
-    triggerChange() {
-        this.props.onChange(this.state);
-    },
-
-    resetSearch() {
-        this.setState({SearchSkillShortName: ""});
-        this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
-    },
-    componentWillMount() {
-        this.timer = null;
-    },
-
+  resetSearch() {
+    this.setState({ SearchSkillShortName: "" });
+    this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+  },
+  componentWillMount() {
+    this.timer = null;
+  }
 });
 export default RefGpecResearchSkill;

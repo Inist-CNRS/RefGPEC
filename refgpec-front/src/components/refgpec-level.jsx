@@ -154,21 +154,21 @@ var RefGpecLevel = createReactClass({
         </td>
         <td>
           <input
-              className="form-control"
-              style={{ borderColor: self.props.Color ,borderWidth :3 }}
-              type="number"
-              min="1"
-              max={this.props.max + 1}
-              data-fieldname="level_number"
-              value={this.state.level_number}
-              onKeyPress={this.handleKeyPress}
-              onChange={this.handleChange}
-              onBlur={this.handleSubmit}
-              title={this.GetTitle()}
-              disabled={
-                  this.state.ajaxLoading ||
-                  Object.keys(self.props.profilList).length !== 0
-              }
+            className="form-control"
+            style={{ borderColor: self.props.Color, borderWidth: 3 }}
+            type="number"
+            min="1"
+            max={this.props.max + 1}
+            data-fieldname="level_number"
+            value={this.state.level_number}
+            onKeyPress={this.handleKeyPress}
+            onChange={this.handleChange}
+            onBlur={this.handleSubmit}
+            title={this.GetTitle()}
+            disabled={
+              this.state.ajaxLoading ||
+              Object.keys(self.props.profilList).length !== 0
+            }
           />
         </td>
       </tr>

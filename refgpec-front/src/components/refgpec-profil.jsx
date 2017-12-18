@@ -69,7 +69,7 @@ var RefGpecProfil = createReactClass({
         data-content={this.state.error}
       >
         {/* ACTION MENU */}
-        <td style={{textAlign:"center"}}>
+        <td style={{ textAlign: "center" }}>
           <div className="btn-group">
             <DropdownButton
               id="dropdown-profil"
@@ -123,8 +123,8 @@ var RefGpecProfil = createReactClass({
                     ));
                     return (
                       <div className="alert alert-info" role="alert">
-                        Veuillez dissocier ces compétences du profil avant de supprimer le
-                        profil  :
+                        Veuillez dissocier ces compétences du profil avant de
+                        supprimer le profil :
                         <ul>{list}</ul>
                       </div>
                     );
@@ -154,7 +154,7 @@ var RefGpecProfil = createReactClass({
         </td>
 
         {/* INPUT FORMS */}
-        <td className="text-center" >
+        <td className="text-center">
           <RefGpecPDF
             skillData={this.state.profil_pdf_path}
             onClick={self.open}
@@ -226,7 +226,6 @@ var RefGpecProfil = createReactClass({
         <td>
           <RefGpecTags
             skillData={this.props.tagList}
-
             data-fieldname="tag_code"
             value={this.state.profil_tag}
             readOnly={this.state.ajaxLoading}
@@ -274,7 +273,7 @@ var RefGpecProfil = createReactClass({
             data-fieldname="profil_free_comments"
             onChange={this.handleChangeFreeComm}
             onBlur={this.handleSubmit}
-            readOnly={ this.state.ajaxLoading}
+            readOnly={this.state.ajaxLoading}
           />
         </td>
       </tr>
@@ -290,8 +289,7 @@ var RefGpecProfil = createReactClass({
           self.props.profilsSkillsModel.inform();
         })
       );
-      self.setState(
-            { ajaxLoading: false,mustBeSaved:false })
+      self.setState({ ajaxLoading: false, mustBeSaved: false });
     }
   },
 
@@ -310,16 +308,16 @@ var RefGpecProfil = createReactClass({
     this.setState({ profil_free_comments: event.target.value });
   },
 
-    handleChangeTag: function(event) {
-        this.setState({ profil_tag: event, mustBeSaved: true }, function() {
-            this.handleSubmit();
-        });
-    },
+  handleChangeTag: function(event) {
+    this.setState({ profil_tag: event, mustBeSaved: true }, function() {
+      this.handleSubmit();
+    });
+  },
 
   handleDestroy: function(event) {
     event.preventDefault(); // Let's stop this event.
     event.stopPropagation(); // Really this time.
-      this.closedeleteModal();
+    this.closedeleteModal();
     if (this.state.ajaxLoading) return;
 
     this.props.onDestroy(this.state.profil_code);

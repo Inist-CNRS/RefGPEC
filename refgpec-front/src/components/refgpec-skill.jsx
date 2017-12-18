@@ -28,7 +28,7 @@ var RefGpecSkill = createReactClass({
   },
 
   render: function() {
-      let self = this;
+    let self = this;
     return (
       <tr
         id={this.state.skill_code}
@@ -39,7 +39,7 @@ var RefGpecSkill = createReactClass({
         data-content={this.state.error}
       >
         {/* ACTION MENU */}
-        <td style={{textAlign:"center"}}>
+        <td style={{ textAlign: "center" }}>
           <div className="btn-group">
             <DropdownButton id="dropdown-skill" title=" " aria-expanded="false">
               <MenuItem href="" onClick={this.opendeleteModal}>
@@ -61,27 +61,31 @@ var RefGpecSkill = createReactClass({
               </Modal.Header>
               <Modal.Body>
                 {(() => {
-                    let list = [];
-                    if (Object.keys(self.props.profilList).length !== 0) {
-                        Object.keys(self.props.profilList).forEach(function(
-                            profil
-                        ) {
-                            list.push(
-                      <li key={self.state.skill_code + profil}><a
-                          href="#profils-skills"
-                          id={self.props.profilList[profil].profil_code}
-                          onClick={self.handleOpenProfilSkills}
-                      >
-                          { self.props.profilList[profil].profil_shortname
-                          }{" "}
-                      </a></li>
-                            );
-                        });
+                  let list = [];
+                  if (Object.keys(self.props.profilList).length !== 0) {
+                    Object.keys(self.props.profilList).forEach(function(
+                      profil
+                    ) {
+                      list.push(
+                        <li key={self.state.skill_code + profil}>
+                          <a
+                            href="#profils-skills"
+                            id={self.props.profilList[profil].profil_code}
+                            onClick={self.handleOpenProfilSkills}
+                          >
+                            {
+                              self.props.profilList[profil].profil_shortname
+                            }{" "}
+                          </a>
+                        </li>
+                      );
+                    });
                     return (
-                        <div className="alert alert-info" role="alert">
-                          Veuillez dissocier cette compétence des profils suivants :
-                          <ul>{list}</ul>
-                        </div>
+                      <div className="alert alert-info" role="alert">
+                        Veuillez dissocier cette compétence des profils suivants
+                        :
+                        <ul>{list}</ul>
+                      </div>
                     );
                   }
                 })()}
@@ -219,11 +223,11 @@ var RefGpecSkill = createReactClass({
     this.props.onDestroy(this.state.skill_code);
   },
 
-    handleOpenProfilSkills: function(event) {
-        this.closedeleteModal();
-        window.scrollTo(0, 0);
-        this.props.onProfil(event);
-    },
+  handleOpenProfilSkills: function(event) {
+    this.closedeleteModal();
+    window.scrollTo(0, 0);
+    this.props.onProfil(event);
+  },
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state !== nextState) {

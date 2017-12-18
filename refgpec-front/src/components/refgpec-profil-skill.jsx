@@ -32,17 +32,16 @@ var RefGpecProfilSkill = createReactClass({
     ) {
       return null;
     }
-      let color=[];
-      Object.keys(this.props.skillsTypesModel.st).forEach(function(key,i) {
-          if (i === 0) {
-              color[key] = "rgb(204,153, 102)";
-
-          } else if (i === 1) {
-              color[key] = "rgb(204, 51, 255)";
-          } else {
-              color[key] = "rgb(255, 153, 153)";
-          }
-      });
+    let color = [];
+    Object.keys(this.props.skillsTypesModel.st).forEach(function(key, i) {
+      if (i === 0) {
+        color[key] = "rgb(204,153, 102)";
+      } else if (i === 1) {
+        color[key] = "rgb(204, 51, 255)";
+      } else {
+        color[key] = "rgb(255, 153, 153)";
+      }
+    });
 
     return (
       <tr
@@ -85,7 +84,15 @@ var RefGpecProfilSkill = createReactClass({
 
         {/* INPUT FORMS */}
         <td>
-          <span className="label label-warning" style={{backgroundColor:color[this.props.skillsModel.skills[this.state.psSkillId].st_code]}}>
+          <span
+            className="label label-warning"
+            style={{
+              backgroundColor:
+                color[
+                  this.props.skillsModel.skills[this.state.psSkillId].st_code
+                ]
+            }}
+          >
             {
               this.props.skillsTypesModel.st[
                 this.props.skillsModel.skills[this.state.psSkillId].st_code
@@ -93,7 +100,10 @@ var RefGpecProfilSkill = createReactClass({
             }
           </span>
           &nbsp;
-          <span style={{backgroundColor:"#808080"}} className="label label-primary">
+          <span
+            style={{ backgroundColor: "#808080" }}
+            className="label label-primary"
+          >
             {
               this.props.skillsDomainsModel.sd[
                 this.props.skillsModel.skills[this.state.psSkillId].sd_code

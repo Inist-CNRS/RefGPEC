@@ -22,9 +22,14 @@ var RefGpecHome = createReactClass({
     document.location.hash = tabId;
 
     // cleanup hidden tabs
-    ["index", "profils-skills", "profils", "skills", "levels","domains"].forEach(function(
-      tabName
-    ) {
+    [
+      "index",
+      "profils-skills",
+      "profils",
+      "skills",
+      "levels",
+      "domains"
+    ].forEach(function(tabName) {
       if (document.getElementById(tabName) && tabName !== tabId) {
         document.getElementById(tabName).style.display = "none";
         document
@@ -45,7 +50,7 @@ var RefGpecHome = createReactClass({
   },
 
   handleTabChange: function(event) {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     document.location.hash = event.target.getAttribute("href");
   },
 
@@ -70,25 +75,25 @@ var RefGpecHome = createReactClass({
     refgpecTabs.push(<RefGpecIndex key="1" onTabChange={this.doTabChange} />);
 
     refgpecTabs.push(
-        <RefGpecProfils
-            key="2"
-            profilsModel={this.props.profilsModel}
-            profilsSkillsModel={this.props.profilsSkillsModel}
-            onTabChange={this.doTabChange}
-        />
+      <RefGpecProfils
+        key="2"
+        profilsModel={this.props.profilsModel}
+        profilsSkillsModel={this.props.profilsSkillsModel}
+        onTabChange={this.doTabChange}
+      />
     );
 
     refgpecTabs.push(
-        <RefGpecProfilsSkills
-            key="3"
-            profilsSkillsModel={this.props.profilsSkillsModel}
-            skillsModel={this.props.skillsModel}
-            skillsTypesModel={this.props.skillsTypesModel}
-            skillsDomainsModel={this.props.skillsDomainsModel}
-            profilsModel={this.props.profilsModel}
-            levelsModel={this.props.levelsModel}
-            onTabChange={this.doTabChange}
-        />
+      <RefGpecProfilsSkills
+        key="3"
+        profilsSkillsModel={this.props.profilsSkillsModel}
+        skillsModel={this.props.skillsModel}
+        skillsTypesModel={this.props.skillsTypesModel}
+        skillsDomainsModel={this.props.skillsDomainsModel}
+        profilsModel={this.props.profilsModel}
+        levelsModel={this.props.levelsModel}
+        onTabChange={this.doTabChange}
+      />
     );
 
     refgpecTabs.push(
@@ -111,16 +116,15 @@ var RefGpecHome = createReactClass({
       />
     );
 
-      refgpecTabs.push(
-          <RefGpecDomains
-              key="6"
-              skillsDomainsModel={this.props.skillsDomainsModel}
-              onTabChange={this.doTabChange}
-          />
-      );
+    refgpecTabs.push(
+      <RefGpecDomains
+        key="6"
+        skillsDomainsModel={this.props.skillsDomainsModel}
+        onTabChange={this.doTabChange}
+      />
+    );
 
-
-      return (
+    return (
       <div id="content">
         {/* ONGLETS POUR LA NAVIGATION */}
         <nav className="navbar navbar-default navbar-fixed-top">
@@ -159,11 +163,11 @@ var RefGpecHome = createReactClass({
                 </li>
                 <li className="nav-item">
                   <a
-                      data-toggle="tab"
-                      className="nav-link"
-                      id="tab-profils-skills"
-                      href="#profils-skills"
-                      onClick={this.handleTabChange}
+                    data-toggle="tab"
+                    className="nav-link"
+                    id="tab-profils-skills"
+                    href="#profils-skills"
+                    onClick={this.handleTabChange}
                   >
                     Profils &amp; Compétences
                   </a>
@@ -192,11 +196,11 @@ var RefGpecHome = createReactClass({
                 </li>
                 <li className="nav-item">
                   <a
-                      data-toggle="tab"
-                      className="nav-link"
-                      id="tab-domains"
-                      href="#domains"
-                      onClick={this.handleTabChange}
+                    data-toggle="tab"
+                    className="nav-link"
+                    id="tab-domains"
+                    href="#domains"
+                    onClick={this.handleTabChange}
                   >
                     Gestion des Domaines
                   </a>
@@ -297,7 +301,7 @@ var RefGpecHome = createReactClass({
       return self.props.levelsModel.initializing
         ? "pull-right fa fa-2x fa-square"
         : "pull-right fa fa-2x fa-check-square";
-    }  else if (modelType === "typeModel") {
+    } else if (modelType === "typeModel") {
       return self.props.skillsTypesModel.initializing
         ? "pull-right fa fa-2x fa-square"
         : "pull-right fa fa-2x fa-check-square";

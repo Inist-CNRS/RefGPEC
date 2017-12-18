@@ -64,8 +64,8 @@ footer.gpec-footer hr {
   width: 70px;
 }
 .domains-col-action {
-   width: 30px;
- }
+  width: 30px;
+}
 .domains-col-code {
   width: 500px;
 }
@@ -78,7 +78,7 @@ footer.gpec-footer hr {
 .skills-col-type {
   width: 150px;
 }
-.skills-col-commentary{
+.skills-col-commentary {
   width: 200px;
 }
 .skills-col-shortname {
