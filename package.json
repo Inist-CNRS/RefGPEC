@@ -20,6 +20,7 @@
     "insertversion:footer": "sed -i \"s#\\(version \\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" refgpec-front/src/components/refgpec-home.jsx",
     "insertversion:package": "sed -i \"s#\\(\\\"version\\\": \\)\\(\\\"[\\.a-z0-9]\\+\\\"\\)#\\1\\\"${npm_package_version}\\\"#g\" refgpec-front/package.json",
     "version": "npm run insertversion:docker-compose && npm run insertversion:makefile && npm run insertversion:footer && npm run insertversion:package && git add docker-compose*.yml Makefile refgpec-front/src/components/refgpec-home.jsx refgpec-front/package.json",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "precommit": "cd refgpec-front/ && npm run precommit"
   }
 }
