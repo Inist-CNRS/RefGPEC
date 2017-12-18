@@ -72,6 +72,9 @@ var RefGpecSkills = createReactClass({
                   ajaxLoading={self.props.skillsModel.ajaxLoading}
               />;
 
+
+              // get list of just added skills to be able to put it in top of the long list
+          // so that the user can see the skill he just added
           if(self.props.skillsModel.lastSkillAdd.indexOf(self.props.skillsModel.skills[key].skill_code)!== -1){
               skillsadd.push(i);
           }
@@ -101,7 +104,9 @@ var RefGpecSkills = createReactClass({
             ? -1
             : 0;
       });
-}
+
+}// once the big list is sorted, we extract "just added skills" from the list
+      // and we add it at the first position (top of the list)
       Object.keys(skillsadd).forEach(function(key) {
           rgSkills.unshift((rgSkills.splice(skillsadd[key], 1)[0]));
       });
