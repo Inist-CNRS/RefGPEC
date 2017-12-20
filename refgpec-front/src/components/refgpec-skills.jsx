@@ -69,21 +69,7 @@ var RefGpecSkills = createReactClass({
           .toLowerCase()
           .search(self.state.filter.SearchSkillType.toLowerCase()) !== -1
       ) {
-        let skill = (
-          <RefGpecSkill
-            key={key}
-            skillId={key}
-            skillData={self.props.skillsModel.skills[key]}
-            skillsTypesModel={self.props.skillsTypesModel}
-            skillsDomainsModel={self.props.skillsDomainsModel}
-            profilList={self.props.skillsModel.getListProfils(key)}
-            onProfil={self.handleOpenProfilSkills}
-            onSave={self.handleSave}
-            onDestroy={self.handleDestroy}
-            ajaxLoading={self.props.skillsModel.ajaxLoading}
-          />
-        );
-
+        let skill;
         // get list of just added skills to be able to put it in top of the long list
         // so that the user can see the skill he just added
         if (
@@ -92,6 +78,36 @@ var RefGpecSkills = createReactClass({
           ) !== -1
         ) {
           skillsadd.push(i);
+          skill = (
+            <RefGpecSkill
+              key={key}
+              skillId={key}
+              skillData={self.props.skillsModel.skills[key]}
+              skillsTypesModel={self.props.skillsTypesModel}
+              skillsDomainsModel={self.props.skillsDomainsModel}
+              profilList={self.props.skillsModel.getListProfils(key)}
+              onProfil={self.handleOpenProfilSkills}
+              onSave={self.handleSave}
+              onDestroy={self.handleDestroy}
+              ajaxLoading={self.props.skillsModel.ajaxLoading}
+              style={{ backgroundColor: "yellow" }}
+            />
+          );
+        } else {
+          skill = (
+            <RefGpecSkill
+              key={key}
+              skillId={key}
+              skillData={self.props.skillsModel.skills[key]}
+              skillsTypesModel={self.props.skillsTypesModel}
+              skillsDomainsModel={self.props.skillsDomainsModel}
+              profilList={self.props.skillsModel.getListProfils(key)}
+              onProfil={self.handleOpenProfilSkills}
+              onSave={self.handleSave}
+              onDestroy={self.handleDestroy}
+              ajaxLoading={self.props.skillsModel.ajaxLoading}
+            />
+          );
         }
         rgSkills.push(skill);
       }
