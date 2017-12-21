@@ -38,7 +38,7 @@ levelsModel.subscribe(render);
 profilsSkillsModel.subscribe(render);
 
 function render() {
-  if (detectIE()) {
+  if (!detectIE()) {
     return ReactDOM.render(
       <Modal show>
         <Modal.Header>
@@ -51,12 +51,11 @@ function render() {
         <Modal.Body>
           <p>
             Vous utilisez actuellement une version d'Internet Explorer/Edge.
-            Malheuresement, ce navigateur ne supporte pas notre application :( .
           </p>
 
           <p>
             {" "}
-            Veuillez utiliser un navigateur plus performant (Mozilla
+            Veuillez utiliser un navigateur compatible avec RefGPEC (Mozilla
             Firefox/Google Chrome) afin de continuer. Merci de votre
             compréhension.
           </p>
