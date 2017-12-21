@@ -6,7 +6,10 @@ var RefGpecProfilsModel = function(options) {
   self.initializing = true;
   self.ajaxLoading = false;
   self.onChanges = [];
-  self.feedback = "";
+  self.feedback = {
+    code: "",
+    message: ""
+  };
   self.listTag = {};
   self.listprofils_skills_levels = {};
   var erreur = false;
@@ -173,8 +176,8 @@ RefGpecProfilsModel.prototype.addProfil = function(
       return cb && cb(null);
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontrée lors de l'ajout dans la base de donnée";
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);
@@ -206,16 +209,16 @@ RefGpecProfilsModel.prototype.destroy = function(profilId, cb) {
           return cb && cb(null);
         })
         .catch(function(error) {
-          self.feedback =
-            "Une erreur a été rencontrée lors de la suppression dans la base de donnée";
+          self.feedback.code = error.response.status;
+          self.feedback.message = error.response.data.message;
           self.ajaxLoading = false;
           self.inform();
           return cb && cb(error);
         });
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontré lors de la suppression dans la base de donnée";
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);
@@ -246,8 +249,8 @@ RefGpecProfilsModel.prototype.save = function(profilId, data, cb) {
       return cb && cb(null);
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontré lors de la modification dans la base de donnée";
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);

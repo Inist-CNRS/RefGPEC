@@ -337,13 +337,20 @@ var RefGpecSkills = createReactClass({
         newSkillShortName,
         newSkillFreeComments,
         function() {
-          if (!self.props.skillsModel.feedback) {
+          if (!self.props.skillsModel.feedback.code) {
             NotificationManager.success(
               "",
               "La compétence " + newSkillShortName + " a été ajoutée"
             );
           } else {
-            NotificationManager.error("", self.props.skillsModel.feedback);
+            NotificationManager.error(
+              "[" +
+                self.props.skillsModel.feedback.code +
+                "] " +
+                self.props.skillsModel.feedback.message,
+              "Une erreur a été rencontrée lors de l'ajout : ",
+              0
+            );
           }
         }
       );
@@ -381,7 +388,7 @@ var RefGpecSkills = createReactClass({
   handleDestroy: function(skillId) {
     let self = this;
     self.props.skillsModel.destroy(skillId, function() {
-      if (!self.props.skillsModel.feedback) {
+      if (!self.props.skillsModel.feedback.code) {
         NotificationManager.success(
           "",
           "La compétence " + skillId + " a été supprimée"
@@ -389,7 +396,14 @@ var RefGpecSkills = createReactClass({
         self.props.profilsSkillsModel.updateVue();
         self.props.skillsModel.inform();
       } else {
-        NotificationManager.error("", self.props.skillsModel.feedback);
+        NotificationManager.error(
+          "[" +
+            self.props.skillsModel.feedback.code +
+            "] " +
+            self.props.skillsModel.feedback.message,
+          "Une erreur a été rencontrée lors de la suppression : ",
+          0
+        );
       }
     });
   },
@@ -398,7 +412,7 @@ var RefGpecSkills = createReactClass({
     let self = this;
 
     this.props.skillsModel.save(skillId, SkillState, function() {
-      if (!self.props.skillsModel.feedback) {
+      if (!self.props.skillsModel.feedback.code) {
         self.props.skillsModel.updateVue();
         self.props.profilsSkillsModel.updateVue();
         NotificationManager.success(
@@ -406,7 +420,14 @@ var RefGpecSkills = createReactClass({
           "La compétence " + skillId + " a été modifiée"
         );
       } else {
-        NotificationManager.error("", self.props.skillsModel.feedback);
+        NotificationManager.error(
+          "[" +
+            self.props.skillsModel.feedback.code +
+            "] " +
+            self.props.skillsModel.feedback.message,
+          "Une erreur a été rencontrée lors de la modification : ",
+          0
+        );
       }
     });
   },

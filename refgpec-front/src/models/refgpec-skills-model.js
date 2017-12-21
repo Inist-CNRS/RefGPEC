@@ -6,7 +6,10 @@ var RefGpecSkillsModel = function(options) {
   self.initializing = true;
   self.ajaxLoading = false;
   self.onChanges = [];
-  self.feedback = "";
+  self.feedback = {
+    code: "",
+    message: ""
+  };
   self.listDomain = {};
   self.skillCSV = [];
   self.lastSkillAdd = [];
@@ -114,7 +117,10 @@ RefGpecSkillsModel.prototype.addSkill = function(
 ) {
   let self = this;
   self.ajaxLoading = true;
-  self.feedback = "";
+  self.feedback = {
+    code: "",
+    message: ""
+  };
   // filter other skills family to have a correct numeric id
   let codes = Object.keys(self.skills).filter(function(elt) {
     return (
@@ -162,9 +168,8 @@ RefGpecSkillsModel.prototype.addSkill = function(
       return cb && cb(null);
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontrée lors de l'ajout dans la base de donnée";
-      console.log(error.response);
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);
@@ -176,7 +181,10 @@ RefGpecSkillsModel.prototype.addSkill = function(
 RefGpecSkillsModel.prototype.destroy = function(skillId, cb) {
   var self = this;
   self.ajaxLoading = true;
-  self.feedback = "";
+  self.feedback = {
+    code: "",
+    message: ""
+  };
   axios
     .delete("/api/profils_skills_levels?skill_code=eq." + skillId)
     .then(function(response) {
@@ -189,8 +197,8 @@ RefGpecSkillsModel.prototype.destroy = function(skillId, cb) {
       self.getdomain();
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontré lors de la suppression dans la base de donnée";
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;
       return cb && cb(error);
     });
@@ -202,8 +210,8 @@ RefGpecSkillsModel.prototype.destroy = function(skillId, cb) {
       return cb && cb(null);
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontrée lors de la suppression dans la base de donnée";
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;
       return cb && cb(error);
     });
@@ -212,7 +220,10 @@ RefGpecSkillsModel.prototype.destroy = function(skillId, cb) {
 RefGpecSkillsModel.prototype.save = function(skillId, skillstate, cb) {
   var self = this;
   self.ajaxLoading = true;
-  self.feedback = "";
+  self.feedback = {
+    code: "",
+    message: ""
+  };
   axios
     .patch("/api/skills?skill_code=eq." + skillId, {
       skill_code: skillId,
@@ -229,8 +240,8 @@ RefGpecSkillsModel.prototype.save = function(skillId, skillstate, cb) {
       return cb && cb(null);
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontrée lors de la modification dans la base de donnée";
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);

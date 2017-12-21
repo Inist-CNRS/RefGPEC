@@ -361,7 +361,7 @@ var RefGpecProfilsSkills = createReactClass({
         self.state.newLevel,
         self.state.newFreeComment,
         function() {
-          if (!self.props.profilsSkillsModel.feedback) {
+          if (!self.props.profilsSkillsModel.feedback.code) {
             NotificationManager.success(
               "",
               "La compétence " +
@@ -374,8 +374,12 @@ var RefGpecProfilsSkills = createReactClass({
             self.props.profilsModel.updateVue();
           } else {
             NotificationManager.error(
-              "",
-              self.props.profilsSkillsModel.feedback
+              "[" +
+                self.props.profilsSkillsModel.feedback.code +
+                "] " +
+                self.props.profilsSkillsModel.feedback.message,
+              "Une erreur a été rencontrée lors de l'ajout : ",
+              0
             );
           }
         }
@@ -409,7 +413,7 @@ var RefGpecProfilsSkills = createReactClass({
       profilSkillId,
       self.state.selectedProfil,
       function() {
-        if (!self.props.profilsSkillsModel.feedback) {
+        if (!self.props.profilsSkillsModel.feedback.code) {
           NotificationManager.success(
             "",
             "La compétence " +
@@ -421,7 +425,14 @@ var RefGpecProfilsSkills = createReactClass({
           self.props.levelsModel.updateVue();
           self.props.profilsModel.updateVue();
         } else {
-          NotificationManager.error("", self.props.profilsSkillsModel.feedback);
+          NotificationManager.error(
+            "[" +
+              self.props.profilsSkillsModel.feedback.code +
+              "] " +
+              self.props.profilsSkillsModel.feedback.message,
+            "Une erreur a été rencontrée lors de la suppression : ",
+            0
+          );
         }
       }
     );
@@ -448,7 +459,7 @@ var RefGpecProfilsSkills = createReactClass({
       profiSkillId,
       profilSkillState,
       function() {
-        if (!self.props.profilsSkillsModel.feedback) {
+        if (!self.props.profilsSkillsModel.feedback.code) {
           NotificationManager.success(
             "",
             "L'association  " +
@@ -457,7 +468,14 @@ var RefGpecProfilsSkills = createReactClass({
           );
           self.props.levelsModel.updateVue();
         } else {
-          NotificationManager.error("", self.props.profilsSkillsModel.feedback);
+          NotificationManager.error(
+            "[" +
+              self.props.profilsSkillsModel.feedback.code +
+              "] " +
+              self.props.profilsSkillsModel.feedback.message,
+            "Une erreur a été rencontrée lors de la modification : ",
+            0
+          );
         }
       }
     );

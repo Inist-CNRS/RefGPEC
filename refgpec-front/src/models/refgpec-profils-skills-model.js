@@ -8,7 +8,10 @@ var RefGpecProfilsSkillsModel = function(options) {
   self.onChanges = [];
   self.psl = {};
   self.profil = "";
-  self.feedback = "";
+  self.feedback = {
+    code: "",
+    message: ""
+  };
   self.profilsSkillsCSV = [];
   axios
     .get(
@@ -76,7 +79,10 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function(
 ) {
   var self = this;
   self.ajaxLoading = true;
-  self.feedback = "";
+  self.feedback = {
+    code: "",
+    message: ""
+  };
   Object.keys(self.psl).forEach(function(key) {
     if (self.psl[key].skill_code === skill_code) {
       self.feedback = "La compétence est déjà associée à ce profil !";
@@ -113,8 +119,8 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function(
         return cb && cb(null);
       })
       .catch(function(error) {
-        self.feedback =
-          "Une erreur a été rencontrée lors de l'ajout dans la base de données";
+        self.feedback.code = error.response.status;
+        self.feedback.message = error.response.data.message;
         self.ajaxLoading = false;
         self.inform();
         return cb && cb(error);
@@ -132,7 +138,10 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function(
 RefGpecProfilsSkillsModel.prototype.destroy = function(pslId, profil_code, cb) {
   var self = this;
   self.ajaxLoading = true;
-  self.feedback = "";
+  self.feedback = {
+    code: "",
+    message: ""
+  };
   axios
     .delete("/api/profils_skills_levels?psl_code=eq." + pslId)
     .then(function(response) {
@@ -143,8 +152,9 @@ RefGpecProfilsSkillsModel.prototype.destroy = function(pslId, profil_code, cb) {
       return cb && cb(null);
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontrée lors de la suppression dans la base de données";
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
+      console.log(error.response.data);
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);
@@ -184,7 +194,10 @@ RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(
 RefGpecProfilsSkillsModel.prototype.save = function(pslId, data, cb) {
   var self = this;
   self.ajaxLoading = true;
-  self.feedback = "";
+  self.feedback = {
+    code: "",
+    message: ""
+  };
   axios
     .patch("/api/profils_skills_levels?psl_code=eq." + pslId, {
       psl_code: pslId,
@@ -200,8 +213,8 @@ RefGpecProfilsSkillsModel.prototype.save = function(pslId, data, cb) {
       return cb && cb(null);
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontrée lors de la modification dans la base de données";
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);

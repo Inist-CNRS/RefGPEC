@@ -5,7 +5,10 @@ var RefGpecLevelsModel = function(options) {
   self.initializing = true;
   self.ajaxLoading = false;
   self.onChanges = [];
-  self.feedback = "";
+  self.feedback = {
+    code: "",
+    message: ""
+  };
   self.test = {};
   self.max = 0;
   self.listprofils_skills_levels = {};
@@ -163,8 +166,8 @@ RefGpecLevelsModel.prototype.addLevel = function(
       return cb && cb(null);
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontrée lors de l'ajout dans la base de données";
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);
@@ -205,8 +208,8 @@ RefGpecLevelsModel.prototype.destroy = function(levelId, cb) {
         });
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontrée lors de la suppression dans la base de données";
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;
       return cb && cb(error);
     });
@@ -233,8 +236,8 @@ RefGpecLevelsModel.prototype.save = function(levelId, data, cb) {
       return cb && cb(null);
     })
     .catch(function(error) {
-      self.feedback =
-        "Une erreur a été rencontrée lors de la modification dans la base de donnéee";
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);

@@ -281,13 +281,20 @@ var RefGpecLevels = createReactClass({
             newShortName: "",
             newFreeComment: ""
           });
-          if (!self.props.levelsModel.feedback) {
+          if (!self.props.levelsModel.feedback.code) {
             NotificationManager.success(
               "",
               "La modulation " + self.state.newShortName + " a été ajoutée"
             );
           } else {
-            NotificationManager.error("", self.props.levelsModel.feedback);
+            NotificationManager.error(
+              "[" +
+                self.props.levelsModel.feedback.code +
+                "] " +
+                self.props.levelsModel.feedback.message,
+              "Une erreur a été rencontrée lors de l'ajout : ",
+              0
+            );
           }
         }
       );
@@ -305,7 +312,7 @@ var RefGpecLevels = createReactClass({
   handleDestroy: function(levelId) {
     let self = this;
     self.props.levelsModel.destroy(levelId, function() {
-      if (!self.props.levelsModel.feedback) {
+      if (!self.props.levelsModel.feedback.code) {
         NotificationManager.success(
           "",
           "La modulation " + levelId + " a été supprimée"
@@ -313,7 +320,14 @@ var RefGpecLevels = createReactClass({
         self.props.profilsSkillsModel.updateVue();
         self.props.levelsModel.inform();
       } else {
-        NotificationManager.error("", self.props.levelsModel.feedback);
+        NotificationManager.error(
+          "[" +
+            self.props.levelsModel.feedback.code +
+            "] " +
+            self.props.levelsModel.feedback.message,
+          "Une erreur a été rencontrée lors de la suppression : ",
+          0
+        );
       }
     });
   },
@@ -321,14 +335,21 @@ var RefGpecLevels = createReactClass({
   handleSave: function(levelId, levelState) {
     let self = this;
     this.props.levelsModel.save(levelId, levelState, function() {
-      if (!self.props.levelsModel.feedback) {
+      if (!self.props.levelsModel.feedback.code) {
         self.props.profilsSkillsModel.updateVue();
         NotificationManager.success(
           "",
           "La modulation " + levelId + " a été modifiée"
         );
       } else {
-        NotificationManager.error("", self.props.levelsModel.feedback);
+        NotificationManager.error(
+          "[" +
+            self.props.levelsModel.feedback.code +
+            "] " +
+            self.props.levelsModel.feedback.message,
+          "Une erreur a été rencontrée lors de la modification : ",
+          0
+        );
       }
     });
   },

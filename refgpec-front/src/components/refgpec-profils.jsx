@@ -230,7 +230,7 @@ var RefGpecProfils = createReactClass({
   handleSave: function(profilId, profilState) {
     let self = this;
     this.props.profilsModel.save(profilId, profilState, function() {
-      if (!self.props.profilsModel.feedback) {
+      if (!self.props.profilsModel.feedback.code) {
         self.props.profilsModel.updateVue();
         self.props.profilsSkillsModel.updateVue();
         NotificationManager.success(
@@ -238,7 +238,14 @@ var RefGpecProfils = createReactClass({
           "Le Profil " + profilId + " a été modifié"
         );
       } else {
-        NotificationManager.error("", self.props.profilsModel.feedback);
+        NotificationManager.error(
+          "[" +
+            self.props.profilsModel.feedback.code +
+            "] " +
+            self.props.profilsModel.feedback.message,
+          "Une erreur a été rencontrée lors de la modification : ",
+          0
+        );
       }
     });
   },
@@ -275,7 +282,7 @@ var RefGpecProfils = createReactClass({
       newProfilFreeComments,
       newProfilPdfPath,
       function() {
-        if (!self.props.profilsModel.feedback) {
+        if (!self.props.profilsModel.feedback.code) {
           self.props.profilsModel.updateVue();
           self.props.profilsSkillsModel.updateVue();
           NotificationManager.success(
@@ -283,7 +290,14 @@ var RefGpecProfils = createReactClass({
             "le profil " + newProfilShortName + " a été ajouté"
           );
         } else {
-          NotificationManager.error("", self.props.profilsModel.feedback);
+          NotificationManager.error(
+            "[" +
+              self.props.profilsModel.feedback.code +
+              "] " +
+              self.props.profilsModel.feedback.message,
+            "Une erreur a été rencontrée lors de l'ajout : ",
+            0
+          );
         }
       }
     );
@@ -292,7 +306,7 @@ var RefGpecProfils = createReactClass({
   handleDestroy: function(profilId) {
     let self = this;
     this.props.profilsModel.destroy(profilId, function() {
-      if (!self.props.profilsModel.feedback) {
+      if (!self.props.profilsModel.feedback.code) {
         self.props.profilsSkillsModel.updateVue();
         self.props.profilsModel.inform();
         NotificationManager.success(
@@ -300,7 +314,14 @@ var RefGpecProfils = createReactClass({
           "le profil " + profilId + " a été supprimé"
         );
       } else {
-        NotificationManager.error("", self.props.profilsModel.feedback);
+        NotificationManager.error(
+          "[" +
+            self.props.profilsModel.feedback.code +
+            "] " +
+            self.props.profilsModel.feedback.message,
+          "Une erreur a été rencontrée lors de la suppression : ",
+          0
+        );
       }
     });
   },
