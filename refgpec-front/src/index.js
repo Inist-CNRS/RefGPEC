@@ -38,7 +38,7 @@ levelsModel.subscribe(render);
 profilsSkillsModel.subscribe(render);
 
 function render() {
-  if (!detectIE()) {
+  if (detectIE()) {
     return ReactDOM.render(
       <Modal show>
         <Modal.Header>

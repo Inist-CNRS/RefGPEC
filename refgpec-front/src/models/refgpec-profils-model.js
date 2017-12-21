@@ -125,6 +125,19 @@ RefGpecProfilsModel.prototype.addProfil = function(
   var self = this;
   self.ajaxLoading = true;
   self.feedback = "";
+  //get the profils from database to be sure to get the last code
+  axios
+    .get("/api/view_profils_nb_skills")
+    .then(response => {
+      self.profils = {};
+      response.data.forEach(item => {
+        self.profils[item.profil_code] = item;
+      });
+    })
+    .catch(err => {
+      console.log("RefGpecProfilModelError loading data", err);
+    });
+
   // filter other skills family to have a correct numeric id
   var codes = Object.keys(self.profils).filter(function(elt) {
     return elt.indexOf("p-") === 0;

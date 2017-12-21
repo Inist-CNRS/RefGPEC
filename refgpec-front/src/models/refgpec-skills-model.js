@@ -117,6 +117,20 @@ RefGpecSkillsModel.prototype.addSkill = function(
 ) {
   let self = this;
   self.ajaxLoading = true;
+
+  //get the skills from database to be sure to get the last code
+  axios
+    .get("/api/skills?order=sd_code.asc,st_code.asc,skill_shortname.asc")
+    .then(response => {
+      self.skills = {};
+      response.data.forEach(item => {
+        self.skills[item.skill_code] = item;
+      });
+    })
+    .catch(err => {
+      console.log("RefGpecSkillsModel error loading data", err);
+    });
+
   self.feedback = {
     code: "",
     message: ""

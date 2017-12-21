@@ -137,6 +137,20 @@ RefGpecLevelsModel.prototype.addLevel = function(
   self.ajaxLoading = true;
   self.feedback = "";
   let level_code = "m-" + 1;
+
+  //get the levels from database to be sure to get the last code
+  axios
+    .get("/api/levels?order=level_number.asc")
+    .then(response => {
+      self.levels = {};
+      response.data.forEach(item => {
+        self.levels[item.level_code] = item;
+      });
+    })
+    .catch(err => {
+      console.log("RefGpecLevelsModel error loading data", err);
+    });
+
   let codes = Object.keys(self.levels);
   if (codes.length > 0) {
     codes.sort();

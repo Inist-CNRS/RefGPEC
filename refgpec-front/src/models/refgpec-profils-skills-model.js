@@ -83,12 +83,24 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function(
     code: "",
     message: ""
   };
+  axios
+    .get("/api/profils_skills_levels?profil_code=eq." + self.profil)
+    .then(response => {
+      response.data.forEach(item => {
+        self.psl[item.psl_code] = item;
+      });
+    })
+    .catch(err => {
+      console.log("RefGpecProfilSkillsLevelModel error loading data", err);
+    });
+
   Object.keys(self.psl).forEach(function(key) {
     if (self.psl[key].skill_code === skill_code) {
-      self.feedback = "La compétence est déjà associée à ce profil !";
+      self.feedback.code = "999";
+      self.feedback.message = "La compétence est déjà associée à ce profil !";
     }
   });
-  if (!self.feedback) {
+  if (!self.feedback.message) {
     // filter other skills family to have a correct numeric id
     var codes = Object.keys(self.profilsSkillsLevels);
     var psl_code = "ps-1";
