@@ -9,7 +9,6 @@ import {
   NotificationManager
 } from "react-notifications";
 import { CSVLink } from "react-csv";
-import RefGpecPDF from "./refgpec-pdf.jsx";
 var createReactClass = require("create-react-class");
 var RefGpecProfilsSkills = createReactClass({
   displayName: "RefGpecProfilsSkills",
@@ -90,9 +89,6 @@ var RefGpecProfilsSkills = createReactClass({
       });
     }
     // layout stuff
-    let layoutBtnClasses = "btn btn-default pull-right fa fa-2x ";
-    layoutBtnClasses +=
-      self.state.layout === "horizontal" ? "fa-arrows-h" : "fa-arrows-v";
     let layoutColClasses = "col-lg-6 ";
     layoutColClasses +=
       self.state.layout === "horizontal" ? "" : "profils-skills-vertical";
@@ -163,11 +159,23 @@ var RefGpecProfilsSkills = createReactClass({
                     return (
                       <button
                         type="button"
-                        className="pull-right fa fa-file-pdf-o "
                         title="Ouvrir le PDF dans une nouvelle fenêtre"
                         onClick={this.handleOpenPDF}
-                        style={{ fontSize: "40px" }}
-                      />
+                        style={{
+                          float: "right",
+                          color: "white",
+                          backgroundColor: "#8dc63f",
+                          fontSize: "20px",
+                          padding: "6px 12px"
+                        }}
+                      >
+                        {" "}
+                        <i
+                          className="fa fa-file-pdf-o fa-fw"
+                          aria-hidden="true"
+                        />
+                        Version PDF du Profil
+                      </button>
                     );
                   }
                 })()}
