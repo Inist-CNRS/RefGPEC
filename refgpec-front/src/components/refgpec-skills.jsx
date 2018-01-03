@@ -62,12 +62,12 @@ var RefGpecSkills = createReactClass({
           .toLowerCase()
           .search(self.state.filter.SearchSkillShortName.toLowerCase()) !==
           -1 &&
-        self.props.skillsModel.skills[key].sd_code
-          .toLowerCase()
-          .search(self.state.filter.SearchSkillDomain.toLowerCase()) !== -1 &&
-        self.props.skillsModel.skills[key].st_code
-          .toLowerCase()
-          .search(self.state.filter.SearchSkillType.toLowerCase()) !== -1
+        (self.props.skillsModel.skills[key].sd_code.toLowerCase() ===
+          self.state.filter.SearchSkillDomain.toLowerCase() ||
+          self.state.filter.SearchSkillDomain.toLowerCase() === "") &&
+        (self.props.skillsModel.skills[key].st_code.toLowerCase() ===
+          self.state.filter.SearchSkillType.toLowerCase() ||
+          self.state.filter.SearchSkillType.toLowerCase() === "")
       ) {
         let skill;
         // get list of just added skills to be able to put it in top of the long list
