@@ -31,7 +31,7 @@ var RefGpecResearchSkill = createReactClass({
 
     return (
       <tr className="form-new-skill">
-        <td style={{ width: "87px", textAlign: "center" }}>
+        <td style={{ textAlign: "center" }} className="skills-col-action">
           <OverlayTrigger
             trigger="focus"
             placement="top"
@@ -47,7 +47,7 @@ var RefGpecResearchSkill = createReactClass({
             />
           </OverlayTrigger>
         </td>
-        <td style={{ width: "260px" }}>
+        <td className="skills-col-type">
           <RefGpecTypes
             skillData={self.props.skillsTypesModel}
             ajaxLoading={self.props.skillsTypesModel.ajaxLoading}
@@ -56,7 +56,7 @@ var RefGpecResearchSkill = createReactClass({
             value={this.state.SearchSkillType}
           />
         </td>
-        <td style={{ width: "291px" }}>
+        <td className="skills-col-domain">
           <RefGpecDomains
             skillData={self.props.skillsDomainsModel}
             ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
@@ -65,7 +65,7 @@ var RefGpecResearchSkill = createReactClass({
             value={this.state.SearchSkillDomain}
           />
         </td>
-        <td>
+        <td colSpan="3" className="skills-col-shortname">
           <div className="input-group">
             <span
               style={{ cursor: "pointer" }}

@@ -221,14 +221,7 @@ var RefGpecSkills = createReactClass({
               id="skills-list"
               className="table table-striped table-bordered"
             >
-              <tbody>
-                <RefGpecResearchSkill
-                  skillsModel={self.props.skillsModel}
-                  skillsTypesModel={self.props.skillsTypesModel}
-                  skillsDomainsModel={self.props.skillsDomainsModel}
-                  onChange={this.filterList}
-                />
-              </tbody>
+              <tbody />
             </table>
             <table
               id="skills-list"
@@ -287,6 +280,15 @@ var RefGpecSkills = createReactClass({
                 </tr>
               </thead>
               <tbody>
+                <RefGpecResearchSkill
+                  skillsModel={self.props.skillsModel}
+                  skillsTypesModel={self.props.skillsTypesModel}
+                  skillsDomainsModel={self.props.skillsDomainsModel}
+                  onChange={this.filterList}
+                />
+                <tr>
+                  <td colSpan="6" style={{ height: "25px" }} />
+                </tr>
                 {/* FORM USED TO CREATE A NEW SKILL */}
                 <RefGpecNewSkill
                   skillsModel={self.props.skillsModel}
@@ -294,11 +296,6 @@ var RefGpecSkills = createReactClass({
                   skillsDomainsModel={self.props.skillsDomainsModel}
                   onSubmit={self.handleAddSkills}
                 />
-
-                <tr>
-                  <td colSpan="6" style={{ height: "25px" }} />
-                </tr>
-
                 {rgSkills}
               </tbody>
             </table>

@@ -143,18 +143,6 @@ var RefGpecProfils = createReactClass({
               id="profils-list"
               className="table table-striped table-bordered"
             >
-              <tbody>
-                <RefGpecResearchProfil
-                  profilsModel={this.props.profilsModel}
-                  tagList={rgTagList}
-                  onChange={this.filterList}
-                />
-              </tbody>
-            </table>
-            <table
-              id="profils-list"
-              className="table table-striped table-bordered"
-            >
               <thead>
                 <tr>
                   <th className="profils-col-action" />
@@ -195,15 +183,20 @@ var RefGpecProfils = createReactClass({
                 </tr>
               </thead>
               <tbody>
+                <RefGpecResearchProfil
+                  profilsModel={this.props.profilsModel}
+                  tagList={rgTagList}
+                  onChange={this.filterList}
+                />
+                <tr>
+                  <td colSpan="6" style={{ height: "25px" }} />
+                </tr>
                 {/* FORM USED TO CREATE A NEW PROFIL */}
                 <RefGpecNewProfil
                   profilsModel={this.props.profilsModel}
                   onSubmit={self.handleSubmit}
                 />
 
-                <tr>
-                  <td colSpan="6" style={{ height: "25px" }} />
-                </tr>
                 {rgProfils}
               </tbody>
             </table>
