@@ -117,76 +117,74 @@ RefGpecSkillsModel.prototype.addSkill = function(
 ) {
   let self = this;
   self.ajaxLoading = true;
-
-  //get the skills from database to be sure to get the last code
-  axios
-    .get("/api/skills?order=sd_code.asc,st_code.asc,skill_shortname.asc")
-    .then(response => {
-      self.skills = {};
-      response.data.forEach(item => {
-        self.skills[item.skill_code] = item;
-      });
-    })
-    .catch(err => {
-      console.log("RefGpecSkillsModel error loading data", err);
-    });
-
+  let history = {};
   self.feedback = {
     code: "",
     message: ""
   };
-  // filter other skills family to have a correct numeric id
-  let codes = Object.keys(self.skills).filter(function(elt) {
-    return (
-      elt.indexOf(
-        "c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase()
-      ) === 0
-    );
-  });
-  let skill_code =
-    "c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase() + "-1";
-  // add +1 to the id if more than one skill in this type/domain
-  codes.sort();
-  if (codes.length > 0) {
-    let lastCodeSplitted = self.getmax(codes);
-    skill_code =
-      "c-" +
-      st_code.toLowerCase() +
-      "-" +
-      sd_code.toLowerCase() +
-      "-" +
-      parseInt(lastCodeSplitted + 1, 10);
-  }
-
+  //get the skills from history database to be sure to get the last code
   axios
-    .post("/api/skills", {
-      skill_code: skill_code,
-      skill_shortname: skill_shortname,
-      skill_free_comments: skill_free_comments,
-      sd_code: sd_code,
-      st_code: st_code
+    .get("/api/history_skills?order=sd_code.asc,st_code.asc,sh_shortname.asc")
+    .then(response => {
+      response.data.forEach(item => {
+        history[item.sh_code] = item;
+      });
+      // filter other skills family to have a correct numeric id
+      let codes = Object.keys(history).filter(function(elt) {
+        return (
+          elt.indexOf(
+            "c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase()
+          ) === 0
+        );
+      });
+      let skill_code =
+        "c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase() + "-1";
+      // add +1 to the id if more than one skill in this type/domain
+      codes.sort();
+      if (codes.length > 0) {
+        let lastCodeSplitted = self.getmax(codes);
+        skill_code =
+          "c-" +
+          st_code.toLowerCase() +
+          "-" +
+          sd_code.toLowerCase() +
+          "-" +
+          parseInt(lastCodeSplitted + 1, 10);
+      }
+
+      axios
+        .post("/api/skills", {
+          skill_code: skill_code,
+          skill_shortname: skill_shortname,
+          skill_free_comments: skill_free_comments,
+          sd_code: sd_code,
+          st_code: st_code
+        })
+        .then(function(response) {
+          self.skills[skill_code] = {
+            skill_code,
+            skill_shortname,
+            skill_free_comments,
+            sd_code,
+            st_code
+          };
+          self.ajaxLoading = false;
+          self.getdomain();
+          self.getSkillsCSV();
+          self.lastSkillAdd.push(skill_code);
+          self.inform();
+          return cb && cb(null);
+        })
+        .catch(function(error) {
+          self.feedback.code = error.response.status;
+          self.feedback.message = error.response.data.message;
+          self.ajaxLoading = false;
+          self.inform();
+          return cb && cb(error);
+        });
     })
-    .then(function(response) {
-      self.skills[skill_code] = {
-        skill_code,
-        skill_shortname,
-        skill_free_comments,
-        sd_code,
-        st_code
-      };
-      self.ajaxLoading = false;
-      self.getdomain();
-      self.getSkillsCSV();
-      self.lastSkillAdd.push(skill_code);
-      self.inform();
-      return cb && cb(null);
-    })
-    .catch(function(error) {
-      self.feedback.code = error.response.status;
-      self.feedback.message = error.response.data.message;
-      self.ajaxLoading = false;
-      self.inform();
-      return cb && cb(error);
+    .catch(err => {
+      console.log("RefGPECHistory_Skills error loading data", err);
     });
 
   self.inform();
