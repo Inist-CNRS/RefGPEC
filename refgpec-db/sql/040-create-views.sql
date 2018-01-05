@@ -42,16 +42,16 @@ group by l.level_code,profil_code;
 
 
 create view view_exportCSV_skills as
-select skill_code as code,sd_shortname as Domaine,st_shortname as Type,skill_shortname as Nom,skill_free_comments as Commentaire,referens
+select skill_code as code,sd_shortname as Domaine,st_shortname as Type,skill_shortname as Nom,CASE WHEN skill_free_comments is null THEN '' ELSE skill_free_comments END as Commentaire,referens
 from skills s, skills_domains sd, skills_types st
 where s.sd_code= sd.sd_code and s.st_code= st.st_code
 order by domaine,type,skill_code;
 
 create view view_exportcsv_profilsSkills as
-select profil_code,Type,Domaine,code, Nom,Commentaire,referens,'0' as modulation from view_exportcsv_skills cross join
+select profil_code,Type,Domaine,code, Nom,CASE WHEN Commentaire is null THEN '' ELSE Commentaire END as Commentaire,referens,'0' as modulation from view_exportcsv_skills cross join
 profils where (code,Nom,profil_code  )not in (select psl.skill_code,skill_shortname,p.profil_code  from profils p , skills s , profils_skills_levels psl
                                                                                where s.skill_code = psl.skill_code and p.profil_code = psl.profil_code)
 
 UNION
-select p.profil_code, Type,Domaine,code, Nom,Commentaire,referens,level_number from profils p , view_exportcsv_skills s , profils_skills_levels psl,levels l
+select p.profil_code, Type,Domaine,code, Nom,CASE WHEN psl_free_comments is null THEN '' ELSE psl_free_comments END as Commentaire,referens,level_number from profils p , view_exportcsv_skills s , profils_skills_levels psl,levels l
                                                                                where s.code = psl.skill_code and p.profil_code = psl.profil_code and l.level_code = psl.level_code

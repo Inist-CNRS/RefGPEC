@@ -32,6 +32,8 @@ var RefGpecProfilSkill = createReactClass({
     ) {
       return null;
     }
+    console.log(this.state.psSkillId);
+    console.log(this.props.skillsModel.skills[this.state.psSkillId]);
     let color = [];
     Object.keys(this.props.skillsTypesModel.st).forEach(function(key, i) {
       if (i === 0) {

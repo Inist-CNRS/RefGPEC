@@ -66,6 +66,8 @@ var RefGpecProfilsSkills = createReactClass({
           ajaxLoading={self.props.profilsSkillsModel.ajaxLoading}
         />
       );
+      console.log(self.props.profilsSkillsModel.profilsSkillsLevels[key]);
+      console.log(key);
     });
     if (self.state.type_sort) {
       rgPS.sort(function(a, b) {
