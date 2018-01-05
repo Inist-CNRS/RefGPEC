@@ -180,7 +180,7 @@ var RefGpecProfil = createReactClass({
                           ref="formUrlPdf"
                           className="form-control"
                           type="url"
-                          pattern="^(https?:\/\/)[a-zA-Z0-9-_\.]+(:\d{1,4}\/)?[a-zA-Z0-9-_?!_~%!$&'()*+,;=:@\\/]+\.pdf$"
+                          pattern="^(https?:\/\/)[a-zA-Z0-9-_\.]+(:\d{1,4}\/)?[a-zA-Z0-9-_.?!_~%!$&'()*+,;=:@\\/]+\.pdf$"
                           placeholder={this.state.profil_pdf_path}
                         />
                       </p>
@@ -193,7 +193,7 @@ var RefGpecProfil = createReactClass({
                           ref="formUrlPdf"
                           className="form-control"
                           type="url"
-                          pattern="^(https?:\/\/)[a-zA-Z0-9-_\.]+(:\d{1,4}\/)?[a-zA-Z0-9-_?!_~%!$&'()*+,;=:@\\/]+\.pdf$"
+                          pattern="^(https?:\/\/)[a-zA-Z0-9-_\.]+(:\d{1,4}\/)?[a-zA-Z0-9-_.?!_~%!$&'()*+,;=:@\\/]+\.pdf$"
                           placeholder="Lien du PDF du profil"
                         />
                       </p>
