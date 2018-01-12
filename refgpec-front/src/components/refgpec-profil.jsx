@@ -201,7 +201,13 @@ var RefGpecProfil = createReactClass({
                   }
                 })()}
 
-                <div className="alert alert-info" role="alert" />
+                <div className="alert alert-info" role="alert">
+                  {" "}
+                  <p>
+                    Pour supprimer le PDF existant, laissez le champ vide et
+                    validez.
+                  </p>{" "}
+                </div>
               </Modal.Body>
               <Modal.Footer>
                 <button
