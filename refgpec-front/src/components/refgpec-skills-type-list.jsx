@@ -17,19 +17,31 @@ var RefGpecSkillsTypesList = createReactClass({
     let self = this;
     let ops = [];
     let rgDomain = this.props.skillData.listDomain;
+    let rgType = this.props.skillData.listType;
     Object.keys(rgDomain).forEach(function(dom) {
-      let option = [];
-      Object.keys(self.props.skillData.skills).forEach(function(key) {
-        if (self.props.skillData.skills[key].sd_code === dom) {
-          option.push({
-            label: self.props.skillData.skills[key].skill_shortname,
-            value: self.props.skillData.skills[key].skill_code
-          });
-        }
+      let option2 = [];
+
+      Object.keys(rgType).forEach(function(type) {
+        let option = [];
+        Object.keys(self.props.skillData.skills).forEach(function(key) {
+          if (
+            self.props.skillData.skills[key].sd_code === dom &&
+            self.props.skillData.skills[key].st_code === type
+          ) {
+            option.push({
+              label: self.props.skillData.skills[key].skill_shortname,
+              value: self.props.skillData.skills[key].skill_code
+            });
+          }
+        });
+        option2.push({
+          label: rgType[type].st_shortname,
+          options: option
+        });
       });
       ops.push({
         label: rgDomain[dom].sd_shortname,
-        options: option
+        options: option2
       });
     });
 
