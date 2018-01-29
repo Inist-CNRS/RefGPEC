@@ -10,6 +10,7 @@ var RefGpecProfilsModel = function(options) {
     code: "",
     message: ""
   };
+  self.profilCSV = [];
   self.listTag = {};
   self.listprofils_skills_levels = {};
   var erreur = false;
@@ -42,6 +43,7 @@ var RefGpecProfilsModel = function(options) {
     });
 
   self.gettag();
+  self.getProfilsCSV();
   self.initializing = erreur;
   self.inform();
 };
@@ -184,7 +186,7 @@ RefGpecProfilsModel.prototype.addProfil = function(
       for (var k = 0; k < nomchamp.length; k++) {
         self.profils[profil_code][nomchamp[k]] = 0;
       }
-
+      self.getProfilsCSV();
       self.inform();
       return cb && cb(null);
     })
@@ -218,6 +220,7 @@ RefGpecProfilsModel.prototype.destroy = function(profilId, cb) {
         .then(function(response) {
           delete self.profils[profilId];
           self.ajaxLoading = false;
+          self.getProfilsCSV();
           self.inform();
           return cb && cb(null);
         })
@@ -258,6 +261,7 @@ RefGpecProfilsModel.prototype.save = function(profilId, data, cb) {
     .then(function(response) {
       self.profils[profilId] = data;
       self.ajaxLoading = false;
+      self.getProfilsCSV();
       self.inform();
       return cb && cb(null);
     })
@@ -281,6 +285,23 @@ RefGpecProfilsModel.prototype.getlistskills = function(profil_code) {
     }
   }
   return list;
+};
+
+RefGpecProfilsModel.prototype.getProfilsCSV = function() {
+  var self = this;
+  self.profilCSV = [];
+  axios
+    .get("/api/view_exportcsv_profils")
+    .then(response => {
+      response.data.forEach(item => {
+        self.profilCSV.push(item);
+      });
+      self.inform();
+    })
+    .catch(err => {
+      console.log("RefGpecProfilModelError error loading data", err);
+      self.inform();
+    });
 };
 
 export default RefGpecProfilsModel;

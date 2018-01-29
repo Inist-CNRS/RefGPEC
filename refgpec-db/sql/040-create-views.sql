@@ -54,4 +54,9 @@ profils where (code,Nom,profil_code  )not in (select psl.skill_code,skill_shortn
 
 UNION
 select p.profil_code, Type,Domaine,code, Nom,CASE WHEN psl_free_comments is null THEN '' ELSE psl_free_comments END as Commentaire,referens,level_number from profils p , view_exportcsv_skills s , profils_skills_levels psl,levels l
-                                                                               where s.code = psl.skill_code and p.profil_code = psl.profil_code and l.level_code = psl.level_code
+                                                                               where s.code = psl.skill_code and p.profil_code = psl.profil_code and l.level_code = psl.level_code;
+
+create view view_exportCSV_profils as
+select profil_code as code, profil_tag as tag, profil_shortname  as Nom ,CASE WHEN profil_free_comments is null THEN '' ELSE profil_free_comments END as Commentaire,profil_pdf_path as lien_du_PDF
+from profils p
+order by profil_tag, profil_code;

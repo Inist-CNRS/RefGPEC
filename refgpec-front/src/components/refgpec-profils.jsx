@@ -6,6 +6,7 @@ import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
+import { CSVLink } from "react-csv";
 var createReactClass = require("create-react-class");
 var RefGpecProfils = createReactClass({
   displayName: "RefGpecProfils",
@@ -108,7 +109,44 @@ var RefGpecProfils = createReactClass({
         <div className="row">
           <div className="col-md-12">
             <div className="panel panel-default">
-              <div className="panel-heading">Profils de poste</div>
+              <div
+                className="panel-heading row"
+                style={{ marginRight: "0px", marginLeft: "0px" }}
+              >
+                <div className="col-md-6  text center">Profils de poste</div>
+                <div className="col-md-6 text center">
+                  {(() => {
+                    if (
+                      Object.keys(self.props.profilsModel.profilCSV).length !==
+                      0
+                    ) {
+                      let date =
+                        new Date().getFullYear() +
+                        "-" +
+                        new Date().getMonth() +
+                        "-" +
+                        new Date().getDate();
+                      return (
+                        <CSVLink
+                          data={self.props.profilsModel.profilCSV}
+                          style={{ backgroundColor: "#8dc63f", float: "right" }}
+                          title="Cliquez pour télecharger le réferentiel des profils en csv"
+                          separator={";"}
+                          filename={
+                            "Référentiel des profils de poste - GPEC - " +
+                            date +
+                            ".csv"
+                          }
+                          className="btn btn-primary"
+                          target="_blank"
+                        >
+                          Exporter en CSV
+                        </CSVLink>
+                      );
+                    }
+                  })()}
+                </div>
+              </div>
               <div className="panel-body">
                 <p>
                   Depuis cet onglet il est possible d'ajouter et de supprimer
