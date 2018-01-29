@@ -9,15 +9,26 @@ var RefGpecSkillsTypesList = createReactClass({
     return {
       mustBeSaved: false,
       error: "",
+      updating: false,
       skill_code: this.props.skillData.skill_code
     };
   },
 
   render: function() {
     let self = this;
+    let color = [];
     let ops = [];
     let rgDomain = this.props.skillData.listDomain;
     let rgType = this.props.skillData.listType;
+    Object.keys(rgType).forEach(function(key, i) {
+      if (i === 0) {
+        color[key] = "rgb(204,153, 102)";
+      } else if (i === 1) {
+        color[key] = "rgb(204, 51, 255)";
+      } else {
+        color[key] = "rgb(255, 153, 153)";
+      }
+    });
     Object.keys(rgDomain).forEach(function(dom) {
       let option2 = [];
 
@@ -34,6 +45,7 @@ var RefGpecSkillsTypesList = createReactClass({
             });
           }
         });
+
         option2.push({
           label: rgType[type].st_shortname,
           options: option
@@ -46,13 +58,87 @@ var RefGpecSkillsTypesList = createReactClass({
     });
 
     return (
-      <Select
-        onChange={this.handleChange}
-        options={ops}
-        placeholder="Selectionnez une compétence"
-        value={this.props.value}
-      />
+      <div>
+        {(() => {
+          if (this.props.value) {
+            if (!this.state.updating) {
+              return (
+                <span onClick={this.handleModifiy}>
+                  <span
+                    className="label label-warning"
+                    style={{
+                      backgroundColor:
+                        color[
+                          self.props.skillData.skills[this.props.value].st_code
+                        ]
+                    }}
+                  >
+                    {
+                      rgType[
+                        this.props.skillData.skills[this.props.value].st_code
+                      ].st_shortname
+                    }
+                  </span>
+                  &nbsp;
+                  <span
+                    style={{ backgroundColor: "#808080" }}
+                    className="label label-primary"
+                  >
+                    {
+                      rgDomain[
+                        this.props.skillData.skills[this.props.value].sd_code
+                      ].sd_shortname
+                    }
+                  </span>
+                  <span
+                    style={{ marginLeft: "2em" }}
+                    className="btn active"
+                    title={
+                      this.props.skillData.skills[this.props.value]
+                        .skillFreeComments
+                    }
+                  >
+                    {
+                      this.props.skillData.skills[this.props.value]
+                        .skill_shortname
+                    }
+                  </span>
+                  <span className="icon-modify">
+                    {" "}
+                    <i
+                      title="Cliquez pour modifier la compétence"
+                      className="fa fa-pencil"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </span>
+              );
+            } else {
+              return (
+                <Select
+                  onChange={this.handleChange}
+                  options={ops}
+                  placeholder="Selectionnez une compétence"
+                  value={this.props.value}
+                />
+              );
+            }
+          } else {
+            return (
+              <Select
+                onChange={this.handleChange}
+                options={ops}
+                placeholder="Selectionnez une compétence"
+                value={this.props.value}
+              />
+            );
+          }
+        })()}
+      </div>
     );
+  },
+  handleModifiy: function() {
+    this.setState({ updating: !this.state.updating });
   },
 
   handleChange: function(event) {
@@ -60,6 +146,7 @@ var RefGpecSkillsTypesList = createReactClass({
       this.props.onChange("");
     } else {
       this.props.onChange(event.value);
+      this.setState({ updating: false });
     }
   }
 });
