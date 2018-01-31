@@ -233,9 +233,7 @@ var RefGpecProfilsSkills = createReactClass({
                       <thead>
                         <tr>
                           <th className="profils-skills-col-action" />
-                          <th className="profils-skills-col-name">
-                            Types &amp; Domaines
-                          </th>
+
                           <th className="profils-skills-col-name">
                             Compétences
                           </th>
@@ -285,7 +283,7 @@ var RefGpecProfilsSkills = createReactClass({
                               />
                             </OverlayTrigger>
                           </td>
-                          <td colSpan="2">
+                          <td colSpan="1">
                             <RefGpecSkillsTypeList
                               skillData={self.props.skillsModel}
                               ajaxLoading={self.props.skillsModel.ajaxLoading}

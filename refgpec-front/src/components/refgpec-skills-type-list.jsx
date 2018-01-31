@@ -65,33 +65,6 @@ var RefGpecSkillsTypesList = createReactClass({
               return (
                 <span onClick={this.handleModifiy}>
                   <span
-                    className="label label-warning"
-                    style={{
-                      backgroundColor:
-                        color[
-                          self.props.skillData.skills[this.props.value].st_code
-                        ]
-                    }}
-                  >
-                    {
-                      rgType[
-                        this.props.skillData.skills[this.props.value].st_code
-                      ].st_shortname
-                    }
-                  </span>
-                  &nbsp;
-                  <span
-                    style={{ backgroundColor: "#808080" }}
-                    className="label label-primary"
-                  >
-                    {
-                      rgDomain[
-                        this.props.skillData.skills[this.props.value].sd_code
-                      ].sd_shortname
-                    }
-                  </span>
-                  <span
-                    style={{ marginLeft: "2em" }}
                     className="btn active"
                     title={
                       this.props.skillData.skills[this.props.value]
@@ -111,6 +84,35 @@ var RefGpecSkillsTypesList = createReactClass({
                       aria-hidden="true"
                     />
                   </span>
+                  <p>
+                    <span
+                      className="label label-warning"
+                      style={{
+                        backgroundColor:
+                          color[
+                            self.props.skillData.skills[this.props.value]
+                              .st_code
+                          ]
+                      }}
+                    >
+                      {
+                        rgType[
+                          this.props.skillData.skills[this.props.value].st_code
+                        ].st_shortname
+                      }
+                    </span>
+                    &nbsp;
+                    <span
+                      style={{ backgroundColor: "#808080" }}
+                      className="label label-primary"
+                    >
+                      {
+                        rgDomain[
+                          this.props.skillData.skills[this.props.value].sd_code
+                        ].sd_shortname
+                      }
+                    </span>
+                  </p>
                 </span>
               );
             } else {

@@ -85,34 +85,6 @@ var RefGpecProfilSkill = createReactClass({
         {/* INPUT FORMS */}
         <td>
           <span
-            className="label label-warning"
-            style={{
-              backgroundColor:
-                color[
-                  this.props.skillsModel.skills[this.state.psSkillId].st_code
-                ]
-            }}
-          >
-            {
-              this.props.skillsTypesModel.st[
-                this.props.skillsModel.skills[this.state.psSkillId].st_code
-              ].st_shortname
-            }
-          </span>
-          &nbsp;
-          <span
-            style={{ backgroundColor: "#808080" }}
-            className="label label-primary"
-          >
-            {
-              this.props.skillsDomainsModel.sd[
-                this.props.skillsModel.skills[this.state.psSkillId].sd_code
-              ].sd_shortname
-            }
-          </span>
-        </td>
-        <td>
-          <span
             className="btn active"
             title={
               this.props.skillsModel.skills[this.state.psSkillId]
@@ -124,6 +96,34 @@ var RefGpecProfilSkill = createReactClass({
                 .skill_shortname
             }
           </span>
+          <p>
+            <span
+              className="label label-warning"
+              style={{
+                backgroundColor:
+                  color[
+                    this.props.skillsModel.skills[this.state.psSkillId].st_code
+                  ]
+              }}
+            >
+              {
+                this.props.skillsTypesModel.st[
+                  this.props.skillsModel.skills[this.state.psSkillId].st_code
+                ].st_shortname
+              }
+            </span>
+            &nbsp;
+            <span
+              style={{ backgroundColor: "#808080" }}
+              className="label label-primary"
+            >
+              {
+                this.props.skillsDomainsModel.sd[
+                  this.props.skillsModel.skills[this.state.psSkillId].sd_code
+                ].sd_shortname
+              }
+            </span>
+          </p>
         </td>
         <td>
           <RefGpecLevelslist
