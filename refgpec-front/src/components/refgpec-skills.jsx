@@ -7,6 +7,7 @@ import {
   NotificationManager
 } from "react-notifications";
 import { CSVLink } from "react-csv";
+
 var createReactClass = require("create-react-class");
 var RefGpecSkills = createReactClass({
   displayName: "RefGpecSkills",
@@ -56,12 +57,40 @@ var RefGpecSkills = createReactClass({
     }
     let rgSkills = [];
     let skillsadd = [];
+    let porter = require("talisman/stemmers/french/porter");
+    let words = require("talisman/tokenizers/words");
+    let unine = require("talisman/stemmers/french/unine");
+    const stopwords = require("stopwords-fr");
+
     Object.keys(self.props.skillsModel.skills).forEach(function(key, i) {
+      let listMots = self.props.skillsModel.skills[key].skill_shortname;
+      listMots = words(listMots.toLowerCase());
+      listMots = listMots.filter(function(word) {
+        return stopwords.indexOf(word) === -1;
+      });
+      listMots = listMots.map(unine.complex);
+
+      let searchwords = self.state.filter.SearchSkillShortName;
+      searchwords = words(searchwords.toLowerCase());
+      searchwords = searchwords.filter(function(word) {
+        return stopwords.indexOf(word) === -1;
+      });
+      searchwords = searchwords.map(unine.complex);
+
+      let matching = false;
+      let j = 0;
+      if (searchwords.length !== 0 && listMots.length !== 0) {
+        while (!matching && j < searchwords.length) {
+          listMots.forEach(function(word) {
+            if (searchwords[j].search(word) !== -1) {
+              matching = true;
+            }
+          });
+          j += 1;
+        }
+      }
       if (
-        self.props.skillsModel.skills[key].skill_shortname
-          .toLowerCase()
-          .search(self.state.filter.SearchSkillShortName.toLowerCase()) !==
-          -1 &&
+        (matching || searchwords.length === 0) &&
         (self.props.skillsModel.skills[key].sd_code.toLowerCase() ===
           self.state.filter.SearchSkillDomain.toLowerCase() ||
           self.state.filter.SearchSkillDomain.toLowerCase() === "") &&
@@ -70,6 +99,7 @@ var RefGpecSkills = createReactClass({
           self.state.filter.SearchSkillType.toLowerCase() === "")
       ) {
         let skill;
+
         // get list of just added skills to be able to put it in top of the long list
         // so that the user can see the skill he just added
         if (
