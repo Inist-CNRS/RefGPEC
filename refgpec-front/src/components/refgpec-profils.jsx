@@ -56,6 +56,7 @@ var RefGpecProfils = createReactClass({
     }
     let rgTagList = this.props.profilsModel.listTag;
     let rgProfils = [];
+    let compteurProfil = 0;
     Object.keys(self.props.profilsModel.profils).forEach(function(key) {
       let tag = "";
       if (self.props.profilsModel.profils[key].profil_tag) {
@@ -104,6 +105,7 @@ var RefGpecProfils = createReactClass({
             : 0;
       });
     }
+    compteurProfil = Object.keys(self.props.profilsModel.profils).length;
     return (
       <div id="profils">
         <div className="row">
@@ -177,6 +179,17 @@ var RefGpecProfils = createReactClass({
                 </p>
               </div>
             </div>
+            <p
+              style={{
+                textAlign: "right"
+              }}
+            >
+              <em>
+                Actuellement,{" "}
+                <strong style={{ color: "red" }}>{compteurProfil}</strong>{" "}
+                profils de poste enregistreés dans le référentiel.{" "}
+              </em>
+            </p>
             <table
               id="profils-list"
               className="table table-striped table-bordered"

@@ -57,6 +57,7 @@ var RefGpecSkills = createReactClass({
     }
     let rgSkills = [];
     let skillsadd = [];
+    let compteurSkill = 0;
     let porter = require("talisman/stemmers/french/porter");
     let words = require("talisman/tokenizers/words");
     let unine = require("talisman/stemmers/french/unine");
@@ -170,6 +171,7 @@ var RefGpecSkills = createReactClass({
     Object.keys(skillsadd).forEach(function(key) {
       rgSkills.unshift(rgSkills.splice(skillsadd[key], 1)[0]);
     });
+    compteurSkill = Object.keys(self.props.skillsModel.skills).length;
 
     return (
       <div id="skills">
@@ -247,6 +249,17 @@ var RefGpecSkills = createReactClass({
                 <div className="col-col-md-pull-10" />
               </div>
             </div>
+            <p
+              style={{
+                textAlign: "right"
+              }}
+            >
+              <em>
+                Actuellement,{" "}
+                <strong style={{ color: "red" }}>{compteurSkill}</strong>{" "}
+                compétences enregistreés dans le référentiel.{" "}
+              </em>
+            </p>
             <table
               id="skills-list"
               className="table table-striped table-bordered"
