@@ -58,40 +58,35 @@ var RefGpecSkills = createReactClass({
     let rgSkills = [];
     let skillsadd = [];
     let compteurSkill = 0;
-    let porter = require("talisman/stemmers/french/porter");
     let words = require("talisman/tokenizers/words");
     let unine = require("talisman/stemmers/french/unine");
     const stopwords = require("stopwords-fr");
 
     Object.keys(self.props.skillsModel.skills).forEach(function(key, i) {
-      let listMots = self.props.skillsModel.skills[key].skill_shortname;
-      listMots = words(listMots.toLowerCase());
-      listMots = listMots.filter(function(word) {
-        return stopwords.indexOf(word) === -1;
-      });
-      listMots = listMots.map(unine.complex);
-
+      //search by ignoring accents and tokenization
       let searchwords = self.state.filter.SearchSkillShortName;
       searchwords = words(searchwords.toLowerCase());
       searchwords = searchwords.filter(function(word) {
         return stopwords.indexOf(word) === -1;
       });
       searchwords = searchwords.map(unine.complex);
-
-      let matching = false;
+      let matching = 0;
       let j = 0;
-      if (searchwords.length !== 0 && listMots.length !== 0) {
-        while (!matching && j < searchwords.length) {
-          listMots.forEach(function(word) {
-            if (searchwords[j].search(word) !== -1) {
-              matching = true;
+      if (
+        searchwords.length !== 0 &&
+        self.props.skillsModel.skills[key].tokens.length !== 0
+      ) {
+        while (matching + j <= searchwords.length && j < searchwords.length) {
+          self.props.skillsModel.skills[key].tokens.forEach(function(word) {
+            if (word.search(searchwords[j]) !== -1) {
+              matching += 1;
             }
           });
           j += 1;
         }
       }
       if (
-        (matching || searchwords.length === 0) &&
+        (matching === searchwords.length || searchwords.length === 0) &&
         (self.props.skillsModel.skills[key].sd_code.toLowerCase() ===
           self.state.filter.SearchSkillDomain.toLowerCase() ||
           self.state.filter.SearchSkillDomain.toLowerCase() === "") &&
@@ -100,7 +95,6 @@ var RefGpecSkills = createReactClass({
           self.state.filter.SearchSkillType.toLowerCase() === "")
       ) {
         let skill;
-
         // get list of just added skills to be able to put it in top of the long list
         // so that the user can see the skill he just added
         if (

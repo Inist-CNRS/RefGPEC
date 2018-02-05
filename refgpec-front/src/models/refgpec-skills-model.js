@@ -33,13 +33,23 @@ var RefGpecSkillsModel = function(options) {
       console.log("RefGpecSkillsModel error loading data", err);
       erreur += 1;
     });
-
+  let words = require("talisman/tokenizers/words");
+  let unine = require("talisman/stemmers/french/unine");
+  const stopwords = require("stopwords-fr");
   axios
     .get("/api/skills?order=sd_code.asc,st_code.asc,skill_shortname.asc")
     .then(response => {
       self.skills = {};
       response.data.forEach(item => {
         self.skills[item.skill_code] = item;
+        //add a column to search by ignoring accents and tokenization
+        let wordsList = self.skills[item.skill_code].skill_shortname;
+        wordsList = words(wordsList.toLowerCase());
+        wordsList = wordsList.filter(function(word) {
+          return stopwords.indexOf(word) === -1;
+        });
+        wordsList = wordsList.map(unine.complex);
+        self.skills[item.skill_code].tokens = wordsList;
       });
       erreur -= 1;
       self.initializing = erreur !== 0;
@@ -185,6 +195,18 @@ RefGpecSkillsModel.prototype.addSkill = function(
             sd_code,
             st_code
           };
+          //add column to search by ignoring accents and tokenization
+          let words = require("talisman/tokenizers/words");
+          let unine = require("talisman/stemmers/french/unine");
+          const stopwords = require("stopwords-fr");
+
+          let wordsList = skill_shortname;
+          wordsList = words(wordsList.toLowerCase());
+          wordsList = wordsList.filter(function(word) {
+            return stopwords.indexOf(word) === -1;
+          });
+          wordsList = wordsList.map(unine.complex);
+          self.skills[skill_code].tokens = wordsList;
           self.ajaxLoading = false;
           self.getdomain();
           self.getSkillsCSV();
@@ -263,6 +285,18 @@ RefGpecSkillsModel.prototype.save = function(skillId, skillstate, cb) {
     })
     .then(function(response) {
       self.skills[skillId] = skillstate;
+      //update the column to search by ignoring accents and tokenization
+      let words = require("talisman/tokenizers/words");
+      let unine = require("talisman/stemmers/french/unine");
+      const stopwords = require("stopwords-fr");
+
+      let wordsList = self.skills[skillId].skill_shortname;
+      wordsList = words(wordsList.toLowerCase());
+      wordsList = wordsList.filter(function(word) {
+        return stopwords.indexOf(word) === -1;
+      });
+      wordsList = wordsList.map(unine.complex);
+      self.skills[skillId].tokens = wordsList;
       self.ajaxLoading = false;
       self.getSkillsCSV();
       self.inform();
