@@ -1,4 +1,7 @@
 import axios from "axios";
+import words from "talisman/tokenizers/words";
+import unine from "talisman/stemmers/french/unine";
+import stopwords from "stopwords-fr";
 var RefGpecSkillsModel = function(options) {
   const self = this;
 
@@ -33,9 +36,6 @@ var RefGpecSkillsModel = function(options) {
       console.log("RefGpecSkillsModel error loading data", err);
       erreur += 1;
     });
-  let words = require("talisman/tokenizers/words");
-  let unine = require("talisman/stemmers/french/unine");
-  const stopwords = require("stopwords-fr");
   axios
     .get("/api/skills?order=sd_code.asc,st_code.asc,skill_shortname.asc")
     .then(response => {
@@ -196,10 +196,6 @@ RefGpecSkillsModel.prototype.addSkill = function(
             st_code
           };
           //add column to search by ignoring accents and tokenization
-          let words = require("talisman/tokenizers/words");
-          let unine = require("talisman/stemmers/french/unine");
-          const stopwords = require("stopwords-fr");
-
           let wordsList = skill_shortname;
           wordsList = words(wordsList.toLowerCase());
           wordsList = wordsList.filter(function(word) {
@@ -286,10 +282,6 @@ RefGpecSkillsModel.prototype.save = function(skillId, skillstate, cb) {
     .then(function(response) {
       self.skills[skillId] = skillstate;
       //update the column to search by ignoring accents and tokenization
-      let words = require("talisman/tokenizers/words");
-      let unine = require("talisman/stemmers/french/unine");
-      const stopwords = require("stopwords-fr");
-
       let wordsList = self.skills[skillId].skill_shortname;
       wordsList = words(wordsList.toLowerCase());
       wordsList = wordsList.filter(function(word) {

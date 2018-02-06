@@ -7,6 +7,9 @@ import {
   NotificationManager
 } from "react-notifications";
 import { CSVLink } from "react-csv";
+import words from "talisman/tokenizers/words";
+import unine from "talisman/stemmers/french/unine";
+import stopwords from "stopwords-fr";
 
 var createReactClass = require("create-react-class");
 var RefGpecSkills = createReactClass({
@@ -58,9 +61,6 @@ var RefGpecSkills = createReactClass({
     let rgSkills = [];
     let skillsadd = [];
     let compteurSkill = 0;
-    let words = require("talisman/tokenizers/words");
-    let unine = require("talisman/stemmers/french/unine");
-    const stopwords = require("stopwords-fr");
 
     Object.keys(self.props.skillsModel.skills).forEach(function(key, i) {
       //search by ignoring accents and tokenization
