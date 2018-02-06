@@ -115,7 +115,7 @@ var RefGpecSkills = createReactClass({
               onSave={self.handleSave}
               onDestroy={self.handleDestroy}
               ajaxLoading={self.props.skillsModel.ajaxLoading}
-              style={{ backgroundColor: "yellow" }}
+              style={{ backgroundColor: "#e67300" }}
             />
           );
         } else {
