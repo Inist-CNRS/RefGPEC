@@ -8,15 +8,24 @@ sd_code VARCHAR(8),
 st_code  VARCHAR(8),
 referens INT,
 sh_date_histo timestamp NOT NULL,
+operation VARCHAR(1),
 CONSTRAINT pk_history_skills PRIMARY KEY (sh_code,sh_date_histo)
 );
 
 CREATE OR REPLACE FUNCTION after_update_skills() RETURNS TRIGGER AS $history_skills$
 BEGIN
-
-        INSERT INTO history_skills SELECT  NEW.skill_code,NEW.skill_shortname,NEW.skill_free_comments,NEW.sd_code,NEW.st_code,NEW.referens,now() ;
+IF (TG_OP = 'DELETE') THEN
+        INSERT INTO history_skills SELECT  NEW.skill_code,NEW.skill_shortname,NEW.skill_free_comments,NEW.sd_code,NEW.st_code,NEW.referens,now(),'D' ;
         RETURN NEW;
-END;
+ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO history_skills SELECT  NEW.skill_code,NEW.skill_shortname,NEW.skill_free_comments,NEW.sd_code,NEW.st_code,NEW.referens,now(),'U' ;
+        RETURN NEW;
+    ELSIF (TG_OP = 'INSERT') THEN
+     INSERT INTO history_skills SELECT  NEW.skill_code,NEW.skill_shortname,NEW.skill_free_comments,NEW.sd_code,NEW.st_code,NEW.referens,now(),'A' ;
+     RETURN NEW;
+    END IF;
+ RETURN NULL; -- le résultat est ignoré car il s'agit d'un trigger AFTER
+ END;
 $history_skills$ language plpgsql;
 
 CREATE TRIGGER history_skills
