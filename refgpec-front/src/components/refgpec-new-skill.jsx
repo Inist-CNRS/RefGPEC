@@ -2,7 +2,8 @@ import React from "react";
 import RefGpecTypes from "./refgpec-types.jsx";
 import RefGpecDomains from "./refgpec-list-domains";
 import { OverlayTrigger, Popover } from "react-bootstrap";
-
+import Select from "react-select";
+import "react-select/dist/react-select.css";
 var createReactClass = require("create-react-class");
 var RefGpecNewSkill = createReactClass({
   displayName: "RefGpecNewSkill",
@@ -11,7 +12,7 @@ var RefGpecNewSkill = createReactClass({
     return {
       newSkillType: "",
       newSkillDomain: "",
-      newSkillShortName: "",
+      newSkillShortName: undefined,
       newSkillFreeComments: "",
       error: ""
     };
@@ -19,6 +20,7 @@ var RefGpecNewSkill = createReactClass({
 
   render: function() {
     var self = this;
+    let ops = [];
 
     // model is not ready ? then do not render anything
     if (
@@ -28,7 +30,12 @@ var RefGpecNewSkill = createReactClass({
     ) {
       return null;
     }
-
+    Object.keys(self.props.skillsModel.skills).forEach(function(key) {
+      ops.push({
+        label: self.props.skillsModel.skills[key].skill_shortname,
+        value: self.props.skillsModel.skills[key].skill_shortname
+      });
+    });
     return (
       <tr className="form-new-skill">
         <td style={{ textAlign: "center" }}>
@@ -68,14 +75,18 @@ var RefGpecNewSkill = createReactClass({
           />
         </td>
         <td>
-          <input
-            className="form-control"
-            type="text"
-            placeholder="Nom de la compétence"
-            value={this.state.newSkillShortName}
-            data-fieldname="newSkillShortName"
+          <Select.Creatable
+            clearable={true}
+            multi={false}
+            options={ops}
             onChange={this.handleChange}
+            value={this.state.newSkillShortName}
+            placeholder="Nom de la compétence"
+            promptTextCreator={label => "Créer la compétence " + label}
+            data-fieldname="newSkillShortName"
             disabled={this.props.skillsModel.ajaxLoading}
+            onBlurResetsInput={false}
+            onBlur={this.handleBlur}
           />
         </td>
         <td>
@@ -94,12 +105,6 @@ var RefGpecNewSkill = createReactClass({
     );
   },
 
-  handleKeyPress: function(event) {
-    if (event.charCode === 13) {
-      this.handleSubmit(event);
-    }
-  },
-
   handleTypeChange: function(event) {
     this.setState({ newSkillType: event });
   },
@@ -107,9 +112,18 @@ var RefGpecNewSkill = createReactClass({
     this.setState({ newSkillDomain: event });
   },
   handleChange: function(event) {
-    var newState = {};
-    newState[event.target.getAttribute("data-fieldname")] = event.target.value;
-    this.setState(newState);
+    if (!event) {
+      this.setState({ newSkillShortName: "" });
+    } else {
+      this.setState({ newSkillShortName: event });
+    }
+  },
+  handleBlur: function(event) {
+    if (!event.target.value) {
+      this.setState({ newSkillShortName: "" });
+    } else {
+      this.setState({ newSkillShortName: event.target });
+    }
   },
 
   handleSubmit: function(event) {
@@ -123,7 +137,7 @@ var RefGpecNewSkill = createReactClass({
       self.props.onSubmit(
         self.state.newSkillType,
         self.state.newSkillDomain,
-        self.state.newSkillShortName,
+        self.state.newSkillShortName.value,
         self.state.newSkillFreeComments
       );
       self.setState({
