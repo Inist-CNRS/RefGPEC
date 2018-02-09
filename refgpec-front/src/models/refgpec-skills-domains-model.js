@@ -10,7 +10,10 @@ var RefGpecSkillsDomainsModel = function(options) {
   this.initializing = true;
   this.ajaxLoading = false;
   this.onChanges = [];
-
+  self.feedback = {
+    code: "",
+    message: ""
+  };
   axios
     .get("/api/skills_domains")
     .then(response => {
@@ -41,6 +44,39 @@ RefGpecSkillsDomainsModel.prototype.inform = function() {
   this.onChanges.forEach(function(cb) {
     cb();
   });
+};
+
+RefGpecSkillsDomainsModel.prototype.addDomains = function(
+  sd_code,
+  sd_shortname,
+  cb
+) {
+  let self = this;
+  self.ajaxLoading = true;
+  self.feedback = "";
+
+  axios
+    .post("/api/skills_domains", {
+      sd_code: sd_code,
+      sd_shortname: sd_shortname
+    })
+    .then(function(response) {
+      self.sd[sd_code] = {
+        sd_code,
+        sd_shortname
+      };
+      self.ajaxLoading = false;
+      self.inform();
+      return cb && cb(null);
+    })
+    .catch(function(error) {
+      self.feedback.code = error.response.status;
+      self.feedback.message = error.response.data.message;
+      self.ajaxLoading = false;
+      self.inform();
+      return cb && cb(error);
+    });
+  self.inform();
 };
 
 export default RefGpecSkillsDomainsModel;
