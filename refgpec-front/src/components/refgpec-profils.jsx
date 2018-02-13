@@ -187,7 +187,7 @@ var RefGpecProfils = createReactClass({
               <em>
                 Actuellement,{" "}
                 <strong style={{ color: "red" }}>{compteurProfil}</strong>{" "}
-                profils de poste enregistreés dans le référentiel.{" "}
+                profils de poste enregistrés dans le référentiel.{" "}
               </em>
             </p>
             <table

@@ -251,7 +251,7 @@ var RefGpecSkills = createReactClass({
               <em>
                 Actuellement,{" "}
                 <strong style={{ color: "red" }}>{compteurSkill}</strong>{" "}
-                compétences enregistreés dans le référentiel.{" "}
+                compétences enregistrées dans le référentiel.{" "}
               </em>
             </p>
             <table
