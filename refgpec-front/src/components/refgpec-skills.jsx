@@ -187,7 +187,7 @@ var RefGpecSkills = createReactClass({
                       let date =
                         new Date().getFullYear() +
                         "-" +
-                        new Date().getMonth() +
+                        parseInt(new Date().getMonth() + 1) +
                         "-" +
                         new Date().getDate();
                       return (
