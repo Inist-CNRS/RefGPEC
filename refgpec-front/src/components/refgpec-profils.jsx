@@ -148,6 +148,19 @@ var RefGpecProfils = createReactClass({
                     }
                   })()}
                 </div>
+                <div
+                  style={{
+                    textAlign: "right"
+                  }}
+                >
+                  <em>
+                    Actuellement,{" "}
+                    <strong style={{ color: "red" }}>
+                      {compteurProfil}
+                    </strong>{" "}
+                    profils de poste enregistrés dans le référentiel.{" "}
+                  </em>
+                </div>
               </div>
               <div className="panel-body">
                 <p>
@@ -179,17 +192,7 @@ var RefGpecProfils = createReactClass({
                 </p>
               </div>
             </div>
-            <p
-              style={{
-                textAlign: "right"
-              }}
-            >
-              <em>
-                Actuellement,{" "}
-                <strong style={{ color: "red" }}>{compteurProfil}</strong>{" "}
-                profils de poste enregistrés dans le référentiel.{" "}
-              </em>
-            </p>
+
             <table
               id="profils-list"
               className="table table-striped table-bordered"

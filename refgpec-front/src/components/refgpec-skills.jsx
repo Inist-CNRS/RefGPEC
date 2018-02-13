@@ -210,6 +210,19 @@ var RefGpecSkills = createReactClass({
                     }
                   })()}
                 </div>
+                <div
+                  style={{
+                    textAlign: "right"
+                  }}
+                >
+                  <em>
+                    Actuellement,{" "}
+                    <strong style={{ color: "red" }}>
+                      {compteurSkill}
+                    </strong>{" "}
+                    compétences enregistrées dans le référentiel.{" "}
+                  </em>
+                </div>
               </div>
               <div className="panel-body">
                 Depuis cet onglet il est possible d'administrer le référentiel
@@ -243,17 +256,6 @@ var RefGpecSkills = createReactClass({
                 <div className="col-col-md-pull-10" />
               </div>
             </div>
-            <p
-              style={{
-                textAlign: "right"
-              }}
-            >
-              <em>
-                Actuellement,{" "}
-                <strong style={{ color: "red" }}>{compteurSkill}</strong>{" "}
-                compétences enregistrées dans le référentiel.{" "}
-              </em>
-            </p>
             <table
               id="skills-list"
               className="table table-striped table-bordered"
