@@ -61,70 +61,45 @@ var RefGpecSkillsTypesList = createReactClass({
       <div>
         {(() => {
           if (this.props.value) {
-            if (!this.state.updating) {
-              return (
-                <span onClick={this.handleModifiy}>
-                  <span
-                    className="btn active"
-                    title={
-                      this.props.skillData.skills[this.props.value]
-                        .skillFreeComments
-                    }
-                  >
-                    {
-                      this.props.skillData.skills[this.props.value]
-                        .skill_shortname
-                    }
-                  </span>
-                  <span className="icon-modify">
-                    {" "}
-                    <i
-                      title="Cliquez pour modifier la compétence"
-                      className="fa fa-pencil"
-                      aria-hidden="true"
-                    />
-                  </span>
-                  <p>
-                    <span
-                      className="label label-warning"
-                      style={{
-                        backgroundColor:
-                          color[
-                            self.props.skillData.skills[this.props.value]
-                              .st_code
-                          ]
-                      }}
-                    >
-                      {
-                        rgType[
-                          this.props.skillData.skills[this.props.value].st_code
-                        ].st_shortname
-                      }
-                    </span>
-                    &nbsp;
-                    <span
-                      style={{ backgroundColor: "#808080" }}
-                      className="label label-primary"
-                    >
-                      {
-                        rgDomain[
-                          this.props.skillData.skills[this.props.value].sd_code
-                        ].sd_shortname
-                      }
-                    </span>
-                  </p>
-                </span>
-              );
-            } else {
-              return (
+            return (
+              <span>
                 <Select
                   onChange={this.handleChange}
                   options={ops}
                   placeholder="Selectionnez une compétence"
                   value={this.props.value}
                 />
-              );
-            }
+
+                <p>
+                  <span
+                    className="label label-warning"
+                    style={{
+                      backgroundColor:
+                        color[
+                          self.props.skillData.skills[this.props.value].st_code
+                        ]
+                    }}
+                  >
+                    {
+                      rgType[
+                        this.props.skillData.skills[this.props.value].st_code
+                      ].st_shortname
+                    }
+                  </span>
+                  &nbsp;
+                  <span
+                    style={{ backgroundColor: "#808080" }}
+                    className="label label-primary"
+                  >
+                    {
+                      rgDomain[
+                        this.props.skillData.skills[this.props.value].sd_code
+                      ].sd_shortname
+                    }
+                  </span>
+                </p>
+              </span>
+            );
           } else {
             return (
               <Select
@@ -138,9 +113,6 @@ var RefGpecSkillsTypesList = createReactClass({
         })()}
       </div>
     );
-  },
-  handleModifiy: function() {
-    this.setState({ updating: !this.state.updating });
   },
 
   handleChange: function(event) {
