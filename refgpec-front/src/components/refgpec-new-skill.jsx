@@ -33,7 +33,7 @@ var RefGpecNewSkill = createReactClass({
     Object.keys(self.props.skillsModel.skills).forEach(function(key) {
       ops.push({
         label: self.props.skillsModel.skills[key].skill_shortname,
-        value: self.props.skillsModel.skills[key].skill_shortname
+        value: self.props.skillsModel.skills[key].tokens
       });
     });
     return (
@@ -119,25 +119,27 @@ var RefGpecNewSkill = createReactClass({
     }
   },
   handleBlur: function(event) {
-    if (!event.target.value) {
+    if (!event.target.value && !this.state.newSkillShortName) {
       this.setState({ newSkillShortName: "" });
     } else {
-      this.setState({ newSkillShortName: event.target });
+      if (!this.state.newSkillShortName) {
+        this.setState({
+          newSkillShortName: {
+            value: event.target.value,
+            label: event.target.value
+          }
+        });
+      }
     }
   },
-
   handleSubmit: function(event) {
     const self = this;
     if (self.props.skillsModel.ajaxLoading) return;
-    if (
-      self.state.newSkillShortName &&
-      self.state.newSkillDomain &&
-      self.state.newSkillType
-    ) {
+    if (!this.missingField()) {
       self.props.onSubmit(
         self.state.newSkillType,
         self.state.newSkillDomain,
-        self.state.newSkillShortName.value,
+        self.state.newSkillShortName.label,
         self.state.newSkillFreeComments
       );
       self.setState({
@@ -146,6 +148,18 @@ var RefGpecNewSkill = createReactClass({
         newSkillShortName: "",
         newSkillFreeComments: "",
         error: ""
+      });
+    } else {
+      let missingFields = [];
+      if (!self.state.newSkillShortName)
+        missingFields.push("Nom de la compétence");
+      if (!self.state.newSkillDomain)
+        missingFields.push("Domaine de la compétence");
+      if (!self.state.newSkillType) missingFields.push("Type de la compétence");
+      self.setState({
+        error:
+          "Il manque des champs avant de pouvoir ajouter la compétence :\n" +
+          missingFields.join(", ")
       });
     }
     event.preventDefault(); // Let's stop this event.
