@@ -1,6 +1,6 @@
 {
   "name": "refgpec",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "description": "Application de gestion d'un référentiel de profils/compétences pour une démarche GPEC",
   "contributors": [
     {
