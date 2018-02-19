@@ -125,9 +125,9 @@ var RefGpecProfils = createReactClass({
                       let date =
                         new Date().getFullYear() +
                         "-" +
-                        parseInt(new Date().getMonth() + 1) +
+                        ("0" + (new Date().getMonth() + 1)).slice(-2) +
                         "-" +
-                        new Date().getDate();
+                        ("0" + new Date().getDate()).slice(-2);
                       return (
                         <CSVLink
                           data={self.props.profilsModel.profilCSV}
