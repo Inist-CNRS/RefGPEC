@@ -209,13 +209,13 @@ var RefGpecSkills = createReactClass({
                       );
                     }
                   })()}
-                </div>
-                <div
-                  style={{
-                    textAlign: "right"
-                  }}
-                >
-                  <em>
+
+                  <em
+                    style={{
+                      float: "right",
+                      padding: "8px"
+                    }}
+                  >
                     Actuellement,{" "}
                     <strong style={{ color: "red" }}>
                       {compteurSkill}
@@ -226,8 +226,7 @@ var RefGpecSkills = createReactClass({
               </div>
               <div className="panel-body">
                 Depuis cet onglet il est possible d'administrer le référentiel
-                des compétences.<br />
-                Ces compétences pourront être{" "}
+                des compétences. Ces compétences pourront être{" "}
                 <a
                   data-toggle="tab"
                   className="nav-link"

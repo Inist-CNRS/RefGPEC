@@ -147,13 +147,12 @@ var RefGpecProfils = createReactClass({
                       );
                     }
                   })()}
-                </div>
-                <div
-                  style={{
-                    textAlign: "right"
-                  }}
-                >
-                  <em>
+                  <em
+                    style={{
+                      float: "right",
+                      padding: "8px"
+                    }}
+                  >
                     Actuellement,{" "}
                     <strong style={{ color: "red" }}>
                       {compteurProfil}
