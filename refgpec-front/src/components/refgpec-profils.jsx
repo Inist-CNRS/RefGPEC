@@ -57,7 +57,8 @@ var RefGpecProfils = createReactClass({
     let rgTagList = this.props.profilsModel.listTag;
     let rgProfils = [];
     let compteurProfil = 0;
-    Object.keys(self.props.profilsModel.profils).forEach(function(key) {
+    let profilsadd = [];
+    Object.keys(self.props.profilsModel.profils).forEach(function(key, i) {
       let tag = "";
       if (self.props.profilsModel.profils[key].profil_tag) {
         tag = self.props.profilsModel.profils[key].profil_tag;
@@ -69,18 +70,43 @@ var RefGpecProfils = createReactClass({
           -1 &&
         tag.search(self.state.filter.SearchProfilTag) !== -1
       ) {
-        rgProfils.push(
-          <RefGpecProfil
-            key={key}
-            profilId={key}
-            tagList={rgTagList}
-            profilsSkillsModel={self.props.profilsSkillsModel}
-            profilData={self.props.profilsModel.profils[key]}
-            skilllist={self.props.profilsModel.getlistskills(key)}
-            onSave={self.handleSave}
-            onDestroy={self.handleDestroy}
-          />
-        );
+        let profil;
+        // get list of just added profils to be able to put it in top of the long list
+        // so that the user can see the profil he just added
+        if (
+          self.props.profilsModel.lastProfilAdd.indexOf(
+            self.props.profilsModel.profils[key].profil_code
+          ) !== -1
+        ) {
+          profilsadd.push(i);
+          profil = (
+            <RefGpecProfil
+              key={key}
+              profilId={key}
+              tagList={rgTagList}
+              profilsSkillsModel={self.props.profilsSkillsModel}
+              profilData={self.props.profilsModel.profils[key]}
+              skilllist={self.props.profilsModel.getlistskills(key)}
+              onSave={self.handleSave}
+              onDestroy={self.handleDestroy}
+              style={{ backgroundColor: "#e67300" }}
+            />
+          );
+        } else {
+          profil = (
+            <RefGpecProfil
+              key={key}
+              profilId={key}
+              tagList={rgTagList}
+              profilsSkillsModel={self.props.profilsSkillsModel}
+              profilData={self.props.profilsModel.profils[key]}
+              skilllist={self.props.profilsModel.getlistskills(key)}
+              onSave={self.handleSave}
+              onDestroy={self.handleDestroy}
+            />
+          );
+        }
+        rgProfils.push(profil);
       }
     });
 
@@ -105,6 +131,12 @@ var RefGpecProfils = createReactClass({
             : 0;
       });
     }
+    // once the big list is sorted, we extract "just added profils" from the list
+    // and we add it at the first position (top of the list)
+    Object.keys(profilsadd).forEach(function(key, i) {
+      rgProfils.unshift(rgProfils.splice(profilsadd[key], 1)[0]);
+    });
+
     compteurProfil = Object.keys(self.props.profilsModel.profils).length;
     return (
       <div id="profils">

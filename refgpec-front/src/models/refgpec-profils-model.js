@@ -13,6 +13,7 @@ var RefGpecProfilsModel = function(options) {
   self.profilCSV = [];
   self.listTag = {};
   self.listprofils_skills_levels = {};
+  self.lastProfilAdd = [];
   var erreur = false;
   axios
     .get("/api/list_profils_attached_skills")
@@ -187,6 +188,7 @@ RefGpecProfilsModel.prototype.addProfil = function(
         self.profils[profil_code][nomchamp[k]] = 0;
       }
       self.getProfilsCSV();
+      self.lastProfilAdd.push(profil_code);
       self.inform();
       return cb && cb(null);
     })
