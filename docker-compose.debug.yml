@@ -71,8 +71,15 @@ services:
   # RefGPEC database admin backoffice (pgadmin4)
   refgpec-db-admin:
     container_name: refgpec-db-admin
-    image: fenglc/pgadmin4:2.0
+    build:
+      context: ./refgpec-db-admin
+      args:
+        - http_proxy
+        - https_proxy
+    image: inistcnrs/refgpec-db-admin:1.15.0
     environment:
+      http_proxy: ${http_proxy}
+      https_proxy: ${https_proxy}
       DEFAULT_USER: "gpec@inist.fr"
       DEFAULT_PASSWORD: "gpecsecret"
     ports:
