@@ -142,7 +142,7 @@ var RefGpecProfilsSkills = createReactClass({
                               date +
                               ".csv"
                             }
-                            className="btn btn-primary"
+                            className="btn btn-primary btn-xs"
                             target="_blank"
                           >
                             Exporter en CSV

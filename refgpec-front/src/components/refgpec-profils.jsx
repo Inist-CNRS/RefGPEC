@@ -171,7 +171,7 @@ var RefGpecProfils = createReactClass({
                             date +
                             ".csv"
                           }
-                          className="btn btn-primary"
+                          className="btn btn-primary btn-xs"
                           target="_blank"
                         >
                           Exporter en CSV
@@ -182,7 +182,7 @@ var RefGpecProfils = createReactClass({
                   <em
                     style={{
                       float: "right",
-                      padding: "8px"
+                      marginRight: "15px"
                     }}
                   >
                     Actuellement,{" "}

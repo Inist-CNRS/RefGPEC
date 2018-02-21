@@ -14,11 +14,8 @@ var RefGpecHome = createReactClass({
   displayName: "RefGpecHome",
 
   doTabChange: function(tabId) {
-    console.log("doTabChange1", tabId);
     tabId = tabId.replace("#", "").replace("tab-", "");
     if (!tabId) tabId = "index";
-    console.log("doTabChange2", tabId);
-
     // this is not optimal but it fix the bug when
     // nav from the panels hypertexte links
     document.location.hash = "tab-" + tabId;
