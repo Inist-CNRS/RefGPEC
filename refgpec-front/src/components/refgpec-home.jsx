@@ -14,12 +14,14 @@ var RefGpecHome = createReactClass({
   displayName: "RefGpecHome",
 
   doTabChange: function(tabId) {
-    tabId = tabId.replace("#", "");
+    console.log("doTabChange1", tabId);
+    tabId = tabId.replace("#", "").replace("tab-", "");
     if (!tabId) tabId = "index";
+    console.log("doTabChange2", tabId);
 
     // this is not optimal but it fix the bug when
     // nav from the panels hypertexte links
-    document.location.hash = tabId;
+    document.location.hash = "tab-" + tabId;
 
     // cleanup hidden tabs
     [
@@ -42,8 +44,9 @@ var RefGpecHome = createReactClass({
     });
 
     // show the selected tab
-    document.getElementById("tab-" + tabId).parentNode.classList.add("active");
-    document.getElementById("tab-" + tabId).parentNode.classList.add("in");
+    let elt = document.getElementById("tab-" + tabId);
+    elt && elt.parentNode.classList.add("active");
+    elt && elt.parentNode.classList.add("in");
     if (document.getElementById(tabId)) {
       document.getElementById(tabId).style.display = "block";
     }
@@ -51,7 +54,7 @@ var RefGpecHome = createReactClass({
 
   handleTabChange: function(event) {
     window.scrollTo(0, 0);
-    document.location.hash = event.target.getAttribute("href");
+    document.location.hash = "tab-" + event.target.getAttribute("href");
   },
 
   render: function() {
