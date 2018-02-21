@@ -8,6 +8,7 @@ var RefGpecProfilsSkillsModel = function(options) {
   self.onChanges = [];
   self.psl = {};
   self.profil = "";
+  self.lastProfilSkillAdd = [];
   self.feedback = {
     code: "",
     message: ""
@@ -127,6 +128,7 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function(
         };
         self.getProfilSkillLevel(profil_code);
         self.ajaxLoading = false;
+        self.lastProfilSkillAdd.push(psl_code);
         self.inform();
         return cb && cb(null);
       })

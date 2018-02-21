@@ -34,6 +34,7 @@ var RefGpecLevel = createReactClass({
         data-trigger="manual"
         data-title="Erreur de saisie"
         data-content={this.state.error}
+        style={this.props.style}
       >
         {/* ACTION MENU */}
         <td>

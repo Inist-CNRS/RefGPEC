@@ -22,7 +22,7 @@ var RefGpecSkills = createReactClass({
       newSkillShortName: "",
       newSkillFreeComments: "",
       error: "",
-      champtri: "profil_code",
+      champtri: "",
       type_sort: true,
       filter: {
         SearchSkillType: "",

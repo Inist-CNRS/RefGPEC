@@ -22,7 +22,7 @@ var RefGpecProfilsSkills = createReactClass({
       newLevel: "",
       newFreeComment: "",
       error: "",
-      champtri: "psl_code",
+      champtri: "",
       type_sort: true
     };
   },
@@ -49,24 +49,50 @@ var RefGpecProfilsSkills = createReactClass({
     ) {
       return null;
     }
-
+    let profilskill;
+    let PSadd = [];
     let rgPS = [];
-    Object.keys(self.props.profilsSkillsModel.psl).forEach(function(key) {
-      rgPS.push(
-        <RefGpecProfilSkill
-          key={key}
-          psId={key}
-          levelsModel={self.props.levelsModel}
-          skillsModel={self.props.skillsModel}
-          skillsTypesModel={self.props.skillsTypesModel}
-          skillsDomainsModel={self.props.skillsDomainsModel}
-          psData={self.props.profilsSkillsModel.profilsSkillsLevels[key]}
-          onSave={self.handleSave}
-          onDestroy={self.handleDestroy}
-          ajaxLoading={self.props.profilsSkillsModel.ajaxLoading}
-        />
-      );
+    Object.keys(self.props.profilsSkillsModel.psl).forEach(function(key, i) {
+      if (
+        self.props.profilsSkillsModel.lastProfilSkillAdd.indexOf(
+          self.props.profilsSkillsModel.psl[key].psl_code
+        ) !== -1
+      ) {
+        PSadd.push(i);
+        profilskill = (
+          <RefGpecProfilSkill
+            key={key}
+            psId={key}
+            levelsModel={self.props.levelsModel}
+            skillsModel={self.props.skillsModel}
+            skillsTypesModel={self.props.skillsTypesModel}
+            skillsDomainsModel={self.props.skillsDomainsModel}
+            psData={self.props.profilsSkillsModel.profilsSkillsLevels[key]}
+            onSave={self.handleSave}
+            onDestroy={self.handleDestroy}
+            ajaxLoading={self.props.profilsSkillsModel.ajaxLoading}
+            style={{ backgroundColor: "#e67300" }}
+          />
+        );
+      } else {
+        profilskill = (
+          <RefGpecProfilSkill
+            key={key}
+            psId={key}
+            levelsModel={self.props.levelsModel}
+            skillsModel={self.props.skillsModel}
+            skillsTypesModel={self.props.skillsTypesModel}
+            skillsDomainsModel={self.props.skillsDomainsModel}
+            psData={self.props.profilsSkillsModel.profilsSkillsLevels[key]}
+            onSave={self.handleSave}
+            onDestroy={self.handleDestroy}
+            ajaxLoading={self.props.profilsSkillsModel.ajaxLoading}
+          />
+        );
+      }
+      rgPS.push(profilskill);
     });
+
     if (self.state.type_sort) {
       rgPS.sort(function(a, b) {
         return a.props.psData[self.state.champtri] >
@@ -92,6 +118,12 @@ var RefGpecProfilsSkills = createReactClass({
     let layoutColClasses = "col-lg-6 ";
     layoutColClasses +=
       self.state.layout === "horizontal" ? "" : "profils-skills-vertical";
+
+    // once the big list is sorted, we extract "just added profils" from the list
+    // and we add it at the first position (top of the list)
+    Object.keys(PSadd).forEach(function(key) {
+      rgPS.unshift(rgPS.splice(PSadd[key], 1)[0]);
+    });
 
     return (
       <div id="profils-skills">

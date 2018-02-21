@@ -11,6 +11,7 @@ var RefGpecLevelsModel = function(options) {
   };
   self.test = {};
   self.max = 0;
+  self.lastLevelAdd = [];
   self.listprofils_skills_levels = {};
   self.nb_skills = {};
 
@@ -176,6 +177,7 @@ RefGpecLevelsModel.prototype.addLevel = function(
         level_free_comments
       };
       self.ajaxLoading = false;
+      self.lastLevelAdd.push(level_code);
       self.inform();
       return cb && cb(null);
     })

@@ -38,8 +38,8 @@ var RefGpecLevels = createReactClass({
     }
 
     let rgLevels = [];
-
-    Object.keys(self.props.levelsModel.levels).forEach(function(key) {
+    let levelsadd = [];
+    Object.keys(self.props.levelsModel.levels).forEach(function(key, i) {
       let nb_skill = {};
       let liste_profil = self.props.levelsModel.getListProfils(key);
       Object.keys(liste_profil).forEach(function(profil) {
@@ -50,30 +50,67 @@ var RefGpecLevels = createReactClass({
           liste_profil[profil].profil_code
         );
       });
-      rgLevels.push(
-        <RefGpecLevel
-          key={key}
-          levelId={key}
-          levelData={self.props.levelsModel.levels[key]}
-          profilList={liste_profil}
-          nbSkill={nb_skill}
-          max={self.props.levelsModel.max}
-          onSave={self.handleSave}
-          onDestroy={self.handleDestroy}
-          onProfil={self.handleOpenProfilSkills}
-          ajaxLoading={self.props.levelsModel.ajaxLoading}
-          Color={
-            "rgb(0,255," +
-            (255 -
-              Math.floor(
-                255 /
-                  Object.keys(self.props.levelsModel.levels).length *
-                  (self.props.levelsModel.levels[key].level_number - 1)
-              )) +
-            ")"
-          }
-        />
-      );
+      let level;
+      // get list of just added profils to be able to put it in top of the long list
+      // so that the user can see the profil he just added
+      if (
+        self.props.levelsModel.lastLevelAdd.indexOf(
+          self.props.levelsModel.levels[key].level_code
+        ) !== -1
+      ) {
+        levelsadd.push(i);
+        level = (
+          <RefGpecLevel
+            key={key}
+            levelId={key}
+            levelData={self.props.levelsModel.levels[key]}
+            profilList={liste_profil}
+            nbSkill={nb_skill}
+            max={self.props.levelsModel.max}
+            onSave={self.handleSave}
+            onDestroy={self.handleDestroy}
+            onProfil={self.handleOpenProfilSkills}
+            ajaxLoading={self.props.levelsModel.ajaxLoading}
+            Color={
+              "rgb(0,255," +
+              (255 -
+                Math.floor(
+                  255 /
+                    Object.keys(self.props.levelsModel.levels).length *
+                    (self.props.levelsModel.levels[key].level_number - 1)
+                )) +
+              ")"
+            }
+            style={{ backgroundColor: "#e67300" }}
+          />
+        );
+      } else {
+        level = (
+          <RefGpecLevel
+            key={key}
+            levelId={key}
+            levelData={self.props.levelsModel.levels[key]}
+            profilList={liste_profil}
+            nbSkill={nb_skill}
+            max={self.props.levelsModel.max}
+            onSave={self.handleSave}
+            onDestroy={self.handleDestroy}
+            onProfil={self.handleOpenProfilSkills}
+            ajaxLoading={self.props.levelsModel.ajaxLoading}
+            Color={
+              "rgb(0,255," +
+              (255 -
+                Math.floor(
+                  255 /
+                    Object.keys(self.props.levelsModel.levels).length *
+                    (self.props.levelsModel.levels[key].level_number - 1)
+                )) +
+              ")"
+            }
+          />
+        );
+      }
+      rgLevels.push(level);
     });
     if (self.state.type_sort) {
       rgLevels.sort(function(a, b) {
@@ -94,6 +131,9 @@ var RefGpecLevels = createReactClass({
             a.props.levelData[self.state.champtri]
             ? -1
             : 0;
+      });
+      Object.keys(levelsadd).forEach(function(key) {
+        rgLevels.unshift(rgLevels.splice(levelsadd[key], 1)[0]);
       });
     }
     return (

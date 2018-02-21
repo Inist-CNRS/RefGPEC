@@ -19,7 +19,7 @@ var RefGpecProfils = createReactClass({
       newProfilFreeComments: "",
       newProfilPdfPath: "",
       error: "",
-      champtri: "profil_code",
+      champtri: "",
       type_sort: true,
       filter: { SearchProfilTag: "", SearchProfilShortName: "" }
     };
@@ -133,7 +133,7 @@ var RefGpecProfils = createReactClass({
     }
     // once the big list is sorted, we extract "just added profils" from the list
     // and we add it at the first position (top of the list)
-    Object.keys(profilsadd).forEach(function(key, i) {
+    Object.keys(profilsadd).forEach(function(key) {
       rgProfils.unshift(rgProfils.splice(profilsadd[key], 1)[0]);
     });
 
