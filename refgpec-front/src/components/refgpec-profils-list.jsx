@@ -60,16 +60,18 @@ var RefGpecProfilsList = createReactClass({
     });
 
     return (
-      <select
-        className="form-control"
-        value={self.props.value}
-        onChange={this.handleChange}
-        readOnly={this.props.readOnly}
-        disabled={this.props.disabled}
-      >
-        <option />
-        {rgProfils}
-      </select>
+      <b>
+        <select
+          className="form-control"
+          value={self.props.value}
+          onChange={this.handleChange}
+          readOnly={this.props.readOnly}
+          disabled={this.props.disabled}
+        >
+          <option />
+          {rgProfils}
+        </select>
+      </b>
     );
   },
 

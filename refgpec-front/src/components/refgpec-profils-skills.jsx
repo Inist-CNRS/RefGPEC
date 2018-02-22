@@ -129,7 +129,10 @@ var RefGpecProfilsSkills = createReactClass({
       <div id="profils-skills">
         <div className="row">
           <div className="col-md-12">
-            <div className="panel panel-default">
+            <div
+              className="panel panel-default"
+              style={{ position: "sticky", top: "50px", zIndex: "2" }}
+            >
               <div
                 className="panel-heading row"
                 style={{ marginRight: "0px", marginLeft: "0px" }}
@@ -236,17 +239,19 @@ var RefGpecProfilsSkills = createReactClass({
                 </p>
 
                 {/* FORMULAIRE DE BASCULE D'UN PROFIL A L'AUTRE */}
-                <p>
-                  Vous êtes en train de modifier les associations de compétences
-                  sur le profil suivant :
-                  <RefGPECProfilsList
-                    skillData={self.props.profilsModel}
-                    ajaxLoading={self.props.profilsModel.ajaxLoading}
-                    data-fieldname="ProfilSelect"
-                    onChange={this.handleChangeProfil}
-                    value={self.props.profilsSkillsModel.profil}
-                  />
-                </p>
+                <div>
+                  <p>
+                    Vous êtes en train de modifier les associations de
+                    compétences sur le profil suivant :
+                    <RefGPECProfilsList
+                      skillData={self.props.profilsModel}
+                      ajaxLoading={self.props.profilsModel.ajaxLoading}
+                      data-fieldname="ProfilSelect"
+                      onChange={this.handleChangeProfil}
+                      value={self.props.profilsSkillsModel.profil}
+                    />
+                  </p>
+                </div>
               </div>
             </div>
 
