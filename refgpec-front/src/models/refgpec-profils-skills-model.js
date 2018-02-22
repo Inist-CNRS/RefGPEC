@@ -251,7 +251,7 @@ RefGpecProfilsSkillsModel.prototype.getprofilsSkillsCSV = function(
     .get(
       "/api/view_exportcsv_profilsskills?profil_code=eq." +
         profil_code +
-        "&order=modulation.desc,nom.asc"
+        "&order=Modulation_profil.desc,domaine.asc,type.asc"
     )
     .then(response => {
       response.data.forEach(item => {

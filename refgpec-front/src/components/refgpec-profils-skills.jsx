@@ -167,6 +167,7 @@ var RefGpecProfilsSkills = createReactClass({
                             title="Cliquez pour télecharger les compétences associées au profil en CSV"
                             separator={";"}
                             filename={
+                              "Référentiel_" +
                               self.props.profilsModel.profils[
                                 self.state.selectedProfil
                               ].profil_shortname +
