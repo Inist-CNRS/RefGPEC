@@ -63,7 +63,6 @@ RefGpecProfilsSkillsModel.prototype.getmax = function(codes) {
   let max = 2;
   codes.forEach(function(key, i) {
     let number = parseInt(codes[i].split("-")[1], 10);
-
     if (max < number) {
       max = number;
     }
@@ -103,43 +102,56 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function(
   });
   if (!self.feedback.message) {
     // filter other skills family to have a correct numeric id
-    var codes = Object.keys(self.profilsSkillsLevels);
-    var psl_code = "ps-1";
-    // add +1 to the id
-    if (codes.length > 0) {
-      let lastCodeSplitted = self.getmax(codes);
-      psl_code = "ps-" + (lastCodeSplitted + 1);
-    }
+    let code_db = {};
     axios
-      .post("/api/profils_skills_levels", {
-        psl_code: psl_code,
-        profil_code: profil_code,
-        skill_code: skill_code,
-        level_code: level_code,
-        psl_free_comments: psl_free_comments
-      })
-      .then(function(response) {
-        self.profilsSkillsLevels[psl_code] = {
-          psl_code,
-          psl_free_comments,
-          level_code,
-          skill_code,
-          profil_code
-        };
-        self.getProfilSkillLevel(profil_code);
-        self.ajaxLoading = false;
-        self.lastProfilSkillAdd.push(psl_code);
+      .get(
+        "/api/profils_skills_levels?order=psl_code.asc,profil_code.asc,level_code.asc"
+      )
+      .then(response => {
+        response.data.forEach(item => {
+          code_db[item.psl_code] = item;
+        });
+        let codes = Object.keys(code_db);
+        let psl_code = "ps-1";
+        // add +1 to the id
+        if (codes.length > 0) {
+          let lastCodeSplitted = self.getmax(codes);
+          psl_code = "ps-" + (lastCodeSplitted + 1);
+        }
+        axios
+          .post("/api/profils_skills_levels", {
+            psl_code: psl_code,
+            profil_code: profil_code,
+            skill_code: skill_code,
+            level_code: level_code,
+            psl_free_comments: psl_free_comments
+          })
+          .then(function(response) {
+            self.profilsSkillsLevels[psl_code] = {
+              psl_code,
+              psl_free_comments,
+              level_code,
+              skill_code,
+              profil_code
+            };
+            self.getProfilSkillLevel(profil_code);
+            self.ajaxLoading = false;
+            self.lastProfilSkillAdd.push(psl_code);
+            self.inform();
+            return cb && cb(null);
+          })
+          .catch(function(error) {
+            self.feedback.code = error.response.status;
+            self.feedback.message = error.response.data.message;
+            self.ajaxLoading = false;
+            self.inform();
+            return cb && cb(error);
+          });
         self.inform();
-        return cb && cb(null);
       })
-      .catch(function(error) {
-        self.feedback.code = error.response.status;
-        self.feedback.message = error.response.data.message;
-        self.ajaxLoading = false;
-        self.inform();
-        return cb && cb(error);
+      .catch(err => {
+        console.log("RefGPECProfilsSkills error loading data", err);
       });
-    self.inform();
   } else {
     self.ajaxLoading = false;
     self.inform();
