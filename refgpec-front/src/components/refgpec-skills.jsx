@@ -61,19 +61,19 @@ var RefGpecSkills = createReactClass({
     let rgSkills = [];
     let skillsadd = [];
     let compteurSkill = 0;
+    let searchwords = self.state.filter.SearchSkillShortName;
+    console.log("Recherche :", searchwords);
+    searchwords = words(searchwords.toLowerCase());
+    console.log("Words :", searchwords);
+    searchwords = searchwords.filter(function(word) {
+      return stopwords.indexOf(word) === -1;
+    });
+    console.log("stopwords :", searchwords);
+    searchwords = searchwords.map(unine.complex);
+    console.log("unine complex", searchwords);
 
     Object.keys(self.props.skillsModel.skills).forEach(function(key, i) {
       //search by ignoring accents and tokenization
-      let searchwords = self.state.filter.SearchSkillShortName;
-      console.log("Recherche :", searchwords);
-      searchwords = words(searchwords.toLowerCase());
-      console.log("Words :", searchwords);
-      searchwords = searchwords.filter(function(word) {
-        return stopwords.indexOf(word) === -1;
-      });
-      console.log("stopwords :", searchwords);
-      searchwords = searchwords.map(unine.complex);
-      console.log("unine complex", searchwords);
       let matching = 0;
       let j = 0;
       if (
@@ -99,6 +99,11 @@ var RefGpecSkills = createReactClass({
           self.state.filter.SearchSkillType.toLowerCase() === "")
       ) {
         let skill;
+        console.log(
+          "Tokens de la compétence ",
+          self.props.skillsModel.skills[key].skill_shortname + " : ",
+          self.props.skillsModel.skills[key].tokens
+        );
         // get list of just added skills to be able to put it in top of the long list
         // so that the user can see the skill he just added
         if (
