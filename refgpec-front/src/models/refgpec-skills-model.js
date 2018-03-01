@@ -178,7 +178,7 @@ RefGpecSkillsModel.prototype.addSkill = function(
           "-" +
           parseInt(lastCodeSplitted + 1, 10);
       }
-
+      skill_shortname = skill_shortname.trim();
       axios
         .post("/api/skills", {
           skill_code: skill_code,
@@ -271,6 +271,7 @@ RefGpecSkillsModel.prototype.save = function(skillId, skillstate, cb) {
     code: "",
     message: ""
   };
+  skillstate.skill_shortname = skillstate.skill_shortname.trim();
   axios
     .patch("/api/skills?skill_code=eq." + skillId, {
       skill_code: skillId,

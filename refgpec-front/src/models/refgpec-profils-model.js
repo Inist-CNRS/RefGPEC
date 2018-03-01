@@ -166,6 +166,7 @@ RefGpecProfilsModel.prototype.addProfil = function(
   if (!profil_tag) {
     profil_tag = null;
   }
+  profil_shortname = profil_shortname.trim();
   axios
     .post("/api/profils", {
       profil_code: profil_code,
@@ -271,6 +272,7 @@ RefGpecProfilsModel.prototype.save = function(profilId, data, cb) {
   if (!data.profil_tag) {
     data.profil_tag = null;
   }
+  data.profil_shortname = data.profil_shortname.trim();
   axios
     .patch("/api/profils?profil_code=eq." + profilId, {
       profil_code: data.profil_code,
