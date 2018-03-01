@@ -1,4 +1,4 @@
-FROM postgres:9.6.3
+FROM postgres:10.1
 
 # need jq to parse JSON
 ENV DEBIAN_FRONTEND noninteractive
