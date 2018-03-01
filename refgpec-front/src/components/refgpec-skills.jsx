@@ -82,7 +82,7 @@ var RefGpecSkills = createReactClass({
       ) {
         while (matching + j <= searchwords.length && j < searchwords.length) {
           self.props.skillsModel.skills[key].tokens.forEach(function(word) {
-            if (word.search(searchwords[j]) !== -1) {
+            if (word === searchwords[j]) {
               matching += 1;
             }
           });
@@ -90,7 +90,7 @@ var RefGpecSkills = createReactClass({
         }
       }
       if (
-        (matching === searchwords.length || searchwords.length === 0) &&
+        (matching !== 0 || searchwords.length === 0) &&
         (self.props.skillsModel.skills[key].sd_code.toLowerCase() ===
           self.state.filter.SearchSkillDomain.toLowerCase() ||
           self.state.filter.SearchSkillDomain.toLowerCase() === "") &&

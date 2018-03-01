@@ -1,4 +1,7 @@
 import axios from "axios";
+import words from "talisman/tokenizers/words";
+import unine from "talisman/stemmers/french/unine";
+import stopwords from "stopwords-fr";
 var RefGpecProfilsModel = function(options) {
   const self = this;
 
@@ -36,6 +39,14 @@ var RefGpecProfilsModel = function(options) {
       self.profils = {};
       response.data.forEach(item => {
         self.profils[item.profil_code] = item;
+        //add a column to search by ignoring accents and tokenization
+        let wordsList = self.profils[item.profil_code].profil_shortname;
+        wordsList = words(wordsList.toLowerCase());
+        wordsList = wordsList.filter(function(word) {
+          return stopwords.indexOf(word) === -1;
+        });
+        wordsList = wordsList.map(unine.complex);
+        self.profils[item.profil_code].tokens = wordsList;
       });
     })
     .catch(err => {
@@ -183,6 +194,14 @@ RefGpecProfilsModel.prototype.addProfil = function(
         profil_free_comments,
         profil_tag
       };
+      //add column to search by ignoring accents and tokenization
+      let wordsList = profil_shortname;
+      wordsList = words(wordsList.toLowerCase());
+      wordsList = wordsList.filter(function(word) {
+        return stopwords.indexOf(word) === -1;
+      });
+      wordsList = wordsList.map(unine.complex);
+      self.profils[profil_code].tokens = wordsList;
       self.gettag();
       for (var k = 0; k < nomchamp.length; k++) {
         self.profils[profil_code][nomchamp[k]] = 0;
@@ -262,6 +281,14 @@ RefGpecProfilsModel.prototype.save = function(profilId, data, cb) {
     })
     .then(function(response) {
       self.profils[profilId] = data;
+      //update the column to search by ignoring accents and tokenization
+      let wordsList = self.profils[profilId].profil_shortname;
+      wordsList = words(wordsList.toLowerCase());
+      wordsList = wordsList.filter(function(word) {
+        return stopwords.indexOf(word) === -1;
+      });
+      wordsList = wordsList.map(unine.complex);
+      self.profils[profilId].tokens = wordsList;
       self.ajaxLoading = false;
       self.getProfilsCSV();
       self.inform();

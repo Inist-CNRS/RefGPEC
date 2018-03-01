@@ -7,6 +7,9 @@ import {
   NotificationManager
 } from "react-notifications";
 import { CSVLink } from "react-csv";
+import words from "talisman/tokenizers/words";
+import unine from "talisman/stemmers/french/unine";
+import stopwords from "stopwords-fr";
 var createReactClass = require("create-react-class");
 var RefGpecProfils = createReactClass({
   displayName: "RefGpecProfils",
@@ -58,16 +61,36 @@ var RefGpecProfils = createReactClass({
     let rgProfils = [];
     let compteurProfil = 0;
     let profilsadd = [];
+    let searchwords = self.state.filter.SearchProfilShortName;
+    searchwords = words(searchwords.toLowerCase());
+    searchwords = searchwords.filter(function(word) {
+      return stopwords.indexOf(word) === -1;
+    });
+    searchwords = searchwords.map(unine.complex);
+
     Object.keys(self.props.profilsModel.profils).forEach(function(key, i) {
       let tag = "";
+      let matching = 0;
+      let j = 0;
+      if (
+        searchwords.length !== 0 &&
+        self.props.profilsModel.profils[key].tokens.length !== 0
+      ) {
+        while (matching + j <= searchwords.length && j < searchwords.length) {
+          self.props.profilsModel.profils[key].tokens.forEach(function(word) {
+            if (word === searchwords[j]) {
+              matching += 1;
+            }
+          });
+          j += 1;
+        }
+      }
+
       if (self.props.profilsModel.profils[key].profil_tag) {
         tag = self.props.profilsModel.profils[key].profil_tag;
       }
       if (
-        self.props.profilsModel.profils[key].profil_shortname
-          .toLowerCase()
-          .search(self.state.filter.SearchProfilShortName.toLowerCase()) !==
-          -1 &&
+        (matching !== 0 || searchwords.length === 0) &&
         tag.search(self.state.filter.SearchProfilTag) !== -1
       ) {
         let profil;
