@@ -96,7 +96,7 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function(
 
   Object.keys(self.psl).forEach(function(key) {
     if (self.psl[key].skill_code === skill_code) {
-      self.feedback.code = "999";
+      self.feedback.code = 999;
       self.feedback.message = "La compétence est déjà associée à ce profil !";
     }
   });

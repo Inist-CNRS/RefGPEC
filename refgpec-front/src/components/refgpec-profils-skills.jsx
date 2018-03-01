@@ -419,14 +419,27 @@ var RefGpecProfilsSkills = createReactClass({
             self.props.levelsModel.updateVue();
             self.props.profilsModel.updateVue();
           } else {
-            NotificationManager.error(
-              "[" +
-                self.props.profilsSkillsModel.feedback.code +
-                "] " +
-                self.props.profilsSkillsModel.feedback.message,
-              "Une erreur a été rencontrée lors de l'ajout : ",
-              0
-            );
+            if (self.props.profilsSkillsModel.feedback.code === 999) {
+              NotificationManager.error(
+                "[" +
+                  self.props.profilsSkillsModel.feedback.code +
+                  "] " +
+                  self.props.profilsSkillsModel.feedback.message,
+                "Une erreur a été rencontrée lors de l'ajout de la compétence  : " +
+                  self.props.skillsModel.skills[self.state.newSkill]
+                    .skill_shortname,
+                0
+              );
+            } else {
+              NotificationManager.error(
+                "[" +
+                  self.props.profilsSkillsModel.feedback.code +
+                  "] " +
+                  self.props.profilsSkillsModel.feedback.message,
+                "Une erreur a été rencontrée lors de l'ajout de la compétence ",
+                0
+              );
+            }
           }
         }
       );
