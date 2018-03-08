@@ -94,3 +94,17 @@ footer.gpec-footer hr {
 .profils-skills-vertical {
   width: 100%;
 }
+.family-col-action {
+  width: 30px;
+}
+.family-col-shortname {
+  width: 200px;
+}
+
+.family-col-id {
+  width: 70px;
+}
+
+.family-col-commentary {
+  width: 200px;
+}

@@ -6,6 +6,7 @@ import RefGpecProfilsSkills from "./refgpec-profils-skills.jsx";
 import RefGpecProfils from "./refgpec-profils.jsx";
 import RefGpecSkills from "./refgpec-skills.jsx";
 import RefGpecLevels from "./refgpec-levels.jsx";
+import RefGpecFamilys from "./refgpec-familys.jsx";
 import logo from "../img/gpec_40x40.png";
 import "react-notifications/lib/notifications.css";
 let createReactClass = require("create-react-class");
@@ -62,13 +63,6 @@ let RefGpecHome = createReactClass({
       this.props.levelsModel.initializing ||
       this.props.profilsSkillsModel.initializing ||
       this.props.familysModel.initializing;
-    /*
-    if (!this.props.skillsModel.initializing &&
-        !this.props.profilsModel.initializing &&
-        !this.props.levelsModel.initializing) {
-        $('#loading-data').modal && $('#loading-data').modal('hide');
-    }
-*/
 
     const refgpecTabs = [];
     refgpecTabs.push(<RefGpecIndex key="1" onTabChange={this.doTabChange} />);
@@ -114,19 +108,19 @@ let RefGpecHome = createReactClass({
         onTabChange={this.doTabChange}
       />
     );
-
+    refgpecTabs.push(
+      <RefGpecFamilys
+        key="6"
+        familysModel={this.props.familysModel}
+        onTabChange={this.doTabChange}
+      />
+    );
     return (
       <div id="content">
         {/* ONGLETS POUR LA NAVIGATION */}
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
             <div className="navbar-header">
-              {/*<button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-            </button>*/}
               <img className="gpec-logo" src={logo} alt="" />
               <a
                 className="gpec-title navbar-brand"

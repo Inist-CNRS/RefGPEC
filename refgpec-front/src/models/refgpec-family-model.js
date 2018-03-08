@@ -10,12 +10,13 @@ let RefGpecFamilyModel = function(options) {
   this.initializing = true;
   this.ajaxLoading = false;
   this.onChanges = [];
+  this.lastFamilleAdd = [];
   self.feedback = {
     code: "",
     message: ""
   };
   axios
-    .get("/api/family_skills")
+    .get("/api/family")
     .then(response => {
       self.family = {};
       response.data.forEach(item => {
@@ -26,7 +27,7 @@ let RefGpecFamilyModel = function(options) {
       self.inform();
     })
     .catch(err => {
-      console.log("RefGpecFamilySkills error loading data", err);
+      console.log("RefGpecFamily error loading data", err);
     });
 };
 
