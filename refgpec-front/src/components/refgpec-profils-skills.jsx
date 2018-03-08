@@ -9,8 +9,8 @@ import {
   NotificationManager
 } from "react-notifications";
 import { CSVLink } from "react-csv";
-var createReactClass = require("create-react-class");
-var RefGpecProfilsSkills = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecProfilsSkills = createReactClass({
   displayName: "RefGpecProfilsSkills",
 
   getInitialState: function() {
@@ -38,12 +38,12 @@ var RefGpecProfilsSkills = createReactClass({
   },
 
   render: function() {
-    var self = this;
+    let self = this;
     if (
       self.props.profilsSkillsModel.initializing ||
       self.props.skillsModel.initializing ||
       self.props.skillsTypesModel.initializing ||
-      self.props.skillsDomainsModel.initializing ||
+      self.props.familysModel.initializing ||
       self.props.profilsModel.initializing ||
       self.props.levelsModel.initializing
     ) {
@@ -67,7 +67,7 @@ var RefGpecProfilsSkills = createReactClass({
               levelsModel={self.props.levelsModel}
               skillsModel={self.props.skillsModel}
               skillsTypesModel={self.props.skillsTypesModel}
-              skillsDomainsModel={self.props.skillsDomainsModel}
+              familyModel={self.props.familysModel}
               psData={self.props.profilsSkillsModel.profilsSkillsLevels[key]}
               onSave={self.handleSave}
               onDestroy={self.handleDestroy}
@@ -83,7 +83,7 @@ var RefGpecProfilsSkills = createReactClass({
               levelsModel={self.props.levelsModel}
               skillsModel={self.props.skillsModel}
               skillsTypesModel={self.props.skillsTypesModel}
-              skillsDomainsModel={self.props.skillsDomainsModel}
+              familyModel={self.props.familysModel}
               psData={self.props.profilsSkillsModel.profilsSkillsLevels[key]}
               onSave={self.handleSave}
               onDestroy={self.handleDestroy}
@@ -451,7 +451,7 @@ var RefGpecProfilsSkills = createReactClass({
         error: ""
       });
     } else {
-      var missingFields = [];
+      let missingFields = [];
       if (!self.state.selectedProfil) missingFields.push("Profil de poste");
       if (!self.state.newLevel) missingFields.push("Modulation");
       if (!self.state.newSkill) missingFields.push("Compétence");

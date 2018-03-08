@@ -1,17 +1,17 @@
 import React from "react";
 import RefGpecTypes from "./refgpec-types.jsx";
-import RefGpecDomains from "./refgpec-list-domains";
+import RefGpecFamilys from "./refgpec-list-familys";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
-var createReactClass = require("create-react-class");
-var RefGpecNewSkill = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecNewSkill = createReactClass({
   displayName: "RefGpecNewSkill",
 
   getInitialState: function() {
     return {
       newSkillType: "",
-      newSkillDomain: "",
+      newSkillFamily: "",
       newSkillShortName: undefined,
       newSkillFreeComments: "",
       error: ""
@@ -19,13 +19,13 @@ var RefGpecNewSkill = createReactClass({
   },
 
   render: function() {
-    var self = this;
+    let self = this;
     let ops = [];
 
     // model is not ready ? then do not render anything
     if (
       self.props.skillsModel.initializing ||
-      this.props.skillsDomainsModel.initializing ||
+      this.props.familyModel.initializing ||
       this.props.skillsTypesModel.initializing
     ) {
       return null;
@@ -66,13 +66,7 @@ var RefGpecNewSkill = createReactClass({
           />
         </td>
         <td>
-          <RefGpecDomains
-            skillData={self.props.skillsDomainsModel}
-            ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
-            data-fieldname="newSkillDomain"
-            onChange={this.handleDomainChange}
-            value={this.state.newSkillDomain}
-          />
+          <select className="form-control" readOnly={true} disabled={true} />
         </td>
         <td>
           <Select.Creatable
@@ -109,7 +103,7 @@ var RefGpecNewSkill = createReactClass({
     this.setState({ newSkillType: event });
   },
   handleDomainChange: function(event) {
-    this.setState({ newSkillDomain: event });
+    this.setState({ newSkillFamily: event });
   },
   handleChange: function(event) {
     if (!event) {
@@ -138,13 +132,11 @@ var RefGpecNewSkill = createReactClass({
     if (!this.missingField()) {
       self.props.onSubmit(
         self.state.newSkillType,
-        self.state.newSkillDomain,
         self.state.newSkillShortName.label,
         self.state.newSkillFreeComments
       );
       self.setState({
         newSkillType: "",
-        newSkillDomain: "",
         newSkillShortName: "",
         newSkillFreeComments: "",
         error: ""
@@ -153,8 +145,6 @@ var RefGpecNewSkill = createReactClass({
       let missingFields = [];
       if (!self.state.newSkillShortName)
         missingFields.push("Nom de la compétence");
-      if (!self.state.newSkillDomain)
-        missingFields.push("Domaine de la compétence");
       if (!self.state.newSkillType) missingFields.push("Type de la compétence");
       self.setState({
         error:
@@ -167,11 +157,7 @@ var RefGpecNewSkill = createReactClass({
   },
 
   missingField() {
-    return (
-      !this.state.newSkillShortName ||
-      !this.state.newSkillDomain ||
-      !this.state.newSkillType
-    );
+    return !this.state.newSkillShortName || !this.state.newSkillType;
   }
 });
 export default RefGpecNewSkill;

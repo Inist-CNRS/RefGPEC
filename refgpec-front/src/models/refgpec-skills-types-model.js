@@ -3,7 +3,7 @@
  * in order to facilitate future updates
  */
 import axios from "axios";
-var RefGpecSkillsTypesModel = function(options) {
+let RefGpecSkillsTypesModel = function(options) {
   const self = this;
 
   self.st = {};
@@ -24,22 +24,6 @@ var RefGpecSkillsTypesModel = function(options) {
     .catch(err => {
       console.log("RefGpecSkillsTypesModel error loading data", err);
     });
-
-  /*
-  // simulate ajax request
-  setTimeout(function () {
-    // fake data for debug
-    self.st = {
-
-      "s":  { stShortName: "Savoir" },
-      "sf": { stShortName: "Savoir-faire" },
-      "se": { stShortName: "Savoir-être" },
-
-    };
-    self.initializing = false;
-    self.inform();
-  }, Math.round(Math.random() * options.fakeLoadingMaxDelay));
-*/
 };
 
 RefGpecSkillsTypesModel.prototype.subscribe = function(onChange) {

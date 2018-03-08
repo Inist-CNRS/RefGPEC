@@ -2,7 +2,7 @@ import axios from "axios";
 import words from "talisman/tokenizers/words";
 import unine from "talisman/stemmers/french/unine";
 import stopwords from "stopwords-fr";
-var RefGpecSkillsModel = function(options) {
+let RefGpecSkillsModel = function(options) {
   const self = this;
 
   self.skills = {};
@@ -13,17 +13,17 @@ var RefGpecSkillsModel = function(options) {
     code: "",
     message: ""
   };
-  self.listDomain = {};
+  self.listFamillys = {};
   self.listType = {};
   self.skillCSV = [];
   self.lastSkillAdd = [];
   self.listprofils_skills_levels = {};
-  var erreur = 2;
+  let erreur = 2;
   axios
     .get("/api/list_skills_attached_profils")
     .then(response => {
       self.listprofils_skills_levels = {};
-      var i = 0;
+      let i = 0;
       response.data.forEach(item => {
         self.listprofils_skills_levels[i] = item;
         i++;
@@ -37,7 +37,7 @@ var RefGpecSkillsModel = function(options) {
       erreur += 1;
     });
   axios
-    .get("/api/skills?order=sd_code.asc,st_code.asc,skill_shortname.asc")
+    .get("/api/skills?order=st_code.asc,skill_shortname.asc")
     .then(response => {
       self.skills = {};
       response.data.forEach(item => {
@@ -61,20 +61,20 @@ var RefGpecSkillsModel = function(options) {
     });
   self.getSkillsCSV();
 
-  self.getdomain();
+  self.getfamillys();
   self.gettype();
   self.initializing = erreur !== 0;
   self.inform();
 };
 
-RefGpecSkillsModel.prototype.getdomain = function() {
-  var self = this;
-  self.listDomain = {};
+RefGpecSkillsModel.prototype.getfamillys = function() {
+  let self = this;
+  self.listFamillys = {};
   axios
-    .get("/api/view_list_domains_profil")
+    .get("/api/view_list_family_profil")
     .then(response => {
       response.data.forEach(item => {
-        self.listDomain[item.sd_code] = item;
+        self.listFamillys[item.family_id] = item;
       });
       self.inform();
     })
@@ -99,12 +99,12 @@ RefGpecSkillsModel.prototype.gettype = function() {
     });
 };
 RefGpecSkillsModel.prototype.updateVue = function() {
-  var self = this;
+  let self = this;
   axios
     .get("/api/list_skills_attached_profils")
     .then(response => {
       self.listprofils_skills_levels = {};
-      var i = 0;
+      let i = 0;
       response.data.forEach(item => {
         self.listprofils_skills_levels[i] = item;
         i++;
@@ -137,7 +137,6 @@ RefGpecSkillsModel.prototype.getmax = function(codes) {
 };
 RefGpecSkillsModel.prototype.addSkill = function(
   st_code,
-  sd_code,
   skill_shortname,
   skill_free_comments,
   cb
@@ -151,32 +150,22 @@ RefGpecSkillsModel.prototype.addSkill = function(
   };
   //get the skills from history database to be sure to get the last code
   axios
-    .get("/api/history_skills?order=sd_code.asc,st_code.asc,sh_shortname.asc")
+    .get("/api/history_skills?order=st_code.asc,sh_shortname.asc")
     .then(response => {
       response.data.forEach(item => {
         history[item.sh_code] = item;
       });
       // filter other skills family to have a correct numeric id
       let codes = Object.keys(history).filter(function(elt) {
-        return (
-          elt.indexOf(
-            "c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase()
-          ) === 0
-        );
+        return elt.indexOf("c-" + st_code.toLowerCase()) === 0;
       });
-      let skill_code =
-        "c-" + st_code.toLowerCase() + "-" + sd_code.toLowerCase() + "-1";
+      let skill_code = "c-" + st_code.toLowerCase() + "-1";
       // add +1 to the id if more than one skill in this type/domain
       codes.sort();
       if (codes.length > 0) {
         let lastCodeSplitted = self.getmax(codes);
         skill_code =
-          "c-" +
-          st_code.toLowerCase() +
-          "-" +
-          sd_code.toLowerCase() +
-          "-" +
-          parseInt(lastCodeSplitted + 1, 10);
+          "c-" + st_code.toLowerCase() + parseInt(lastCodeSplitted + 1, 10);
       }
       skill_shortname = skill_shortname.trim();
       axios
@@ -184,7 +173,6 @@ RefGpecSkillsModel.prototype.addSkill = function(
           skill_code: skill_code,
           skill_shortname: skill_shortname,
           skill_free_comments: skill_free_comments,
-          sd_code: sd_code,
           st_code: st_code
         })
         .then(function(response) {
@@ -192,7 +180,6 @@ RefGpecSkillsModel.prototype.addSkill = function(
             skill_code,
             skill_shortname,
             skill_free_comments,
-            sd_code,
             st_code
           };
           //add column to search by ignoring accents and tokenization
@@ -204,7 +191,7 @@ RefGpecSkillsModel.prototype.addSkill = function(
           wordsList = wordsList.map(unine.complex);
           self.skills[skill_code].tokens = wordsList;
           self.ajaxLoading = false;
-          self.getdomain();
+          self.getfamillys();
           self.getSkillsCSV();
           self.lastSkillAdd.push(skill_code);
           self.inform();
@@ -226,7 +213,7 @@ RefGpecSkillsModel.prototype.addSkill = function(
 };
 
 RefGpecSkillsModel.prototype.destroy = function(skillId, cb) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = {
     code: "",
@@ -235,13 +222,13 @@ RefGpecSkillsModel.prototype.destroy = function(skillId, cb) {
   axios
     .delete("/api/profils_skills_levels?skill_code=eq." + skillId)
     .then(function(response) {
-      for (var key in self.listprofils_skills_levels) {
+      for (let key in self.listprofils_skills_levels) {
         if (self.listprofils_skills_levels[key].skill_code === skillId) {
           delete self.listprofils_skills_levels[key];
         }
       }
       self.getSkillsCSV();
-      self.getdomain();
+      self.getfamillys();
     })
     .catch(function(error) {
       self.feedback.code = error.response.status;
@@ -265,7 +252,7 @@ RefGpecSkillsModel.prototype.destroy = function(skillId, cb) {
 };
 
 RefGpecSkillsModel.prototype.save = function(skillId, skillstate, cb) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = {
     code: "",
@@ -277,7 +264,6 @@ RefGpecSkillsModel.prototype.save = function(skillId, skillstate, cb) {
       skill_code: skillId,
       skill_shortname: skillstate.skill_shortname,
       skill_free_comments: skillstate.skill_free_comments,
-      sd_code: skillstate.sd_code,
       st_code: skillstate.st_code
     })
     .then(function(response) {
@@ -307,9 +293,9 @@ RefGpecSkillsModel.prototype.save = function(skillId, skillstate, cb) {
 };
 
 RefGpecSkillsModel.prototype.getListProfils = function(skillId) {
-  var self = this;
-  var list = [];
-  for (var key in self.listprofils_skills_levels) {
+  let self = this;
+  let list = [];
+  for (let key in self.listprofils_skills_levels) {
     if (self.listprofils_skills_levels[key].skill_code === skillId) {
       list.push(self.listprofils_skills_levels[key]);
     }
@@ -318,7 +304,7 @@ RefGpecSkillsModel.prototype.getListProfils = function(skillId) {
 };
 
 RefGpecSkillsModel.prototype.getSkillsCSV = function() {
-  var self = this;
+  let self = this;
   self.skillCSV = [];
   axios
     .get("/api/view_exportcsv_skills")

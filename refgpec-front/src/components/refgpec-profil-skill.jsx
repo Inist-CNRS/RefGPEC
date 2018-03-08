@@ -1,12 +1,11 @@
 import React from "react";
 import { DropdownButton, MenuItem } from "react-bootstrap";
 import RefGpecLevelslist from "./refgpec-levels-list";
-var createReactClass = require("create-react-class");
-var RefGpecProfilSkill = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecProfilSkill = createReactClass({
   displayName: "RefGpecProfilSkill",
 
   getInitialState: function() {
-    //console.log('HELLO', this.props.skillsModel.skills[this.props.psData.psSkillId])
     return {
       psId: this.props.psId,
       psProfilId: this.props.psData.profil_code,
@@ -28,7 +27,7 @@ var RefGpecProfilSkill = createReactClass({
       this.props.skillsModel.initializing ||
       this.props.skillsTypesModel.initializing ||
       this.props.levelsModel.initializing ||
-      this.props.skillsDomainsModel.initializing
+      this.props.familyModel.initializing
     ) {
       return null;
     }
@@ -114,16 +113,6 @@ var RefGpecProfilSkill = createReactClass({
               }
             </span>
             &nbsp;
-            <span
-              style={{ backgroundColor: "#808080" }}
-              className="label label-primary"
-            >
-              {
-                this.props.skillsDomainsModel.sd[
-                  this.props.skillsModel.skills[this.state.psSkillId].sd_code
-                ].sd_shortname
-              }
-            </span>
           </p>
         </td>
         <td>
@@ -177,7 +166,7 @@ var RefGpecProfilSkill = createReactClass({
   },
 
   handleChange: function(event) {
-    var newState = {};
+    let newState = {};
     newState[event.target.getAttribute("data-fieldname")] = event.target.value;
     this.setState(newState);
   },

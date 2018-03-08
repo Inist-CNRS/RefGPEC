@@ -1,7 +1,7 @@
 import React from "react";
 import RefGpecType from "./refgpec-type.jsx";
-var createReactClass = require("create-react-class");
-var RefGpecTypes = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecTypes = createReactClass({
   displayName: "RefGpecTypes",
 
   getInitialState: function() {
@@ -12,7 +12,7 @@ var RefGpecTypes = createReactClass({
   },
 
   render: function() {
-    var self = this;
+    let self = this;
     let rgTypes = [];
     let color = [];
     Object.keys(self.props.skillData.st).forEach(function(key, i) {

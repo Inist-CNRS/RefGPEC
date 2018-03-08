@@ -1,5 +1,5 @@
 import axios from "axios";
-var RefGpecProfilsSkillsModel = function(options) {
+let RefGpecProfilsSkillsModel = function(options) {
   const self = this;
 
   self.profilsSkillsLevels = {};
@@ -32,7 +32,7 @@ var RefGpecProfilsSkillsModel = function(options) {
 };
 
 RefGpecProfilsSkillsModel.prototype.updateVue = function() {
-  var self = this;
+  let self = this;
   self.psl = {};
   axios
     .get("/api/profils_skills_levels?profil_code=eq." + self.profil)
@@ -77,7 +77,7 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function(
   psl_free_comments,
   cb
 ) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = {
     code: "",
@@ -162,7 +162,7 @@ RefGpecProfilsSkillsModel.prototype.addProfilSkill = function(
 };
 
 RefGpecProfilsSkillsModel.prototype.destroy = function(pslId, profil_code, cb) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = {
     code: "",
@@ -218,7 +218,7 @@ RefGpecProfilsSkillsModel.prototype.getProfilSkillLevel = function(
 
 // save is useless ?
 RefGpecProfilsSkillsModel.prototype.save = function(psl_code, data, cb) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = {
     code: "",
@@ -263,7 +263,7 @@ RefGpecProfilsSkillsModel.prototype.getprofilsSkillsCSV = function(
     .get(
       "/api/view_exportcsv_profilsskills?profil_code=eq." +
         profil_code +
-        "&order=Modulation_profil.desc,domaine.asc,type.asc"
+        "&order=Modulation_profil.desc,type.asc"
     )
     .then(response => {
       response.data.forEach(item => {

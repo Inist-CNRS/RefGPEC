@@ -1,0 +1,1 @@
+COPY family_skills FROM '/docker-entrypoint-initdb2.d/Familly_Skills.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';

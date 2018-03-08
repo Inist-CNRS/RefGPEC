@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import { Modal, DropdownButton, MenuItem } from "react-bootstrap";
 import RefGpecTags from "./refgpec-tags";
 import RefGpecPDF from "./refgpec-pdf";
-var createReactClass = require("create-react-class");
-var RefGpecProfil = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecProfil = createReactClass({
   displayName: "RefGpecProfil",
 
   getInitialState: function() {
@@ -288,7 +288,7 @@ var RefGpecProfil = createReactClass({
   },
 
   handleSubmit: function(event) {
-    var self = this;
+    let self = this;
     if (self.state.mustBeSaved) {
       self.setState(
         { ajaxLoading: true },

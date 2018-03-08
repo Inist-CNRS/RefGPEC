@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../img/gpec_256x256.png";
-var createReactClass = require("create-react-class");
-var RefGpecIndex = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecIndex = createReactClass({
   displayName: "RefGpecIndex",
 
   getInitialState: function() {

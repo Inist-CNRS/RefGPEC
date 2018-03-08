@@ -10,8 +10,8 @@ import { CSVLink } from "react-csv";
 import words from "talisman/tokenizers/words";
 import unine from "talisman/stemmers/french/unine";
 import stopwords from "stopwords-fr";
-var createReactClass = require("create-react-class");
-var RefGpecProfils = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecProfils = createReactClass({
   displayName: "RefGpecProfils",
 
   getInitialState: function() {
@@ -51,7 +51,7 @@ var RefGpecProfils = createReactClass({
   },
 
   render: function() {
-    var self = this;
+    let self = this;
 
     // model is not ready ? then do not render anything
     if (self.props.profilsModel.initializing) {
@@ -363,7 +363,7 @@ var RefGpecProfils = createReactClass({
   },
 
   handleChange: function(event) {
-    var newState = {};
+    let newState = {};
     newState[event.target.getAttribute("data-fieldname")] = event.target.value;
     this.setState(newState);
   },

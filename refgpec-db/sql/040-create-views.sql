@@ -1,8 +1,8 @@
 CREATE VIEW view_list_tag_profils AS
 select distinct p.profil_tag from profils p  order by profil_tag;
 
-CREATE VIEW view_list_domains_profil AS
-select distinct s.sd_code,sd_shortname from skills_domains sd,skills s where s.sd_code= sd.sd_code order by sd_shortname;
+CREATE VIEW view_list_family_profil AS
+select distinct f.family_id,f.family_name from family_skills fs ,skills s,family f where fs.family_id= f.family_id and fs.skill_code=s.skill_code order by f.family_name;
 
 CREATE VIEW view_profils_nb_skills AS
 select pr.profil_code,pr.profil_shortname,pr.profil_pdf_path,pr.profil_free_comments,pr.profil_tag,
@@ -42,17 +42,17 @@ group by l.level_code,profil_code;
 
 
 create view view_exportCSV_skills as
-select skill_code as code,sd_shortname as Domaine,st_shortname as Type,skill_shortname as Nom,CASE WHEN skill_free_comments is null THEN '' ELSE skill_free_comments END as Commentaire,referens
-from skills s, skills_domains sd, skills_types st
-where s.sd_code= sd.sd_code and s.st_code= st.st_code
-order by domaine,type,skill_code;
+select skill_code as code,st_shortname as Type,skill_shortname as Nom,CASE WHEN skill_free_comments is null THEN '' ELSE skill_free_comments END as Commentaire,referens
+from skills s, skills_types st
+where s.st_code= st.st_code
+order by type,skill_code;
 
 create view view_exportcsv_profilsSkills as
-select profil_code,Type,Domaine,code, Nom,'0' as "Modulation_profil",'' as "Modulation_individuelle", CASE WHEN Commentaire is null THEN '' ELSE Commentaire END as "Commentaires" from view_exportcsv_skills cross join
+select profil_code,Type,code, Nom,'0' as "Modulation_profil",'' as "Modulation_individuelle", CASE WHEN Commentaire is null THEN '' ELSE Commentaire END as "Commentaires" from view_exportcsv_skills cross join
 profils where (code,Nom,profil_code  )not in (select psl.skill_code,skill_shortname,p.profil_code  from profils p , skills s , profils_skills_levels psl
                                                                                where s.skill_code = psl.skill_code and p.profil_code = psl.profil_code)
 UNION
-select p.profil_code,Type,Domaine,code, Nom,level_number,'' as "Modulation_individuelle",CASE WHEN psl_free_comments is null THEN '' ELSE psl_free_comments END as "Commentaires" from profils p , view_exportcsv_skills s , profils_skills_levels psl,levels l
+select p.profil_code,Type,code, Nom,level_number,'' as "Modulation_individuelle",CASE WHEN psl_free_comments is null THEN '' ELSE psl_free_comments END as "Commentaires" from profils p , view_exportcsv_skills s , profils_skills_levels psl,levels l
                                                                                where s.code = psl.skill_code and p.profil_code = psl.profil_code and l.level_code = psl.level_code;
 
 create view view_exportCSV_profils as

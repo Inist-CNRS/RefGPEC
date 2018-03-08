@@ -1,7 +1,7 @@
 import React from "react";
 import RefGpecLevelList from "./refgpec-level-list.jsx";
-var createReactClass = require("create-react-class");
-var RefGpecLevelsList = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecLevelsList = createReactClass({
   displayName: "RefGpecLevelsList",
 
   getInitialState: function() {
@@ -12,7 +12,7 @@ var RefGpecLevelsList = createReactClass({
   },
 
   render: function() {
-    var self = this;
+    let self = this;
     let rgLevels = [];
 
     Object.keys(self.props.skillData.levels).forEach(function(key) {

@@ -1,16 +1,16 @@
 import React from "react";
 import { Modal, DropdownButton, MenuItem } from "react-bootstrap";
 import RefGpecTypes from "./refgpec-types.jsx";
-import RefGpecDomains from "./refgpec-list-domains";
-var createReactClass = require("create-react-class");
-var RefGpecSkill = createReactClass({
+import RefGpecFamilys from "./refgpec-list-familys";
+let createReactClass = require("create-react-class");
+let RefGpecSkill = createReactClass({
   displayName: "RefGpecSkill",
 
   getInitialState: function() {
     return {
       skill_code: this.props.skillId,
       st_code: this.props.skillData.st_code,
-      sd_code: this.props.skillData.sd_code,
+      family_id: this.props.skillData.family_id,
       skill_shortname: this.props.skillData.skill_shortname,
       skill_free_comments: this.props.skillData.skill_free_comments,
       mustBeSaved: false,
@@ -143,11 +143,11 @@ var RefGpecSkill = createReactClass({
         </td>
 
         <td>
-          <RefGpecDomains
-            skillData={this.props.skillsDomainsModel}
-            data-fieldname="sd_code"
+          <RefGpecFamilys
+            skillData={this.props.skillsModel}
+            data-fieldname="family_id"
             readOnly="readonly"
-            value={this.state.sd_code}
+            value={this.state.family_id}
             onChange={this.handleChange}
             disabled="disabled"
           />

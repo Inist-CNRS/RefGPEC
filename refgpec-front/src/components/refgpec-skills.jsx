@@ -11,14 +11,13 @@ import words from "talisman/tokenizers/words";
 import unine from "talisman/stemmers/french/unine";
 import stopwords from "stopwords-fr";
 
-var createReactClass = require("create-react-class");
-var RefGpecSkills = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecSkills = createReactClass({
   displayName: "RefGpecSkills",
 
   getInitialState: function() {
     return {
       newSkillType: "",
-      newSkillDomain: "",
       newSkillShortName: "",
       newSkillFreeComments: "",
       error: "",
@@ -26,7 +25,7 @@ var RefGpecSkills = createReactClass({
       type_sort: true,
       filter: {
         SearchSkillType: "",
-        SearchSkillDomain: "",
+        SearchFamily: "",
         SearchSkillShortName: ""
       },
       lastSkillAdd: []
@@ -48,12 +47,11 @@ var RefGpecSkills = createReactClass({
   },
 
   render: function() {
-    var self = this;
-
+    let self = this;
     // model is not ready ? then do not render anything
     if (
-      self.props.skillsModel.initializing ||
-      this.props.skillsDomainsModel.initializing ||
+      this.props.skillsModel.initializing ||
+      this.props.familysModel.initializing ||
       this.props.skillsTypesModel.initializing
     ) {
       return null;
@@ -91,19 +89,16 @@ var RefGpecSkills = createReactClass({
       }
       if (
         (matching !== 0 || searchwords.length === 0) &&
-        (self.props.skillsModel.skills[key].sd_code.toLowerCase() ===
-          self.state.filter.SearchSkillDomain.toLowerCase() ||
-          self.state.filter.SearchSkillDomain.toLowerCase() === "") &&
         (self.props.skillsModel.skills[key].st_code.toLowerCase() ===
           self.state.filter.SearchSkillType.toLowerCase() ||
           self.state.filter.SearchSkillType.toLowerCase() === "")
       ) {
         let skill;
-        console.log(
-          "Tokens de la compétence ",
-          self.props.skillsModel.skills[key].skill_shortname + " : ",
-          self.props.skillsModel.skills[key].tokens
-        );
+        //console.log(
+        //  "Tokens de la compétence ",
+        //  self.props.skillsModel.skills[key].skill_shortname + " : ",
+        //  self.props.skillsModel.skills[key].tokens
+        //);
         // get list of just added skills to be able to put it in top of the long list
         // so that the user can see the skill he just added
         if (
@@ -118,7 +113,7 @@ var RefGpecSkills = createReactClass({
               skillId={key}
               skillData={self.props.skillsModel.skills[key]}
               skillsTypesModel={self.props.skillsTypesModel}
-              skillsDomainsModel={self.props.skillsDomainsModel}
+              familyModel={self.props.familyModel}
               profilList={self.props.skillsModel.getListProfils(key)}
               onProfil={self.handleOpenProfilSkills}
               onSave={self.handleSave}
@@ -134,7 +129,7 @@ var RefGpecSkills = createReactClass({
               skillId={key}
               skillData={self.props.skillsModel.skills[key]}
               skillsTypesModel={self.props.skillsTypesModel}
-              skillsDomainsModel={self.props.skillsDomainsModel}
+              familyModel={self.props.familyModel}
               profilList={self.props.skillsModel.getListProfils(key)}
               onProfil={self.handleOpenProfilSkills}
               onSave={self.handleSave}
@@ -287,13 +282,13 @@ var RefGpecSkills = createReactClass({
                     Type <i className="fa fa-sort" aria-hidden="true" />
                   </th>
                   <th
-                    title="Cliquez pour trier par Domaine"
+                    title="Cliquez pour trier par Famille"
                     role="button"
-                    id="sd_code"
+                    id="family_id"
                     onClick={this.Sort}
-                    className="skills-col-domain"
+                    className="skills-col-family"
                   >
-                    Domaine <i className="fa fa-sort" aria-hidden="true" />
+                    Famille(s) <i className="fa fa-sort" aria-hidden="true" />
                   </th>
                   <th
                     title="Cliquez pour trier par Nom"
@@ -330,7 +325,7 @@ var RefGpecSkills = createReactClass({
                 <RefGpecResearchSkill
                   skillsModel={self.props.skillsModel}
                   skillsTypesModel={self.props.skillsTypesModel}
-                  skillsDomainsModel={self.props.skillsDomainsModel}
+                  familyModel={self.props.familysModel}
                   onChange={this.filterList}
                 />
                 <tr>
@@ -340,7 +335,7 @@ var RefGpecSkills = createReactClass({
                 <RefGpecNewSkill
                   skillsModel={self.props.skillsModel}
                   skillsTypesModel={self.props.skillsTypesModel}
-                  skillsDomainsModel={self.props.skillsDomainsModel}
+                  familyModel={self.props.familysModel}
                   onSubmit={self.handleAddSkills}
                 />
                 {rgSkills}
@@ -368,16 +363,14 @@ var RefGpecSkills = createReactClass({
 
   handleAddSkills: function(
     newSkillType,
-    newSkillDomain,
     newSkillShortName,
     newSkillFreeComments
   ) {
     const self = this;
     if (self.props.skillsModel.ajaxLoading) return;
-    if (newSkillShortName && newSkillDomain && newSkillType) {
+    if (newSkillShortName && newSkillType) {
       self.props.skillsModel.addSkill(
         newSkillType,
-        newSkillDomain,
         newSkillShortName,
         newSkillFreeComments,
         function() {
@@ -401,27 +394,19 @@ var RefGpecSkills = createReactClass({
 
       self.setState({
         newSkillType: "",
-        newSkillDomain: "",
         newSkillShortName: "",
         newSkillFreeComments: "",
         error: ""
       });
     } else {
-      var missingFields = [];
+      let missingFields = [];
       if (!newSkillShortName) missingFields.push("Nom de la compétence");
-      if (!newSkillDomain) missingFields.push("Domaine");
       if (!newSkillType) missingFields.push("Type");
       self.setState({
         error:
           "Il manque des champs avant de pouvoir ajouter la compétence :\n" +
           missingFields.join(", ")
       });
-      // setTimeout(function () {
-      //   $('#skills-new-skill').popover(self.state.error ? 'show' : 'hide');
-      //   setTimeout(function () {
-      //     $('#skills-new-skill').popover('hide');
-      //   }, 5000);
-      // }, 100);
     }
   },
 
@@ -482,11 +467,7 @@ var RefGpecSkills = createReactClass({
   },
 
   missingField() {
-    return (
-      !this.state.newSkillShortName ||
-      !this.state.newSkillDomain ||
-      !this.state.newSkillType
-    );
+    return !this.state.newSkillShortName || !this.state.newSkillType;
   }
 });
 export default RefGpecSkills;

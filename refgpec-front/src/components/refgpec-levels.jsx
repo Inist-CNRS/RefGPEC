@@ -4,8 +4,8 @@ import {
   NotificationContainer,
   NotificationManager
 } from "react-notifications";
-var createReactClass = require("create-react-class");
-var RefGpecLevels = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecLevels = createReactClass({
   displayName: "RefGpecLevels",
 
   getInitialState: function() {
@@ -30,7 +30,7 @@ var RefGpecLevels = createReactClass({
   },
 
   render: function() {
-    var self = this;
+    let self = this;
 
     // model is not ready ? then do not render anything
     if (self.props.levelsModel.initializing) {

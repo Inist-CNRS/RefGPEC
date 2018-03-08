@@ -1,6 +1,6 @@
 import React from "react";
-var createReactClass = require("create-react-class");
-var RefGpecPDF = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecPDF = createReactClass({
   displayName: "RefGpecPDF",
 
   getInitialState: function() {

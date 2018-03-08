@@ -1,5 +1,5 @@
 import axios from "axios";
-var RefGpecLevelsModel = function(options) {
+let RefGpecLevelsModel = function(options) {
   const self = this;
   self.levels = {};
   self.initializing = true;
@@ -19,7 +19,7 @@ var RefGpecLevelsModel = function(options) {
     .get("/api/view_nb_skills_by_levels")
     .then(response => {
       self.nb_skills = {};
-      var i = 0;
+      let i = 0;
       response.data.forEach(item => {
         self.nb_skills[i] = item;
         i++;
@@ -34,7 +34,7 @@ var RefGpecLevelsModel = function(options) {
     .get("/api/list_levels_attached_profils")
     .then(response => {
       self.listprofils_skills_levels = {};
-      var i = 0;
+      let i = 0;
       response.data.forEach(item => {
         self.listprofils_skills_levels[i] = item;
         i++;
@@ -70,14 +70,14 @@ RefGpecLevelsModel.prototype.setMax = function() {
   });
 };
 RefGpecLevelsModel.prototype.updateVue = function() {
-  var self = this;
+  let self = this;
   self.listprofils_skills_levels = {};
   self.nb_skills = {};
   axios
     .get("/api/view_nb_skills_by_levels")
     .then(response => {
       self.nb_skills = {};
-      var i = 0;
+      let i = 0;
       response.data.forEach(item => {
         self.nb_skills[i] = item;
         i++;
@@ -91,7 +91,7 @@ RefGpecLevelsModel.prototype.updateVue = function() {
     .get("/api/list_levels_attached_profils")
     .then(response => {
       self.listprofils_skills_levels = {};
-      var i = 0;
+      let i = 0;
       response.data.forEach(item => {
         self.listprofils_skills_levels[i] = item;
         i++;
@@ -134,7 +134,7 @@ RefGpecLevelsModel.prototype.addLevel = function(
   level_free_comments,
   cb
 ) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = "";
   let level_code = "m-" + 1;
@@ -192,13 +192,13 @@ RefGpecLevelsModel.prototype.addLevel = function(
 };
 
 RefGpecLevelsModel.prototype.destroy = function(levelId, cb) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = "";
   axios
     .delete("/api/profils_skills_levels?level_code=eq." + levelId)
     .then(function(response) {
-      for (var key in self.listprofils_skills_levels) {
+      for (let key in self.listprofils_skills_levels) {
         if (self.listprofils_skills_levels[key].level_code === levelId) {
           delete self.listprofils_skills_levels[key];
         }
@@ -232,7 +232,7 @@ RefGpecLevelsModel.prototype.destroy = function(levelId, cb) {
 };
 
 RefGpecLevelsModel.prototype.save = function(levelId, data, cb) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = "";
   axios
@@ -263,9 +263,9 @@ RefGpecLevelsModel.prototype.save = function(levelId, data, cb) {
 };
 
 RefGpecLevelsModel.prototype.getListProfils = function(level_code) {
-  var self = this;
-  var list = {};
-  for (var key in self.listprofils_skills_levels) {
+  let self = this;
+  let list = {};
+  for (let key in self.listprofils_skills_levels) {
     if (self.listprofils_skills_levels[key].level_code === level_code) {
       list[key] = self.listprofils_skills_levels[key];
     }
@@ -273,9 +273,9 @@ RefGpecLevelsModel.prototype.getListProfils = function(level_code) {
   return list;
 };
 RefGpecLevelsModel.prototype.getnbSkill = function(level_code, profil_code) {
-  var self = this;
-  var nb = 0;
-  for (var key in self.nb_skills) {
+  let self = this;
+  let nb = 0;
+  for (let key in self.nb_skills) {
     if (
       self.nb_skills[key].level_code === level_code &&
       self.nb_skills[key].profil_code === profil_code

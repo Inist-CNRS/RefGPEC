@@ -4,8 +4,8 @@ import { Modal, OverlayTrigger, Popover } from "react-bootstrap";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
 import RefGpecPDF from "./refgpec-pdf";
-var createReactClass = require("create-react-class");
-var RefGpecNewProfil = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecNewProfil = createReactClass({
   displayName: "RefGpecNewProfil",
 
   getInitialState: function() {

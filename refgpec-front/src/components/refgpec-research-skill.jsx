@@ -1,29 +1,29 @@
 import React from "react";
 import RefGpecTypes from "./refgpec-types.jsx";
-import RefGpecDomains from "./refgpec-list-domains";
+import RefGpecFamilys from "./refgpec-list-familys";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 
 const WAIT_INTERVAL = 500;
 const ENTER_KEY = 13;
-var createReactClass = require("create-react-class");
-var RefGpecResearchSkill = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecResearchSkill = createReactClass({
   displayName: "RefGpecResearchSkill",
 
   getInitialState: function() {
     return {
       SearchSkillType: "",
-      SearchSkillDomain: "",
+      SearchFamily: "",
       SearchSkillShortName: ""
     };
   },
 
   render: function() {
-    var self = this;
+    let self = this;
 
     // model is not ready ? then do not render anything
     if (
       self.props.skillsModel.initializing ||
-      this.props.skillsDomainsModel.initializing ||
+      self.props.familyModel.initializing ||
       this.props.skillsTypesModel.initializing
     ) {
       return null;
@@ -57,12 +57,12 @@ var RefGpecResearchSkill = createReactClass({
           />
         </td>
         <td className="skills-col-domain">
-          <RefGpecDomains
-            skillData={self.props.skillsDomainsModel}
-            ajaxLoading={self.props.skillsDomainsModel.ajaxLoading}
-            data-fieldname="SearchSkillDomain"
-            onChange={this.handleDomainChange}
-            value={this.state.SearchSkillDomain}
+          <RefGpecFamilys
+            skillData={this.props.skillsModel}
+            ajaxLoading={self.props.familyModel.ajaxLoading}
+            data-fieldname="SearchFamily"
+            onChange={this.handleFamilyChange}
+            value={this.state.SearchFamily}
           />
         </td>
         <td colSpan="3" className="skills-col-shortname">
@@ -94,8 +94,8 @@ var RefGpecResearchSkill = createReactClass({
     this.setState({ SearchSkillType: event });
     this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
   },
-  handleDomainChange: function(event) {
-    this.setState({ SearchSkillDomain: event });
+  handleFamilyChange: function(event) {
+    this.setState({ SearchFamily: event });
     this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
   },
   handleChange: function(event) {

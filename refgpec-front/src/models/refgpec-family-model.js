@@ -3,10 +3,10 @@
  * in order to facilitate future updates
  */
 import axios from "axios";
-var RefGpecSkillsDomainsModel = function(options) {
+let RefGpecFamilyModel = function(options) {
   const self = this;
 
-  self.sd = {};
+  self.family = {};
   this.initializing = true;
   this.ajaxLoading = false;
   this.onChanges = [];
@@ -15,55 +15,50 @@ var RefGpecSkillsDomainsModel = function(options) {
     message: ""
   };
   axios
-    .get("/api/skills_domains")
+    .get("/api/family_skills")
     .then(response => {
-      self.sd = {};
+      self.family = {};
       response.data.forEach(item => {
-        self.sd[item.sd_code] = item;
+        self.family[item.family_id] = item;
       });
 
       self.initializing = false;
       self.inform();
     })
     .catch(err => {
-      console.log("RefGpecSkillsTypesModel error loading data", err);
+      console.log("RefGpecFamilySkills error loading data", err);
     });
 };
 
-RefGpecSkillsDomainsModel.prototype.subscribe = function(onChange) {
+RefGpecFamilyModel.prototype.subscribe = function(onChange) {
   this.onChanges.push(onChange);
 };
 
-RefGpecSkillsDomainsModel.prototype.getListSkills = function(sd_code) {
-  let self = this;
+RefGpecFamilyModel.prototype.getListSkills = function(family_id) {
   let list = {};
   return list;
 };
 
-RefGpecSkillsDomainsModel.prototype.inform = function() {
+RefGpecFamilyModel.prototype.inform = function() {
   this.onChanges.forEach(function(cb) {
     cb();
   });
 };
 
-RefGpecSkillsDomainsModel.prototype.addDomains = function(
-  sd_code,
-  sd_shortname,
-  cb
-) {
+RefGpecFamilyModel.prototype.addFamily = function(family_id, family_name, cb) {
   let self = this;
   self.ajaxLoading = true;
   self.feedback = "";
 
   axios
-    .post("/api/skills_domains", {
-      sd_code: sd_code,
-      sd_shortname: sd_shortname
+    .post("/api/family", {
+      family_id: family_id,
+      family_name: family_name
     })
     .then(function(response) {
-      self.sd[sd_code] = {
-        sd_code,
-        sd_shortname
+      self.famille[family_id] = {
+        family_id,
+        family_name
       };
       self.ajaxLoading = false;
       self.inform();
@@ -79,4 +74,4 @@ RefGpecSkillsDomainsModel.prototype.addDomains = function(
   self.inform();
 };
 
-export default RefGpecSkillsDomainsModel;
+export default RefGpecFamilyModel;

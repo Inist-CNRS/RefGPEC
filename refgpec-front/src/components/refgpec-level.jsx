@@ -12,16 +12,16 @@ var RefGpecLevel = createReactClass({
       level_free_comments: this.props.levelData.level_free_comments,
       mustBeSaved: false,
       error: "",
-      deleteModal: false,
+      devareModal: false,
       ajaxLoading: false
     };
   },
-  closedeleteModal() {
-    this.setState({ deleteModal: false });
+  closedevareModal() {
+    this.setState({ devareModal: false });
   },
 
-  opendeleteModal() {
-    this.setState({ deleteModal: true });
+  opendevareModal() {
+    this.setState({ devareModal: true });
   },
 
   render: function() {
@@ -40,15 +40,15 @@ var RefGpecLevel = createReactClass({
         <td>
           <div className="btn-group">
             <DropdownButton id="dropdown-level" title=" " aria-expanded="false">
-              <MenuItem href="" onClick={this.opendeleteModal}>
+              <MenuItem href="" onClick={this.opendevareModal}>
                 {" "}
                 <span className="glyphicon glyphicon-remove" /> Supprimer la
                 modulation de compétence
               </MenuItem>
             </DropdownButton>
             <Modal
-              show={this.state.deleteModal}
-              onHide={this.closedeleteModal}
+              show={this.state.devareModal}
+              onHide={this.closedevareModal}
               id="profils-file-modal"
             >
               <Modal.Header closeButton>
@@ -59,7 +59,7 @@ var RefGpecLevel = createReactClass({
               </Modal.Header>
               <Modal.Body>
                 {(() => {
-                  let list = [];
+                  var list = [];
                   if (Object.keys(self.props.profilList).length !== 0) {
                     Object.keys(this.props.profilList).forEach(function(
                       profil
@@ -100,7 +100,7 @@ var RefGpecLevel = createReactClass({
               </Modal.Body>
               <Modal.Footer>
                 <button
-                  onClick={this.closedeleteModal}
+                  onClick={this.closedevareModal}
                   type="button"
                   className="btn btn-default"
                   data-dismiss="modal"
@@ -177,7 +177,7 @@ var RefGpecLevel = createReactClass({
   },
 
   handleSubmit: function(event) {
-    let self = this;
+    var self = this;
     if (this.state.mustBeSaved) {
       self.setState(
         { ajaxLoading: true },
@@ -239,12 +239,12 @@ var RefGpecLevel = createReactClass({
   },
 
   handleOpenProfilSkills: function(event) {
-    this.closedeleteModal();
+    this.closedevareModal();
     this.props.onProfil(event);
   },
 
   GetTitle() {
-    let title = "";
+    var title = "";
     if (Object.keys(this.props.profilList).length !== 0) {
       title = "Veuillez dissocier les compétences associées avant de modifier ";
     }

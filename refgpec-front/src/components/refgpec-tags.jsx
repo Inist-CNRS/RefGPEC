@@ -1,8 +1,8 @@
 import React from "react";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
-var createReactClass = require("create-react-class");
-var RefGpecTags = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecTags = createReactClass({
   displayName: "RefGpecTags",
 
   getInitialState: function() {
@@ -13,7 +13,7 @@ var RefGpecTags = createReactClass({
   },
 
   render: function() {
-    var self = this;
+    let self = this;
     let rgTags = [];
 
     Object.keys(self.props.skillData).forEach(function(key) {

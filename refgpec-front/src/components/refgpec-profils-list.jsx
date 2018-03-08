@@ -1,7 +1,7 @@
 import React from "react";
 import RefGpecProfilList from "./refgpec-profil-list.jsx";
-var createReactClass = require("create-react-class");
-var RefGpecProfilsList = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecProfilsList = createReactClass({
   displayName: "RefGpecProfilsList",
 
   getInitialState: function() {

@@ -6,11 +6,10 @@ import RefGpecProfilsSkills from "./refgpec-profils-skills.jsx";
 import RefGpecProfils from "./refgpec-profils.jsx";
 import RefGpecSkills from "./refgpec-skills.jsx";
 import RefGpecLevels from "./refgpec-levels.jsx";
-import RefGpecDomains from "./refgpec-domains.jsx";
 import logo from "../img/gpec_40x40.png";
 import "react-notifications/lib/notifications.css";
-var createReactClass = require("create-react-class");
-var RefGpecHome = createReactClass({
+let createReactClass = require("create-react-class");
+let RefGpecHome = createReactClass({
   displayName: "RefGpecHome",
 
   doTabChange: function(tabId) {
@@ -27,7 +26,8 @@ var RefGpecHome = createReactClass({
       "profils",
       "skills",
       "levels",
-      "domains"
+      "familys",
+      "family-skills"
     ].forEach(function(tabName) {
       if (document.getElementById(tabName) && tabName !== tabId) {
         document.getElementById(tabName).style.display = "none";
@@ -59,10 +59,9 @@ var RefGpecHome = createReactClass({
       this.props.skillsModel.initializing ||
       this.props.profilsModel.initializing ||
       this.props.skillsTypesModel.initializing ||
-      this.props.skillsDomainsModel.initializing ||
       this.props.levelsModel.initializing ||
-      this.props.profilsSkillsModel.initializing;
-
+      this.props.profilsSkillsModel.initializing ||
+      this.props.familysModel.initializing;
     /*
     if (!this.props.skillsModel.initializing &&
         !this.props.profilsModel.initializing &&
@@ -89,7 +88,7 @@ var RefGpecHome = createReactClass({
         profilsSkillsModel={this.props.profilsSkillsModel}
         skillsModel={this.props.skillsModel}
         skillsTypesModel={this.props.skillsTypesModel}
-        skillsDomainsModel={this.props.skillsDomainsModel}
+        familysModel={this.props.familysModel}
         profilsModel={this.props.profilsModel}
         levelsModel={this.props.levelsModel}
         onTabChange={this.doTabChange}
@@ -101,7 +100,7 @@ var RefGpecHome = createReactClass({
         key="4"
         skillsModel={this.props.skillsModel}
         skillsTypesModel={this.props.skillsTypesModel}
-        skillsDomainsModel={this.props.skillsDomainsModel}
+        familysModel={this.props.familysModel}
         profilsSkillsModel={this.props.profilsSkillsModel}
         onTabChange={this.doTabChange}
       />
@@ -112,14 +111,6 @@ var RefGpecHome = createReactClass({
         key="5"
         levelsModel={this.props.levelsModel}
         profilsSkillsModel={this.props.profilsSkillsModel}
-        onTabChange={this.doTabChange}
-      />
-    );
-
-    refgpecTabs.push(
-      <RefGpecDomains
-        key="6"
-        skillsDomainsModel={this.props.skillsDomainsModel}
         onTabChange={this.doTabChange}
       />
     );
@@ -198,11 +189,22 @@ var RefGpecHome = createReactClass({
                   <a
                     data-toggle="tab"
                     className="nav-link"
-                    id="tab-domains"
-                    href="#domains"
+                    id="tab-familys"
+                    href="#familys"
                     onClick={this.handleTabChange}
                   >
-                    Gestion des Domaines
+                    Gestion des Familles
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    data-toggle="tab"
+                    className="nav-link"
+                    id="tab-familys-skills"
+                    href="#familys-skills"
+                    onClick={this.handleTabChange}
+                  >
+                    Familles &amp; Compétences
                   </a>
                 </li>
               </ul>
@@ -253,9 +255,9 @@ var RefGpecHome = createReactClass({
 
                 <li className="list-group-item">
                   <span
-                    className={this.getDataLoadedClassName("DomainModel")}
+                    className={this.getDataLoadedClassName("FamilyModel")}
                   />
-                  Domaines
+                  Familles
                 </li>
                 <li className="list-group-item">
                   <span className={this.getDataLoadedClassName("typeModel")} />
@@ -287,7 +289,7 @@ var RefGpecHome = createReactClass({
   },
 
   getDataLoadedClassName(modelType) {
-    var self = this;
+    let self = this;
 
     if (modelType === "skillsModel") {
       return self.props.skillsModel.initializing
@@ -306,7 +308,7 @@ var RefGpecHome = createReactClass({
         ? "pull-right fa fa-2x fa-square"
         : "pull-right fa fa-2x fa-check-square";
     } else if (modelType === "DomainModel") {
-      return self.props.skillsDomainsModel.initializing
+      return self.props.familysModel.initializing
         ? "pull-right fa fa-2x fa-square"
         : "pull-right fa fa-2x fa-check-square";
     } else {
@@ -315,7 +317,7 @@ var RefGpecHome = createReactClass({
   },
 
   componentDidMount() {
-    var self = this;
+    let self = this;
 
     $(function() {
       // activate the selected tab when clicking on a tab
@@ -326,7 +328,7 @@ var RefGpecHome = createReactClass({
   },
 
   componentDidUpdate() {
-    var self = this;
+    let self = this;
 
     // need this when initializing the first DOM rendering
     // it certenlay could be optimized because this call is useless

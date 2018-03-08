@@ -1,0 +1,1 @@
+COPY family FROM '/docker-entrypoint-initdb2.d/Family.csv' DELIMITER ';' CSV HEADER;

@@ -15,7 +15,7 @@ import RefGpecHome from "./components/refgpec-home.jsx";
 import RefGpecProfilsModel from "./models/refgpec-profils-model.js";
 import RefGpecSkillsModel from "./models/refgpec-skills-model.js";
 import RefGpecSkillsTypesModel from "./models/refgpec-skills-types-model.js";
-import RefGpecSkillsDomainsModel from "./models/refgpec-skills-domains-model.js";
+import RefGpecFamilyModel from "./models/refgpec-family-model.js";
 import RefGpecLevelsModel from "./models/refgpec-levels-model.js";
 import RefGpecProfilsSkillsModel from "./models/refgpec-profils-skills-model.js";
 
@@ -26,14 +26,14 @@ let modelOptions = {
 let levelsModel = new RefGpecLevelsModel(modelOptions);
 let skillsModel = new RefGpecSkillsModel(modelOptions);
 let skillsTypesModel = new RefGpecSkillsTypesModel(modelOptions);
-let skillsDomainsModel = new RefGpecSkillsDomainsModel(modelOptions);
+let familysModel = new RefGpecFamilyModel(modelOptions);
 let profilsModel = new RefGpecProfilsModel(modelOptions);
 let profilsSkillsModel = new RefGpecProfilsSkillsModel(modelOptions);
 
 profilsModel.subscribe(render);
 skillsModel.subscribe(render);
 skillsTypesModel.subscribe(render);
-skillsDomainsModel.subscribe(render);
+familysModel.subscribe(render);
 levelsModel.subscribe(render);
 profilsSkillsModel.subscribe(render);
 
@@ -69,7 +69,7 @@ function render() {
         levelsModel={levelsModel}
         skillsModel={skillsModel}
         skillsTypesModel={skillsTypesModel}
-        skillsDomainsModel={skillsDomainsModel}
+        familysModel={familysModel}
         profilsModel={profilsModel}
         profilsSkillsModel={profilsSkillsModel}
       />,

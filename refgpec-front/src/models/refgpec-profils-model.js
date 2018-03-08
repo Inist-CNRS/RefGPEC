@@ -2,7 +2,7 @@ import axios from "axios";
 import words from "talisman/tokenizers/words";
 import unine from "talisman/stemmers/french/unine";
 import stopwords from "stopwords-fr";
-var RefGpecProfilsModel = function(options) {
+let RefGpecProfilsModel = function(options) {
   const self = this;
 
   self.profils = {};
@@ -17,12 +17,12 @@ var RefGpecProfilsModel = function(options) {
   self.listTag = {};
   self.listprofils_skills_levels = {};
   self.lastProfilAdd = [];
-  var erreur = false;
+  let erreur = false;
   axios
     .get("/api/list_profils_attached_skills")
     .then(response => {
       self.listprofils_skills_levels = {};
-      var i = 0;
+      let i = 0;
       response.data.forEach(item => {
         self.listprofils_skills_levels[i] = item;
         i++;
@@ -61,7 +61,7 @@ var RefGpecProfilsModel = function(options) {
 };
 
 RefGpecProfilsModel.prototype.gettag = function() {
-  var self = this;
+  let self = this;
   self.listTag = {};
   axios
     .get("/api/view_list_tag_profils")
@@ -77,14 +77,14 @@ RefGpecProfilsModel.prototype.gettag = function() {
 };
 
 RefGpecProfilsModel.prototype.updateVue = function() {
-  var self = this;
+  let self = this;
   self.listprofils_skills_levels = {};
   self.gettag();
   axios
     .get("/api/list_profils_attached_skills")
     .then(response => {
       self.listprofils_skills_levels = {};
-      var i = 0;
+      let i = 0;
       response.data.forEach(item => {
         self.listprofils_skills_levels[i] = item;
         i++;
@@ -136,7 +136,7 @@ RefGpecProfilsModel.prototype.addProfil = function(
   profil_pdf_path,
   cb
 ) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = "";
   //get the profils from database to be sure to get the last code
@@ -153,10 +153,10 @@ RefGpecProfilsModel.prototype.addProfil = function(
     });
 
   // filter other skills family to have a correct numeric id
-  var codes = Object.keys(self.profils).filter(function(elt) {
+  let codes = Object.keys(self.profils).filter(function(elt) {
     return elt.indexOf("p-") === 0;
   });
-  var profil_code = "p-1";
+  let profil_code = "p-1";
   // add +1 to the id if more than one profil in this tag
   codes.sort();
   if (codes.length > 0) {
@@ -177,10 +177,10 @@ RefGpecProfilsModel.prototype.addProfil = function(
     })
     .then(function(response) {
       self.ajaxLoading = false;
-      var nomchamp = [];
-      for (var key in self.profils) {
-        var i = 0;
-        for (var key2 in self.profils[key]) {
+      let nomchamp = [];
+      for (let key in self.profils) {
+        let i = 0;
+        for (let key2 in self.profils[key]) {
           i += 1;
           if (i > 5) {
             nomchamp.push(key2);
@@ -204,7 +204,7 @@ RefGpecProfilsModel.prototype.addProfil = function(
       wordsList = wordsList.map(unine.complex);
       self.profils[profil_code].tokens = wordsList;
       self.gettag();
-      for (var k = 0; k < nomchamp.length; k++) {
+      for (let k = 0; k < nomchamp.length; k++) {
         self.profils[profil_code][nomchamp[k]] = 0;
       }
       self.getProfilsCSV();
@@ -224,13 +224,13 @@ RefGpecProfilsModel.prototype.addProfil = function(
 };
 
 RefGpecProfilsModel.prototype.destroy = function(profilId, cb) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = "";
   axios
     .delete("/api/profils_skills_levels?profil_code=eq." + profilId)
     .then(function(response) {
-      for (var key in self.listprofils_skills_levels) {
+      for (let key in self.listprofils_skills_levels) {
         if (self.listprofils_skills_levels[key].profil_code === profilId) {
           delete self.listprofils_skills_levels[key];
           self.gettag();
@@ -266,7 +266,7 @@ RefGpecProfilsModel.prototype.destroy = function(profilId, cb) {
 };
 
 RefGpecProfilsModel.prototype.save = function(profilId, data, cb) {
-  var self = this;
+  let self = this;
   self.ajaxLoading = true;
   self.feedback = "";
   if (!data.profil_tag) {
@@ -308,9 +308,9 @@ RefGpecProfilsModel.prototype.save = function(profilId, data, cb) {
 };
 
 RefGpecProfilsModel.prototype.getlistskills = function(profil_code) {
-  var self = this;
-  var list = [];
-  for (var key in self.listprofils_skills_levels) {
+  let self = this;
+  let list = [];
+  for (let key in self.listprofils_skills_levels) {
     if (self.listprofils_skills_levels[key].profil_code === profil_code) {
       list.push(self.listprofils_skills_levels[key].skill_shortname);
     }
@@ -319,7 +319,7 @@ RefGpecProfilsModel.prototype.getlistskills = function(profil_code) {
 };
 
 RefGpecProfilsModel.prototype.getProfilsCSV = function() {
-  var self = this;
+  let self = this;
   self.profilCSV = [];
   axios
     .get("/api/view_exportcsv_profils")

@@ -1,18 +1,21 @@
 import React from "react";
 let createReactClass = require("create-react-class");
-let RefGpecTag = createReactClass({
-  displayName: "RefGpecTag",
+let RefGpecListFamily = createReactClass({
+  displayName: "RefGpecListFamily",
 
   getInitialState: function() {
     return {
-      tag_code: this.props.skillData.profil_tag,
+      family_id: this.props.skillData.family_id,
+      family_name: this.props.skillData.family_name,
       error: "",
       ajaxLoading: false
     };
   },
 
   render: function() {
-    return <option value={this.state.tag_code}>{this.state.tag_code}</option>;
+    return (
+      <option value={this.state.family_id}>{this.state.family_name}</option>
+    );
   },
 
   componentDidMount() {},
@@ -24,4 +27,4 @@ let RefGpecTag = createReactClass({
     return false;
   }
 });
-export default RefGpecTag;
+export default RefGpecListFamily;
