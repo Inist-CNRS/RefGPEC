@@ -165,7 +165,10 @@ RefGpecSkillsModel.prototype.addSkill = function(
       if (codes.length > 0) {
         let lastCodeSplitted = self.getmax(codes);
         skill_code =
-          "c-" + st_code.toLowerCase() + parseInt(lastCodeSplitted + 1, 10);
+          "c-" +
+          st_code.toLowerCase() +
+          "-" +
+          parseInt(lastCodeSplitted + 1, 10);
       }
       skill_shortname = skill_shortname.trim();
       axios
