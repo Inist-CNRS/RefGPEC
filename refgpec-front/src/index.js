@@ -18,7 +18,7 @@ import RefGpecSkillsTypesModel from "./models/refgpec-skills-types-model.js";
 import RefGpecFamilyModel from "./models/refgpec-family-model.js";
 import RefGpecLevelsModel from "./models/refgpec-levels-model.js";
 import RefGpecProfilsSkillsModel from "./models/refgpec-profils-skills-model.js";
-
+import RefGpecFamilysSkillsModel from "./models/refgpec-familys-skills-model.js";
 let modelOptions = {
   fakeLoadingMaxDelay: 500
   //fakeData: true
@@ -27,6 +27,7 @@ let levelsModel = new RefGpecLevelsModel(modelOptions);
 let skillsModel = new RefGpecSkillsModel(modelOptions);
 let skillsTypesModel = new RefGpecSkillsTypesModel(modelOptions);
 let familysModel = new RefGpecFamilyModel(modelOptions);
+let familysSkillsModel = new RefGpecFamilysSkillsModel(modelOptions);
 let profilsModel = new RefGpecProfilsModel(modelOptions);
 let profilsSkillsModel = new RefGpecProfilsSkillsModel(modelOptions);
 
@@ -36,7 +37,7 @@ skillsTypesModel.subscribe(render);
 familysModel.subscribe(render);
 levelsModel.subscribe(render);
 profilsSkillsModel.subscribe(render);
-
+familysSkillsModel.subscribe(render);
 function render() {
   if (detectIE()) {
     return ReactDOM.render(
@@ -72,6 +73,7 @@ function render() {
         familysModel={familysModel}
         profilsModel={profilsModel}
         profilsSkillsModel={profilsSkillsModel}
+        familysSkillsModel={familysSkillsModel}
       />,
       document.getElementById("refgpec")
     );

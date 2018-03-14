@@ -3,6 +3,7 @@ import $ from "jquery";
 import { Modal } from "react-bootstrap";
 import RefGpecIndex from "./refgpec-index.jsx";
 import RefGpecProfilsSkills from "./refgpec-profils-skills.jsx";
+import RefGpecFamilysSkills from "./refgpec-familys-skills.jsx";
 import RefGpecProfils from "./refgpec-profils.jsx";
 import RefGpecSkills from "./refgpec-skills.jsx";
 import RefGpecLevels from "./refgpec-levels.jsx";
@@ -28,7 +29,7 @@ let RefGpecHome = createReactClass({
       "skills",
       "levels",
       "familys",
-      "family-skills"
+      "familys-skills"
     ].forEach(function(tabName) {
       if (document.getElementById(tabName) && tabName !== tabId) {
         document.getElementById(tabName).style.display = "none";
@@ -62,6 +63,7 @@ let RefGpecHome = createReactClass({
       this.props.skillsTypesModel.initializing ||
       this.props.levelsModel.initializing ||
       this.props.profilsSkillsModel.initializing ||
+      this.props.familysSkillsModel.initializing ||
       this.props.familysModel.initializing;
 
     const refgpecTabs = [];
@@ -115,6 +117,19 @@ let RefGpecHome = createReactClass({
         onTabChange={this.doTabChange}
       />
     );
+    refgpecTabs.push(
+      <RefGpecFamilysSkills
+        key="7"
+        familysSkillsModel={this.props.familysSkillsModel}
+        skillsModel={this.props.skillsModel}
+        skillsTypesModel={this.props.skillsTypesModel}
+        familysModel={this.props.familysModel}
+        profilsModel={this.props.profilsModel}
+        levelsModel={this.props.levelsModel}
+        onTabChange={this.doTabChange}
+      />
+    );
+
     return (
       <div id="content">
         {/* ONGLETS POUR LA NAVIGATION */}
@@ -252,6 +267,12 @@ let RefGpecHome = createReactClass({
                     className={this.getDataLoadedClassName("FamilyModel")}
                   />
                   Familles
+                </li>
+                <li className="list-group-item">
+                  <span
+                    className={this.getDataLoadedClassName("familySkillsModel")}
+                  />
+                  Familles &amp; Compétences
                 </li>
                 <li className="list-group-item">
                   <span className={this.getDataLoadedClassName("typeModel")} />
