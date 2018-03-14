@@ -2,7 +2,7 @@ CREATE VIEW view_list_tag_profils AS
 select distinct p.profil_tag from profils p  order by profil_tag;
 
 CREATE VIEW view_list_family_profil AS
-select distinct f.family_id,f.family_name from family_skills fs ,skills s,family f where fs.family_id= f.family_id and fs.skill_code=s.skill_code order by f.family_name;
+select distinct f.family_id,f.family_name from family_skills_levels fs ,skills s,family f where fs.family_id= f.family_id and fs.skill_code=s.skill_code order by f.family_name;
 
 CREATE VIEW view_profils_nb_skills AS
 select pr.profil_code,pr.profil_shortname,pr.profil_pdf_path,pr.profil_free_comments,pr.profil_tag,
