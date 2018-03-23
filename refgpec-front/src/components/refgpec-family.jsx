@@ -36,18 +36,17 @@ let RefGpecFamily = createReactClass({
         style={this.props.style}
       >
         {/* ACTION MENU */}
-        <td>
+        <td style={{ textAlign: "center" }}>
           <div className="btn-group">
             <DropdownButton
-              id="dropdown-level"
+              id="dropdown-family"
               title=" "
               aria-expanded="false"
-              disabled={true}
             >
               <MenuItem href="" onClick={this.opendeleteModal}>
                 {" "}
                 <span className="glyphicon glyphicon-remove" /> Supprimer la
-                modulation de compétence
+                famille de compétence
               </MenuItem>
             </DropdownButton>
             <Modal
@@ -61,7 +60,35 @@ let RefGpecFamily = createReactClass({
                   <b>{this.state.family_name}</b> ?
                 </h4>
               </Modal.Header>
-
+              <Modal.Body>
+                {(() => {
+                  let list = [];
+                  if (Object.keys(self.props.liste_skill).length !== 0) {
+                    Object.keys(this.props.liste_skill).forEach(function(
+                      skill
+                    ) {
+                      list.push(
+                        <li key={self.state.skill_code + skill}>
+                          <a
+                            href="#familys-skills"
+                            id={self.state.family_id}
+                            onClick={self.handleOpenFamilysSkills}
+                          >
+                            {self.props.liste_skill[skill].skill_shortname}{" "}
+                          </a>
+                        </li>
+                      );
+                    });
+                    return (
+                      <div className="alert alert-info" role="alert">
+                        Veuillez dissocier ces compétences avant de supprimer la
+                        famille :
+                        <ul>{list}</ul>
+                      </div>
+                    );
+                  }
+                })()}
+              </Modal.Body>
               <Modal.Footer>
                 <button
                   onClick={this.closedeleteModal}
@@ -74,6 +101,7 @@ let RefGpecFamily = createReactClass({
                 <button
                   type="button"
                   onClick={this.handleDestroy}
+                  disabled={Object.keys(self.props.liste_skill).length !== 0}
                   className="btn btn-primary"
                 >
                   Supprimer
@@ -103,20 +131,20 @@ let RefGpecFamily = createReactClass({
             value={this.state.family_name}
             onChange={this.handleChange}
             onBlur={this.handleSubmit}
-            readOnly={true}
+            readOnly={this.state.ajaxLoading}
           />
         </td>
 
         <td>
           <textarea
             className="form-control"
-            rows="2"
-            placeholder="Expliquez en quelque mots la signification de cette famille de compétence"
+            rows="1"
+            placeholder="Commentaires libres"
             data-fieldname="family_free_comments"
-            value={this.state.family_free_comments}
+            value={this.state.family_free_comments || ""}
             onChange={this.handleChange}
             onBlur={this.handleSubmit}
-            readOnly={true}
+            readOnly={this.state.ajaxLoading}
           />
         </td>
       </tr>
@@ -164,9 +192,14 @@ let RefGpecFamily = createReactClass({
     this.props.onDestroy(this.state.family_id);
   },
 
-  componentDidMount() {},
+  handleOpenFamilysSkills: function(event) {
+    this.closedeleteModal();
+    this.props.onSkill(event);
+  },
+
   shouldComponentUpdate(nextProps, nextState) {
     return this.state !== nextState;
   }
 });
+
 export default RefGpecFamily;

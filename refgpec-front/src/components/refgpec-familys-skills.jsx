@@ -119,6 +119,12 @@ let RefGpecFamilysSkills = createReactClass({
     Object.keys(FSadd).forEach(function(key) {
       rgFS.unshift(rgFS.splice(FSadd[key], 1)[0]);
     });
+    let compteurSF = 0;
+    if (this.state.selectedFamily) {
+      compteurSF = Object.keys(
+        self.props.familysModel.getListSkills(self.state.selectedFamily)
+      ).length;
+    }
 
     return (
       <div id="familys-skills">
@@ -135,7 +141,21 @@ let RefGpecFamilysSkills = createReactClass({
                 <div className="col-md-6  text center">
                   Familys &amp; Compétences{" "}
                 </div>
+                <div className="col-md-6 text center">
+                  <em
+                    style={{
+                      float: "right",
+                      marginRight: "15px"
+                    }}
+                  >
+                    Actuellement,{" "}
+                    <strong style={{ color: "red" }}>{compteurSF}</strong>{" "}
+                    Compétences associées à la Famille{" "}
+                    {this.state.selectedFamily} dans le référentiel.{" "}
+                  </em>
+                </div>
               </div>
+
               <div className="panel-body">
                 <p>
                   Depuis cet onglet il est possible d'associer à chaque Famille
@@ -169,7 +189,7 @@ let RefGpecFamilysSkills = createReactClass({
                       ajaxLoading={self.props.familysModel.ajaxLoading}
                       data-fieldname="FamilySelect"
                       onChange={this.handleChangeFamily}
-                      value={self.props.familysSkillsModel.Family}
+                      value={self.props.familysSkillsModel.family}
                     />
                   </p>
                 </div>
@@ -459,9 +479,9 @@ let RefGpecFamilysSkills = createReactClass({
   componentDidUpdate() {},
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.familysSkillsModel.Family !== this.state.selectedFamily) {
+    if (nextProps.familysSkillsModel.family !== this.state.selectedFamily) {
       this.setState({
-        selectedFamily: nextProps.familysSkillsModel.Family
+        selectedFamily: nextProps.familysSkillsModel.family
       });
     }
   },

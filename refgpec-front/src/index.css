@@ -97,16 +97,16 @@ footer.gpec-footer hr {
 .family-col-action {
   width: 30px;
 }
-.family-col-shortname {
-  width: 200px;
-}
 
 .family-col-id {
-  width: 70px;
+  width: 80px;
+}
+.family-col-shortname {
+  width: 300px;
 }
 
 .family-col-commentary {
-  width: 200px;
+  width: 300px;
 }
 
 .Familys-skills-col-action {
