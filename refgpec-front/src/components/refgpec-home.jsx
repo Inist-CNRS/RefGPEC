@@ -10,9 +10,20 @@ import RefGpecLevels from "./refgpec-levels.jsx";
 import RefGpecFamilys from "./refgpec-familys.jsx";
 import logo from "../img/gpec_40x40.png";
 import "react-notifications/lib/notifications.css";
+import ReactCountdownClock from "react-countdown-clock";
 let createReactClass = require("create-react-class");
 let RefGpecHome = createReactClass({
   displayName: "RefGpecHome",
+
+  getInitialState: function() {
+    return {
+      Modal: true
+    };
+  },
+
+  closeModal() {
+    this.setState({ Modal: false });
+  },
 
   doTabChange: function(tabId) {
     tabId = tabId.replace("#", "").replace("tab-", "");
@@ -55,17 +66,34 @@ let RefGpecHome = createReactClass({
     window.scrollTo(0, 0);
     document.location.hash = "tab-" + event.target.getAttribute("href");
   },
-
-  render: function() {
-    const loadingModalShow =
+  showModal: function(event) {
+    return !!(
       this.props.skillsModel.initializing ||
       this.props.profilsModel.initializing ||
       this.props.skillsTypesModel.initializing ||
       this.props.levelsModel.initializing ||
       this.props.profilsSkillsModel.initializing ||
       this.props.familysSkillsModel.initializing ||
-      this.props.familysModel.initializing;
+      this.props.familysModel.initializing
+    );
+  },
 
+  render: function() {
+    let TextFooter =
+      "Chargement des données en cours.<br /> Veuillez patienter.";
+    let timesup;
+    if (!this.showModal()) {
+      timesup = (
+        <ReactCountdownClock
+          seconds={3}
+          color="#000"
+          alpha={0.5}
+          size={50}
+          onComplete={this.closeModal}
+        />
+      );
+      TextFooter = "Lancement de l'application dans : ";
+    }
     const refgpecTabs = [];
     refgpecTabs.push(<RefGpecIndex key="1" onTabChange={this.doTabChange} />);
 
@@ -226,7 +254,7 @@ let RefGpecHome = createReactClass({
           {refgpecTabs}
 
           {/* LOADING DATA MODAL */}
-          <Modal show={loadingModalShow}>
+          <Modal show={this.state.Modal}>
             <Modal.Header closeButton>
               <Modal.Title>
                 <h2 className="modal-title text-center">
@@ -282,10 +310,20 @@ let RefGpecHome = createReactClass({
               </ul>
             </Modal.Body>
             <Modal.Footer>
-              <p className="text-center">
-                Chargement des données en cours.<br />
-                Veuillez patienter.
-              </p>
+              <div
+                className="text-center"
+                dangerouslySetInnerHTML={{ __html: TextFooter }}
+              />
+              <div
+                style={{
+                  textAlign: "center",
+                  position: "relative",
+                  left: "42%"
+                }}
+                className="text-center"
+              >
+                {timesup}
+              </div>
             </Modal.Footer>
           </Modal>
         </div>
@@ -334,7 +372,6 @@ let RefGpecHome = createReactClass({
 
   componentDidMount() {
     let self = this;
-
     $(function() {
       // activate the selected tab when clicking on a tab
       $(window).on("hashchange", function() {
