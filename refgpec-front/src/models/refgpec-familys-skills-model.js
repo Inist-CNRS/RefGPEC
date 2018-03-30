@@ -69,6 +69,23 @@ RefGpecFamilysSkillsModel.prototype.getmax = function(codes) {
   });
   return max;
 };
+RefGpecFamilysSkillsModel.prototype.updateVue = function() {
+  let self = this;
+  self.fsl = {};
+  axios
+    .get("/api/family_skills_levels?family_id=eq." + self.family)
+    .then(response => {
+      response.data.forEach(item => {
+        self.fsl[item.pfsl_code] = item;
+      });
+      self.ajaxLoading = false;
+      self.inform();
+    })
+    .catch(err => {
+      console.log("RefGpecProfilSkillsLevelModel error loading data", err);
+      self.ajaxLoading = false;
+    });
+};
 
 RefGpecFamilysSkillsModel.prototype.addFamilySkill = function(
   family_id,
@@ -97,7 +114,8 @@ RefGpecFamilysSkillsModel.prototype.addFamilySkill = function(
   Object.keys(self.fsl).forEach(function(key) {
     if (self.fsl[key].skill_code === skill_code) {
       self.feedback.code = 999;
-      self.feedback.message = "La compétence est déjà associée à ce family !";
+      self.feedback.message =
+        "La compétence est déjà associée à cette famille !";
     }
   });
   if (!self.feedback.message) {
@@ -119,7 +137,7 @@ RefGpecFamilysSkillsModel.prototype.addFamilySkill = function(
           fsl_code = "ps-" + (lastCodeSplitted + 1);
         }
         axios
-          .post("/api/familys_skills_levels", {
+          .post("/api/family_skills_levels", {
             fsl_code: fsl_code,
             family_id: family_id,
             skill_code: skill_code,
@@ -141,6 +159,7 @@ RefGpecFamilysSkillsModel.prototype.addFamilySkill = function(
             return cb && cb(null);
           })
           .catch(function(error) {
+            console.log(error);
             self.feedback.code = error.response.status;
             self.feedback.message = error.response.data.message;
             self.ajaxLoading = false;
@@ -244,6 +263,7 @@ RefGpecFamilysSkillsModel.prototype.save = function(fsl_code, data, cb) {
       return cb && cb(null);
     })
     .catch(function(error) {
+      console.log(error);
       self.feedback.code = error.response.status;
       self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;

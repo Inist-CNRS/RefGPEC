@@ -61,12 +61,14 @@ let RefGpecFamilysSkills = createReactClass({
             <RefGpecFamilySkill
               key={key}
               psId={key}
+              onSave={self.handleSave}
+              onDestroy={self.handleDestroy}
               levelsModel={self.props.levelsModel}
               skillsModel={self.props.skillsModel}
               skillsTypesModel={self.props.skillsTypesModel}
               familyModel={self.props.familysModel}
               psData={self.props.familysSkillsModel.familysSkillsLevels[key]}
-              ajaxLoading={true}
+              ajaxLoading={self.props.familysSkillsModel.ajaxLoading}
               style={{ backgroundColor: "#e67300" }}
             />
           );
@@ -75,12 +77,14 @@ let RefGpecFamilysSkills = createReactClass({
             <RefGpecFamilySkill
               key={key}
               psId={key}
+              onSave={self.handleSave}
+              onDestroy={self.handleDestroy}
               levelsModel={self.props.levelsModel}
               skillsModel={self.props.skillsModel}
               skillsTypesModel={self.props.skillsTypesModel}
               familyModel={self.props.familysModel}
               psData={self.props.familysSkillsModel.familysSkillsLevels[key]}
-              ajaxLoading={true}
+              ajaxLoading={self.props.familysSkillsModel.ajaxLoading}
             />
           );
         }
@@ -260,6 +264,8 @@ let RefGpecFamilysSkills = createReactClass({
                               }
                             >
                               <a
+                                href=""
+                                onClick={this.handleSubmit}
                                 className="fa fa-plus-square fa-2x"
                                 role="button"
                                 title="Associer la compétence à la famille"
@@ -341,7 +347,7 @@ let RefGpecFamilysSkills = createReactClass({
     const self = this;
     if (self.props.familysSkillsModel.ajaxLoading) return;
     if (!self.missingField()) {
-      self.props.familysSkillsModel.addProfilSkill(
+      self.props.familysSkillsModel.addFamilySkill(
         self.state.selectedFamily,
         self.state.newSkill,
         self.state.newLevel,
@@ -352,7 +358,7 @@ let RefGpecFamilysSkills = createReactClass({
               "",
               "La compétence " +
                 self.state.newSkill +
-                " a été ajoutée au Family " +
+                " a été ajoutée à la famille " +
                 self.state.selectedFamily
             );
             self.props.skillsModel.updateVue();
@@ -417,7 +423,7 @@ let RefGpecFamilysSkills = createReactClass({
             "",
             "La compétence " +
               familySkillId +
-              " a été supprimée du Family " +
+              " a été supprimée de la famille " +
               self.state.selectedFamily
           );
           self.props.skillsModel.updateVue();
@@ -449,17 +455,17 @@ let RefGpecFamilysSkills = createReactClass({
       );
     }
   },
-  handleSave: function(profiSkillId, familySkillState) {
+  handleSave: function(familySkillId, familySkillState) {
     let self = this;
     this.props.familysSkillsModel.save(
-      profiSkillId,
+      familySkillId,
       familySkillState,
       function() {
         if (!self.props.familysSkillsModel.feedback.code) {
           NotificationManager.success(
             "",
             "L'association  " +
-              familySkillState.fsSkillShortName.skill_shortname +
+              familySkillState.psSkillShortName.skill_shortname +
               " a été modifiée"
           );
           self.props.levelsModel.updateVue();

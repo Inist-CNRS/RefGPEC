@@ -17,6 +17,7 @@ let RefGpecSkillsModel = function(options) {
   self.listType = {};
   self.skillCSV = [];
   self.lastSkillAdd = [];
+  self.skills_familys = {};
   self.listprofils_skills_levels = {};
   let erreur = 2;
   axios
@@ -60,7 +61,7 @@ let RefGpecSkillsModel = function(options) {
       erreur += 1;
     });
   self.getSkillsCSV();
-
+  self.getSkillsFamilys();
   self.getfamillys();
   self.gettype();
   self.initializing = erreur !== 0;
@@ -83,6 +84,24 @@ RefGpecSkillsModel.prototype.getfamillys = function() {
     });
 };
 
+RefGpecSkillsModel.prototype.getSkillsFamilys = function() {
+  let self = this;
+  self.skills_familys = {};
+  axios
+    .get("/api/list_skills_attached_familys")
+    .then(response => {
+      self.skills_familys = {};
+      let i = 0;
+      response.data.forEach(item => {
+        self.skills_familys[i] = item;
+        i++;
+      });
+      self.inform();
+    })
+    .catch(err => {
+      console.log("RefGpecSkillsModel error loading data", err);
+    });
+};
 RefGpecSkillsModel.prototype.gettype = function() {
   let self = this;
   self.listType = {};

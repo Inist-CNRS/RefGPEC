@@ -54,6 +54,25 @@ RefGpecFamilyModel.prototype.subscribe = function(onChange) {
   this.onChanges.push(onChange);
 };
 
+RefGpecFamilyModel.prototype.updateVue = function() {
+  let self = this;
+  self.listfamily_skills = {};
+  axios
+    .get("/api/list_familys_attached_skills")
+    .then(response => {
+      self.listfamily_skills = {};
+      let i = 0;
+      response.data.forEach(item => {
+        self.listfamily_skills[i] = item;
+        i++;
+      });
+      self.inform();
+    })
+    .catch(err => {
+      console.log("RefGpecProfilModelError error loading data", err);
+    });
+};
+
 RefGpecFamilyModel.prototype.getListSkills = function(family_id) {
   let self = this;
   let list = {};

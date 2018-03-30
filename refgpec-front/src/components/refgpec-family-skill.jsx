@@ -112,7 +112,7 @@ let RefGpecFamilySkill = createReactClass({
             data-fieldname="psLevel"
             onChange={this.handleLevelChange}
             onBlur={this.handleSubmit}
-            readOnly={true}
+            readOnly={this.props.ajaxLoading || this.state.ajaxLoading}
             value={this.state.psLevelId}
           />
         </td>
@@ -166,7 +166,13 @@ let RefGpecFamilySkill = createReactClass({
     this.setState({ mustBeSaved: true });
   },
 
-  handleLevelChange: function(event) {},
+  handleLevelChange: function(event) {
+    if (event) {
+      this.setState({ psLevelId: event, mustBeSaved: true }, function() {
+        this.handleSubmit();
+      });
+    }
+  },
 
   handleDestroy: function(event) {
     event.preventDefault(); // Let's stop this event.
