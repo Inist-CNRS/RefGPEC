@@ -144,24 +144,29 @@ let RefGpecSkills = createReactClass({
 
     if (self.state.type_sort) {
       rgSkills.sort(function(a, b) {
-        return a.props.skillData[self.state.champtri] >
+        if (
+          a.props.skillData[self.state.champtri] &&
           b.props.skillData[self.state.champtri]
-          ? 1
-          : b.props.skillData[self.state.champtri] >
-            a.props.skillData[self.state.champtri]
-            ? -1
-            : 0;
+        ) {
+          return a.props.skillData[self.state.champtri]
+            .toString()
+            .localeCompare(b.props.skillData[self.state.champtri])
+            .toString();
+        }
       });
     } else {
       rgSkills.sort(function(a, b) {
-        return a.props.skillData[self.state.champtri] <
+        if (
+          a.props.skillData[self.state.champtri] &&
           b.props.skillData[self.state.champtri]
-          ? 1
-          : b.props.skillData[self.state.champtri] <
-            a.props.skillData[self.state.champtri]
-            ? -1
-            : 0;
+        ) {
+          return a.props.skillData[self.state.champtri]
+            .toString()
+            .localeCompare(b.props.skillData[self.state.champtri])
+            .toString();
+        }
       });
+      rgSkills.reverse();
     }
 
     // once the big list is sorted, we extract "just added skills" from the list
@@ -318,6 +323,7 @@ let RefGpecSkills = createReactClass({
                     className="skills-col-code"
                   >
                     Code
+                    <i className="fa fa-sort" aria-hidden="true" />
                   </th>
                 </tr>
               </thead>

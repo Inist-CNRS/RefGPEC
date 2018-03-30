@@ -135,24 +135,29 @@ let RefGpecProfils = createReactClass({
 
     if (self.state.type_sort) {
       rgProfils.sort(function(a, b) {
-        return a.props.profilData[self.state.champtri] >
+        if (
+          a.props.profilData[self.state.champtri] &&
           b.props.profilData[self.state.champtri]
-          ? 1
-          : b.props.profilData[self.state.champtri] >
-            a.props.profilData[self.state.champtri]
-            ? -1
-            : 0;
+        ) {
+          return a.props.profilData[self.state.champtri]
+            .toString()
+            .localeCompare(b.props.profilData[self.state.champtri])
+            .toString();
+        }
       });
     } else {
       rgProfils.sort(function(a, b) {
-        return a.props.profilData[self.state.champtri] <
+        if (
+          a.props.profilData[self.state.champtri] &&
           b.props.profilData[self.state.champtri]
-          ? 1
-          : b.props.profilData[self.state.champtri] <
-            a.props.profilData[self.state.champtri]
-            ? -1
-            : 0;
+        ) {
+          return a.props.profilData[self.state.champtri]
+            .toString()
+            .localeCompare(b.props.profilData[self.state.champtri])
+            .toString();
+        }
       });
+      rgProfils.reverse();
     }
     // once the big list is sorted, we extract "just added profils" from the list
     // and we add it at the first position (top of the list)

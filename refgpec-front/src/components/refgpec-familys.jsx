@@ -102,25 +102,31 @@ let RefGpecFamilys = createReactClass({
     });
     if (self.state.type_sort) {
       rgFamilles.sort(function(a, b) {
-        return a.props.familleData[self.state.champtri] >
+        if (
+          a.props.familleData[self.state.champtri] &&
           b.props.familleData[self.state.champtri]
-          ? 1
-          : b.props.familleData[self.state.champtri] >
-            a.props.familleData[self.state.champtri]
-            ? -1
-            : 0;
+        ) {
+          return a.props.familleData[self.state.champtri]
+            .toString()
+            .localeCompare(b.props.familleData[self.state.champtri])
+            .toString();
+        }
       });
     } else {
       rgFamilles.sort(function(a, b) {
-        return a.props.familleData[self.state.champtri] <
+        if (
+          a.props.familleData[self.state.champtri] &&
           b.props.familleData[self.state.champtri]
-          ? 1
-          : b.props.familleData[self.state.champtri] <
-            a.props.familleData[self.state.champtri]
-            ? -1
-            : 0;
+        ) {
+          return a.props.familleData[self.state.champtri]
+            .toString()
+            .localeCompare(b.props.familleData[self.state.champtri])
+            .toString();
+        }
       });
+      rgFamilles.reverse();
     }
+
     Object.keys(famillesadd).forEach(function(key) {
       rgFamilles.unshift(rgFamilles.splice(famillesadd[key], 1)[0]);
     });

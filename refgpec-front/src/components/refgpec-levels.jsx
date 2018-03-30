@@ -114,28 +114,34 @@ let RefGpecLevels = createReactClass({
     });
     if (self.state.type_sort) {
       rgLevels.sort(function(a, b) {
-        return a.props.levelData[self.state.champtri] >
+        if (
+          a.props.levelData[self.state.champtri] &&
           b.props.levelData[self.state.champtri]
-          ? 1
-          : b.props.levelData[self.state.champtri] >
-            a.props.levelData[self.state.champtri]
-            ? -1
-            : 0;
+        ) {
+          return a.props.levelData[self.state.champtri]
+            .toString()
+            .localeCompare(b.props.levelData[self.state.champtri])
+            .toString();
+        }
       });
     } else {
       rgLevels.sort(function(a, b) {
-        return a.props.levelData[self.state.champtri] <
+        if (
+          a.props.levelData[self.state.champtri] &&
           b.props.levelData[self.state.champtri]
-          ? 1
-          : b.props.levelData[self.state.champtri] <
-            a.props.levelData[self.state.champtri]
-            ? -1
-            : 0;
+        ) {
+          return a.props.levelData[self.state.champtri]
+            .toString()
+            .localeCompare(b.props.levelData[self.state.champtri])
+            .toString();
+        }
       });
-      Object.keys(levelsadd).forEach(function(key) {
-        rgLevels.unshift(rgLevels.splice(levelsadd[key], 1)[0]);
-      });
+      rgLevels.reverse();
     }
+
+    Object.keys(levelsadd).forEach(function(key) {
+      rgLevels.unshift(rgLevels.splice(levelsadd[key], 1)[0]);
+    });
     return (
       // MODULATIONS DES COMPETENCES
       <div id="levels">

@@ -97,25 +97,31 @@ let RefGpecProfilsSkills = createReactClass({
 
     if (self.state.type_sort) {
       rgPS.sort(function(a, b) {
-        return a.props.psData[self.state.champtri] >
+        if (
+          a.props.psData[self.state.champtri] &&
           b.props.psData[self.state.champtri]
-          ? 1
-          : b.props.psData[self.state.champtri] >
-            a.props.psData[self.state.champtri]
-            ? -1
-            : 0;
+        ) {
+          return a.props.psData[self.state.champtri]
+            .toString()
+            .localeCompare(b.props.psData[self.state.champtri])
+            .toString();
+        }
       });
     } else {
       rgPS.sort(function(a, b) {
-        return a.props.psData[self.state.champtri] <
+        if (
+          a.props.psData[self.state.champtri] &&
           b.props.psData[self.state.champtri]
-          ? 1
-          : b.props.psData[self.state.champtri] <
-            a.props.psData[self.state.champtri]
-            ? -1
-            : 0;
+        ) {
+          return a.props.psData[self.state.champtri]
+            .toString()
+            .localeCompare(b.props.psData[self.state.champtri])
+            .toString();
+        }
       });
+      rgPS.reverse();
     }
+
     // layout stuff
     let layoutColClasses = "col-lg-6 ";
     layoutColClasses +=
