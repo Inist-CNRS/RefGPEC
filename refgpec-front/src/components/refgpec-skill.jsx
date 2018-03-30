@@ -2,6 +2,8 @@ import React from "react";
 import { Modal, DropdownButton, MenuItem } from "react-bootstrap";
 import RefGpecTypes from "./refgpec-types.jsx";
 import RefGpecFamilys from "./refgpec-list-familys";
+import Select from "react-select";
+import "react-select/dist/react-select.css";
 let createReactClass = require("create-react-class");
 let RefGpecSkill = createReactClass({
   displayName: "RefGpecSkill",
@@ -29,6 +31,17 @@ let RefGpecSkill = createReactClass({
 
   render: function() {
     let self = this;
+    let rgFamilles = [];
+    Object.keys(self.props.skillfamilys).forEach(function(key) {
+      if (self.props.skillfamilys[key].skill_code === self.state.skill_code) {
+        rgFamilles.push({
+          value: [self.props.skillfamilys[key].family_id],
+          label: [self.props.skillfamilys[key].family_id],
+          style: { fontSize: "12px", backgroundColor: "cyan" }
+        });
+      }
+    });
+
     return (
       <tr
         id={this.state.skill_code}
@@ -110,23 +123,6 @@ let RefGpecSkill = createReactClass({
                 </button>
               </Modal.Footer>
             </Modal>
-
-            {/*<div className="btn-group">*/}
-            {/*<button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span className="caret"></span></button>*/}
-            {/*<ul className="dropdown-menu">*/}
-            {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}
-            {/*<a href=""*/}
-            {/*onClick={this.handleDestroy}>*/}
-            {/*<span className="glyphicon glyphicon-remove"></span> Supprimer la compétence*/}
-            {/*</a>*/}
-            {/*</li>*/}
-            {/*<li className={(this.props.ajaxLoading ? 'disabled' : '')}>*/}
-            {/*<a href=""*/}
-            {/*onClick={this.handleViewAssociatedProfils}>*/}
-            {/*<span className="glyphicon glyphicon-list"></span> Visualiser les profils ayant cette compétence*/}
-            {/*</a>*/}
-            {/*</li>*/}
-            {/*</ul>*/}
           </div>
         </td>
 
@@ -143,13 +139,12 @@ let RefGpecSkill = createReactClass({
         </td>
 
         <td>
-          <RefGpecFamilys
-            skillData={this.props.skillsModel}
-            data-fieldname="family_id"
-            readOnly="readonly"
-            value={this.state.family_id}
-            onChange={this.handleChange}
-            disabled="disabled"
+          <Select
+            clearable={false}
+            multi={true}
+            disabled={true}
+            value={rgFamilles}
+            removeSelected={true}
           />
         </td>
         <td>

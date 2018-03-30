@@ -41,6 +41,13 @@ from skills s, family f, family_skills_levels fsl
 where f.family_id= fsl.family_id and s.skill_code= fsl.skill_code
 group by fsl.family_id,family_name, fsl.skill_code,s.skill_shortname;
 
+create view list_skills_attached_familys as
+select fsl.skill_code,skill_shortname,f.family_id,f.family_name
+from family f, skills s, family_skills_levels fsl
+where s.skill_code= fsl.skill_code and f.family_id= fsl.family_id
+group by fsl.skill_code,skill_shortname,f.family_id,family_name
+order by fsl.skill_code;
+
 create view view_nb_skills_by_levels as
 select l.level_code,profil_code,count(skill_code)
 from levels l , profils_skills_levels psl
