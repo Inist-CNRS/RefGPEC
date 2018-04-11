@@ -1,6 +1,9 @@
 import React from "react";
 import RefGpecFamily from "./refgpec-list-family.jsx";
+import Select from "react-select";
+import "react-select/dist/react-select.css";
 let createReactClass = require("create-react-class");
+const WAIT_INTERVAL = 200;
 let RefGpecListFamilys = createReactClass({
   displayName: "RefGpecListFamilys",
 
@@ -8,7 +11,7 @@ let RefGpecListFamilys = createReactClass({
     return {
       mustBeSaved: false,
       error: "",
-      family_id: undefined
+      value: []
     };
   },
 
@@ -16,33 +19,40 @@ let RefGpecListFamilys = createReactClass({
     if (!this.props.skillData) {
       return null;
     }
+
     let self = this;
     let rgFamilys = [];
+    rgFamilys.push({ value: "Aucune", label: "Aucune Famille" });
     Object.keys(self.props.skillData.listFamillys).forEach(function(key) {
-      rgFamilys.push(
-        <RefGpecFamily
-          key={key}
-          family_id={key}
-          skillData={self.props.skillData.listFamillys[key]}
-          ajaxLoading={self.props.skillData.ajaxLoading}
-        />
-      );
+      rgFamilys.push({
+        value: self.props.skillData.listFamillys[key].family_id,
+        label: self.props.skillData.listFamillys[key].family_name
+      });
     });
-
     return (
-      <select
-        className="form-control"
-        value={self.props.value}
+      <Select
+        multi={true}
+        placeholder="Choisissez une ou plusieurs Familles"
+        options={rgFamilys}
+        value={self.state.value}
         readOnly={this.props.readOnly}
         disabled={this.props.disabled}
-      >
-        <option />
-        {rgFamilys}
-      </select>
+        onChange={this.handleSelectChange}
+        valueRenderer={this.renderValue}
+      />
     );
   },
-
-  handleDestroy: function(event) {},
+  renderValue: function(option) {
+    return <em>{option.value}</em>;
+  },
+  handleSelectChange(value) {
+    clearTimeout(this.timer);
+    this.setState({ value });
+    this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+  },
+  triggerChange() {
+    this.props.onChange(this.state.value);
+  },
 
   componentDidMount() {}
 });

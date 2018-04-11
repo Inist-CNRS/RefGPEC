@@ -144,6 +144,7 @@ let RefGpecSkill = createReactClass({
             multi={true}
             disabled={true}
             value={rgFamilles}
+            placeholder={"Aucune Famille associée"}
             removeSelected={true}
           />
         </td>

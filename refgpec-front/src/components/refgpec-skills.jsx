@@ -73,6 +73,41 @@ let RefGpecSkills = createReactClass({
     Object.keys(self.props.skillsModel.skills).forEach(function(key, i) {
       //search by ignoring accents and tokenization
       let matching = 0;
+      let matchingFamily = 0;
+      if (self.state.filter.SearchFamily.length !== 0) {
+        let compt = 0;
+        let avecfamille = {};
+        Object.keys(self.props.skillsModel.skills_familys).forEach(function(
+          famille
+        ) {
+          if (
+            self.props.skillsModel.skills_familys[famille].skill_code === key
+          ) {
+            let j = 0;
+            while (j < self.state.filter.SearchFamily.length) {
+              if (
+                self.props.skillsModel.skills_familys[famille].family_id ===
+                self.state.filter.SearchFamily[j].value
+              ) {
+                matchingFamily += 1;
+              }
+              j++;
+            }
+            avecfamille = { [key]: key };
+          }
+
+          if (
+            compt ===
+              Object.keys(self.props.skillsModel.skills_familys).length - 1 &&
+            !avecfamille[key] &&
+            self.state.filter.SearchFamily[0].value === "Aucune"
+          ) {
+            matchingFamily += 1;
+          }
+          compt++;
+        });
+      }
+
       let j = 0;
       if (
         searchwords.length !== 0 &&
@@ -91,7 +126,8 @@ let RefGpecSkills = createReactClass({
         (matching !== 0 || searchwords.length === 0) &&
         (self.props.skillsModel.skills[key].st_code.toLowerCase() ===
           self.state.filter.SearchSkillType.toLowerCase() ||
-          self.state.filter.SearchSkillType.toLowerCase() === "")
+          self.state.filter.SearchSkillType.toLowerCase() === "") &&
+        (self.state.filter.SearchFamily.length === 0 || matchingFamily !== 0)
       ) {
         let skill;
         //console.log(
@@ -288,15 +324,7 @@ let RefGpecSkills = createReactClass({
                   >
                     Type <i className="fa fa-sort" aria-hidden="true" />
                   </th>
-                  <th
-                    title="Cliquez pour trier par Famille"
-                    role="button"
-                    id="family_id"
-                    onClick={this.Sort}
-                    className="skills-col-family"
-                  >
-                    Famille(s) <i className="fa fa-sort" aria-hidden="true" />
-                  </th>
+                  <th id="family_id">Famille(s)</th>
                   <th
                     title="Cliquez pour trier par Nom"
                     role="button"

@@ -56,13 +56,13 @@ let RefGpecResearchSkill = createReactClass({
             value={this.state.SearchSkillType}
           />
         </td>
-        <td className="skills-col-domain">
+        <td className="skills-col-family">
           <RefGpecFamilys
             skillData={this.props.skillsModel}
             ajaxLoading={self.props.familyModel.ajaxLoading}
             data-fieldname="SearchFamily"
+            placeholder="Famille à rechercher"
             onChange={this.handleFamilyChange}
-            value={this.state.SearchFamily}
           />
         </td>
         <td colSpan="3" className="skills-col-shortname">
