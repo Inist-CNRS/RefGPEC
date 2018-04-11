@@ -1,4 +1,4 @@
-FROM fenglc/pgadmin4:2.1
+FROM fenglc/pgadmin4:2.1-python2.7-alpine
 
 # need jq to parse JSON
 RUN apk update && apk add jq
