@@ -146,6 +146,7 @@ let RefGpecSkill = createReactClass({
             value={rgFamilles}
             placeholder={"Aucune Famille associée"}
             removeSelected={true}
+            onValueClick={this.OpenfamilySkills}
           />
         </td>
         <td>
@@ -224,6 +225,9 @@ let RefGpecSkill = createReactClass({
     this.closedeleteModal();
     window.scrollTo(0, 0);
     this.props.onProfil(event);
+  },
+  OpenfamilySkills: function(value, event) {
+    this.props.onChangeFamily(value);
   },
 
   shouldComponentUpdate(nextProps, nextState) {

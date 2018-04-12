@@ -53,7 +53,6 @@ let RefGpecListFamilys = createReactClass({
   triggerChange() {
     this.props.onChange(this.state.value);
   },
-
   componentDidMount() {}
 });
 export default RefGpecListFamilys;
