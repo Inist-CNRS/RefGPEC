@@ -73,7 +73,7 @@ let RefGpecNewSkill = createReactClass({
             clearable={true}
             multi={false}
             options={ops}
-            onChange={this.handleChange}
+            onChange={this.handleChangeShortname}
             value={this.state.newSkillShortName}
             placeholder="Nom de la compétence"
             promptTextCreator={label => "Créer la compétence " + label}
@@ -90,7 +90,7 @@ let RefGpecNewSkill = createReactClass({
             placeholder="Commentaires libres"
             value={this.state.newSkillFreeComments}
             data-fieldname="newSkillFreeComments"
-            onChange={this.handleChange}
+            onChange={this.handleChangeCommentary}
             disabled={this.props.skillsModel.ajaxLoading}
           />
         </td>
@@ -102,14 +102,18 @@ let RefGpecNewSkill = createReactClass({
   handleTypeChange: function(event) {
     this.setState({ newSkillType: event });
   },
-  handleDomainChange: function(event) {
-    this.setState({ newSkillFamily: event });
-  },
-  handleChange: function(event) {
+  handleChangeShortname: function(event) {
     if (!event) {
       this.setState({ newSkillShortName: "" });
     } else {
       this.setState({ newSkillShortName: event });
+    }
+  },
+  handleChangeCommentary: function(event) {
+    if (!event) {
+      this.setState({ newSkillFreeComments: "" });
+    } else {
+      this.setState({ newSkillFreeComments: event.target.value });
     }
   },
   handleBlur: function(event) {
@@ -119,6 +123,18 @@ let RefGpecNewSkill = createReactClass({
       if (!this.state.newSkillShortName) {
         this.setState({
           newSkillShortName: {
+            value: event.target.value,
+            label: event.target.value
+          }
+        });
+      }
+    }
+    if (!event.target.value && !this.state.newSkillFreeComments) {
+      this.setState({ newSkillFreeComments: "" });
+    } else {
+      if (!this.state.newSkillFreeComments) {
+        this.setState({
+          newSkillFreeComments: {
             value: event.target.value,
             label: event.target.value
           }
