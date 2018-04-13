@@ -73,3 +73,12 @@ create view view_exportCSV_profils as
 select profil_code as code, profil_tag as tag, profil_shortname  as Nom ,CASE WHEN profil_free_comments is null THEN '' ELSE profil_free_comments END as Commentaire,profil_pdf_path as lien_du_PDF
 from profils p
 order by profil_tag, profil_code;
+
+create view list_profils_attached_familys as
+select count(psl.skill_code), profil_code,fsl.family_id,family_name,table2.nb_comp_necessaire
+from profils_skills_levels psl,family f,family_skills_levels fsl INNER join (select fsl.family_id,count(skill_code) as nb_comp_necessaire from family_skills_levels fsl group by fsl.family_id order by family_id) table2 on fsl.family_id=table2.family_id
+where psl.skill_code=fsl.skill_code and psl.level_code>=fsl.level_code
+and f.family_id=fsl.family_id
+group by profil_code,fsl.family_id,family_name,table2.nb_comp_necessaire
+having count(psl.skill_code)>=table2.nb_comp_necessaire
+order by profil_code,family_id;

@@ -1,6 +1,5 @@
 import React from "react";
-import RefGpecTags from "./refgpec-tags.jsx";
-import Select from "react-select";
+import RefGpecFamilys from "./refgpec-list-familys";
 import "react-select/dist/react-select.css";
 const WAIT_INTERVAL = 500;
 const ENTER_KEY = 13;
@@ -10,26 +9,20 @@ var RefGpecResearchProfil = createReactClass({
 
   getInitialState: function() {
     return {
-      SearchProfilTag: "",
-      SearchProfilShortName: ""
+      SearchProfilShortName: "",
+      SearchProfilFamily: ""
     };
   },
 
   render: function() {
     var self = this;
-
     // model is not ready ? then do not render anything
-    if (self.props.profilsModel.initializing) {
+    if (
+      self.props.profilsModel.initializing ||
+      self.props.familysModel.initializing
+    ) {
       return null;
     }
-    let rgTags = [];
-
-    Object.keys(self.props.tagList).forEach(function(key) {
-      rgTags.push({
-        value: self.props.tagList[key].profil_tag,
-        label: self.props.tagList[key].profil_tag
-      });
-    });
 
     return (
       <tr className="form-research-profil">
@@ -42,16 +35,12 @@ var RefGpecResearchProfil = createReactClass({
           />
         </td>
         <td colSpan="2">
-          <Select
-            clearable={true}
-            multi={false}
-            simpleValue
-            options={rgTags}
-            onChange={this.handleTagChange}
-            data-fieldname="SearchProfilTag"
-            value={this.state.SearchProfilTag}
-            promptTextCreator={label => "Créer le Tag " + label}
-            clearable={true}
+          <RefGpecFamilys
+            skillData={this.props.familysModel}
+            ajaxLoading={self.props.profilsModel.ajaxLoading}
+            data-fieldname="SearchProfilFamily"
+            placeholder="Famille à rechercher"
+            onChange={this.handleFamilyChange}
           />
         </td>
 
@@ -80,15 +69,6 @@ var RefGpecResearchProfil = createReactClass({
     );
   },
 
-  handleTagChange: function(event) {
-    if (event) {
-      this.setState({ SearchProfilTag: event });
-    } else {
-      this.setState({ SearchProfilTag: "" });
-    }
-    this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
-  },
-
   handleChange: function(event) {
     clearTimeout(this.timer);
     this.setState({ SearchProfilShortName: event.target.value });
@@ -99,6 +79,11 @@ var RefGpecResearchProfil = createReactClass({
     if (e.keyCode === ENTER_KEY) {
       this.triggerChange();
     }
+  },
+
+  handleFamilyChange: function(event) {
+    this.setState({ SearchProfilFamily: event });
+    this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
   },
 
   triggerChange() {

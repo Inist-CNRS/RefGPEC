@@ -24,7 +24,7 @@ let RefGpecProfils = createReactClass({
       error: "",
       champtri: "",
       type_sort: true,
-      filter: { SearchProfilTag: "", SearchProfilShortName: "" }
+      filter: { SearchProfilFamily: "", SearchProfilShortName: "" }
     };
   },
   close() {
@@ -54,10 +54,12 @@ let RefGpecProfils = createReactClass({
     let self = this;
 
     // model is not ready ? then do not render anything
-    if (self.props.profilsModel.initializing) {
+    if (
+      self.props.profilsModel.initializing ||
+      self.props.familysModel.initializing
+    ) {
       return null;
     }
-    let rgTagList = this.props.profilsModel.listTag;
     let rgProfils = [];
     let compteurProfil = 0;
     let profilsadd = [];
@@ -71,6 +73,41 @@ let RefGpecProfils = createReactClass({
     Object.keys(self.props.profilsModel.profils).forEach(function(key, i) {
       let tag = "";
       let matching = 0;
+
+      let matchingFamily = 0;
+      if (self.state.filter.SearchProfilFamily.length !== 0) {
+        let compt = 0;
+        let avecfamille = {};
+        Object.keys(self.props.profilsModel.listFamillys).forEach(function(
+          famille
+        ) {
+          if (
+            self.props.profilsModel.listFamillys[famille].profil_code === key
+          ) {
+            let j = 0;
+            while (j < self.state.filter.SearchProfilFamily.length) {
+              if (
+                self.props.profilsModel.listFamillys[famille].family_id ===
+                self.state.filter.SearchProfilFamily[j].value
+              ) {
+                matchingFamily += 1;
+              }
+              j++;
+            }
+            avecfamille = { [key]: key };
+          }
+
+          if (
+            compt ===
+              Object.keys(self.props.profilsModel.listFamillys).length - 1 &&
+            !avecfamille[key] &&
+            self.state.filter.SearchProfilFamily[0].value === "Aucune"
+          ) {
+            matchingFamily += 1;
+          }
+          compt++;
+        });
+      }
       let j = 0;
       if (
         searchwords.length !== 0 &&
@@ -91,7 +128,8 @@ let RefGpecProfils = createReactClass({
       }
       if (
         (matching !== 0 || searchwords.length === 0) &&
-        tag.search(self.state.filter.SearchProfilTag) !== -1
+        (self.state.filter.SearchProfilFamily.length === 0 ||
+          matchingFamily !== 0)
       ) {
         let profil;
         // get list of just added profils to be able to put it in top of the long list
@@ -106,10 +144,11 @@ let RefGpecProfils = createReactClass({
             <RefGpecProfil
               key={key}
               profilId={key}
-              tagList={rgTagList}
               profilsSkillsModel={self.props.profilsSkillsModel}
               profilData={self.props.profilsModel.profils[key]}
+              profilfamilys={self.props.profilsModel.listFamillys}
               skilllist={self.props.profilsModel.getlistskills(key)}
+              onChangeFamily={self.OpenfamilySkills}
               onSave={self.handleSave}
               onDestroy={self.handleDestroy}
               style={{ backgroundColor: "#e67300" }}
@@ -120,9 +159,10 @@ let RefGpecProfils = createReactClass({
             <RefGpecProfil
               key={key}
               profilId={key}
-              tagList={rgTagList}
+              profilfamilys={self.props.profilsModel.listFamillys}
               profilsSkillsModel={self.props.profilsSkillsModel}
               profilData={self.props.profilsModel.profils[key]}
+              onChangeFamily={self.OpenfamilySkills}
               skilllist={self.props.profilsModel.getlistskills(key)}
               onSave={self.handleSave}
               onDestroy={self.handleDestroy}
@@ -260,15 +300,9 @@ let RefGpecProfils = createReactClass({
                 <tr>
                   <th className="profils-col-action" />
                   <th className="profils-col-file">PDF du profil</th>
-                  <th
-                    title="Cliquez pour trier par tag"
-                    role="button"
-                    id="profil_tag"
-                    onClick={this.Sort}
-                    className="profils-col-tag"
-                  >
+                  <th role="button" className="profils-col-tag">
                     {" "}
-                    Tag <i className="fa fa-sort" aria-hidden="true" />
+                    Famille
                   </th>
                   <th
                     title="Cliquez pour trier par Nom court"
@@ -298,7 +332,7 @@ let RefGpecProfils = createReactClass({
               <tbody>
                 <RefGpecResearchProfil
                   profilsModel={this.props.profilsModel}
-                  tagList={rgTagList}
+                  familysModel={this.props.familysModel}
                   onChange={this.filterList}
                 />
                 <tr>
@@ -431,7 +465,10 @@ let RefGpecProfils = createReactClass({
       }
     });
   },
-
+  OpenfamilySkills: function(event) {
+    this.props.onTabChange("tab-familys-skills");
+    this.props.familysSkillsModel.getFamilySkillLevel(event.value);
+  },
   missingField() {
     return !this.state.newProfilShortName || !this.state.newProfilTag;
   }

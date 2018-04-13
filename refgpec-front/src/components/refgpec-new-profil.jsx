@@ -11,7 +11,6 @@ let RefGpecNewProfil = createReactClass({
   getInitialState: function() {
     return {
       showModal: false,
-      newProfilTag: { value: "", label: "" },
       newProfilShortName: "",
       newProfilFreeComments: "",
       newProfilPdfPath: "",
@@ -33,13 +32,7 @@ let RefGpecNewProfil = createReactClass({
     if (self.props.profilsModel.initializing) {
       return null;
     }
-    let rgTagList = [];
-    Object.keys(this.props.profilsModel.listTag).forEach(function(key) {
-      rgTagList.push({
-        value: self.props.profilsModel.listTag[key].profil_tag,
-        label: self.props.profilsModel.listTag[key].profil_tag
-      });
-    });
+
     return (
       <tr className="form-new-profil">
         <td style={{ textAlign: "center" }}>
@@ -139,14 +132,7 @@ let RefGpecNewProfil = createReactClass({
         </td>
 
         <td>
-          <Select.Creatable
-            clearable={false}
-            multi={false}
-            options={rgTagList}
-            onChange={this.handleTagChange}
-            value={this.state.newProfilTag}
-            promptTextCreator={label => "Créer le Tag " + label}
-          />
+          <select className="form-control" readOnly={true} disabled={true} />
         </td>
         <td colSpan="2">
           <input
@@ -174,14 +160,6 @@ let RefGpecNewProfil = createReactClass({
         </td>
       </tr>
     );
-  },
-
-  handleTagChange: function(value) {
-    if (!value) {
-      this.setState({ newProfilTag: { value: "", label: "" } });
-    } else {
-      this.setState({ newProfilTag: value });
-    }
   },
 
   handleChange: function(event) {

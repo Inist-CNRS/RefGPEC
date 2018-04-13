@@ -2,6 +2,7 @@ import axios from "axios";
 import words from "talisman/tokenizers/words";
 import unine from "talisman/stemmers/french/unine";
 import stopwords from "stopwords-fr";
+import RefGpecSkillsModel from "./refgpec-skills-model";
 let RefGpecProfilsModel = function(options) {
   const self = this;
 
@@ -14,10 +15,10 @@ let RefGpecProfilsModel = function(options) {
     message: ""
   };
   self.profilCSV = [];
-  self.listTag = {};
+  self.listFamillys = {};
   self.listprofils_skills_levels = {};
   self.lastProfilAdd = [];
-  let erreur = false;
+  let erreur = 2;
   axios
     .get("/api/list_profils_attached_skills")
     .then(response => {
@@ -27,6 +28,9 @@ let RefGpecProfilsModel = function(options) {
         self.listprofils_skills_levels[i] = item;
         i++;
       });
+      erreur -= 1;
+      self.initializing = erreur !== 0;
+      self.inform();
     })
     .catch(err => {
       console.log("RefGpecProfilModelError error loading data", err);
@@ -48,31 +52,37 @@ let RefGpecProfilsModel = function(options) {
         wordsList = wordsList.map(unine.complex);
         self.profils[item.profil_code].tokens = wordsList;
       });
+      erreur -= 1;
+      self.initializing = erreur !== 0;
+      self.inform();
     })
     .catch(err => {
       console.log("RefGpecProfilModelError loading data", err);
       erreur += 1;
     });
 
-  self.gettag();
+  self.getProfilsFamilys();
   self.getProfilsCSV();
-  self.initializing = erreur;
+  self.initializing = erreur !== 0;
   self.inform();
 };
 
-RefGpecProfilsModel.prototype.gettag = function() {
+RefGpecProfilsModel.prototype.getProfilsFamilys = function() {
   let self = this;
-  self.listTag = {};
+  self.listFamillys = {};
   axios
-    .get("/api/view_list_tag_profils")
+    .get("/api/list_profils_attached_familys")
     .then(response => {
+      self.listFamillys = {};
+      let i = 0;
       response.data.forEach(item => {
-        self.listTag[item.profil_tag] = item;
+        self.listFamillys[i] = item;
+        i++;
       });
       self.inform();
     })
     .catch(err => {
-      console.log("RefGpecProfilModelError loading data", err);
+      console.log("RefGpecProfilModelError error loading data", err);
     });
 };
 

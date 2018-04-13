@@ -37,7 +37,13 @@ let RefGpecSkill = createReactClass({
         rgFamilles.push({
           value: [self.props.skillfamilys[key].family_id],
           label: [self.props.skillfamilys[key].family_id],
-          style: { fontSize: "12px", backgroundColor: "cyan" }
+          style: {
+            fontSize: "12px",
+            backgroundColor: "cyan",
+            borderColor: "black",
+            borderWidth: "2px"
+          },
+          title: self.props.skillfamilys[key].family_name
         });
       }
     });
@@ -146,6 +152,7 @@ let RefGpecSkill = createReactClass({
             value={rgFamilles}
             placeholder={"Aucune Famille associée"}
             removeSelected={true}
+            valueRenderer={this.renderValue}
             onValueClick={this.OpenfamilySkills}
           />
         </td>
@@ -229,7 +236,9 @@ let RefGpecSkill = createReactClass({
   OpenfamilySkills: function(value, event) {
     this.props.onChangeFamily(value);
   },
-
+  renderValue: function(option) {
+    return <strong style={{ color: "Black" }}>{option.label}</strong>;
+  },
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state !== nextState) {
       return true;

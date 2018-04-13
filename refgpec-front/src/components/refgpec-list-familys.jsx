@@ -23,10 +23,10 @@ let RefGpecListFamilys = createReactClass({
     let self = this;
     let rgFamilys = [];
     rgFamilys.push({ value: "Aucune", label: "Aucune Famille" });
-    Object.keys(self.props.skillData.listFamillys).forEach(function(key) {
+    Object.keys(self.props.skillData.family).forEach(function(key) {
       rgFamilys.push({
-        value: self.props.skillData.listFamillys[key].family_id,
-        label: self.props.skillData.listFamillys[key].family_name
+        value: self.props.skillData.family[key].family_id,
+        label: self.props.skillData.family[key].family_name
       });
     });
     return (

@@ -19,12 +19,11 @@ let RefGpecResearchSkill = createReactClass({
 
   render: function() {
     let self = this;
-
     // model is not ready ? then do not render anything
     if (
       self.props.skillsModel.initializing ||
       self.props.familyModel.initializing ||
-      this.props.skillsTypesModel.initializing
+      self.props.skillsTypesModel.initializing
     ) {
       return null;
     }
@@ -58,7 +57,7 @@ let RefGpecResearchSkill = createReactClass({
         </td>
         <td className="skills-col-family">
           <RefGpecFamilys
-            skillData={this.props.skillsModel}
+            skillData={self.props.familyModel}
             ajaxLoading={self.props.familyModel.ajaxLoading}
             data-fieldname="SearchFamily"
             placeholder="Famille à rechercher"

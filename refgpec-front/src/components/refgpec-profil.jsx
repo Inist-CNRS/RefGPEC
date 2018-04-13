@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Modal, DropdownButton, MenuItem } from "react-bootstrap";
 import RefGpecTags from "./refgpec-tags";
+import Select from "react-select";
+import "react-select/dist/react-select.css";
 import RefGpecPDF from "./refgpec-pdf";
 let createReactClass = require("create-react-class");
 let RefGpecProfil = createReactClass({
@@ -44,6 +46,24 @@ let RefGpecProfil = createReactClass({
     const self = this;
     // calculate the classname for skills stats associated to the specified profil
     let nbClassName = {};
+    let rgFamilles = [];
+    Object.keys(self.props.profilfamilys).forEach(function(key) {
+      if (
+        self.props.profilfamilys[key].profil_code === self.state.profil_code
+      ) {
+        rgFamilles.push({
+          value: [self.props.profilfamilys[key].family_id],
+          label: [self.props.profilfamilys[key].family_id],
+          style: {
+            fontSize: "12px",
+            backgroundColor: "cyan",
+            borderColor: "black",
+            borderWidth: "2px"
+          },
+          title: self.props.profilfamilys[key].family_name
+        });
+      }
+    });
     [
       "profilNbSkillsSF",
       "profilNbSkillsS",
@@ -231,13 +251,15 @@ let RefGpecProfil = createReactClass({
           </Modal>
         </td>
         <td>
-          <RefGpecTags
-            skillData={this.props.tagList}
-            data-fieldname="tag_code"
-            value={this.state.profil_tag}
-            readOnly={this.state.ajaxLoading}
-            onChange={this.handleChangeTag}
-            onBlur={this.handleSubmit}
+          <Select
+            clearable={false}
+            multi={true}
+            disabled={true}
+            value={rgFamilles}
+            placeholder={"Aucune Famille associée"}
+            removeSelected={true}
+            onValueClick={this.OpenfamilySkills}
+            valueRenderer={this.renderValue}
           />
         </td>
         <td>
@@ -287,6 +309,10 @@ let RefGpecProfil = createReactClass({
     );
   },
 
+  renderValue: function(option) {
+    return <strong style={{ color: "Black" }}>{option.label}</strong>;
+  },
+
   handleSubmit: function(event) {
     let self = this;
     if (self.state.mustBeSaved) {
@@ -313,12 +339,6 @@ let RefGpecProfil = createReactClass({
     // tells the component to save data soon
     this.setState({ mustBeSaved: true });
     this.setState({ profil_free_comments: event.target.value });
-  },
-
-  handleChangeTag: function(event) {
-    this.setState({ profil_tag: event, mustBeSaved: true }, function() {
-      this.handleSubmit();
-    });
   },
 
   handleDestroy: function(event) {
@@ -353,6 +373,10 @@ let RefGpecProfil = createReactClass({
     }
   },
   componentDidMount() {},
+
+  OpenfamilySkills: function(value, event) {
+    this.props.onChangeFamily(value);
+  },
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state !== nextState) {
