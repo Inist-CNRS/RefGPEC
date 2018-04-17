@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Modal, DropdownButton, MenuItem } from "react-bootstrap";
-import RefGpecTags from "./refgpec-tags";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
 import RefGpecPDF from "./refgpec-pdf";
@@ -16,7 +15,7 @@ let RefGpecProfil = createReactClass({
       profil_shortname: this.props.profilData.profil_shortname,
       profil_free_comments: this.props.profilData.profil_free_comments,
       profil_pdf_path: this.props.profilData.profil_pdf_path,
-      profilNbSkillsSF: this.props.profilData.profilnbskillssf,
+      profilNbSkillsSF: this.props.profilData.profilnbskillss,
       profilNbSkillsS: this.props.profilData.profilnbskillss,
       profilNbSkillsSE: this.props.profilData.profilnbskillsse,
       showModal: false,

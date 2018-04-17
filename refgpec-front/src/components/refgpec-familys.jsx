@@ -411,7 +411,6 @@ let RefGpecFamilys = createReactClass({
   },
 
   handleOpenFamilySkills: function(event) {
-    console.log(event.target.id);
     this.props.familysSkillsModel.getFamilySkillLevel(event.target.id);
   },
 

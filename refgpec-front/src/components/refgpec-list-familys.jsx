@@ -1,5 +1,4 @@
 import React from "react";
-import RefGpecFamily from "./refgpec-list-family.jsx";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
 let createReactClass = require("create-react-class");

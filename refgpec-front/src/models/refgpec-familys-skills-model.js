@@ -159,7 +159,6 @@ RefGpecFamilysSkillsModel.prototype.addFamilySkill = function(
             return cb && cb(null);
           })
           .catch(function(error) {
-            console.log(error);
             self.feedback.code = error.response.status;
             self.feedback.message = error.response.data.message;
             self.ajaxLoading = false;
@@ -199,7 +198,6 @@ RefGpecFamilysSkillsModel.prototype.destroy = function(fslId, family_id, cb) {
     .catch(function(error) {
       self.feedback.code = error.response.status;
       self.feedback.message = error.response.data.message;
-      console.log(error.response.data);
       self.ajaxLoading = false;
       self.inform();
       return cb && cb(error);
@@ -263,7 +261,6 @@ RefGpecFamilysSkillsModel.prototype.save = function(fsl_code, data, cb) {
       return cb && cb(null);
     })
     .catch(function(error) {
-      console.log(error);
       self.feedback.code = error.response.status;
       self.feedback.message = error.response.data.message;
       self.ajaxLoading = false;

@@ -1,6 +1,5 @@
 import React from "react";
 import RefGpecTypes from "./refgpec-types.jsx";
-import RefGpecFamilys from "./refgpec-list-familys";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import Select from "react-select";
 import "react-select/dist/react-select.css";

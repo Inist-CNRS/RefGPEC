@@ -2,7 +2,6 @@ import axios from "axios";
 import words from "talisman/tokenizers/words";
 import unine from "talisman/stemmers/french/unine";
 import stopwords from "stopwords-fr";
-import RefGpecSkillsModel from "./refgpec-skills-model";
 let RefGpecProfilsModel = function(options) {
   const self = this;
 
@@ -89,7 +88,6 @@ RefGpecProfilsModel.prototype.getProfilsFamilys = function() {
 RefGpecProfilsModel.prototype.updateVue = function() {
   let self = this;
   self.listprofils_skills_levels = {};
-  self.gettag();
   axios
     .get("/api/list_profils_attached_skills")
     .then(response => {
@@ -140,7 +138,6 @@ RefGpecProfilsModel.prototype.getmax = function(codes) {
   return max;
 };
 RefGpecProfilsModel.prototype.addProfil = function(
-  profil_tag,
   profil_shortname,
   profil_free_comments,
   profil_pdf_path,
@@ -173,17 +170,14 @@ RefGpecProfilsModel.prototype.addProfil = function(
     let lastCodeSplitted = self.getmax(codes);
     profil_code = "p-" + (lastCodeSplitted + 1);
   }
-  if (!profil_tag) {
-    profil_tag = null;
-  }
+
   profil_shortname = profil_shortname.trim();
   axios
     .post("/api/profils", {
       profil_code: profil_code,
       profil_shortname: profil_shortname,
       profil_free_comments: profil_free_comments,
-      profil_pdf_path: profil_pdf_path,
-      profil_tag: profil_tag
+      profil_pdf_path: profil_pdf_path
     })
     .then(function(response) {
       self.ajaxLoading = false;
@@ -192,7 +186,7 @@ RefGpecProfilsModel.prototype.addProfil = function(
         let i = 0;
         for (let key2 in self.profils[key]) {
           i += 1;
-          if (i > 5) {
+          if (i > 4) {
             nomchamp.push(key2);
           }
         }
@@ -202,8 +196,7 @@ RefGpecProfilsModel.prototype.addProfil = function(
         profil_code,
         profil_shortname,
         profil_pdf_path,
-        profil_free_comments,
-        profil_tag
+        profil_free_comments
       };
       //add column to search by ignoring accents and tokenization
       let wordsList = profil_shortname;
@@ -213,7 +206,6 @@ RefGpecProfilsModel.prototype.addProfil = function(
       });
       wordsList = wordsList.map(unine.complex);
       self.profils[profil_code].tokens = wordsList;
-      self.gettag();
       for (let k = 0; k < nomchamp.length; k++) {
         self.profils[profil_code][nomchamp[k]] = 0;
       }
@@ -243,7 +235,6 @@ RefGpecProfilsModel.prototype.destroy = function(profilId, cb) {
       for (let key in self.listprofils_skills_levels) {
         if (self.listprofils_skills_levels[key].profil_code === profilId) {
           delete self.listprofils_skills_levels[key];
-          self.gettag();
           self.inform();
         }
       }
@@ -279,17 +270,13 @@ RefGpecProfilsModel.prototype.save = function(profilId, data, cb) {
   let self = this;
   self.ajaxLoading = true;
   self.feedback = "";
-  if (!data.profil_tag) {
-    data.profil_tag = null;
-  }
   data.profil_shortname = data.profil_shortname.trim();
   axios
     .patch("/api/profils?profil_code=eq." + profilId, {
       profil_code: data.profil_code,
       profil_shortname: data.profil_shortname,
       profil_free_comments: data.profil_free_comments,
-      profil_pdf_path: data.profil_pdf_path,
-      profil_tag: data.profil_tag
+      profil_pdf_path: data.profil_pdf_path
     })
     .then(function(response) {
       self.profils[profilId] = data;

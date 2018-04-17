@@ -1,11 +1,9 @@
-CREATE VIEW view_list_tag_profils AS
-select distinct p.profil_tag from profils p  order by profil_tag;
 
 CREATE VIEW view_list_family_profil AS
 select distinct f.family_id,f.family_name from family_skills_levels fs ,skills s,family f where fs.family_id= f.family_id and fs.skill_code=s.skill_code order by f.family_name;
 
 CREATE VIEW view_profils_nb_skills AS
-select pr.profil_code,pr.profil_shortname,pr.profil_pdf_path,pr.profil_free_comments,pr.profil_tag,
+select pr.profil_code,pr.profil_shortname,pr.profil_pdf_path,pr.profil_free_comments,
 sum(CASE WHEN st.st_code ='s' THEN 1 ELSE 0 END) as profilNbSkillsS,
 sum(CASE WHEN st.st_code ='se'  THEN 1 ELSE 0 END) as profilNbSkillsSE,
 sum(CASE WHEN st.st_code ='sf'  THEN 1 ELSE 0 END) as profilNbSkillsSF
@@ -13,7 +11,7 @@ from profils pr
 LEFT JOIN  profils_skills_levels psl ON pr.profil_code = psl.profil_code
 LEFT JOIN skills s  ON psl.skill_code = s.skill_code
 LEFT JOIN skills_types st on st.st_code =s.st_code
-group by pr.profil_code,pr.profil_shortname,pr.profil_pdf_path,pr.profil_free_comments,pr.profil_tag
+group by pr.profil_code,pr.profil_shortname,pr.profil_pdf_path,pr.profil_free_comments
 order by pr.profil_code ;
 
 create view list_skills_attached_profils as
@@ -70,9 +68,9 @@ select p.profil_code,Type,code, Nom,level_number,'' as "Modulation_individuelle"
                                                                                where s.code = psl.skill_code and p.profil_code = psl.profil_code and l.level_code = psl.level_code;
 
 create view view_exportCSV_profils as
-select profil_code as code, profil_tag as tag, profil_shortname  as Nom ,CASE WHEN profil_free_comments is null THEN '' ELSE profil_free_comments END as Commentaire,profil_pdf_path as lien_du_PDF
+select profil_code as code,profil_shortname  as Nom ,CASE WHEN profil_free_comments is null THEN '' ELSE profil_free_comments END as Commentaire,profil_pdf_path as lien_du_PDF
 from profils p
-order by profil_tag, profil_code;
+order by profil_code;
 
 create view list_profils_attached_familys as
 select count(psl.skill_code), profil_code,fsl.family_id,family_name,table2.nb_comp_necessaire

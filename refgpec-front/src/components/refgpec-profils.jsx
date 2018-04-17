@@ -17,7 +17,6 @@ let RefGpecProfils = createReactClass({
   getInitialState: function() {
     return {
       showModal: false,
-      newProfilTag: "",
       newProfilShortName: "",
       newProfilFreeComments: "",
       newProfilPdfPath: "",
@@ -71,7 +70,6 @@ let RefGpecProfils = createReactClass({
     searchwords = searchwords.map(unine.complex);
 
     Object.keys(self.props.profilsModel.profils).forEach(function(key, i) {
-      let tag = "";
       let matching = 0;
 
       let matchingFamily = 0;
@@ -123,9 +121,6 @@ let RefGpecProfils = createReactClass({
         }
       }
 
-      if (self.props.profilsModel.profils[key].profil_tag) {
-        tag = self.props.profilsModel.profils[key].profil_tag;
-      }
       if (
         (matching !== 0 || searchwords.length === 0) &&
         (self.state.filter.SearchProfilFamily.length === 0 ||
@@ -408,7 +403,6 @@ let RefGpecProfils = createReactClass({
   },
 
   handleSubmit: function(
-    newProfilTag,
     newProfilShortName,
     newProfilFreeComments,
     newProfilPdfPath
@@ -417,7 +411,6 @@ let RefGpecProfils = createReactClass({
     if (self.props.profilsModel.ajaxLoading) return;
 
     self.props.profilsModel.addProfil(
-      newProfilTag,
       newProfilShortName,
       newProfilFreeComments,
       newProfilPdfPath,
@@ -470,7 +463,7 @@ let RefGpecProfils = createReactClass({
     this.props.familysSkillsModel.getFamilySkillLevel(event.value);
   },
   missingField() {
-    return !this.state.newProfilShortName || !this.state.newProfilTag;
+    return !this.state.newProfilShortName;
   }
 });
 export default RefGpecProfils;

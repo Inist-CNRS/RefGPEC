@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Modal, OverlayTrigger, Popover } from "react-bootstrap";
-import Select from "react-select";
-import "react-select/dist/react-select.css";
 import RefGpecPDF from "./refgpec-pdf";
 let createReactClass = require("create-react-class");
 let RefGpecNewProfil = createReactClass({
@@ -173,14 +171,12 @@ let RefGpecNewProfil = createReactClass({
     if (self.props.profilsModel.ajaxLoading) return;
     if (self.state.newProfilShortName) {
       self.props.onSubmit(
-        self.state.newProfilTag.value,
         self.state.newProfilShortName,
         self.state.newProfilFreeComments,
         self.state.newProfilPdfPath
       );
 
       self.setState({
-        newProfilTag: "",
         newProfilShortName: "",
         newProfilFreeComments: "",
         newProfilPdfPath: ""

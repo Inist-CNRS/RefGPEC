@@ -1,7 +1,6 @@
 import React from "react";
 import { Modal, DropdownButton, MenuItem } from "react-bootstrap";
 import RefGpecTypes from "./refgpec-types.jsx";
-import RefGpecFamilys from "./refgpec-list-familys";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
 let createReactClass = require("create-react-class");
