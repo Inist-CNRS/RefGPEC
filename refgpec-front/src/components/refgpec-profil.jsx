@@ -15,7 +15,7 @@ let RefGpecProfil = createReactClass({
       profil_shortname: this.props.profilData.profil_shortname,
       profil_free_comments: this.props.profilData.profil_free_comments,
       profil_pdf_path: this.props.profilData.profil_pdf_path,
-      profilNbSkillsSF: this.props.profilData.profilnbskillss,
+      profilNbSkillsSF: this.props.profilData.profilnbskillssf,
       profilNbSkillsS: this.props.profilData.profilnbskillss,
       profilNbSkillsSE: this.props.profilData.profilnbskillsse,
       showModal: false,
