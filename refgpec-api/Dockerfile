@@ -1,4 +1,4 @@
-FROM postgrest/postgrest:v0.4.3.0
+FROM postgrest/postgrest:v0.4.4.0
 
 ENV PGRST_DB_URI="postgres://refgpec:gpecsecret@refgpec-db:5432/refgpec" \
     PGRST_DB_SCHEMA=public \

@@ -147,7 +147,7 @@ RefGpecSkillsModel.prototype.inform = function() {
 RefGpecSkillsModel.prototype.getmax = function(codes) {
   let max = 2;
   codes.forEach(function(key, i) {
-    let number = parseInt(codes[i].split("-")[3], 10);
+    let number = parseInt(codes[i].split("-")[2], 10);
     if (max < number) {
       max = number;
     }
@@ -176,19 +176,19 @@ RefGpecSkillsModel.prototype.addSkill = function(
       });
       // filter other skills family to have a correct numeric id
       let codes = Object.keys(history).filter(function(elt) {
-        return elt.indexOf("c-" + st_code.toLowerCase()) === 0;
+        return elt.indexOf("c-" + st_code.toLowerCase() + "-") === 0;
       });
       let skill_code = "c-" + st_code.toLowerCase() + "-1";
       // add +1 to the id if more than one skill in this type/domain
       codes.sort();
       if (codes.length > 0) {
-        let lastCodeSplitted = self.getmax(codes);
-        skill_code =
-          "c-" +
-          st_code.toLowerCase() +
-          "-" +
-          parseInt(lastCodeSplitted + 1, 10);
+        let lastCodeSplitted = self.getmax(codes) + 1;
+        if (parseInt(lastCodeSplitted, 10) < 10) {
+          lastCodeSplitted = "0" + lastCodeSplitted;
+        }
+        skill_code = "c-" + st_code.toLowerCase() + "-" + lastCodeSplitted;
       }
+
       skill_shortname = skill_shortname.trim();
       axios
         .post("/api/skills", {

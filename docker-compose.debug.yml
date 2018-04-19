@@ -38,7 +38,7 @@ services:
   # RefGPEC API (PostgREST API)
   refgpec-api:
     container_name: refgpec-api
-    image: postgrest/postgrest:v0.4.3.0
+    image: postgrest/postgrest:v0.4.4.0
     ports:
       - 3000:3000
     links:
