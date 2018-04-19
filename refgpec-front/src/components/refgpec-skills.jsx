@@ -115,7 +115,10 @@ let RefGpecSkills = createReactClass({
       ) {
         while (matching + j <= searchwords.length && j < searchwords.length) {
           self.props.skillsModel.skills[key].tokens.forEach(function(word) {
-            if (word === searchwords[j]) {
+            if (
+              word === searchwords[j] ||
+              word.toLowerCase().includes(searchwords[j].toLowerCase())
+            ) {
               matching += 1;
             }
           });
