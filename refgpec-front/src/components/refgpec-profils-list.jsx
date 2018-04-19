@@ -1,5 +1,7 @@
 import React from "react";
-import RefGpecProfilList from "./refgpec-profil-list.jsx";
+import Select from "react-select";
+import "react-select/dist/react-select.css";
+const WAIT_INTERVAL = 200;
 let createReactClass = require("create-react-class");
 let RefGpecProfilsList = createReactClass({
   displayName: "RefGpecProfilsList",
@@ -8,54 +10,53 @@ let RefGpecProfilsList = createReactClass({
     return {
       mustBeSaved: false,
       error: "",
-      profil_code: this.props.skillData.profil_code
+      profil_code: this.props.skillData.profil_code,
+      value: {}
     };
   },
 
   render: function() {
+    if (!this.props.skillData) {
+      return null;
+    }
     let self = this;
-    let label = "";
     let rgProfils = [];
-
-    let listoption = [];
-    rgProfils.push(
-      <optgroup key={label} label={label}>
-        {(() => {
-          Object.keys(self.props.skillData.profils).forEach(function(key) {
-            listoption.push(
-              <RefGpecProfilList
-                key={key}
-                profil_code={key}
-                skillData={self.props.skillData.profils[key]}
-                ajaxLoading={self.props.skillData.ajaxLoading}
-              />
-            );
-          });
-          return listoption;
-        })()}
-      </optgroup>
-    );
-
+    Object.keys(self.props.skillData.profils).forEach(function(key) {
+      rgProfils.push({
+        value: self.props.skillData.profils[key].profil_code,
+        label: self.props.skillData.profils[key].profil_shortname
+      });
+    });
+    rgProfils.sort(function(a, b) {
+      if (a.label && b.label) {
+        return a.label.trim().localeCompare(b.label.trim());
+      }
+    });
     return (
-      <b>
-        <select
-          className="form-control"
-          value={self.props.value}
-          onChange={this.handleChange}
-          readOnly={this.props.readOnly}
-          disabled={this.props.disabled}
-        >
-          <option />
-          {rgProfils}
-        </select>
-      </b>
+      <Select
+        multi={false}
+        clearable={false}
+        placeholder="Choisissez un Profil"
+        options={rgProfils}
+        value={self.state.value}
+        readOnly={this.props.readOnly}
+        disabled={this.props.disabled}
+        onChange={this.handleChange}
+        valueRenderer={this.renderValue}
+      />
     );
   },
 
   handleChange: function(event) {
-    this.props.onChange(event.target.value);
+    if (event !== null) {
+      clearTimeout(this.timer);
+      this.setState({ value: event.value });
+      this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+    }
   },
-
+  triggerChange() {
+    this.props.onChange(this.state.value);
+  },
   handleDestroy: function(event) {},
 
   componentDidMount() {}

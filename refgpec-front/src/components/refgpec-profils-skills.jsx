@@ -251,14 +251,14 @@ let RefGpecProfilsSkills = createReactClass({
                   <p>
                     Vous êtes en train de modifier les associations de
                     compétences sur le profil suivant :
-                    <RefGPECProfilsList
-                      skillData={self.props.profilsModel}
-                      ajaxLoading={self.props.profilsModel.ajaxLoading}
-                      data-fieldname="ProfilSelect"
-                      onChange={this.handleChangeProfil}
-                      value={self.props.profilsSkillsModel.profil}
-                    />
                   </p>
+                  <RefGPECProfilsList
+                    skillData={self.props.profilsModel}
+                    ajaxLoading={self.props.profilsModel.ajaxLoading}
+                    data-fieldname="ProfilSelect"
+                    onChange={this.handleChangeProfil}
+                    value={self.props.profilsSkillsModel.profil}
+                  />
                 </div>
               </div>
             </div>
