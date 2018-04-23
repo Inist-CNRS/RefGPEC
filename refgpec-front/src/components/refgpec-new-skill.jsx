@@ -1,8 +1,9 @@
 import React from "react";
+import themeable from "react-themeable";
 import RefGpecTypes from "./refgpec-types.jsx";
 import { OverlayTrigger, Popover } from "react-bootstrap";
-import Select from "react-select";
 import "react-select/dist/react-select.css";
+import RefGpecSugestSkills from "./refgpec-suggest-skills.jsx";
 let createReactClass = require("create-react-class");
 let RefGpecNewSkill = createReactClass({
   displayName: "RefGpecNewSkill",
@@ -68,18 +69,9 @@ let RefGpecNewSkill = createReactClass({
           <select className="form-control" readOnly={true} disabled={true} />
         </td>
         <td>
-          <Select.Creatable
-            clearable={true}
-            multi={false}
-            options={ops}
-            onChange={this.handleChangeShortname}
-            value={this.state.newSkillShortName}
-            placeholder="Nom de la compétence"
-            promptTextCreator={label => "Créer la compétence " + label}
-            data-fieldname="newSkillShortName"
-            disabled={this.props.skillsModel.ajaxLoading}
-            onBlurResetsInput={false}
-            onBlur={this.handleBlur}
+          <RefGpecSugestSkills
+            SkillData={self.props.skillsModel}
+            onSubmit={this.handleChangeShortname}
           />
         </td>
         <td>
@@ -97,16 +89,11 @@ let RefGpecNewSkill = createReactClass({
       </tr>
     );
   },
-
   handleTypeChange: function(event) {
     this.setState({ newSkillType: event });
   },
   handleChangeShortname: function(event) {
-    if (!event) {
-      this.setState({ newSkillShortName: "" });
-    } else {
-      this.setState({ newSkillShortName: event });
-    }
+    this.setState({ newSkillShortName: event.target.value });
   },
   handleChangeCommentary: function(event) {
     if (!event) {
@@ -115,39 +102,14 @@ let RefGpecNewSkill = createReactClass({
       this.setState({ newSkillFreeComments: event.target.value });
     }
   },
-  handleBlur: function(event) {
-    if (!event.target.value && !this.state.newSkillShortName) {
-      this.setState({ newSkillShortName: "" });
-    } else {
-      if (!this.state.newSkillShortName) {
-        this.setState({
-          newSkillShortName: {
-            value: event.target.value,
-            label: event.target.value
-          }
-        });
-      }
-    }
-    if (!event.target.value && !this.state.newSkillFreeComments) {
-      this.setState({ newSkillFreeComments: "" });
-    } else {
-      if (!this.state.newSkillFreeComments) {
-        this.setState({
-          newSkillFreeComments: {
-            value: event.target.value,
-            label: event.target.value
-          }
-        });
-      }
-    }
-  },
   handleSubmit: function(event) {
     const self = this;
     if (self.props.skillsModel.ajaxLoading) return;
+
     if (!this.missingField()) {
       self.props.onSubmit(
         self.state.newSkillType,
-        self.state.newSkillShortName.label,
+        self.state.newSkillShortName,
         self.state.newSkillFreeComments
       );
       self.setState({
