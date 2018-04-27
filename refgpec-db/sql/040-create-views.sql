@@ -80,3 +80,53 @@ and f.family_id=fsl.family_id
 group by profil_code,fsl.family_id,family_name,table2.nb_comp_necessaire
 having count(psl.skill_code)>=table2.nb_comp_necessaire
 order by profil_code,family_id;
+
+create view list_profils_attached_familys_proches as
+select count(psl.skill_code) as nb_competence, profil_code,fsl.family_id,family_name
+from profils_skills_levels psl,family f,family_skills_levels fsl
+where psl.skill_code=fsl.skill_code
+and f.family_id=fsl.family_id
+group by profil_code,fsl.family_id,family_name
+order by profil_code,family_id;
+
+create view list_profils_attached_familys_complet as
+select count(psl.skill_code) as nb_competence, profil_code,fsl.family_id,family_name
+from profils_skills_levels psl,family f,family_skills_levels fsl
+where psl.skill_code=fsl.skill_code
+and f.family_id=fsl.family_id
+group by profil_code,fsl.family_id,family_name
+UNION
+select distinct 0,profil_code,fsl.family_id,family_name
+from profils_skills_levels psl,family f,family_skills_levels fsl
+where f.family_id=fsl.family_id and  (profil_code,fsl.family_id,family_name) not in(select profil_code,family_id,family_name from list_profils_attached_familys_proches)
+order by profil_code,family_id;
+
+create view list_skills_profils_familys_levels as
+select skill_shortname, psl.profil_code,profil_shortname,fsl.family_id,family_name,l.level_number as modulation_profil,l2.level_number as modulation_famille
+from profils_skills_levels psl,family f,family_skills_levels fsl,levels l,skills s,profils p,levels l2
+where psl.skill_code=fsl.skill_code and l.level_code=psl.level_code and s.skill_code=fsl.skill_code and p.profil_code=psl.profil_code and l2.level_code=fsl.level_code
+and f.family_id=fsl.family_id
+group by skill_shortname,psl.profil_code,profil_shortname,fsl.family_id,family_name,l.level_number,l2.level_number
+UNION
+select skill_shortname,psl.profil_code,profil_shortname,fsl.family_id,family_name,0 as modulation_profil,level_number as modulation_famille
+from profils_skills_levels psl,family f,family_skills_levels fsl,skills s,profils p,levels l
+where f.family_id=fsl.family_id and s.skill_code=fsl.skill_code and p.profil_code=psl.profil_code and l.level_code=fsl.level_code
+and (skill_shortname, psl.profil_code,profil_shortname,fsl.family_id,family_name) not in (select skill_shortname, psl.profil_code,profil_shortname,fsl.family_id,family_name
+from profils_skills_levels psl,family f,family_skills_levels fsl,levels l,skills s,profils p
+where psl.skill_code=fsl.skill_code and l.level_code=psl.level_code and s.skill_code=fsl.skill_code and p.profil_code=psl.profil_code
+and f.family_id=fsl.family_id
+group by skill_shortname,psl.profil_code,profil_shortname,fsl.family_id,family_name,level_number)
+order by profil_code,family_id ;
+
+create view comparatif_profil_famille as
+select nb_competence, lpafc.profil_code,lpafc.family_id,lpafc.family_name,nb_comp_necessaire
+from list_profils_attached_familys_complet lpafc,list_profils_attached_familys lpaf
+where lpafc.family_id=lpaf.family_id
+group by   nb_competence, lpafc.profil_code,lpafc.family_id,lpafc.family_name,nb_comp_necessaire
+order by lpafc.profil_code,lpafc.family_id;
+
+create view count_profil_famille as
+select count(profil_code) as nb_profil,family_id,family_name
+from list_profils_attached_familys
+group by family_id,family_name
+order by nb_profil DESC,family_id,family_name

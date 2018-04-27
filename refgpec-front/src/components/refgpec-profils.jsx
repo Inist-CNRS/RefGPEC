@@ -2,6 +2,7 @@ import React from "react";
 import RefGpecProfil from "./refgpec-profil.jsx";
 import RefGpecResearchProfil from "./refgpec-research-profil.jsx";
 import RefGpecNewProfil from "./refgpec-new-profil.jsx";
+import RefGpecGraph from "./refgpec-graph.jsx";
 import {
   NotificationContainer,
   NotificationManager
@@ -141,6 +142,8 @@ let RefGpecProfils = createReactClass({
               profilId={key}
               profilsSkillsModel={self.props.profilsSkillsModel}
               profilData={self.props.profilsModel.profils[key]}
+              profilsModel={self.props.profilsModel}
+              familysModel={self.props.familysModel}
               profilfamilys={self.props.profilsModel.listFamillys}
               skilllist={self.props.profilsModel.getlistskills(key)}
               onChangeFamily={self.OpenfamilySkills}
@@ -157,6 +160,8 @@ let RefGpecProfils = createReactClass({
               profilfamilys={self.props.profilsModel.listFamillys}
               profilsSkillsModel={self.props.profilsSkillsModel}
               profilData={self.props.profilsModel.profils[key]}
+              profilsModel={self.props.profilsModel}
+              familysModel={self.props.familysModel}
               onChangeFamily={self.OpenfamilySkills}
               skilllist={self.props.profilsModel.getlistskills(key)}
               onSave={self.handleSave}
@@ -295,9 +300,13 @@ let RefGpecProfils = createReactClass({
                 <tr>
                   <th className="profils-col-action" />
                   <th className="profils-col-file">PDF du profil</th>
-                  <th role="button" className="profils-col-tag">
+                  <th className="profils-col-tag">
                     {" "}
-                    Famille
+                    Famille{" "}
+                    <RefGpecGraph
+                      profilsModel={this.props.profilsModel}
+                      familysModel={this.props.familysModel}
+                    />
                   </th>
                   <th
                     title="Cliquez pour trier par Nom court"

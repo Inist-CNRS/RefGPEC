@@ -4,6 +4,7 @@ import { Modal, DropdownButton, MenuItem } from "react-bootstrap";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
 import RefGpecPDF from "./refgpec-pdf";
+import RefGpecGraph from "./refgpec-graph.jsx";
 let createReactClass = require("create-react-class");
 let RefGpecProfil = createReactClass({
   displayName: "RefGpecProfil",
@@ -259,6 +260,12 @@ let RefGpecProfil = createReactClass({
             removeSelected={true}
             onValueClick={this.OpenfamilySkills}
             valueRenderer={this.renderValue}
+          />
+          <RefGpecGraph
+            id="profils_graph"
+            profilsModel={this.props.profilsModel}
+            familysModel={this.props.familysModel}
+            profilValue={this.state.profil_code}
           />
         </td>
         <td>

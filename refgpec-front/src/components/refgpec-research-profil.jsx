@@ -41,6 +41,7 @@ var RefGpecResearchProfil = createReactClass({
             data-fieldname="SearchProfilFamily"
             placeholder="Famille à rechercher"
             onChange={this.handleFamilyChange}
+            multi={true}
           />
         </td>
 

@@ -1,5 +1,4 @@
 import React from "react";
-import themeable from "react-themeable";
 import RefGpecTypes from "./refgpec-types.jsx";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import "react-select/dist/react-select.css";

@@ -14,6 +14,7 @@ let RefGpecProfilsModel = function(options) {
     message: ""
   };
   self.profilCSV = [];
+  self.graph = [];
   self.listFamillys = {};
   self.listprofils_skills_levels = {};
   self.lastProfilAdd = [];
@@ -58,6 +59,19 @@ let RefGpecProfilsModel = function(options) {
     .catch(err => {
       console.log("RefGpecProfilModelError loading data", err);
       erreur += 1;
+    });
+
+  axios
+    .get("/api/count_profil_famille")
+    .then(response => {
+      response.data.forEach(item => {
+        self.graph.push(item);
+      });
+      self.inform();
+    })
+    .catch(err => {
+      console.log("RefGpecProfilModelError error loading data", err);
+      self.inform();
     });
 
   self.getProfilsFamilys();
@@ -330,6 +344,80 @@ RefGpecProfilsModel.prototype.getProfilsCSV = function() {
       console.log("RefGpecProfilModelError error loading data", err);
       self.inform();
     });
+};
+
+RefGpecProfilsModel.prototype.getProfilsGraph = function(
+  profil_code,
+  family_code
+) {
+  let self = this;
+  self.graph = [];
+  // pas de profil et pas de famille
+  if (!profil_code && (!family_code || family_code === "Aucune")) {
+    axios
+      .get("/api/count_profil_famille")
+      .then(response => {
+        response.data.forEach(item => {
+          self.graph.push(item);
+        });
+        self.inform();
+      })
+      .catch(err => {
+        console.log("RefGpecProfilModelError error loading data", err);
+        self.inform();
+      });
+  } else {
+    // profil et famille
+    if (profil_code && family_code && family_code !== "Aucune") {
+      axios
+        .get(
+          "/api/list_skills_profils_familys_levels?profil_code=eq." +
+            profil_code +
+            "&family_id=eq." +
+            family_code
+        )
+        .then(response => {
+          response.data.forEach(item => {
+            self.graph.push(item);
+          });
+          self.inform();
+        })
+        .catch(err => {
+          console.log("RefGpecProfilModelError error loading data", err);
+          self.inform();
+        });
+    } else {
+      //profil mais pas de famille
+      if (profil_code && (!family_code || family_code === "Aucune")) {
+        axios
+          .get("/api/comparatif_profil_famille?profil_code=eq." + profil_code)
+          .then(response => {
+            response.data.forEach(item => {
+              self.graph.push(item);
+            });
+            self.inform();
+          })
+          .catch(err => {
+            console.log("RefGpecProfilModelError error loading data", err);
+            self.inform();
+          });
+      } else {
+        //famille mais pas de profil
+        axios
+          .get("/api/comparatif_profil_famille?family_id=eq." + family_code)
+          .then(response => {
+            response.data.forEach(item => {
+              self.graph.push(item);
+            });
+            self.inform();
+          })
+          .catch(err => {
+            console.log("RefGpecProfilModelError error loading data", err);
+            self.inform();
+          });
+      }
+    }
+  }
 };
 
 export default RefGpecProfilsModel;

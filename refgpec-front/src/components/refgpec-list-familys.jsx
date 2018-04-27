@@ -10,7 +10,7 @@ let RefGpecListFamilys = createReactClass({
     return {
       mustBeSaved: false,
       error: "",
-      value: []
+      value: undefined
     };
   },
 
@@ -30,7 +30,7 @@ let RefGpecListFamilys = createReactClass({
     });
     return (
       <Select
-        multi={true}
+        multi={this.props.multi}
         placeholder="Choisissez une ou plusieurs Familles"
         options={rgFamilys}
         value={self.state.value}

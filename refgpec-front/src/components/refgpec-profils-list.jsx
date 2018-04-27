@@ -11,7 +11,7 @@ let RefGpecProfilsList = createReactClass({
       mustBeSaved: false,
       error: "",
       profil_code: this.props.skillData.profil_code,
-      value: {}
+      value: this.props.value || {}
     };
   },
 
@@ -35,7 +35,7 @@ let RefGpecProfilsList = createReactClass({
     return (
       <Select
         multi={false}
-        clearable={false}
+        clearable={this.props.clear}
         placeholder="Choisissez un Profil"
         options={rgProfils}
         value={self.state.value}
@@ -52,6 +52,11 @@ let RefGpecProfilsList = createReactClass({
       clearTimeout(this.timer);
       this.setState({ value: event.value });
       this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+    } else {
+      if (this.props.clear) {
+        this.setState({ value: "" });
+        this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
+      }
     }
   },
   triggerChange() {
