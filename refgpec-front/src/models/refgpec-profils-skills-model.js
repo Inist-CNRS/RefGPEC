@@ -261,7 +261,7 @@ RefGpecProfilsSkillsModel.prototype.getprofilsSkillsCSV = function(
   self.profilsSkillsCSV = [];
   axios
     .get(
-      "/api/view_exportcsv_profilsskills?profil_code=eq." +
+      "/api/view_exportcsv_profilsskills?select=type,code,nom,Modulation_profil,Modulation_individuelle,Commentaires&profil_code=eq." +
         profil_code +
         "&order=Modulation_profil.desc,type.asc"
     )

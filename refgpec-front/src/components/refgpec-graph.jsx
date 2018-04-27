@@ -54,11 +54,6 @@ let RefGpecGraph = createReactClass({
     let graphe;
     let dataprofil = [];
     let datafamily = [];
-    console.log(
-      this.state.familyValue,
-      this.state.profilValue,
-      this.state.datagraph
-    );
     let nomprofil = "";
     let nomfamille = "";
     let data = [];
