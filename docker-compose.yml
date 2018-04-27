@@ -10,7 +10,7 @@ services:
       args:
         - http_proxy
         - https_proxy
-    image: inistcnrs/refgpec-front:2.5.0
+    image: inistcnrs/refgpec-front:2.5.1
     links:
       - refgpec-api
     ports:
@@ -24,7 +24,7 @@ services:
       args:
         - http_proxy
         - https_proxy
-    image: inistcnrs/refgpec-api:2.5.0
+    image: inistcnrs/refgpec-api:2.5.1
     links:
       - refgpec-db:db
     environment:
@@ -41,7 +41,7 @@ services:
       args:
         - http_proxy
         - https_proxy
-    image: inistcnrs/refgpec-db:2.5.0
+    image: inistcnrs/refgpec-db:2.5.1
     volumes:
       - ./refgpec-db/data/postgres:/ezmaster-data/postgresql-data
     environment:
