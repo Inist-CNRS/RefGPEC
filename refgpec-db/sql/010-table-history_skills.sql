@@ -28,5 +28,5 @@ ELSIF (TG_OP = 'UPDATE') THEN
 $history_skills$ language plpgsql;
 
 CREATE TRIGGER history_skills
-    AFTER INSERT OR UPDATE ON  skills
+    AFTER INSERT OR UPDATE OR DELETE ON  skills
     FOR EACH ROW EXECUTE PROCEDURE after_update_skills();

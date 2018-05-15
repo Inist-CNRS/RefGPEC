@@ -84,17 +84,13 @@ order by profil_code,family_id;
 create view list_profils_attached_familys_proches as
 select count(psl.skill_code) as nb_competence, profil_code,fsl.family_id,family_name
 from profils_skills_levels psl,family f,family_skills_levels fsl
-where psl.skill_code=fsl.skill_code
+where psl.skill_code=fsl.skill_code and psl.level_code>=fsl.level_code
 and f.family_id=fsl.family_id
 group by profil_code,fsl.family_id,family_name
 order by profil_code,family_id;
 
 create view list_profils_attached_familys_complet as
-select count(psl.skill_code) as nb_competence, profil_code,fsl.family_id,family_name
-from profils_skills_levels psl,family f,family_skills_levels fsl
-where psl.skill_code=fsl.skill_code
-and f.family_id=fsl.family_id
-group by profil_code,fsl.family_id,family_name
+select * from list_profils_attached_familys_proches
 UNION
 select distinct 0,profil_code,fsl.family_id,family_name
 from profils_skills_levels psl,family f,family_skills_levels fsl
@@ -119,14 +115,15 @@ group by skill_shortname,psl.profil_code,profil_shortname,fsl.family_id,family_n
 order by profil_code,family_id ;
 
 create view comparatif_profil_famille as
-select nb_competence, lpafc.profil_code,lpafc.family_id,lpafc.family_name,nb_comp_necessaire
-from list_profils_attached_familys_complet lpafc,list_profils_attached_familys lpaf
-where lpafc.family_id=lpaf.family_id
+select nb_competence, lpafc.profil_code,lpafc.family_id,lpafc.family_name,table2.nb_comp_necessaire
+from list_profils_attached_familys_complet lpafc right join (select  fsl.family_id,count(skill_code) as nb_comp_necessaire
+															from family_skills_levels fsl group by fsl.family_id order by family_id) table2
+on  lpafc.family_id=table2.family_id
 group by   nb_competence, lpafc.profil_code,lpafc.family_id,lpafc.family_name,nb_comp_necessaire
 order by lpafc.profil_code,lpafc.family_id;
 
 create view count_profil_famille as
-select count(profil_code) as nb_profil,family_id,family_name
-from list_profils_attached_familys
-group by family_id,family_name
-order by nb_profil DESC,family_id,family_name
+select COUNT(profil_code)as nb_profil,f.family_id,f.family_name
+from list_profils_attached_familys lpaf right join family f on f.family_id=lpaf.family_id
+group by f.family_id,f.family_name
+order by nb_profil DESC,f.family_id,f.family_name;

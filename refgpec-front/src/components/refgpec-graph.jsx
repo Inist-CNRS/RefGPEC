@@ -20,7 +20,8 @@ let RefGpecGraph = createReactClass({
       profilValue: this.props.profilValue,
       showModal: false,
       typegraph: "Line",
-      datagraph: []
+      datagraph: [],
+      colors: ["#00fd00", "#009000", "#0060fe", "#00606e"]
     };
   },
   closegraphModal() {
@@ -32,19 +33,11 @@ let RefGpecGraph = createReactClass({
     this.props.profilsModel.getProfilsGraph(this.state.profilValue);
   },
 
-  getRandomColor() {
-    var letters = "0123456789ABCDEF".split("");
-    var color = "#";
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  },
-
   opengraphModal() {
     this.setState({ showModal: true });
     this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
   },
+
   render: function() {
     if (!this.state.datagraph) {
       return null;
@@ -55,8 +48,11 @@ let RefGpecGraph = createReactClass({
     let dataprofil = [];
     let datafamily = [];
     let nomprofil = "";
-    let nomfamille = "";
     let data = [];
+    let borderColor = this.state.colors[0];
+    let BackgroundColor = this.state.colors[1];
+    let borderColor2 = this.state.colors[2];
+    let BackgroundColor2 = this.state.colors[3];
     let options = {
       scales: { xAxes: [{ display: false }], yAxes: [{ display: true }] }
     };
@@ -66,21 +62,19 @@ let RefGpecGraph = createReactClass({
       !this.state.profilValue
     ) {
       Object.keys(self.state.datagraph).forEach(function(key) {
-        labels.push(self.state.datagraph[key].family_id);
-        nomfamille = self.state.datagraph[key].family_id;
+        labels.push(self.state.datagraph[key].family_name);
         dataprofil.push(self.state.datagraph[key].nb_profil);
       });
-      let borderColor = this.getRandomColor();
-      let BackgroundColor = this.getRandomColor();
+
       data = {
         labels: labels,
         datasets: [
           {
-            label: "Nombre de profils dans chaque famille",
-            backgroundColor: BackgroundColor,
-            borderColor: borderColor,
-            pointBackgroundColor: borderColor,
-            pointBorderColor: BackgroundColor,
+            label: "Nombre de profils dans la famille",
+            backgroundColor: BackgroundColor2,
+            borderColor: borderColor2,
+            pointBackgroundColor: BackgroundColor2,
+            pointBorderColor: borderColor2,
             fill: false,
             pointHoverBackgroundColor: BackgroundColor,
             pointHoverBorderColor: "rgba(255,0,0,1)",
@@ -96,7 +90,7 @@ let RefGpecGraph = createReactClass({
       this.state.familyValue !== "Aucune" &&
       !this.state.profilValue
     ) {
-      let nomFamille = this.state.familyValue ? this.state.familyValue : "";
+      let nomFamille = "";
       if (
         this.state.profilValue &&
         self.props.profilsModel.profils[this.state.profilValue]
@@ -106,6 +100,9 @@ let RefGpecGraph = createReactClass({
             .profil_shortname;
       }
       Object.keys(self.state.datagraph).forEach(function(key) {
+        if (self.state.datagraph[key].family_id === self.state.familyValue) {
+          nomFamille = self.state.datagraph[key].family_name;
+        }
         if (
           self.props.profilsModel.profils[self.state.datagraph[key].profil_code]
         ) {
@@ -121,10 +118,7 @@ let RefGpecGraph = createReactClass({
         dataprofil.push(self.state.datagraph[key].nb_competence);
         datafamily.push(self.state.datagraph[key].nb_comp_necessaire);
       });
-      let borderColor = this.getRandomColor();
-      let BackgroundColor = this.getRandomColor();
-      let borderColor2 = this.getRandomColor();
-      let BackgroundColor2 = this.getRandomColor();
+
       data = {
         labels: labels,
         datasets: [
@@ -132,8 +126,8 @@ let RefGpecGraph = createReactClass({
             label: "Nombre de compétence détenues par le Profil " + nomprofil,
             backgroundColor: BackgroundColor,
             borderColor: borderColor,
-            pointBackgroundColor: borderColor,
-            pointBorderColor: BackgroundColor,
+            pointBackgroundColor: BackgroundColor,
+            pointBorderColor: borderColor,
             fill: false,
             pointHoverBackgroundColor: BackgroundColor,
             pointHoverBorderColor: "rgba(255,0,0,1)",
@@ -144,8 +138,8 @@ let RefGpecGraph = createReactClass({
               "Nombre de compétences nécessaire pour la Famille " + nomFamille,
             backgroundColor: BackgroundColor2,
             borderColor: borderColor2,
-            pointBackgroundColor: borderColor,
-            pointBorderColor: BackgroundColor2,
+            pointBackgroundColor: BackgroundColor2,
+            pointBorderColor: borderColor2,
             fill: false,
             pointHoverBackgroundColor: BackgroundColor2,
             pointHoverBorderColor: "rgba(255,0,0,1)",
@@ -168,14 +162,11 @@ let RefGpecGraph = createReactClass({
             .profil_shortname;
       }
       Object.keys(self.state.datagraph).forEach(function(key) {
-        labels.push(self.state.datagraph[key].family_id);
+        labels.push(self.state.datagraph[key].family_name);
         dataprofil.push(self.state.datagraph[key].nb_competence);
         datafamily.push(self.state.datagraph[key].nb_comp_necessaire);
       });
-      let borderColor = this.getRandomColor();
-      let BackgroundColor = this.getRandomColor();
-      let borderColor2 = this.getRandomColor();
-      let BackgroundColor2 = this.getRandomColor();
+
       data = {
         labels: labels,
         datasets: [
@@ -183,19 +174,19 @@ let RefGpecGraph = createReactClass({
             label: "Nombre de compétence détenues par le Profil " + nomprofil,
             backgroundColor: BackgroundColor,
             borderColor: borderColor,
-            pointBackgroundColor: borderColor,
-            pointBorderColor: BackgroundColor,
+            pointBackgroundColor: BackgroundColor,
+            pointBorderColor: borderColor,
             fill: false,
             pointHoverBackgroundColor: BackgroundColor,
             pointHoverBorderColor: "rgba(255,0,0,1)",
             data: dataprofil
           },
           {
-            label: "Nombre de compétences nécessaire pour une Famille ",
+            label: "Nombre de compétences nécessaire pour la Famille ",
             backgroundColor: BackgroundColor2,
             borderColor: borderColor2,
-            pointBackgroundColor: borderColor,
-            pointBorderColor: BackgroundColor2,
+            pointBackgroundColor: BackgroundColor2,
+            pointBorderColor: borderColor2,
             fill: false,
             pointHoverBackgroundColor: BackgroundColor2,
             pointHoverBorderColor: "rgba(255,0,0,1)",
@@ -210,7 +201,7 @@ let RefGpecGraph = createReactClass({
       this.state.profilValue &&
       this.state.familyValue !== "Aucune"
     ) {
-      let nomFamille = this.state.familyValue ? this.state.familyValue : "";
+      let nomFamille = "";
       if (
         this.state.profilValue &&
         self.props.profilsModel.profils[this.state.profilValue]
@@ -220,34 +211,34 @@ let RefGpecGraph = createReactClass({
             .profil_shortname;
       }
       Object.keys(self.state.datagraph).forEach(function(key) {
+        if (self.state.datagraph[key].family_id === self.state.familyValue) {
+          nomFamille = self.state.datagraph[key].family_name;
+        }
         labels.push(self.state.datagraph[key].skill_shortname);
         dataprofil.push(self.state.datagraph[key].modulation_profil);
         datafamily.push(self.state.datagraph[key].modulation_famille);
       });
-      let borderColor = this.getRandomColor();
-      let BackgroundColor = this.getRandomColor();
-      let borderColor2 = this.getRandomColor();
-      let BackgroundColor2 = this.getRandomColor();
+
       data = {
         labels: labels,
         datasets: [
           {
-            label: "Profil " + nomprofil,
+            label: "Modulation sur le Profil " + nomprofil,
             backgroundColor: BackgroundColor,
             borderColor: borderColor,
-            pointBackgroundColor: borderColor,
-            pointBorderColor: BackgroundColor,
+            pointBackgroundColor: BackgroundColor,
+            pointBorderColor: borderColor,
             fill: false,
             pointHoverBackgroundColor: BackgroundColor,
             pointHoverBorderColor: "rgba(255,0,0,1)",
             data: dataprofil
           },
           {
-            label: "Famille " + nomFamille,
+            label: "Modulation nécessaire de la Famille " + nomFamille,
             backgroundColor: BackgroundColor2,
             borderColor: borderColor2,
-            pointBackgroundColor: borderColor,
-            pointBorderColor: BackgroundColor2,
+            pointBackgroundColor: BackgroundColor2,
+            pointBorderColor: borderColor2,
             fill: false,
             pointHoverBackgroundColor: BackgroundColor2,
             pointHoverBorderColor: "rgba(255,0,0,1)",
