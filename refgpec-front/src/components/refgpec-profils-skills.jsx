@@ -181,6 +181,10 @@ let RefGpecProfilsSkills = createReactClass({
                               "Référentiel_" +
                               self.props.profilsModel.profils[
                                 self.state.selectedProfil
+                              ].profil_code +
+                              "_" +
+                              self.props.profilsModel.profils[
+                                self.state.selectedProfil
                               ].profil_shortname +
                               "_" +
                               date +
