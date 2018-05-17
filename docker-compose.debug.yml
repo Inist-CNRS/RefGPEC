@@ -12,7 +12,9 @@ services:
         - https_proxy
     image: inistcnrs/refgpec-front:2.5.1
     volumes:
-      - ./refgpec-front/nginx.debug.conf:/etc/nginx/nginx.conf
+      - ./refgpec-front/refgpec.conf.json:/etc/refgpec.conf.json
+      - ./refgpec-front/docker-entrypoint:/bin/docker-entrypoint
+      - ./refgpec-front/nginx.debug.conf:/etc/nginx/nginx.conf.orig
       - ./refgpec-front/logs/:/var/log/nginx
       - ./refgpec-front:/app
     links:

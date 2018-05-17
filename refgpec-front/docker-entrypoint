@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# extract TXT parameter and give it to the react application
+mkdir -p /app/build/
+cat /etc/refgpec.conf.json \
+   | jq 'del(.REFGPEC_USERNAME)' \
+   | jq 'del(.REFGPEC_PASSWORD_HASH)' \
+   | jq 'del(.REFGPEC_API_URL)' \
+   > /app/build/refgpec.conf.json
+
+# patch nginx config to have authentication stuff and correct API URL
+cp -f /etc/nginx/nginx.conf.orig /etc/nginx/nginx.conf
+export REFGPEC_API_URL=${REFGPEC_API_URL:=$(jq -r -M .REFGPEC_API_URL /etc/refgpec.conf.json | grep -v null)}
+export REFGPEC_USERNAME=${REFGPEC_USERNAME:=$(jq -r -M .REFGPEC_USERNAME /etc/refgpec.conf.json | grep -v null)}
+export REFGPEC_PASSWORD_HASH=${REFGPEC_PASSWORD_HASH:=$(jq -r -M .REFGPEC_PASSWORD_HASH /etc/refgpec.conf.json | grep -v null)}
+echo "$REFGPEC_USERNAME:$REFGPEC_PASSWORD_HASH" > /etc/nginx/.htpasswd
+sed  -i "s#REFGPEC_API_URL#$REFGPEC_API_URL#g" /etc/nginx/nginx.conf
+
+exec "$@"

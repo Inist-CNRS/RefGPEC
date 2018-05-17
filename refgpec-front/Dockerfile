@@ -17,20 +17,22 @@ FROM nginx:1.13.3
 
 # to help docker debugging
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get -y update && apt-get -y install vim curl gnupg2
+RUN apt-get -y update && apt-get -y install vim curl gnupg2 jq
 
 # nginx config
-COPY ./nginx.prod.conf /etc/nginx/nginx.conf
-COPY ./entrypoint-scripts-runner /bin/entrypoint-scripts-runner
+COPY ./nginx.prod.conf /etc/nginx/nginx.conf.orig
+COPY ./docker-entrypoint /bin/docker-entrypoint
+COPY ./refgpec.conf.json /etc/refgpec.conf.json
 
 # ezmasterization of refgpec
 # see https://github.com/Inist-CNRS/ezmaster
 RUN echo '{ \
   "httpPort": 80, \
-  "configPath": "/etc/nginx/nginx.conf", \
-  "configType": "text" \
+  "configPath": "/etc/refgpec.conf.json", \
+  "configType": "json" \
 }' > /etc/ezmaster.json
 
 COPY --from=build-deps /app/build /app/build
 
-CMD /bin/entrypoint-scripts-runner ; nginx -g 'daemon off;'
+ENTRYPOINT [ "/bin/docker-entrypoint" ]
+CMD [ "nginx", "-g", "daemon off;" ]

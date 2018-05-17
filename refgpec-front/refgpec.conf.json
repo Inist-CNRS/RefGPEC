@@ -1,0 +1,7 @@
+{
+  "REFGPEC_TXT_INDEX_TITLE": "test",
+  "REFGPEC_TXT_INDEX_DESC": "test2",
+  "REFGPEC_USERNAME": "refgpec",
+  "REFGPEC_PASSWORD_HASH": "$apr1$pkLhrAKM$iNrUs3hiKkglbkxNZw1hK/",
+  "REFGPEC_API_URL": "http://refgpec-api:3000/"
+}
