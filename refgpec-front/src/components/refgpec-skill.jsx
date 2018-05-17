@@ -92,10 +92,13 @@ let RefGpecSkill = createReactClass({
                             id={self.props.profilList[profil].profil_code}
                             onClick={self.handleOpenProfilSkills}
                           >
-                            {
-                              self.props.profilList[profil].profil_shortname
-                            }{" "}
+                            {self.props.profilList[profil].profil_shortname +
+                              ". "}
                           </a>
+                          <b>
+                            {" Modulation : " +
+                              self.props.profilList[profil].level_number}
+                          </b>
                         </li>
                       );
                     });

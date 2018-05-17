@@ -15,10 +15,10 @@ group by pr.profil_code,pr.profil_shortname,pr.profil_pdf_path,pr.profil_free_co
 order by pr.profil_code ;
 
 create view list_skills_attached_profils as
-select psl.skill_code,skill_shortname,pr.profil_shortname,psl.profil_code
-from profils pr, skills s, profils_skills_levels psl
-where s.skill_code= psl.skill_code and pr.profil_code= psl.profil_code
-group by psl.skill_code,skill_shortname, pr.profil_shortname,psl.profil_code;
+select psl.skill_code,skill_shortname,pr.profil_shortname,psl.profil_code,level_number
+from profils pr, skills s, profils_skills_levels psl,levels l
+where s.skill_code= psl.skill_code and pr.profil_code= psl.profil_code and l.level_code=psl.level_code
+group by psl.skill_code,skill_shortname, pr.profil_shortname,psl.profil_code,level_number;
 
 create view list_levels_attached_profils as
 select psl.level_code,level_shortname,psl.profil_code,pr.profil_shortname
