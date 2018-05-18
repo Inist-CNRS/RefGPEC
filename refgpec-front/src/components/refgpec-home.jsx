@@ -85,7 +85,7 @@ let RefGpecHome = createReactClass({
     if (!this.showModal()) {
       timesup = (
         <ReactCountdownClock
-          seconds={3}
+          seconds={2}
           color="#000"
           alpha={0.5}
           size={50}
