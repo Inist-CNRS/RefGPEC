@@ -14,8 +14,8 @@ CONSTRAINT pk_history_skills PRIMARY KEY (sh_code,sh_date_histo)
 CREATE OR REPLACE FUNCTION after_update_skills() RETURNS TRIGGER AS $history_skills$
 BEGIN
 IF (TG_OP = 'DELETE') THEN
-        INSERT INTO history_skills SELECT  NEW.skill_code,NEW.skill_shortname,NEW.skill_free_comments,NEW.st_code,NEW.referens,now(),'D' ;
-        RETURN NEW;
+        INSERT INTO history_skills SELECT  OLD.skill_code,OLD.skill_shortname,OLD.skill_free_comments,OLD.st_code,OLD.referens,now(),'D' ;
+        RETURN OLD;
 ELSIF (TG_OP = 'UPDATE') THEN
         INSERT INTO history_skills SELECT  NEW.skill_code,NEW.skill_shortname,NEW.skill_free_comments,NEW.st_code,NEW.referens,now(),'U' ;
         RETURN NEW;
