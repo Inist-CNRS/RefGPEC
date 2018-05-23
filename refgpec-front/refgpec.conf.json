@@ -1,6 +1,7 @@
 {
-  "REFGPEC_TXT_INDEX_TITLE": "test",
-  "REFGPEC_TXT_INDEX_DESC": "test2",
+  "REFGPEC_TXT_INDEX_TITLE": "Mener sa démarche GPEC avec RefGPEC",
+  "REFGPEC_TXT_INDEX_DESC":
+    "<p>L'outil RefGPEC permet la mise en place numérique d'un référentiel des compétences et d'un référentiel des profils de poste de votre organisation.</p><p> Ces compétences peuvent ensuite être associées à chacun des profils référencés en précisant une modulation afin d'obtenir un état des lieux précis des compétences nécessaires pour exercer de manière optimale les différents postes au sein de votre organisation.</p><p> A noter que l'évaluation des compétences effectives des personnes exercant les postes en question n'entre pas dans le périmètre de RefGPEC.</p>",
   "REFGPEC_USERNAME": "refgpec",
   "REFGPEC_PASSWORD_HASH": "$apr1$pkLhrAKM$iNrUs3hiKkglbkxNZw1hK/",
   "REFGPEC_API_URL": "http://refgpec-api:3000/"

@@ -95,7 +95,13 @@ let RefGpecHome = createReactClass({
       TextFooter = "Lancement de l'application dans : ";
     }
     const refgpecTabs = [];
-    refgpecTabs.push(<RefGpecIndex key="1" onTabChange={this.doTabChange} />);
+    refgpecTabs.push(
+      <RefGpecIndex
+        key="1"
+        indexModel={this.props.indexModel}
+        onTabChange={this.doTabChange}
+      />
+    );
 
     refgpecTabs.push(
       <RefGpecProfils
