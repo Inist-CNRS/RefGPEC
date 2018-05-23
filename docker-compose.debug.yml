@@ -10,7 +10,7 @@ services:
       args:
         - http_proxy
         - https_proxy
-    image: inistcnrs/refgpec-front:2.5.2
+    image: inistcnrs/refgpec-front:2.5.3
     volumes:
       - ./refgpec-front/refgpec.conf.json:/etc/refgpec.conf.json
       - ./refgpec-front/docker-entrypoint:/bin/docker-entrypoint
@@ -59,7 +59,7 @@ services:
       args:
         - http_proxy
         - https_proxy
-    image: inistcnrs/refgpec-db:2.5.2
+    image: inistcnrs/refgpec-db:2.5.3
     volumes:
       - ./refgpec-db/data/postgres:/ezmaster-data/postgresql-data
       - ./refgpec-db/sql:/docker-entrypoint-initdb2.d/ # to generate automatically table and insert after docker's initialization
