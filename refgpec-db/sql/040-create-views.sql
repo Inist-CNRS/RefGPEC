@@ -60,7 +60,7 @@ where s.st_code= st.st_code
 order by type,skill_code;
 
 create view view_exportcsv_profilsSkills as
-select profil_code,Type,code, Nom,'0' as "Modulation_profil",'' as "Modulation_individuelle", CASE WHEN Commentaire is null THEN '' ELSE Commentaire END as "Commentaires" from view_exportcsv_skills cross join
+select profil_code,Type,code, Nom as "Intitulé_compétence",'0' as "Modulation_profil",'' as "Modulation_individuelle", CASE WHEN Commentaire is null THEN '' ELSE Commentaire END as "Commentaires" from view_exportcsv_skills cross join
 profils where (code,Nom,profil_code  )not in (select psl.skill_code,skill_shortname,p.profil_code  from profils p , skills s , profils_skills_levels psl
                                                                                where s.skill_code = psl.skill_code and p.profil_code = psl.profil_code)
 UNION
