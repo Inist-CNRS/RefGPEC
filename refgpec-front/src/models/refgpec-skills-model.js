@@ -21,7 +21,7 @@ let RefGpecSkillsModel = function(options) {
   self.listprofils_skills_levels = {};
   let erreur = 2;
   axios
-    .get("/api/list_skills_attached_profils")
+    .get("/api/list_skills_attached_profils?order=profil_shortname")
     .then(response => {
       self.listprofils_skills_levels = {};
       let i = 0;
