@@ -300,13 +300,32 @@ let RefGpecProfils = createReactClass({
                 <tr>
                   <th className="profils-col-action" />
                   <th className="profils-col-file">PDF du profil</th>
-                  <th className="profils-col-tag">
+                  <th
+                    className="profils-col-tag"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
                     {" "}
-                    Famille{" "}
-                    <RefGpecGraph
-                      profilsModel={this.props.profilsModel}
-                      familysModel={this.props.familysModel}
-                    />
+                    <div
+                      className="row"
+                      style={{ display: "inline-block", float: "none" }}
+                    >
+                      <div className="col-xs-2">Famille </div>
+                    </div>
+                    <div
+                      className="row"
+                      style={{
+                        display: "inline-block",
+                        float: "right",
+                        textAlign: "right"
+                      }}
+                    >
+                      <div className="col-xs-2">
+                        <RefGpecGraph
+                          profilsModel={this.props.profilsModel}
+                          familysModel={this.props.familysModel}
+                        />
+                      </div>
+                    </div>
                   </th>
                   <th
                     title="Cliquez pour trier par Nom court"

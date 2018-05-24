@@ -250,23 +250,36 @@ let RefGpecProfil = createReactClass({
             </form>
           </Modal>
         </td>
-        <td>
-          <Select
-            clearable={false}
-            multi={true}
-            disabled={true}
-            value={rgFamilles}
-            placeholder={"Aucune Famille associée"}
-            removeSelected={true}
-            onValueClick={this.OpenfamilySkills}
-            valueRenderer={this.renderValue}
-          />
-          <RefGpecGraph
-            id="profils_graph"
-            profilsModel={this.props.profilsModel}
-            familysModel={this.props.familysModel}
-            profilValue={this.state.profil_code}
-          />
+        <td style={{ whiteSpace: "nowrap" }}>
+          <div className="col-md-11">
+            <Select
+              clearable={false}
+              multi={true}
+              disabled={true}
+              value={rgFamilles}
+              placeholder={"Aucune Famille associée"}
+              removeSelected={true}
+              onValueClick={this.OpenfamilySkills}
+              valueRenderer={this.renderValue}
+            />
+          </div>
+          <div
+            className="row"
+            style={{
+              display: "inline-block",
+              float: "right",
+              textAlign: "right"
+            }}
+          >
+            <div className="col-md-1">
+              <RefGpecGraph
+                id="profils_graph"
+                profilsModel={this.props.profilsModel}
+                familysModel={this.props.familysModel}
+                profilValue={this.state.profil_code}
+              />
+            </div>
+          </div>
         </td>
         <td>
           <input
