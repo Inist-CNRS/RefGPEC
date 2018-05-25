@@ -520,6 +520,7 @@ let RefGpecProfilsSkills = createReactClass({
           self.setState({ selectedProfil: code_profil, PDF_path: chemin_pdf });
         }
       );
+      window.scrollTo(0, 0);
     }
   },
   handleSave: function(profiSkillId, profilSkillState) {

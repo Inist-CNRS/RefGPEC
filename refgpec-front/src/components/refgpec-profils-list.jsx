@@ -64,6 +64,11 @@ let RefGpecProfilsList = createReactClass({
   },
   handleDestroy: function(event) {},
 
-  componentDidMount() {}
+  componentWillReceiveProps(nextProps) {
+    if (this.state.value !== nextProps.value) {
+      this.setState({ value: nextProps.value });
+      this.props.onChange(nextProps.value);
+    }
+  }
 });
 export default RefGpecProfilsList;
