@@ -69,6 +69,7 @@ let RefGpecProfilsSkills = createReactClass({
               skillsTypesModel={self.props.skillsTypesModel}
               familyModel={self.props.familysModel}
               psData={self.props.profilsSkillsModel.profilsSkillsLevels[key]}
+              onChangeFamily={self.OpenfamilySkills}
               onSave={self.handleSave}
               onDestroy={self.handleDestroy}
               ajaxLoading={self.props.profilsSkillsModel.ajaxLoading}
@@ -84,6 +85,7 @@ let RefGpecProfilsSkills = createReactClass({
               skillsModel={self.props.skillsModel}
               skillsTypesModel={self.props.skillsTypesModel}
               familyModel={self.props.familysModel}
+              onChangeFamily={self.OpenfamilySkills}
               psData={self.props.profilsSkillsModel.profilsSkillsLevels[key]}
               onSave={self.handleSave}
               onDestroy={self.handleDestroy}
@@ -337,6 +339,7 @@ let RefGpecProfilsSkills = createReactClass({
                             <RefGpecSkillsTypeList
                               skillData={self.props.skillsModel}
                               ajaxLoading={self.props.skillsModel.ajaxLoading}
+                              onChangeFamily={self.OpenfamilySkills}
                               data-fieldname="newSkill"
                               onChange={this.handleSkillChange}
                               value={this.state.newSkill}
@@ -572,7 +575,10 @@ let RefGpecProfilsSkills = createReactClass({
       });
     }
   },
-
+  OpenfamilySkills: function(event) {
+    this.props.onTabChange("tab-familys-skills");
+    this.props.familysSkillsModel.getFamilySkillLevel(event);
+  },
   missingField() {
     return (
       !this.state.selectedProfil || !this.state.newLevel || !this.state.newSkill

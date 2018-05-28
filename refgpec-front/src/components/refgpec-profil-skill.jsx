@@ -1,5 +1,7 @@
 import React from "react";
 import { DropdownButton, MenuItem } from "react-bootstrap";
+import Select from "react-select";
+import "react-select/dist/react-select.css";
 import RefGpecLevelslist from "./refgpec-levels-list";
 let createReactClass = require("create-react-class");
 let RefGpecProfilSkill = createReactClass({
@@ -39,6 +41,20 @@ let RefGpecProfilSkill = createReactClass({
         color[key] = "rgb(204, 51, 255)";
       } else {
         color[key] = "rgb(255, 153, 153)";
+      }
+    });
+    let self = this;
+    let rgFamilles = [];
+    Object.keys(self.props.skillsModel.skills_familys).forEach(function(key) {
+      if (
+        self.props.skillsModel.skills_familys[key].skill_code ===
+        self.state.psSkillId
+      ) {
+        rgFamilles.push({
+          value: [self.props.skillsModel.skills_familys[key].family_id],
+          label: [self.props.skillsModel.skills_familys[key].family_id],
+          title: self.props.skillsModel.skills_familys[key].family_name
+        });
       }
     });
 
@@ -113,6 +129,47 @@ let RefGpecProfilSkill = createReactClass({
               }
             </span>
             &nbsp;
+            {(() => {
+              let list = [];
+              Object.keys(rgFamilles).forEach(function(key) {
+                list.push(
+                  <li
+                    key={self.state.psSkillId + key}
+                    style={{
+                      display: "inline",
+                      padding: "0 0.5em",
+                      fontSize: "12px",
+                      backgroundColor: "cyan",
+                      border: "solid 2px black"
+                    }}
+                  >
+                    <strong>
+                      <a
+                        style={{ color: "Black" }}
+                        href="#familys-skills"
+                        id={rgFamilles[key].label[0]}
+                        onClick={self.OpenfamilySkills}
+                        title={rgFamilles[key].title}
+                      >
+                        {rgFamilles[key].label[0]}{" "}
+                      </a>
+                    </strong>
+                  </li>
+                );
+              });
+              return (
+                <ul
+                  style={{
+                    padding: "0",
+                    margin: "0",
+                    listStyleType: "none",
+                    display: "initial"
+                  }}
+                >
+                  {list}
+                </ul>
+              );
+            })()}
           </p>
         </td>
         <td>
@@ -195,6 +252,9 @@ let RefGpecProfilSkill = createReactClass({
 
   componentDidMount() {},
 
+  OpenfamilySkills: function(value) {
+    this.props.onChangeFamily(value.target.id);
+  },
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state !== nextState) {
       return true;

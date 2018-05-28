@@ -45,7 +45,19 @@ let RefGpecSkillsTypesList = createReactClass({
         options: option
       });
     });
-
+    let rgFamilles = [];
+    Object.keys(self.props.skillData.skills_familys).forEach(function(key) {
+      if (
+        self.props.skillData.skills_familys[key].skill_code ===
+        self.state.skill_code
+      ) {
+        rgFamilles.push({
+          value: [self.props.skillData.skills_familys[key].family_id],
+          label: [self.props.skillData.skills_familys[key].family_id],
+          title: self.props.skillData.skills_familys[key].family_name
+        });
+      }
+    });
     return (
       <div>
         {(() => {
@@ -76,10 +88,47 @@ let RefGpecSkillsTypesList = createReactClass({
                     }
                   </span>
                   &nbsp;
-                  <span
-                    style={{ backgroundColor: "#808080" }}
-                    className="label label-primary"
-                  />
+                  {(() => {
+                    let list = [];
+                    Object.keys(rgFamilles).forEach(function(key) {
+                      list.push(
+                        <li
+                          key={self.state.skill_code + key}
+                          style={{
+                            display: "inline",
+                            padding: "0 0.5em",
+                            fontSize: "12px",
+                            backgroundColor: "cyan",
+                            border: "solid 2px black"
+                          }}
+                        >
+                          <strong>
+                            <a
+                              style={{ color: "Black" }}
+                              href="#familys-skills"
+                              id={rgFamilles[key].label[0]}
+                              onClick={self.OpenfamilySkills}
+                              title={rgFamilles[key].title}
+                            >
+                              {rgFamilles[key].label[0]}{" "}
+                            </a>
+                          </strong>
+                        </li>
+                      );
+                    });
+                    return (
+                      <ul
+                        style={{
+                          padding: "0",
+                          margin: "0",
+                          listStyleType: "none",
+                          display: "initial"
+                        }}
+                      >
+                        {list}
+                      </ul>
+                    );
+                  })()}
                 </p>
               </span>
             );
@@ -97,13 +146,15 @@ let RefGpecSkillsTypesList = createReactClass({
       </div>
     );
   },
-
+  OpenfamilySkills: function(value) {
+    this.props.onChangeFamily(value.target.id);
+  },
   handleChange: function(event) {
     if (!event) {
       this.props.onChange("");
     } else {
       this.props.onChange(event.value);
-      this.setState({ updating: false });
+      this.setState({ skill_code: event.value, updating: false });
     }
   }
 });
