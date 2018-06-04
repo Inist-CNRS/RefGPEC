@@ -62,6 +62,7 @@ let RefGpecResearchSkill = createReactClass({
             data-fieldname="SearchFamily"
             placeholder="Famille à rechercher"
             onChange={this.handleFamilyChange}
+            multi={true}
           />
         </td>
         <td colSpan="3" className="skills-col-shortname">
