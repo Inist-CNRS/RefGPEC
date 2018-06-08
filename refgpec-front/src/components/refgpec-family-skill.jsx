@@ -66,7 +66,7 @@ let RefGpecFamilySkill = createReactClass({
               <MenuItem href="" onClick={this.handleDestroy}>
                 {" "}
                 <span className="glyphicon glyphicon-remove" /> Dissocier la
-                compétence du family{" "}
+                compétence de la famille{" "}
               </MenuItem>
             </DropdownButton>
           </div>
