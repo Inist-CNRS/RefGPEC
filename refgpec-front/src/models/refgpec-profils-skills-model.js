@@ -258,6 +258,7 @@ RefGpecProfilsSkillsModel.prototype.getprofilsSkillsCSV = function(
   profil_code
 ) {
   let self = this;
+  let CSV = [];
   self.profilsSkillsCSV = [];
   axios
     .get(
@@ -267,7 +268,15 @@ RefGpecProfilsSkillsModel.prototype.getprofilsSkillsCSV = function(
     )
     .then(response => {
       response.data.forEach(item => {
-        self.profilsSkillsCSV.push(item);
+        CSV = {
+          Code: item.code,
+          Type: item.type,
+          "Intitulé compétence": item.Intitulé_compétence,
+          "Modulation individuelle": item.Modulation_individuelle,
+          "Modulation profil": item.Modulation_profil,
+          Commentaires: item.Commentaires
+        };
+        self.profilsSkillsCSV.push(CSV);
       });
       self.inform();
     })
