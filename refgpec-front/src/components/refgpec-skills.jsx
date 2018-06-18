@@ -509,7 +509,11 @@ let RefGpecSkills = createReactClass({
 
   OpenfamilySkills: function(event) {
     this.props.onTabChange("tab-familys-skills");
-    this.props.familysSkillsModel.getFamilySkillLevel(event.value);
+    if (event.value) {
+      this.props.familysSkillsModel.getFamilySkillLevel(event.value);
+    } else {
+      this.props.familysSkillsModel.getFamilySkillLevel(event.target.id);
+    }
   },
   missingField() {
     return !this.state.newSkillShortName || !this.state.newSkillType;

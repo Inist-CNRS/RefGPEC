@@ -80,12 +80,13 @@ let RefGpecSkill = createReactClass({
               </Modal.Header>
               <Modal.Body>
                 {(() => {
-                  let list = [];
+                  let listc = [];
+                  let listf = [];
                   if (Object.keys(self.props.profilList).length !== 0) {
                     Object.keys(self.props.profilList).forEach(function(
                       profil
                     ) {
-                      list.push(
+                      listc.push(
                         <li key={self.state.skill_code + profil}>
                           <a
                             href="#profils-skills"
@@ -102,11 +103,29 @@ let RefGpecSkill = createReactClass({
                         </li>
                       );
                     });
+                  }
+                  if (rgFamilles.length !== 0) {
+                    Object.keys(rgFamilles).forEach(function(famille) {
+                      listf.push(
+                        <li key={self.state.skill_code + famille}>
+                          <a
+                            href="#familys-skills"
+                            id={rgFamilles[famille].label}
+                            onClick={self.OpenfamilySkills}
+                          >
+                            {rgFamilles[famille].title + ". "}
+                          </a>
+                        </li>
+                      );
+                    });
                     return (
                       <div className="alert alert-info" role="alert">
                         Veuillez dissocier cette compétence des profils suivants
                         :
-                        <ul>{list}</ul>
+                        <ul>{listc}</ul>
+                        Veuillez dissocier cette compétence des familles
+                        suivantes :
+                        <ul>{listf}</ul>
                       </div>
                     );
                   }
@@ -124,7 +143,10 @@ let RefGpecSkill = createReactClass({
                 <button
                   type="button"
                   onClick={this.handleDestroy}
-                  disabled={Object.keys(self.props.profilList).length !== 0}
+                  disabled={
+                    Object.keys(self.props.profilList).length !== 0 &&
+                    rgFamilles.length !== 0
+                  }
                   className="btn btn-primary"
                 >
                   Supprimer
@@ -236,6 +258,7 @@ let RefGpecSkill = createReactClass({
     this.props.onProfil(event);
   },
   OpenfamilySkills: function(value, event) {
+    this.closedeleteModal();
     this.props.onChangeFamily(value);
   },
   renderValue: function(option) {
