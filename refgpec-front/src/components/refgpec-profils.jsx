@@ -172,32 +172,69 @@ let RefGpecProfils = createReactClass({
         rgProfils.push(profil);
       }
     });
-
     if (self.state.type_sort) {
-      rgProfils.sort(function(a, b) {
-        if (
-          a.props.profilData[self.state.champtri] &&
-          b.props.profilData[self.state.champtri]
-        ) {
-          return a.props.profilData[self.state.champtri]
+      if (self.state.champtri === "profil_nbskill") {
+        rgProfils.sort(function(a, b) {
+          let nbskill1 = parseInt(
+            +parseInt(a.props.profilData.profilnbskillss, 10) +
+              +parseInt(a.props.profilData.profilnbskillsse, 10) +
+              +parseInt(a.props.profilData.profilnbskillssf, 10),
+            10
+          );
+          let nbskill2 = parseInt(
+            +parseInt(b.props.profilData.profilnbskillss, 10) +
+              +parseInt(b.props.profilData.profilnbskillsse, 10) +
+              +parseInt(b.props.profilData.profilnbskillssf, 10),
+            10
+          );
+          return nbskill1
             .toString()
-            .localeCompare(b.props.profilData[self.state.champtri])
+            .localeCompare(nbskill2)
             .toString();
-        }
-      });
+        });
+      } else {
+        rgProfils.sort(function(a, b) {
+          if (
+            a.props.profilData[self.state.champtri] &&
+            b.props.profilData[self.state.champtri]
+          ) {
+            return a.props.profilData[self.state.champtri]
+              .toString()
+              .localeCompare(b.props.profilData[self.state.champtri])
+              .toString();
+          }
+        });
+      }
     } else {
-      rgProfils.sort(function(a, b) {
-        if (
-          a.props.profilData[self.state.champtri] &&
-          b.props.profilData[self.state.champtri]
-        ) {
-          return a.props.profilData[self.state.champtri]
+      if (self.state.champtri === "profil_nbskill") {
+        rgProfils.sort(function(a, b) {
+          let nbskill1 =
+            +parseInt(a.props.profilData.profilnbskillss, 10) +
+            +parseInt(a.props.profilData.profilnbskillsse, 10) +
+            +parseInt(a.props.profilData.profilnbskillssf, 10);
+          let nbskill2 =
+            +parseInt(b.props.profilData.profilnbskillss, 10) +
+            +parseInt(b.props.profilData.profilnbskillsse, 10) +
+            +parseInt(b.props.profilData.profilnbskillssf, 10);
+          return nbskill2
             .toString()
-            .localeCompare(b.props.profilData[self.state.champtri])
+            .localeCompare(nbskill1)
             .toString();
-        }
-      });
-      rgProfils.reverse();
+        });
+      } else {
+        rgProfils.sort(function(a, b) {
+          if (
+            a.props.profilData[self.state.champtri] &&
+            b.props.profilData[self.state.champtri]
+          ) {
+            return a.props.profilData[self.state.champtri]
+              .toString()
+              .localeCompare(b.props.profilData[self.state.champtri])
+              .toString();
+          }
+        });
+        rgProfils.reverse();
+      }
     }
     // once the big list is sorted, we extract "just added profils" from the list
     // and we add it at the first position (top of the list)
@@ -337,8 +374,15 @@ let RefGpecProfils = createReactClass({
                     Intitulé du profil{" "}
                     <i className="fa fa-sort" aria-hidden="true" />
                   </th>
-                  <th className="profils-col-stats">
+                  <th
+                    title="Cliquez pour trier par Nombre de Compétences"
+                    role="button"
+                    id="profil_nbskill"
+                    onClick={this.Sort}
+                    className="profils-col-stats"
+                  >
                     Nombre de compétences associées
+                    <i className="fa fa-sort" aria-hidden="true" />
                   </th>
                   <th
                     title="Cliquez pour trier par Commentaire"
