@@ -122,6 +122,14 @@ RefGpecProfilsModel.prototype.updateVue = function() {
     .then(response => {
       response.data.forEach(item => {
         self.profils[item.profil_code] = item;
+        //add a column to search by ignoring accents and tokenization
+        let wordsList = self.profils[item.profil_code].profil_shortname;
+        wordsList = words(wordsList.toLowerCase());
+        wordsList = wordsList.filter(function(word) {
+          return stopwords.indexOf(word) === -1;
+        });
+        wordsList = wordsList.map(unine.complex);
+        self.profils[item.profil_code].tokens = wordsList;
       });
       self.inform();
     })

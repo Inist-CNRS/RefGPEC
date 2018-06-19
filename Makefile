@@ -30,6 +30,11 @@ run-debug: ## run refgpec in debug mode (live regenerate the bundle.js if js are
 	@echo "Attaching to create-react-app npm start for debugging"
 	@docker attach refgpec-front-cra
 
+recreate: ## recreate the database  
+	@sudo rm -f -R refgpec-db/data/
+	@docker rm -f refgpec-db
+	make run-debug
+
 stop: ## stop refgpec containers
 	@docker-compose -f ./docker-compose.debug.yml stop
 kill: ## kill refgpec containers
