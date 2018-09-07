@@ -69,7 +69,7 @@ RefGpecFamilyModel.prototype.updateVue = function() {
       self.inform();
     })
     .catch(err => {
-      console.log("RefGpecProfilModelError error loading data", err);
+      console.log("RefGpecFamilysModel error loading data", err);
     });
 };
 

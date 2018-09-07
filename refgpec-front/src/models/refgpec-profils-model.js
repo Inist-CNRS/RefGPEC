@@ -18,7 +18,7 @@ let RefGpecProfilsModel = function(options) {
   self.listFamillys = {};
   self.listprofils_skills_levels = {};
   self.lastProfilAdd = [];
-  let erreur = 2;
+  let erreur = 3;
   axios
     .get("/api/list_profils_attached_skills")
     .then(response => {
@@ -74,7 +74,24 @@ let RefGpecProfilsModel = function(options) {
       self.inform();
     });
 
-  self.getProfilsFamilys();
+  axios
+    .get("/api/list_profils_attached_familys")
+    .then(response => {
+      self.listFamillys = {};
+      let i = 0;
+      response.data.forEach(item => {
+        self.listFamillys[i] = item;
+        i++;
+      });
+      erreur -= 1;
+      self.initializing = erreur !== 0;
+      self.inform();
+    })
+    .catch(err => {
+      console.log("RefGpecProfilModelError error loading data", err);
+      erreur += 1;
+    });
+
   self.getProfilsCSV();
   self.initializing = erreur !== 0;
   self.inform();
